@@ -26,13 +26,14 @@
           <small id="helpName" class="form-text text-muted">Insira o CNPJ</small>
         </div>
         <div class="form-group">
-          <label for="headquarters"></label>
+          <label for="headquarters">Caso este fornecedor pertença a uma matriz, favor selecionar da lista</label>
           <select class="form-control" name="headquarters" id="headquarters">
-            <option value="">Selecione um projeto para o setor de custo</option>
+            <option value="">Selecione um fornecedor para cadastrar como matriz</option>
             @foreach ($headquarters as $item)
                 <option value="{{$item->id}}">{{$item->corporate_name}}</option>
             @endforeach
           </select>
+          <small id="headquarters" class="form-text text-muted">Não é obrigatório</small>
         </div>
        
 
