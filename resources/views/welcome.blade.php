@@ -44,11 +44,11 @@
                                     class="nav-link py-3 px-0 px-lg-3 rounded">Home</a></li>
                         @else
                             <li class="nav-item mx-0 mx-lg-1"><a href="{{ route('login') }}"
-                                    class="nav-link py-3 px-0 px-lg-3 rounded bg-warning">Entrar</a></li>
+                                    class="nav-link py-3 px-0 px-lg-3 rounded bg-warning my-1">Entrar</a></li>
 
                             @if (Route::has('register'))
                                 <li class="nav-item mx-0 mx-lg-1"><a href="{{ route('register') }}"
-                                        class="ml-4 nav-link py-3 px-0 px-lg-3 bg-warning rounded">Cadastro</a></li>
+                                        class="ml-4 nav-link py-3 px-0 px-lg-3 bg-warning my-1 rounded">Cadastro</a></li>
                             @endif
                         @endauth
                     @endif
@@ -160,7 +160,7 @@
     <section class="page-section bg-primary text-white mb-0" id="about">
         <div class="container">
             <!-- About Section Heading-->
-            <h2 class="page-section-heading text-center text-uppercase text-white">About</h2>
+            <h2 class="page-section-heading text-center text-uppercase text-white">Sobre mim</h2>
             <!-- Icon Divider-->
             <div class="divider-custom divider-light">
                 <div class="divider-custom-line"></div>
@@ -170,29 +170,31 @@
             <!-- About Section Content-->
             <div class="row">
                 <div class="col-lg-4 ms-auto">
-                    <p class="lead">Freelancer is a free bootstrap theme created by Start Bootstrap. The download
-                        includes the complete source files including HTML, CSS, and JavaScript as well as optional SASS
-                        stylesheets for easy customization.</p>
+                    <p class="lead">Freelancer nas horas vagas, sou estudante em desenvolvimento de sistemas web,
+                        estou sempre em busca de aprimorar meus conhecimentos e aplicar tudo que aprendo para 
+                        trazer soluçoes para meu dia-a-dia.
+                    </p>
                 </div>
                 <div class="col-lg-4 me-auto">
-                    <p class="lead">You can create your own custom avatar for the masthead, change the icon in the
-                        dividers, and add your email address to the contact form to make it fully functional!</p>
+                    <p class="lead">Em breve estarei postando meus pequenos trabalhos e desenvolvendo algumas ferramentas 
+                        para uso livre aqui neste site.
+                    </p>
                 </div>
             </div>
             <!-- About Section Button-->
-            <div class="text-center mt-4">
+            {{-- <div class="text-center mt-4">
                 <a class="btn btn-xl btn-outline-light" href="https://startbootstrap.com/theme/freelancer/">
                     <i class="fas fa-download me-2"></i>
                     Free Download!
                 </a>
-            </div>
+            </div> --}}
         </div>
     </section>
     <!-- Contact Section-->
     <section class="page-section" id="contact">
         <div class="container">
             <!-- Contact Section Heading-->
-            <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Contact Me</h2>
+            <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Entre em contato</h2>
             <!-- Icon Divider-->
             <div class="divider-custom">
                 <div class="divider-custom-line"></div>
@@ -213,33 +215,32 @@
                         <!-- Name input-->
                         <div class="form-floating mb-3">
                             <input class="form-control" id="name" type="text"
-                                placeholder="Enter your name..." data-sb-validations="required" />
-                            <label for="name">Full name</label>
-                            <div class="invalid-feedback" data-sb-feedback="name:required">A name is required.</div>
+                                placeholder="Seu nome..." data-sb-validations="required" />
+                            <label for="name">Nome Completo</label>
+                            <div class="invalid-feedback" data-sb-feedback="name:required">O nome é obrigatório.</div>
                         </div>
                         <!-- Email address input-->
                         <div class="form-floating mb-3">
                             <input class="form-control" id="email" type="email" placeholder="name@example.com"
                                 data-sb-validations="required,email" />
-                            <label for="email">Email address</label>
-                            <div class="invalid-feedback" data-sb-feedback="email:required">An email is required.
+                            <label for="email">Endereço de e-mail</label>
+                            <div class="invalid-feedback" data-sb-feedback="email:required">O e-mail é obrigatório.
                             </div>
-                            <div class="invalid-feedback" data-sb-feedback="email:email">Email is not valid.</div>
+                            <div class="invalid-feedback" data-sb-feedback="email:email">Email inválido.</div>
                         </div>
                         <!-- Phone number input-->
                         <div class="form-floating mb-3">
                             <input class="form-control" id="phone" type="tel" placeholder="(123) 456-7890"
                                 data-sb-validations="required" />
-                            <label for="phone">Phone number</label>
-                            <div class="invalid-feedback" data-sb-feedback="phone:required">A phone number is
-                                required.</div>
+                            <label for="phone">Número de telefone</label>
+                            <div class="invalid-feedback" data-sb-feedback="phone:required">O telefone é obrigatório.</div>
                         </div>
                         <!-- Message input-->
                         <div class="form-floating mb-3">
                             <textarea class="form-control" id="message" type="text" placeholder="Enter your message here..."
                                 style="height: 10rem" data-sb-validations="required"></textarea>
-                            <label for="message">Message</label>
-                            <div class="invalid-feedback" data-sb-feedback="message:required">A message is required.
+                            <label for="message">Menssagem</label>
+                            <div class="invalid-feedback" data-sb-feedback="message:required">A Menssagem é obrigatória.
                             </div>
                         </div>
                         <!-- Submit success message-->
@@ -248,7 +249,7 @@
                         <!-- has successfully submitted-->
                         <div class="d-none" id="submitSuccessMessage">
                             <div class="text-center mb-3">
-                                <div class="fw-bolder">Form submission successful!</div>
+                                <div class="fw-bolder">Formulário enviado com  sucesso!</div>
                                 To activate this form, sign up at
                                 <br />
                                 <a
@@ -276,24 +277,24 @@
             <div class="row">
                 <!-- Footer Location-->
                 <div class="col-lg-4 mb-5 mb-lg-0">
-                    <h4 class="text-uppercase mb-4">Location</h4>
+                    <h4 class="text-uppercase mb-4">Endereço</h4>
                     <p class="lead mb-0">
-                        2215 John Daniel Drive
+                        Rua 37, Nº 55B, Charneca
                         <br />
-                        Clark, MO 65243
+                        Cabo de St. Agostinho, CEP 54535-370
                     </p>
                 </div>
                 <!-- Footer Social Icons-->
                 <div class="col-lg-4 mb-5 mb-lg-0">
-                    <h4 class="text-uppercase mb-4">Around the Web</h4>
-                    <a class="btn btn-outline-light btn-social mx-1" href="#!"><i
+                    <h4 class="text-uppercase mb-4">Encontre-me na web</h4>
+                    <a class="btn btn-outline-light btn-social mx-1" href="https://www.facebook.com/jardel.ferreira.3348"><i
                             class="fab fa-fw fa-facebook-f"></i></a>
-                    <a class="btn btn-outline-light btn-social mx-1" href="#!"><i
-                            class="fab fa-fw fa-twitter"></i></a>
-                    <a class="btn btn-outline-light btn-social mx-1" href="#!"><i
+                    <a class="btn btn-outline-light btn-social mx-1" href="https://www.instagram.com/jardelferreira87/"><i
+                            class="fab fa-fw fa-instagram"></i></a>
+                    <a class="btn btn-outline-light btn-social mx-1" href="https://www.linkedin.com/in/jardel-ferreira-557936162/"><i
                             class="fab fa-fw fa-linkedin-in"></i></a>
                     <a class="btn btn-outline-light btn-social mx-1" href="#!"><i
-                            class="fab fa-fw fa-dribbble"></i></a>
+                            class="fab fa-fw fa-whatsapp"></i></a>
                 </div>
                 <!-- Footer About Text-->
                 <div class="col-lg-4">
