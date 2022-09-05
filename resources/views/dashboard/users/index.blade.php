@@ -20,7 +20,7 @@
                @foreach ($users as $item)
                <tr>
                    <td scope="row">{{$item->name}}</td>
-                   <td>{{$item->password}}</td>
+                   <td>{{$item->email}}</td>
                    <td><a name="" id="" class="btn btn-primary btn-sm" href="{{route('dashboard.users.show',['user' => $item->id])}}" role="button">
                     Ver Perfil - <i class="fa fa-user" aria-hidden="true"></i></a></td>
                    <td><form action="{{route('dashboard.users.destroy',[ 'user' => $item->id])}}" method="POST">
