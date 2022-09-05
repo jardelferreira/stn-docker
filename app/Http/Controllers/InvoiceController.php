@@ -46,7 +46,7 @@ class InvoiceController extends Controller
     {
         $invoice = $request->all();
 
-        $provider = Provider::find($invoice['provider_id'])->first();
+        $provider = Provider::where('id',2)->first();
 
         $departament_cost = DepartamentCost::find($invoice['departament_cost_id']);
         // \dd($departament_cost->sectorCost);
