@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProjectRequest;
 use App\Models\Project;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        return \view('dashboard/projects.index',[
+        return \view('dashboard/projects.index', [
             'projects' => Project::all()
         ]);
     }
@@ -35,11 +36,12 @@ class ProjectController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProjectRequest $request)
     {
+
         Project::create($request->all());
 
-        return \redirect()->route('dashboard.projects',['projects' => Project::all()]);
+        return \redirect()->route('dashboard.projects');
     }
 
     /**
@@ -49,9 +51,14 @@ class ProjectController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Project $project)
-    {   
-        return \view('dashboard/projects.show',[
-            'project' => $project
+    {
+        if ($project->id) {
+            return \view('dashboard/projects.show', [
+                'project' => $project
+            ]);
+        }
+        return redirect()->route('dashboard.projects', [
+            'message' => 'Projeto não encontrado'
         ]);
     }
 
@@ -63,8 +70,15 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        return \view('dashboard/projects.edit',[
-            'project' => $project
+        // $project = Project::where('id',$request->id)->first();
+
+        if (is_object($project)) {
+            return \view('dashboard/projects.edit', [
+                'project' => $project
+            ]);
+        }
+        return redirect()->route('dashboard.projects', [
+            'message' => 'Projeto não encontrado'
         ]);
     }
 
@@ -75,11 +89,15 @@ class ProjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Project $project)
+    public function update(ProjectRequest $request, Project $project)
     {
-        $project->update($request->all());
+        $project = Project::where('uuid', $request->uuid)->first();
 
-        return  \redirect()->route('dashboard.projects.show',$project);
+        $project->update($request->all());
+        
+        return \view('dashboard/projects.show', [
+            'project' => Project::where('uuid', $request->uuid)->first()
+        ]);
     }
 
     /**
@@ -88,12 +106,17 @@ class ProjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Project $project)
+    public function destroy(Request $request)
     {
-        $project->delete();
+        $project = Project::where('id', $request->id)->first();
 
-        return \redirect()->route('dashboard.projects',[
-            'projects' => Project::all()
+        if (is_object($project)) {
+            $project->delete();
+
+            return \redirect()->route('dashboard.projects');
+        }
+        return redirect()->route('dashboard.projects', [
+            'message' => 'Projeto não encontrado'
         ]);
     }
 }

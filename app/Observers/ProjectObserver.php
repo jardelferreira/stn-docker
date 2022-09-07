@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Project;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Yajra\Acl\Models\Permission;
 
@@ -11,19 +12,25 @@ class ProjectObserver
 {
     public $old_project;
 
-    public function __construct(Project $project)
+    public function __construct(Request $request)
     {
-        $this->old_project = $project;
+      
     }
 
     public function creating(Project $project)
     {
-        $project->slug = Str::slug($project->name, '-');
+        
+        $project->initials = Str::upper($project->initials);
+        $project->name = Str::upper($project->name);
+        $project->slug = Str::upper($project->name);
+        $project->uuid = Str::uuid();
+
     }
 
 
     public function updating(Project $project)
     {
+        $project->name = Str::upper($project->name);
         $project->slug = Str::slug($project->name, '-');
     }
 
@@ -35,14 +42,7 @@ class ProjectObserver
      */
     public function created(Project $project)
     {
-        $basic_permissions = ['read', 'view', 'maneger'];
 
-        foreach ($basic_permissions as $value) {
-            Permission::create([
-                'name' => "{$project->initials}-{$value}",
-                'slug' => Str::slug($project->name, '-')
-            ]);
-        }
     }
 
     /**
@@ -53,15 +53,7 @@ class ProjectObserver
      */
     public function updated(Project $project)
     {
-        $basic_permissions = ['read', 'view', 'maneger'];
-
-        foreach ($basic_permissions as $value) {
-            $permission = Permission::where('name', "{$this->old_project->initials}-{$value}")->first();
-            $permission->update([
-                'name' => $project->name,
-                'slug' => Str::slug($project->name, '-')
-            ]);
-        }
+        
     }
 
     /**
@@ -72,15 +64,20 @@ class ProjectObserver
      */
     public function deleted(Project $project)
     {
+
+    }
+    
+    public function deleting(Project $project)
+    {
         $basic_permissions = ['read', 'view', 'maneger'];
 
         foreach ($basic_permissions as $value) {
-            $permission = Permission::where('name', "{$this->old_project->initials}-{$value}")->first();
-            $permission->delete();
-            Permission::create([
-                'name' => "{$project->initials}-{$value}",
-                'slug' => Str::slug($project->name, '-')
-            ]);
+            $permission = Permission::where('name', "{$project->initials}-{$value}")->first();
+            if (is_object($permission)) {
+                $permission->delete();
+                
+            }
+
         }
     }
 

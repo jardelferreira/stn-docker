@@ -11,7 +11,7 @@ class Provider extends Model
 
     protected $table = 'providers';
 
-    protected $fillable = ['corporate_name','fantasy_name','cnpj','headquarters','email','phone_number','address','slug','uuid'];
+    protected $fillable = ['corporate_name','fantasy_name','cnpj','headquarters','email','phone','address','slug','uuid'];
     // futuramente -> email,fone,address,
 
     

@@ -87,7 +87,7 @@ Route::prefix('dashboard')->middleware('auth')->group(function(){
         
         Route::post('/',[ProjectController::class,'store'])->name('dashboard.projects.store');
         Route::put('/',[ProjectController::class,'update'])->name('dashboard.projects.update');
-        Route::delete('/',[ProjectController::class,'delete'])->name('dashboard.projects.delete');
+        Route::delete('/',[ProjectController::class,'destroy'])->name('dashboard.projects.destroy');
     });
 
     Route::prefix('custos')->group(function(){

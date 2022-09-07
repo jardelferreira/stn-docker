@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCostSectorsTable extends Migration
+class CreateProjectPermissionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,19 +13,13 @@ class CreateCostSectorsTable extends Migration
      */
     public function up()
     {
-       
-        Schema::create('cost_sectors', function (Blueprint $table) {
+        Schema::create('project_permissions', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid');
-            $table->string('slug',60)->unique();
-            $table->string('name',155);
-            $table->string('description');
-            $table->foreignId('cost_center_id')->references('id')->on('cost_centers')->onDelete('cascade');
+            $table->string('name');
             $table->foreignId('project_id')->references('id')->on('projects')->onDelete('cascade');
-            $table->decimal('amount',12,2,true)->default(0,00);
+            $table->foreignId('permission_id')->references('id')->on('permissions')->onDelete('cascade');
             $table->timestamps();
         });
-
     }
 
     /**
@@ -36,6 +30,6 @@ class CreateCostSectorsTable extends Migration
     public function down()
     {
         Schema::disableForeignKeyConstraints();
-        Schema::dropIfExists('cost_sectors');
+        Schema::dropIfExists('project_permissions');
     }
 }

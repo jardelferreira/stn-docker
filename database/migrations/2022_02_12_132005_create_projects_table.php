@@ -16,10 +16,10 @@ class CreateProjectsTable extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid');
-            $table->string('name');
+            $table->string('name')->unique();
             $table->string('slug',60)->unique();
             $table->longText('description')->nullable();
-            $table->string('initials')->unique();
+            $table->string('initials',15)->unique();
             $table->timestamps();
         });
 

@@ -10,8 +10,21 @@
 
 @endsection
 @section('content')
-<h5>{{$project->name}} - {{$project->initials}}</h5>
+<div class="d-flex py-1">
+  <div class="row align-items-end ">
+    <h5>{{$project->name}} - {{$project->initials}}</h5>
 
+    <form method="post" class="ml-1" action="{{route('dashboard.projects.destroy',['id' => $project->id])}}">
+      @csrf
+      @method('DELETE')
+      <button type="submit" class="btn btn-danger">Deletar</button>
+    </form>
+  </div>
+  <div class="row align-items-end ml-1">
+    <a class="btn btn-primary" href="{{route('dashboard.projects.edit',$project->id)}}">Editar</a>
+  </div>
+
+</div>
 <div class="grey-bg container-fluid">
   {{-- <section id="minimal-statistics">
 

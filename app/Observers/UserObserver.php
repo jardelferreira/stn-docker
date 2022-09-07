@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class UserObserver
 {
@@ -11,6 +12,7 @@ class UserObserver
     public function creating(User $user)
     {
         $user->password = Hash::make($user->password);
+        $user->uuid = Str::uuid();
     }
 
     /**

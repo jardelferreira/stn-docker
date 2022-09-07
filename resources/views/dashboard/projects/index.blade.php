@@ -6,8 +6,8 @@
     @if (count($projects))
     <div class="container p-0">
 
-        <a href="{{route('dashboard.projects.create')}}" class="btn btn-primary float-right mt-n1"><i class="fas fa-plus"></i> New project</a>
-        <h1 class="h3 mb-3">Projects</h1>
+        <a href="{{route('dashboard.projects.create')}}" class="btn btn-primary float-right mt-n1"><i class="fas fa-plus"></i> Novo projeto</a>
+        <h1 class="h3 mb-3">Projetos</h1>
     
         <div class="row">
             @foreach ($projects as $project)
@@ -28,7 +28,7 @@
                                 </div>
                             </div>
                         </div>
-                        <h5 class="card-title mb-0"><a href="{{route('dashboard.projects.show',$project)}}"><small>{{$project->name}}</small></a></h5>
+                        <h5 class="card-title mb-0"><a class="mx-auto" href="{{route('dashboard.projects.show',$project)}}"><small>{{$project->initials}}</small></a></h5>
                         <div class="badge bg-success my-2">Finished</div>
                     </div>
                     <div class="card-body px-4 pt-2">

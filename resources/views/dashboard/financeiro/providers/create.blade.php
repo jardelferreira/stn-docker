@@ -26,6 +26,21 @@
           <small id="helpName" class="form-text text-muted">Insira o CNPJ</small>
         </div>
         <div class="form-group">
+          <label for="email">E-mail:</label>
+          <input type="email" autocomplete="off" class="form-control" name="email" id="email" aria-describedby="helpName" placeholder="nome fantasia">
+          <small id="helpName" class="form-text text-muted">Insira o E-mail:</small>
+        </div>
+        <div class="form-group">
+          <label for="phone">Telefone:</label>
+          <input type="phone" autocomplete="off" class="form-control" name="phone" id="phone" aria-describedby="helpName" placeholder="nome fantasia">
+          <small id="helpName" class="form-text text-muted">Insira o E-mail:</small>
+        </div>
+        <div class="form-group">
+          <label for="address">Endereço:</label>
+          <input type="text" autocomplete="off" class="form-control" name="address" id="address" aria-describedby="helpName" placeholder="nome fantasia">
+          <small id="helpName" class="form-text text-muted">Insira o Endereço</small>
+        </div>
+        <div class="form-group">
           <label for="headquarters">Caso este fornecedor pertença a uma matriz, favor selecionar da lista</label>
           <select class="form-control" name="headquarters" id="headquarters">
             <option value="">Selecione um fornecedor para cadastrar como matriz</option>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Project;
 use Yajra\Acl\Models\Role;
 use Illuminate\Http\Request;
 use Yajra\Acl\Models\Permission;
@@ -27,7 +28,9 @@ class PermissionController extends Controller
      */
     public function create()
     {
-        return \view('dashboard.permissions.create');
+        return \view('dashboard.permissions.create',[
+            'projects' => Project::all()
+        ]);
     }
 
     /**
@@ -71,7 +74,8 @@ class PermissionController extends Controller
         $permission = Permission::where('id',$id)->first();
 
         return view('dashboard.permissions.edit',[
-            'permission' => $permission
+            'permission' => $permission,
+            'projects' => Project::all()
         ]);
     }
 
