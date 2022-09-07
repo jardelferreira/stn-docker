@@ -4,9 +4,9 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <title>Freelancer - Start Bootstrap Theme</title>
+    <meta name="description" content="SGLT" />
+    <meta name="author" content="Gerenciamento" />
+    <title>JFWEBSYSTEM</title>
     <!-- Favicon-->
     <link rel="icon" type="image/x-icon" href="{{ asset('assets/favicon.ico') }}" />
     <!-- Font Awesome icons (free version)-->
@@ -41,7 +41,7 @@
                     @if (Route::has('login'))
                         @auth
                             <li class="nav-item mx-0 mx-lg-1"><a href="{{ url('/home') }}"
-                                    class="nav-link py-3 px-0 px-lg-3 rounded">Home</a></li>
+                                    class="nav-link py-3 px-0 px-lg-3 rounded">DASHBOARD</a></li>
                         @else
                             <li class="nav-item mx-0 mx-lg-1"><a href="{{ route('login') }}"
                                     class="nav-link py-3 px-0 px-lg-3 rounded bg-warning my-1">Entrar</a></li>
@@ -550,7 +550,9 @@
     <!-- * *                               SB Forms JS                               * *-->
     <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
     <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-    <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+    {{-- <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+    
+     --}}
 </body>
 
 </html>
