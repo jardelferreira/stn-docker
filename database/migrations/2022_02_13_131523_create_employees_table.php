@@ -15,10 +15,13 @@ class CreateEmployeesTable extends Migration
     {
         Schema::create('employees', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('office_id')->references('id')->on('offices')->onDelete('cascade');
-            $table->string('registration')->unique();
-            $table->date('adimission')->nullable();
+            $table->uuid('uuid');
+            $table->string('slug',60)->unique();
+            $table->foreignId('profession_id')->references('id')->on('professions')->onDelete('cascade');
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->string('registration')->unique();
+            $table->string('cpf')->unique();
+            $table->date('adimission')->nullable();
             $table->timestamps();
         });
 

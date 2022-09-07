@@ -12,7 +12,7 @@ class DepartamentCost extends Model
 
     protected $table = 'departament_costs';
 
-    protected $fillable = ['name','cost_sector_id','amount'];
+    protected $fillable = ['name','cost_sector_id','amount','slug','description','uuid','cost_center_id','project_id'];
 
     public function sectorCost()
     {

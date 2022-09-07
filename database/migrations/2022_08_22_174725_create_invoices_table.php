@@ -15,12 +15,17 @@ class CreateInvoicesTable extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid');
+            $table->string('slug',60)->unique();
             $table->string('number',15);
             $table->string('name',65);
             $table->foreignId('provider_id')->references('id')->on('providers')->onDelete('cascade');
+            $table->foreignId('departament_cost_id')->references('id')->on('departament_costs')->onDelete('cascade');
+            $table->foreignId('cost_sector_id')->references('id')->on('cost_sectors')->onDelete('cascade');
+            $table->foreignId('cost_center_id')->references('id')->on('cost_centers')->onDelete('cascade');
+            $table->foreignId('project_id')->references('id')->on('projects')->onDelete('cascade');
             $table->decimal('value');
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreignId('departament_cost_id')->references('id')->on('departament_costs')->onDelete('cascade');
             $table->date('issue');
             $table->date('due_date');
             $table->string('file_path');

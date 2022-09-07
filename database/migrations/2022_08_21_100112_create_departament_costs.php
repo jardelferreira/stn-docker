@@ -15,8 +15,13 @@ class CreateDepartamentCosts extends Migration
     {
         Schema::create('departament_costs', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid');
+            $table->string('slug',60)->unique();
             $table->string('name',45);
+            $table->string('description');
             $table->foreignId('cost_sector_id')->references('id')->on('cost_sectors')->onDelete('cascade');
+            $table->foreignId('cost_center_id')->references('id')->on('cost_centers')->onDelete('cascade');
+            $table->foreignId('project_id')->references('id')->on('projects')->onDelete('cascade');
             $table->decimal('amount',12,2,true)->default(0.00);
             $table->timestamps();
         });

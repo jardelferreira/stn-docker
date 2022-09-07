@@ -15,9 +15,12 @@ class CreateCostCentersTable extends Migration
     {
         Schema::create('cost_centers', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid');
+            $table->string('slug',60)->unique();
             $table->string('name',155);
+            $table->string('description');
             $table->foreignId('project_id')->references('id')->on('projects')->onDelete('cascade');
-            $table->decimal('amount',12,2,true)->default(0,00);
+            $table->decimal('amount',12,2,true)->default(0.00);
             $table->timestamps();
         });
     }

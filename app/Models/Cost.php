@@ -11,7 +11,7 @@ class Cost extends Model
 
     protected $table = 'cost_centers';
 
-    protected $fillable = ['name','project_id'];
+    protected $fillable = ['name','project_id','description','amount','slug','uuid'];
 
     public function project()
     {

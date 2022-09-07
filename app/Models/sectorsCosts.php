@@ -11,7 +11,7 @@ class sectorsCosts extends Model
 
     protected $table = 'cost_sectors';
 
-    protected $fillable = ['name','amount','cost_center_id'];
+    protected $fillable = ['name','amount','cost_center_id','description','slug','project_id','uuid'];
 
     public function cost()
     {
