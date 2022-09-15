@@ -313,9 +313,18 @@ return [
         ,
         [
             'text' => 'Projetos',
-            'route'  => 'dashboard.projects',
             'icon' => 'fas fa-fw fa-user',
-            'canAtLeast'  => ['manager-projects','sys-admin']
+            'canAtLeast'  => ['manager-projects','sys-admin'],
+            'submenu' => [
+                [
+                    'text' => 'Projeos',
+                    'route'  => 'dashboard.projects',
+                ],
+                [
+                    'text' => 'Bases',
+                    'route'  => 'dashboard.bases.index',
+                ],
+            ]
         ],
         // [
         //     'text' => 'change_password',

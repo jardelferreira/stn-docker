@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Base;
 use App\Models\Cost;
 use App\Models\DepartamentCost;
 use App\Models\Invoice;
@@ -9,6 +10,7 @@ use App\Models\Project;
 use App\Models\Provider;
 use App\Models\sectorsCosts;
 use App\Models\User;
+use App\Observers\BaseObserver;
 use App\Observers\CostObserver;
 use App\Observers\DepartamentCostObserver;
 use App\Observers\InvoiceObserver;
@@ -54,5 +56,6 @@ class EventServiceProvider extends ServiceProvider
         sectorsCosts::observe(SectorsCostObserver::class);
         DepartamentCost::observe(DepartamentCostObserver::class);
         Invoice::observe(InvoiceObserver::class);
+        Base::observe(BaseObserver::class);
     }
 }

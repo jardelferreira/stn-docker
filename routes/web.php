@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BaseController;
 use App\Http\Controllers\CostController;
 use App\Http\Controllers\DepartamentCostController;
 use Illuminate\Support\Facades\Auth;
@@ -144,6 +145,17 @@ Route::prefix('dashboard')->middleware('auth')->group(function(){
         Route::post('/',[InvoiceController::class,'store'])->name('dashboard.invoices.store');
         Route::put('/',[InvoiceController::class,'update'])->name('dashboard.invoices.update');
         Route::delete('/{invoice}',[InvoiceController::class,'destroy'])->name('dashboard.invoices.destroy');
+        
+    });
+    Route::prefix('bases')->group(function(){
+        Route::get('/',[BaseController::class,'index'])->name('dashboard.bases.index');
+        Route::get('/criar',[BaseController::class,'create'])->name('dashboard.bases.create');
+        Route::get('/{base}',[BaseController::class,'show'])->name('dashboard.bases.show');
+        Route::get('/{base}/editar',[BaseController::class,'edit'])->name('dashboard.bases.edit');
+
+        Route::post('/',[BaseController::class,'store'])->name('dashboard.bases.store');
+        Route::put('/',[BaseController::class,'update'])->name('dashboard.bases.update');
+        Route::delete('/{base}',[BaseController::class,'destroy'])->name('dashboard.bases.destroy');
         
     });
 
