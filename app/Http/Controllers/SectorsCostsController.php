@@ -80,8 +80,9 @@ class SectorsCostsController extends Controller
      * @param  \App\Models\sectorsCosts  $sectorsCosts
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, sectorsCosts $sector)
+    public function update(Request $request)
     {
+        $sector = sectorsCosts::where("uuid",$request->uuid)->first();
         $sector->update($request->all());
 
         return \redirect()->route('dashboard.costs_sectors.index');

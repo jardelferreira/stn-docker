@@ -20,7 +20,7 @@
                @foreach ($sectors as $item)
                <tr>
                    <td scope="row">{{$item->name}}</td>
-                   <td scope="row">{{$item->cost->name}}</td>
+                   <td scope="row">{{$item->cost->name}} - {{$item->cost->project->name}}</td>
                    <td class="btn-group" role="group">
                        <a class="btn btn-info btn-sm mr-1" href="{{route('dashboard.costs_sectors.edit',$item)}}" >Editar</a>
                         <form action="{{route('dashboard.costs_sectors.destroy',['id' => $item->id])}}" method="POST">

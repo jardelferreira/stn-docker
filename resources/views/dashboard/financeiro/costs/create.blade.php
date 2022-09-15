@@ -13,7 +13,12 @@
         <div class="form-group">
           <label for="name">Nome do Centro de custo</label>
           <input type="text" autocomplete="off" class="form-control" name="name" id="name" aria-describedby="helpName" placeholder="nome da centro de custo">
-          <small id="helpName" class="form-text text-muted">Insira o nome do projeto</small>
+          <small id="helpName" class="form-text text-muted">Insira o nome do Centro de custo</small>
+        </div>
+        <div class="form-group">
+          <label for="description">Descrição do Centro de custo</label>
+          <input type="text" autocomplete="off" class="form-control" name="description" id="description" aria-describedby="description" placeholder="nome da centro de custo">
+          <small id="description" class="form-text text-muted">Descreva este centro de custo</small>
         </div>
         <div class="form-group">
           <label for="project_id"></label>

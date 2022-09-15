@@ -12,6 +12,7 @@
         <thead class="thead-inverse">
             <tr>
                 <th>permissões</th>
+                <th>Recurso</th>
                 <th>Ações</th>
             </tr>
             </thead>
@@ -19,6 +20,7 @@
                @foreach ($permissions as $item)
                <tr>
                    <td scope="row">{{$item->name}}</td>
+                   <td scope="row">{{$item->resource}}</td>
                    <td class="btn-group" role="group">
                        <a class="btn btn-info btn-sm mr-1" href="{{route('dashboard.permissions.edit',['id' => $item->id])}}" >Editar</a>
                        <a class="btn btn-warning btn-sm mr-1" href="{{route('dashboard.permissions.roles',['permission' => $item->id])}}" >Vincular à função</a>

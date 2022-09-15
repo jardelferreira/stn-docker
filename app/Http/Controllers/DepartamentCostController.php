@@ -78,9 +78,12 @@ class DepartamentCostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $departament = DepartamentCost::where("uuid",$request->uuid)->first();
+        $departament->update($request->all());
+
+        return redirect()->route("dashboard.costs_departaments.index");
     }
 
     /**

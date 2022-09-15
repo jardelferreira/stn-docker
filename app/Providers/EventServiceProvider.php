@@ -2,9 +2,16 @@
 
 namespace App\Providers;
 
+use App\Models\Cost;
+use App\Models\DepartamentCost;
+use App\Models\Invoice;
 use App\Models\Project;
 use App\Models\Provider;
+use App\Models\sectorsCosts;
 use App\Models\User;
+use App\Observers\CostObserver;
+use App\Observers\DepartamentCostObserver;
+use App\Observers\InvoiceObserver;
 use Yajra\Acl\Models\Role;
 use App\Observers\RoleObserver;
 use App\Observers\UserObserver;
@@ -12,6 +19,7 @@ use Yajra\Acl\Models\Permission;
 use App\Observers\PermissionObserver;
 use App\Observers\ProjectObserver;
 use App\Observers\ProviderObserver;
+use App\Observers\SectorsCostObserver;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -42,5 +50,9 @@ class EventServiceProvider extends ServiceProvider
         Role::observe(RoleObserver::class);
         Project::observe(ProjectObserver::class);
         Provider::observe(ProviderObserver::class);
+        Cost::observe(CostObserver::class);
+        sectorsCosts::observe(SectorsCostObserver::class);
+        DepartamentCost::observe(DepartamentCostObserver::class);
+        Invoice::observe(InvoiceObserver::class);
     }
 }

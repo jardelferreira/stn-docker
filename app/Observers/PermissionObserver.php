@@ -2,11 +2,12 @@
 
 namespace App\Observers;
 
+use App\Models\Project;
 use Illuminate\Support\Str;
 use Yajra\Acl\Models\Permission;
 
 class PermissionObserver
-{           
+{
 
     public function creating(Permission $permission)
     {

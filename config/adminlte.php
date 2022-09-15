@@ -285,24 +285,25 @@ return [
         [
             'text' => 'Controle de acesso',
             'icon' => 'fa fa-user',
+            'role' => ['sys-admin','sys-manager'],
             'submenu' => [
                 [
                     'text' => 'Usuários',
                     'route'  => 'dashboard.users',
                     'icon' => 'fas fa-fw fa-user',
-                    'can'  => ['manager-users','sys-admin']
+                    'canAtLeast'  => ['manager-users','sys-admin']
                 ],
                 [
                     'text' => 'Permissões',
                     'route'  => 'dashboard.permissions',
                     'icon' => 'fas fa-fw fa-user',
-                    'can'  => ['manager-permissions','sys-admin']
+                    'canAtLeast'  => ['manager-permissions','sys-admin']
                 ],
                 [
                     'text' => 'Funções',
                     'route'  => 'dashboard.roles',
                     'icon' => 'fas fa-fw fa-user',
-                    'can'  => [
+                    'canAtLeast'  => [
                         'manager-roles','sys-admin'
                     ]
                 ],
@@ -314,64 +315,64 @@ return [
             'text' => 'Projetos',
             'route'  => 'dashboard.projects',
             'icon' => 'fas fa-fw fa-user',
-            // 'can'  => ['manager-projects','sys-admin']
+            'canAtLeast'  => ['manager-projects','sys-admin']
         ],
-        [
-            'text' => 'change_password',
-            'url'  => 'admin/settings',
-            'icon' => 'fas fa-fw fa-lock',
-        ],
-        [
-            'text'    => 'Controle de acesso',
-            'icon'    => 'fas fa-fw fa-share',
-            'submenu' => [
-                   [
-                    'text'    => 'Permissões',
-                    'url'     => '#',
-                    'submenu' => [
-                        [
-                            'text' => 'Gerenciar',
-                            'url'  => '#',
-                        ],
-                        [
-                            'text' => 'Criar',
-                            'url'  => '#',
-                        ],
-                    ],
-                ],
-                [
-                    'text'    => 'Funções',
-                    'url'     => '#',
-                    'submenu' => [
-                        [
-                            'text' => 'Gerenciar',
-                            'url'  => '#',
-                        ],
-                        [
-                            'text' => 'Criar',
-                            'url'  => '#',
-                        ],
-                    ],
-                ],
-            ],
-        ],
+        // [
+        //     'text' => 'change_password',
+        //     'url'  => 'admin/settings',
+        //     'icon' => 'fas fa-fw fa-lock',
+        // ],
+        // [
+        //     'text'    => 'Controle de acesso',
+        //     'icon'    => 'fas fa-fw fa-share',
+        //     'submenu' => [
+        //            [
+        //             'text'    => 'Permissões',
+        //             'url'     => '#',
+        //             'submenu' => [
+        //                 [
+        //                     'text' => 'Gerenciar',
+        //                     'url'  => '#',
+        //                 ],
+        //                 [
+        //                     'text' => 'Criar',
+        //                     'url'  => '#',
+        //                 ],
+        //             ],
+        //         ],
+        //         [
+        //             'text'    => 'Funções',
+        //             'url'     => '#',
+        //             'submenu' => [
+        //                 [
+        //                     'text' => 'Gerenciar',
+        //                     'url'  => '#',
+        //                 ],
+        //                 [
+        //                     'text' => 'Criar',
+        //                     'url'  => '#',
+        //                 ],
+        //             ],
+        //         ],
+        //     ],
+        // ],
 
-        ['header' => 'labels'],
-        [
-            'text'       => 'important',
-            'icon_color' => 'red',
-            'url'        => '#',
-        ],
-        [
-            'text'       => 'warning',
-            'icon_color' => 'yellow',
-            'url'        => '#',
-        ],
-        [
-            'text'       => 'information',
-            'icon_color' => 'cyan',
-            'url'        => '#',
-        ],
+        // ['header' => 'labels'],
+        // [
+        //     'text'       => 'important',
+        //     'icon_color' => 'red',
+        //     'url'        => '#',
+        // ],
+        // [
+        //     'text'       => 'warning',
+        //     'icon_color' => 'yellow',
+        //     'url'        => '#',
+        // ],
+        // [
+        //     'text'       => 'information',
+        //     'icon_color' => 'cyan',
+        //     'url'        => '#',
+        // ],
     ],
 
     /*

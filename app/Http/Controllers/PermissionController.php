@@ -72,10 +72,10 @@ class PermissionController extends Controller
     public function edit(int $id)
     {
         $permission = Permission::where('id',$id)->first();
-
+        
         return view('dashboard.permissions.edit',[
             'permission' => $permission,
-            'projects' => Project::all()
+            // 'projects' => Project::all()
         ]);
     }
 
