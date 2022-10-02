@@ -15,4 +15,9 @@ class Base extends Model
     {
         return $this->belongsTo(Project::class);
     }
+
+    public function sectors()
+    {
+        return $this->hasMany(Sector::class);
+    }
 }

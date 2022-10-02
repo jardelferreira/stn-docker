@@ -324,6 +324,10 @@ return [
                     'text' => 'Bases',
                     'route'  => 'dashboard.bases.index',
                 ],
+                [
+                    'text' => 'Setores',
+                    'route'  => 'dashboard.sectors.index',
+                ],
             ]
         ],
         // [

@@ -12,6 +12,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProviderController;
+use App\Http\Controllers\SectorController;
 use App\Http\Controllers\SectorsCostsController;
 
 /*
@@ -156,6 +157,17 @@ Route::prefix('dashboard')->middleware('auth')->group(function(){
         Route::post('/',[BaseController::class,'store'])->name('dashboard.bases.store');
         Route::put('/',[BaseController::class,'update'])->name('dashboard.bases.update');
         Route::delete('/{base}',[BaseController::class,'destroy'])->name('dashboard.bases.destroy');
+        
+    });
+    Route::prefix('setores')->group(function(){
+        Route::get('/',[SectorController::class,'index'])->name('dashboard.sectors.index');
+        Route::get('/criar',[SectorController::class,'create'])->name('dashboard.sectors.create');
+        Route::get('/{sector}',[SectorController::class,'show'])->name('dashboard.sectors.show');
+        Route::get('/{sector}/editar',[SectorController::class,'edit'])->name('dashboard.sectors.edit');
+
+        Route::post('/',[SectorController::class,'store'])->name('dashboard.sectors.store');
+        Route::put('/',[SectorController::class,'update'])->name('dashboard.sectors.update');
+        Route::delete('/{sector}',[SectorController::class,'destroy'])->name('dashboard.sectors.destroy');
         
     });
 

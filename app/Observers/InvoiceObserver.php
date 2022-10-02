@@ -7,6 +7,8 @@ use App\Models\Invoice;
 use App\Models\Provider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class InvoiceObserver
@@ -104,7 +106,13 @@ class InvoiceObserver
      */
     public function deleted(Invoice $invoice)
     {
-        //
+        if (Storage::exists($invoice->file_path)) {
+            Storage::delete($invoice->file_path);
+            Session::flash('deleted_img','Arquivo excluído com sucesso!');
+        }else{
+            Session::flash('deleted_img','O arquivo pdf não foi localizado!');
+        }
+        
     }
 
     /**
