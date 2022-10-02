@@ -317,7 +317,7 @@ return [
             'canAtLeast'  => ['manager-projects','sys-admin'],
             'submenu' => [
                 [
-                    'text' => 'Projeos',
+                    'text' => 'Todos Projetos',
                     'route'  => 'dashboard.projects',
                 ],
                 [
