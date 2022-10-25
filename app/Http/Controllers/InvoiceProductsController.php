@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreInvoiceProductsRequest;
 use App\Http\Requests\UpdateInvoiceProductsRequest;
+use App\Models\Invoice;
 use App\Models\InvoiceProducts;
+use Illuminate\Support\Str;
 
 class InvoiceProductsController extends Controller
 {
@@ -13,9 +15,11 @@ class InvoiceProductsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Invoice $invoice)
     {
-        //
+        return view('dashboard.invoicesProducts.index',[
+            'invoice' => $invoice
+        ]);
     }
 
     /**
@@ -23,9 +27,11 @@ class InvoiceProductsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Invoice $invoice)
     {
-        //
+        return view('dashboard.invoicesProducts.create', [
+            'invoice' => $invoice
+        ]);
     }
 
     /**
@@ -34,11 +40,31 @@ class InvoiceProductsController extends Controller
      * @param  \App\Http\Requests\StoreInvoiceProductsRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreInvoiceProductsRequest $request)
+    public function store(StoreInvoiceProductsRequest $request, Invoice $invoice)
     {
-        //
+        for ($i = 0; $i < $request->cont; $i++) {
+            InvoiceProducts::create([
+                'uuid' => $this->getNewUuid(),
+                'slug' => Str::slug($request->name[$i]),
+                'owner' => 1,
+                'image_path' => "image",
+                'invoice_id' => $invoice->id,
+                "qtd" => floatVal($request->qtd[$i]),
+                "und" => $request->und[$i],
+                "name" => $request->name[$i],
+                "value_und" => floatVal($request->value_unid[$i]),
+                "value_total" => floatval($request->value_unid[$i]) * floatVal($request->qtd[$i]),
+                "description" => $request->description[$i],
+            ]);
+        }
+
+        return redirect()->route('dashboard.invoicesProducts.index',['invoice' => $invoice->id]);
     }
 
+    public function getNewUuid()
+    {
+        return (string) Str::uuid();
+    }
     /**
      * Display the specified resource.
      *

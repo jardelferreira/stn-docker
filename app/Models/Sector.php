@@ -20,4 +20,10 @@ class Sector extends Model
     {
         return $this->belongsTo(Project::class);
     }
+
+    public function stocks()
+    {
+        return $this->hasMany(Stoks::class,'sector_id','id');
+    }
+    
 }

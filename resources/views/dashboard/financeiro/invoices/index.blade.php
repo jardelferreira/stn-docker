@@ -33,6 +33,13 @@
                    <td scope="row">{{date('d/m/Y', strtotime($item->due_date))}}</td>
                    <td class="btn-group" role="group">
                        <a class="btn btn-info btn-sm mr-1" href="{{route('dashboard.invoices.edit',$item)}}" >Editar</a>
+                       @if ($item->products)
+                       <a class="btn btn-success btn-sm mr-1" href="{{route('dashboard.invoicesProducts.index',['invoice' => $item->id])}}" >Ver Produtos</a>
+                       
+                       @else
+                       
+                       <a class="btn btn-success btn-sm mr-1" href="{{route('dashboard.invoices.popular.create',['invoice' => $item->id])}}" >Popular</a>
+                       @endif
                         <form action="{{route('dashboard.invoices.destroy', ['invoice' => $item->id])}}" method="POST" id="{{$item->id}}">
                             @csrf
                             @method('DELETE')

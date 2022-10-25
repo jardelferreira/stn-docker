@@ -13,7 +13,12 @@ class StoreInvoiceProductsRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
+    }
+
+    public function prepareForValidation()
+    {
+       
     }
 
     /**
@@ -23,8 +28,14 @@ class StoreInvoiceProductsRequest extends FormRequest
      */
     public function rules()
     {
+
         return [
-            //
+            'name.*' => "required",
+            'description.*' => "nullable",
+            'qtd.*' => "required|numeric",
+            'und.*' => "required|max:10",
+            'value_unid.*' => "required|numeric",
+            'image_path.*' => "nullable",
         ];
     }
 }

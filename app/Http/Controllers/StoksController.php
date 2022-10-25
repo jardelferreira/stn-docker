@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreStoksRequest;
 use App\Http\Requests\UpdateStoksRequest;
+use App\Models\Sector;
 use App\Models\Stoks;
 
 class StoksController extends Controller
@@ -13,9 +14,14 @@ class StoksController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Sector $sector)
     {
-        //
+        
+        // dd($sector->with('stocks.invoiceProduct.invoice')->get());
+        return view('dashboard.sectors.stocks.index',[
+            'sector' => $sector,
+            'stocks' => $sector->with('stocks.invoiceProduct.invoice')->get(),
+        ]);
     }
 
     /**

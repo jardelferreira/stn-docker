@@ -9,7 +9,10 @@ class InvoiceProducts extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['uuid','name','description','qtd','und','value_unid','value_total','invoice_id','owner','image_path'];
+    protected $fillable = ['uuid','slug','name','description','qtd','und','value_und','value_total','invoice_id','owner','image_path'];
 
-    
+    public function invoice()
+    {
+        return $this->hasOne(Invoice::class,'id','invoice_id');
+    }
 }

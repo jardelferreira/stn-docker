@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\InvoiceProductsController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PermissionController;
@@ -14,6 +15,7 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\SectorController;
 use App\Http\Controllers\SectorsCostsController;
+use App\Http\Controllers\StoksController;
 
 /*
 |--------------------------------------------------------------------------
@@ -146,6 +148,11 @@ Route::prefix('dashboard')->middleware('auth')->group(function(){
         Route::post('/',[InvoiceController::class,'store'])->name('dashboard.invoices.store');
         Route::put('/',[InvoiceController::class,'update'])->name('dashboard.invoices.update');
         Route::delete('/{invoice}',[InvoiceController::class,'destroy'])->name('dashboard.invoices.destroy');
+        //Invoice Productos routes
+        Route::get('/produtos/{invoice}',[InvoiceProductsController::class,'index'])->name('dashboard.invoicesProducts.index');
+        Route::get('/produtos/{invoice}/show',[InvoiceProductsController::class,'show'])->name('dashboard.invoicesProducts.show');
+        Route::get('/popular/{invoice}',[InvoiceProductsController::class,'create'])->name('dashboard.invoices.popular.create');
+        Route::post('/popupar/{invoice}',[InvoiceProductsController::class,'store'])->name('dashboard.invoices.popular.store');
         
     });
     Route::prefix('bases')->group(function(){
@@ -168,6 +175,10 @@ Route::prefix('dashboard')->middleware('auth')->group(function(){
         Route::post('/',[SectorController::class,'store'])->name('dashboard.sectors.store');
         Route::put('/',[SectorController::class,'update'])->name('dashboard.sectors.update');
         Route::delete('/{sector}',[SectorController::class,'destroy'])->name('dashboard.sectors.destroy');
+
+        Route::prefix('{sector}/estoque')->group(function(){
+            Route::get('/',[StoksController::class,'index'])->name('dashboard.sectors.stocks.index');
+        });
         
     });
 

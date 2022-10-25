@@ -22,4 +22,8 @@ class Invoice extends Model
         return $this->belongsTo(Provider::class);
     }
 
+    public function products()
+    {
+        return $this->hasMany(InvoiceProducts::class);
+    }
 }
