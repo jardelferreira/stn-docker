@@ -4,7 +4,7 @@
 
 @section('content_header')
     <h1>Estoque do setor -{{ $sector->name }} <a name="" id="" class="btn btn-success"
-            href="{{ route('dashboard.sectors.create') }}" role="button">Adicionar ao estoque - <i class="fa fa-plus"
+            href="{{ route('dashboard.sectors.stoks.create',$sector) }}" role="button">Adicionar ao estoque - <i class="fa fa-plus"
                 aria-hidden="true"></i></a></h1>
 @stop
 

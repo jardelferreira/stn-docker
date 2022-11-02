@@ -24,7 +24,7 @@
                    <td scope="row">{{$item->base->place}}</td>
                    <td scope="row">{{$item->project->name}}</td>
                    <td class="btn-group" role="group">
-                       <a class="btn btn-warning btn-sm mr-1" href="{{route('dashboard.sectors.stocks.index',['sector' => $item->id])}}" ><i class="fa fa-cubes" aria-hidden="true"></i></a>
+                       <a class="btn btn-warning btn-sm mr-1" href="{{route('dashboard.sectors.stoks.index',['sector' => $item->id])}}" ><i class="fa fa-cubes" aria-hidden="true"></i></a>
                        <a class="btn btn-info btn-sm mr-1" href="{{route('dashboard.sectors.edit',['sector' => $item])}}" >Editar</a>
                         <form action="{{route('dashboard.sectors.destroy',['sector' => $item->id])}}" method="POST">
                             @csrf

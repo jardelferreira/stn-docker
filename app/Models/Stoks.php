@@ -16,5 +16,9 @@ class Stoks extends Model
     {
         return $this->hasOne(InvoiceProducts::class,'id','invoice_products_id');
     }
-    
+     
+    public function sector()
+    {
+        return $this->hasOne(Sector::class);
+    }
 }
