@@ -124,12 +124,14 @@ class StoksController extends Controller
         return  response()->json($invoice->products()->get());
     }
 
-    public function getAllInvoicesFromProvider(Request $request)
+    public function getAllInvoicesFromProviderByProject(Request $request, Sector $sector)
     {
         $provider = Provider::where('id',$request->provider)->first();
         $invoices = $provider->invoices()->where('number','LIKE',"%$request->q%")->get();
 
-        return response()->json($invoices);
+        
+
+        return response()->json($sector->project->invoices()->get());
     }
     
     public function filterProviders(Request $request)

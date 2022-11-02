@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProjectRequest;
 use App\Models\Project;
+use App\Models\Provider;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -118,5 +119,22 @@ class ProjectController extends Controller
         return redirect()->route('dashboard.projects', [
             'message' => 'Projeto não encontrado'
         ]);
+    }
+
+    public function providers(Project $project)
+    {
+        return view('dashboard.projects.providers',[
+            'providers' => Provider::all(),
+            'project' => $project,
+            'project_providers' => $project->providers()->pluck('provider_id')->toArray(),
+
+        ]);
+    }
+
+    public function syncProviders(Request $request, Project $project)
+    {
+        $project->providers()->sync($request->providers);
+       
+        return redirect()->route('dashboard.projects.providers',$project);
     }
 }

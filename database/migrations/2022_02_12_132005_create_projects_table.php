@@ -19,7 +19,7 @@ class CreateProjectsTable extends Migration
             $table->string('name')->unique();
             $table->string('slug',60)->unique();
             $table->longText('description')->nullable();
-            $table->string('initials',15)->unique();
+            $table->string('initials',25)->unique();
             $table->timestamps();
         });
 

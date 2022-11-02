@@ -26,7 +26,7 @@
         {{-- <button type="button" id="" class="btn mr-1 btn-warning">Selecionar outra NF</button> --}}
         {{-- <button type="button" id="clear" class="btn mr-1 btn-danger">Limpar Tabela</button> --}}
     </div>
-    <table class="table table-strped tabelaEditavel" id="{{ $sector->id }}">
+    <table class="table table-strped tabelaEditavel" id="{{ $sector->id }}" >
         <thead>
             <tr>
                 <th>#</th>
@@ -81,7 +81,7 @@
 
             $("#invoice_id").select2({
                 ajax: {
-                    url: 'http://localhost/dashboard/api/providers/invoices',
+                    url: `http://localhost/dashboard/api/providers/invoices/${parseInt($("table").attr("id"))}`,
                     type: "GET",
                     dataType: 'json',
                     delay: 250,
@@ -92,7 +92,7 @@
                         };
                     },
                     processResults: function(response) {
-
+                        console.log(response)
                         let invoices = response.map(function(e) {
                             return {
                                 "id": e.id,

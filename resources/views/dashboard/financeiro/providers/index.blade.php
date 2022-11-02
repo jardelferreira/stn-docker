@@ -25,6 +25,7 @@
                    <td scope="row">{{$item->cnpj}}</td>
                    <td class="btn-group" role="group">
                        <a class="btn btn-info btn-sm mr-1" href="{{route('dashboard.providers.edit',$item)}}" >Editar</a>
+                       <a class="btn btn-warning btn-sm mr-1" href="{{route('dashboard.providers.projects',$item)}}" >Vincular a projetos</a>
                         <form action="{{route('dashboard.providers.destroy',['id' => $item->id])}}" method="POST">
                             @csrf
                             @method('DELETE')

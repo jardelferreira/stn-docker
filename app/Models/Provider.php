@@ -27,4 +27,8 @@ class Provider extends Model
         return $this->hasMany(Invoice::class);
     }
 
+    public function projects()
+    {
+        return $this->belongsToMany(Project::class,'provider_project','provider_id','project_id');
+    }
 }

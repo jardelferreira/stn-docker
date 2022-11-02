@@ -39,7 +39,7 @@ Route::prefix('dashboard')->middleware('auth')->group(function(){
     
     Route::prefix('api')->group(function(){
         Route::get('invoice/{invoice}/products',[StoksController::class,'getProductsByInvoiceId'])->name('api.invoice.products');
-        Route::get('providers/invoices',[StoksController::class,'getAllInvoicesFromProvider'])->name('api.providers.invoices');
+        Route::get('providers/invoices/{sector}',[StoksController::class,'getAllInvoicesFromProviderByProject'])->name('api.providers.invoices');
         Route::get('providers/',[StoksController::class,'filterProviders'])->name('api.providers');
         Route::post('/products/store',[StoksController::class,'store'])->name('api.stoks.store');
 
@@ -100,6 +100,11 @@ Route::prefix('dashboard')->middleware('auth')->group(function(){
         Route::post('/',[ProjectController::class,'store'])->name('dashboard.projects.store');
         Route::put('/',[ProjectController::class,'update'])->name('dashboard.projects.update');
         Route::delete('/',[ProjectController::class,'destroy'])->name('dashboard.projects.destroy');
+
+        Route::get('/{project}/vincular',[ProjectController::class,'providers'])->name('dashboard.projects.providers');
+
+        Route::put('/{project}/sync',[ProjectController::class,'syncProviders'])->name('dashboard.projects.syncProviders');
+
     });
 
     Route::prefix('custos')->group(function(){
@@ -141,6 +146,9 @@ Route::prefix('dashboard')->middleware('auth')->group(function(){
         Route::get('/criar',[ProviderController::class,'create'])->name('dashboard.providers.create');
         Route::get('/{provider}',[ProviderController::class,'show'])->name('dashboard.providers.show');
         Route::get('/{provider}/editar',[ProviderController::class,'edit'])->name('dashboard.providers.edit');
+        Route::get('/{provider}/vincular',[ProviderController::class,'projects'])->name('dashboard.providers.projects');
+
+        Route::put('/{provider}/sync',[ProviderController::class,'syncProjects'])->name('dashboard.providers.syncProjects');
 
         Route::post('/',[ProviderController::class,'store'])->name('dashboard.providers.store');
         Route::put('/',[ProviderController::class,'update'])->name('dashboard.providers.update');

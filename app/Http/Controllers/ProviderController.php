@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Provider;
 use App\Http\Requests\StoreProviderRequest;
 use App\Http\Requests\UpdateProviderRequest;
+use App\Models\Project;
+use Illuminate\Http\Request;
 
 class ProviderController extends Controller
 {
@@ -90,5 +92,22 @@ class ProviderController extends Controller
     public function destroy(Provider $provider)
     {
         //
+    }
+
+    public function projects(Provider $provider)
+    {
+        return view('dashboard.financeiro.providers.projects',[
+            'projects' => Project::all(),
+            'provider' => $provider,
+            'provider_projects' => $provider->projects()->pluck('project_id')->toArray(),
+
+        ]);
+    }
+
+    public function syncProjects(Request $request, Provider $provider)
+    {
+        $provider->projects()->sync($request->projects);
+       
+        return redirect()->route('dashboard.providers.projects');
     }
 }

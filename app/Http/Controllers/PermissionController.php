@@ -127,6 +127,7 @@ class PermissionController extends Controller
         // dd($permission->roles()->pluck('role_id')->toArray());
         $permission->syncRoles($request->roles);
 
+        //depois remover as variáveis daqui, deixando apenas a permission
         return redirect()->route('dashboard.permissions.roles',[
             'permission' => $permission,
             'roles' => Role::all(),

@@ -347,6 +347,8 @@
 </section>
 </div>
 
+<a name="provider" id="provider" class="btn btn-primary" href="{{route('dashboard.projects.providers',$project)}}" role="button">Vincular Fornecedores</a>
+
 @endsection
 
 
