@@ -20,7 +20,7 @@
                 <form action="{{route('dashboard.providers.syncProjects',$provider )}}" method="post">
                     @csrf
                     @method('PUT')
-                    <button type="submit" class="btn btn-primary">Atualizar projetos vinculadas ao Fornecedor</button>
+                    <button type="submit" class="btn btn-primary">Atualizar projetos vinculados ao Fornecedor</button>
                @foreach ($projects as $item)
                <tr>
                    <td>

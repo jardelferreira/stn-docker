@@ -14,8 +14,15 @@ class Provider extends Model
     protected $fillable = ['corporate_name','fantasy_name','cnpj','headquarters','email','phone','address','slug','uuid'];
     // futuramente -> email,fone,address,
 
-    static function filterProvidersByNames($query)
+    static function filterProvidersFromProjectByNames($query,Sector $sector)
     {
+        $sector = Sector::where('id',$sector);
+        return $sector;
+        return $sector->project->providers()->where([
+            ['fantasy_name','LIKE',"%$query%"],
+            ['corporate_name','LIKE',"%$query%"]
+        ])->get()->toJson();
+
         return Provider::where([
             ['fantasy_name','LIKE',"%$query%"],
             ['corporate_name','LIKE',"%$query%"]

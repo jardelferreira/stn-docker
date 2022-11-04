@@ -108,6 +108,6 @@ class ProviderController extends Controller
     {
         $provider->projects()->sync($request->projects);
        
-        return redirect()->route('dashboard.providers.projects');
+        return redirect()->route('dashboard.providers.projects',$provider);
     }
 }

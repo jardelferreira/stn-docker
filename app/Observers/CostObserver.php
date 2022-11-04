@@ -16,7 +16,7 @@ class CostObserver
     public function creating(Cost $cost)
     {
         $cost->name = Str::upper($cost->name);
-        $cost->slug = Str::slug($cost->name);
+        $cost->slug = Str::random(10);
         $cost->uuid = Str::uuid();
     }
     /**
@@ -39,7 +39,7 @@ class CostObserver
     public function updating(Cost $cost)
     {
         $cost->name = Str::upper($cost->name);
-        $cost->slug = Str::slug($cost->name);
+
     }
     /**
      * Handle the Cost "updated" event.

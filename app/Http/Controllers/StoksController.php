@@ -20,12 +20,11 @@ class StoksController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Sector $sector)
-    {
-        
-        // dd($sector->with('stocks.invoiceProduct.invoice')->get());
+    {   
+        // dd($sector->stoks()->with('invoiceProduct.invoice')->get());
         return view('dashboard.sectors.stoks.index',[
             'sector' => $sector,
-            'stocks' => $sector->with('stocks.invoiceProduct.invoice')->get(),
+            'stoks' => $sector->stoks()->with('invoiceProduct.invoice')->get(),
         ]);
     }
 
@@ -36,6 +35,7 @@ class StoksController extends Controller
      */
     public function create(Sector $sector)
     {
+        // dd($sector->project->providers()->get());
         return view('dashboard.sectors.stoks.create',[
             'sector' => $sector
         ]);
@@ -123,20 +123,21 @@ class StoksController extends Controller
     {
         return  response()->json($invoice->products()->get());
     }
-
-    public function getAllInvoicesFromProviderByProject(Request $request, Sector $sector)
+    
+    public function getAllInvoicesFromProviderByProject(Request $request)
     {
         $provider = Provider::where('id',$request->provider)->first();
         $invoices = $provider->invoices()->where('number','LIKE',"%$request->q%")->get();
 
-        
-
-        return response()->json($sector->project->invoices()->get());
+        return response()->json($invoices);
     }
     
-    public function filterProviders(Request $request)
-    {
-        $providers = Provider::filterProvidersByNames($request->q);
+    public function filterProviders(Request $request,Sector $sector)
+    {   
+        $providers = $sector->project->providers()->where([
+            ['fantasy_name','LIKE',"%$request->q%"],
+            ['corporate_name','LIKE',"%$request->q%"]
+        ])->get();
 
         return response()->json($providers);
     }

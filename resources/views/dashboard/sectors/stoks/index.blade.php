@@ -9,7 +9,7 @@
 @stop
 
 @section('content')
-    @if (count($stocks))
+    @if (count($stoks))
         <table class="table table-striped table-inverse table-responsive">
             <thead class="thead-inverse">
                 <tr>
@@ -21,8 +21,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($stocks as $stock)
-                    @foreach ($stock->stocks as $item)
+                    @foreach ($stoks as $item)
                         <tr>
                             <td scope="row">{{ $item->invoiceProduct->name }}</td>
                             <td scope="row">{{ $item->invoiceProduct->description}}</td>
@@ -30,7 +29,7 @@
                             <td scope="row">{{ $item->invoiceProduct->invoice->name}}</td>
                             {{-- <td class="btn-group" role="group">
                                 <a class="btn btn-warning btn-sm mr-1"
-                                    href="{{ route('dashboard.sectors.stocks.index', ['sector' => $item->id]) }}"><i
+                                    href="{{ route('dashboard.sectors.stoks.index', ['sector' => $item->id]) }}"><i
                                         class="fa fa-cubes" aria-hidden="true"></i></a>
                                 <a class="btn btn-info btn-sm mr-1"
                                     href="{{ route('dashboard.sectors.edit', ['sector' => $item]) }}">Editar</a>
@@ -43,10 +42,9 @@
                             </td> --}}
                         </tr>
                     @endforeach
-                @endforeach
             </tbody>
         </table>
     @else
-        <p>Não há Setores para listagem</p>
+        <p>Não há Itens para listagem</p>
     @endif
 @endsection

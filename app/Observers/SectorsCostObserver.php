@@ -17,7 +17,7 @@ class SectorsCostObserver
     {
         $sectorsCosts->project_id = $sectorsCosts->cost->project->id;
         $sectorsCosts->name = Str::upper($sectorsCosts->name);
-        $sectorsCosts->slug = Str::slug($sectorsCosts->name);
+        $sectorsCosts->slug = Str::random(10);
         $sectorsCosts->uuid = Str::uuid();
     }
 

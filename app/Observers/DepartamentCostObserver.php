@@ -26,7 +26,7 @@ class DepartamentCostObserver
         $sector = sectorsCosts::where("id",$departamentCost->cost_sector_id)->first();
      
         $departamentCost->name = Str::upper($departamentCost->name);
-        $departamentCost->slug = Str::slug($departamentCost->name);
+        $departamentCost->slug = Str::random(10);
         $departamentCost->uuid = Str::uuid();
         $departamentCost->cost_center_id = $sector->cost->id;
         $departamentCost->project_id = $sector->cost->project->id;
@@ -37,7 +37,6 @@ class DepartamentCostObserver
         $sector = sectorsCosts::where("id",$departamentCost->cost_sector_id)->first();
         
         $departamentCost->name = Str::upper($departamentCost->name);
-        $departamentCost->slug = Str::slug($departamentCost->name);
         $departamentCost->cost_center_id = $sector->cost_center_id;
         $departamentCost->cost_sector_id = $sector->id;
         $departamentCost->project_id = $sector->project_id;

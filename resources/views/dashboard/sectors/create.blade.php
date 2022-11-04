@@ -21,7 +21,7 @@
           <small id="description" class="form-text text-muted">Descreva este Setores</small>
         </div>
         <div class="form-group">
-          <label for="base_id">Selecione uma setor</label>
+          <label for="base_id">Selecione uma base</label>
           <select class="form-control" name="base_id" id="bases">
             <option value="">Selecione a Base para o Setor</option>
             @foreach ($bases as $item)

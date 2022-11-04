@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateInvoiceRequest;
 use App\Models\DepartamentCost;
 use App\Models\Provider;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class InvoiceController extends Controller
 {
@@ -107,6 +108,15 @@ class InvoiceController extends Controller
     public function update(UpdateInvoiceRequest $request)
     {
         $invoice = Invoice::where("uuid",$request->uuid)->first();
+
+        // dd($invoice->departament->slug);
+        $invoice->name = "{$request->invoice_type}-{$request->number}-{$invoice->provider->fantasy_name}";
+        if($request->hasFile('file_invoice')){
+            Storage::delete($invoice->file_path);
+            $path = "project/{$invoice->project->slug}/cost/{$invoice->cost->slug}/sector/{$invoice->sectorCost->slug}/departament/{$invoice->departament->slug}";
+            $path = $request->file('file_invoice')->storeAs("public/files/{$path}","{$invoice->name}.pdf");
+            $invoice->file_path = $path;
+        }
         
         $invoice->update($request->all());
 
@@ -123,6 +133,7 @@ class InvoiceController extends Controller
     {
         if ($invoice) {
             $invoice->delete();
+            Storage::delete($invoice->file_path);
             return \redirect()->route('dashboard.invoices.index');
         }
         

@@ -14,7 +14,7 @@ class Invoice extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class); 
     }
 
     public function provider()
@@ -26,4 +26,25 @@ class Invoice extends Model
     {
         return $this->hasMany(InvoiceProducts::class);
     }
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
+    }
+
+    public function cost()
+    {
+        return $this->belongsTo(Cost::class,"cost_center_id","id");
+    }
+
+    public function sectorCost()
+    {
+        return $this->belongsTo(sectorsCosts::class,"cost_sector_id","id");
+    }
+    
+    public function departament()
+    {
+        return $this->belongsTo(DepartamentCost::class,"departament_cost_id","id");
+    }
+
 }

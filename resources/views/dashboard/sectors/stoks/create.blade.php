@@ -10,8 +10,7 @@
     <form action="#" id="produtos" method="post"></form>
     <div class="form-group">
         <label for="provider_id">Fornecedor</label>
-        <select class="form-control" name="provider_id " id="provider_id">
-        </select>
+        <select class="form-control" name="provider_id " id="provider_id"></select>
     </div>
     <div class="form-group">
         <label for="invoice_id">Número da nota</label>
@@ -55,16 +54,18 @@
 
             $("#provider_id").select2({
                 ajax: {
-                    url: 'http://localhost/dashboard/api/providers',
+                    url: `http://localhost/dashboard/api/providers/${parseInt($("table").attr("id"))}`,
                     type: "GET",
                     dataType: 'json',
                     delay: 250,
                     data: function(params) {
                         return {
-                            q: params.term // search term
+                            q: params.term,
+                            sector: $("table").attr("id") // search term
                         };
                     },
                     processResults: function(response) {
+                        console.log(response)
                         let providers = response.map(function(e) {
                             return {
                                 "id": e.id,

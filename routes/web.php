@@ -40,7 +40,7 @@ Route::prefix('dashboard')->middleware('auth')->group(function(){
     Route::prefix('api')->group(function(){
         Route::get('invoice/{invoice}/products',[StoksController::class,'getProductsByInvoiceId'])->name('api.invoice.products');
         Route::get('providers/invoices/{sector}',[StoksController::class,'getAllInvoicesFromProviderByProject'])->name('api.providers.invoices');
-        Route::get('providers/',[StoksController::class,'filterProviders'])->name('api.providers');
+        Route::get('providers/{sector}',[StoksController::class,'filterProviders'])->name('api.providers');
         Route::post('/products/store',[StoksController::class,'store'])->name('api.stoks.store');
 
     });

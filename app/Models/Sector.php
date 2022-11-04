@@ -13,17 +13,17 @@ class Sector extends Model
 
     public function base()
     {
-        return $this->belongsTo(Base::class);
+        return $this->hasOne(Base::class,'id','base_id');
     }
 
     public function project()
     {
-        return $this->belongsTo(Project::class);
+        return $this->hasOne(Project::class,'id','project_id');
     }
 
-    public function stocks()
+    public function stoks()
     {
-        return $this->hasMany(Stoks::class,'sector_id','id');
+        return $this->hasOne(Stoks::class,'sector_id','id');
     }
     
 }

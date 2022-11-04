@@ -22,7 +22,7 @@ class ProjectObserver
         
         $project->initials = Str::upper($project->initials);
         $project->name = Str::upper($project->name);
-        $project->slug = Str::upper($project->name);
+        $project->slug = Str::random(10);
         $project->uuid = Str::uuid();
 
     }
@@ -31,7 +31,7 @@ class ProjectObserver
     public function updating(Project $project)
     {
         $project->name = Str::upper($project->name);
-        $project->slug = Str::slug($project->name, '-');
+        
     }
 
     /**
