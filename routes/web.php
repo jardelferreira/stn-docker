@@ -11,6 +11,7 @@ use App\Http\Controllers\InvoiceProductsController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\ProfessionController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\SectorController;
@@ -199,4 +200,18 @@ Route::prefix('dashboard')->middleware('auth')->group(function(){
         
     });
 
+    Route::prefix('profissoes')->group(function(){
+        Route::get('/',[ProfessionController::class,'index'])->name('dashboard.professions');
+        Route::get('/{profession}/editar',[ProfessionController::class,'edit'])->name('dashboard.professions.edit');
+        Route::get('/criar',[ProfessionController::class,'create'])->name('dashboard.professions.create');
+        Route::get('/{profession}/profissao',[ProfessionController::class,'show'])->name('dashboard.professions.show');
+        Route::get('/{profession}/vincular',[ProfessionController::class,'projects'])->name('dashboard.professions.projects');
+        
+        
+        Route::put('/{profession}/projects/update',[ProfessionController::class,'syncProjectsById'])->name('dashboard.professions.sync');
+        Route::put('/{profession}',[ProfessionController::class,'update'])->name('dashboard.professions.update');
+        Route::post('/',[ProfessionController::class,'store'])->name('dashboard.professions.store');
+        Route::delete('/',[ProfessionController::class,'destroy'])->name('dashboard.professions.destroy');
+  
+    });
 });

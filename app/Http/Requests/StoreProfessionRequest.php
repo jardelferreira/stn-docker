@@ -2,11 +2,10 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Provider;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Str;
+use Illuminate\Foundation\Http\FormRequest;
 
-class StoreInvoiceRequest extends FormRequest
+class StoreProfessionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,20 +22,18 @@ class StoreInvoiceRequest extends FormRequest
      *
      * @return array
      */
-    public function rules() 
+    public function rules()
     {
-        $departament = intVal($this->departament_cost_id);
         return [
-            'slug' => "required|unique:invoices,slug,{$departament},departament_cost_id"
+            //
         ];
     }
-
     // Form request class...
     protected function prepareForValidation(): void
     {
-        $provider = Provider::where('id',$this->provider_id)->first();
+        $random_string = Str::random();
         $this->merge([
-            'slug' => Str::upper("{$this->invoice_type}-{$this->number}-{$provider->uuid}")
+            'slug' => Str::slug("{$this->name}-{$random_string}")
         ]);
     }
 }

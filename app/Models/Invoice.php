@@ -10,7 +10,7 @@ class Invoice extends Model
     use HasFactory;
 
     protected $fillable = ['name','number','provider_id','value','user_id','issue','project_id',
-    'cost_sector_id','cost_center_id','due_date','file_path','invoice_type','departament_cost_id','slug','uuid'];
+    'cost_sector_id','cost_center_id','due_date','value_departament','file_path','invoice_type','departament_cost_id','slug','uuid'];
 
     public function user()
     {

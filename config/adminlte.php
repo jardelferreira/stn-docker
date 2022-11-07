@@ -247,6 +247,16 @@ return [
             'can'  => 'manage-blog',
         ],
         [
+            'text' => 'DP',
+            'icon' => 'fa fa-circle',
+            'submenu' => [
+                [
+                    'text'  => 'Profissões',
+                    'route' => 'dashboard.professions'
+                ],
+            ]
+        ],
+        [
             'text'        => 'Financeiro',
             'icon'        => 'far fa-fw fa-file',
             'submenu' => [

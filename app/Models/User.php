@@ -62,4 +62,6 @@ class User extends Authenticatable
     {
         return \route('dashboard.users.show',\auth()->user()->id);
     }
+
+   
 }

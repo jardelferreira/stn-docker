@@ -6,6 +6,7 @@ use App\Models\Base;
 use App\Models\Cost;
 use App\Models\DepartamentCost;
 use App\Models\Invoice;
+use App\Models\Profession;
 use App\Models\Project;
 use App\Models\Provider;
 use App\Models\Sector;
@@ -20,6 +21,7 @@ use App\Observers\RoleObserver;
 use App\Observers\UserObserver;
 use Yajra\Acl\Models\Permission;
 use App\Observers\PermissionObserver;
+use App\Observers\ProfessionObserver;
 use App\Observers\ProjectObserver;
 use App\Observers\ProviderObserver;
 use App\Observers\SectorObserver;
@@ -60,5 +62,6 @@ class EventServiceProvider extends ServiceProvider
         Invoice::observe(InvoiceObserver::class);
         Base::observe(BaseObserver::class);
         Sector::observe(SectorObserver::class);
+        Profession::observe(ProfessionObserver::class);
     }
 }

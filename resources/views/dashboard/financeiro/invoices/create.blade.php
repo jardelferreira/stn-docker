@@ -23,13 +23,13 @@
                 <option value="{{$item->id}}">{{$item->corporate_name}}</option>
             @endforeach
           </select>
-        </div>
+        </div> 
         <div class="form-group">
           <label for="departament_cost">Departamento</label>
           <select id="departament_cost" class="form-control" name="departament_cost_id">
             <option value="">Selecione um departamento</option>
             @foreach ($departament_costs as $item)
-                <option value="{{$item->id}}">{{$item->name}}</option>
+                <option value="{{$item->id}}">{{$item->sectorCost->cost->project->name}} => {{$item->sectorCost->cost->name}} => {{$item->sectorCost->name}} => {{$item->name}}</option>
             @endforeach
           </select>
         </div>
@@ -64,6 +64,8 @@
         <label for="file">Carregar arquivo</label>
         <input id="file" class="form-control-file" type="file" name="file_invoice">
       </div>
+      
+      <a href="http://www.google.com.br" class="btn btn-danger" target="_blank">Ir para o Google</a>
         <button type="submit" class="btn btn-primary">Cadastrar</button>
     </form>
 

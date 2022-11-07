@@ -25,6 +25,7 @@ class CreateInvoicesTable extends Migration
             $table->foreignId('cost_center_id')->references('id')->on('cost_centers')->onDelete('cascade');
             $table->foreignId('project_id')->references('id')->on('projects')->onDelete('cascade');
             $table->decimal('value');
+            $table->decimal('value_departament')->nullable(); //definir este valores nas views
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->date('issue');
             $table->date('due_date');

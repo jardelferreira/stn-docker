@@ -14,6 +14,7 @@
                 <th>Arquivado por</th>
                 <th>Nota</th>
                 <th>Valor total</th>
+                <th>Valor total</th>
                 <th>Arquivo</th>
                 <th>Emissão</th>
                 <th>Vencimento</th>
@@ -22,9 +23,11 @@
             </thead>
             <tbody>
                @foreach ($invoicers as $item)
+               
                <tr>
                    <td scope="row">{{$item->user->name}}</td>
                    <td scope="row">{{$item->name}}</td>
+                   <td scope="row">{{get_class($item)}}</td>
                    <td scope="row">{{$item->value}}</td>
                    <td scope="row"><a href="{{route('dashboard.invoices.show',$item)}}" target="_blank" class="text-danger" ><i class="fa fa-file-pdf  ml-3 fa-xl" aria-hidden="true"></i></a></td>
                    <td scope="row">{{date('d/m/Y', strtotime($item->issue))}}</td>

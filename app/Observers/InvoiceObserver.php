@@ -44,7 +44,7 @@ class InvoiceObserver
         $invoice->file_path = $this->path;
         $invoice->user_id = Auth::user()->id;
         $invoice->name = Str::upper($invoice->name);
-        $invoice->slug = Str::upper($invoice->name);
+        $invoice->slug = Str::upper("{$invoice->invoice_type}-{$invoice->number}-{$this->provider->uuid}");
         $invoice->uuid = Str::uuid();
     }
 
@@ -80,7 +80,8 @@ class InvoiceObserver
         $invoice->project_id     = $this->departament->project_id;
         $invoice->user_id = Auth::user()->id;
         $invoice->name = Str::upper($invoice->name);
-        $invoice->slug = Str::upper($invoice->name);
+        $invoice->slug = Str::upper("{$invoice->invoice_type}-{$invoice->number}-{$this->provider->uuid}");
+
     }
 
     /**
