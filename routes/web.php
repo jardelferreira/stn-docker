@@ -3,6 +3,7 @@
 use App\Http\Controllers\BaseController;
 use App\Http\Controllers\CostController;
 use App\Http\Controllers\DepartamentCostController;
+use App\Http\Controllers\EmployeeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -212,6 +213,24 @@ Route::prefix('dashboard')->middleware('auth')->group(function(){
         Route::put('/{profession}',[ProfessionController::class,'update'])->name('dashboard.professions.update');
         Route::post('/',[ProfessionController::class,'store'])->name('dashboard.professions.store');
         Route::delete('/',[ProfessionController::class,'destroy'])->name('dashboard.professions.destroy');
+
   
     });
+    
+    Route::prefix('empregados')->group(function(){
+        Route::get('/',[EmployeeController::class,'index'])->name('dashboard.employees');
+        Route::get('/{employee}/editar',[EmployeeController::class,'edit'])->name('dashboard.employees.edit');
+        Route::get('/criar',[EmployeeController::class,'create'])->name('dashboard.employees.create');
+        Route::get('/{employee}/empregado',[EmployeeController::class,'show'])->name('dashboard.employees.show');
+        Route::get('/{employee}/vincular',[EmployeeController::class,'projects'])->name('dashboard.employees.projects');
+        
+        
+        Route::put('/{employee}/projects/update',[EmployeeController::class,'syncProjectsById'])->name('dashboard.employees.sync');
+        Route::put('/{employee}',[EmployeeController::class,'update'])->name('dashboard.employees.update');
+        Route::post('/',[EmployeeController::class,'store'])->name('dashboard.employees.store');
+        Route::delete('/',[EmployeeController::class,'destroy'])->name('dashboard.employees.destroy');
+
+  
+    });
+
 });

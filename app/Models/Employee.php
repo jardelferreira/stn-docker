@@ -13,6 +13,16 @@ class Employee extends Model
 
     public function user()
     {
-        return ;
+        return $this->belongsTo(User::class);
+    }
+
+    public function profession()
+    {
+        return  $this->belongsTo(Profession::class);
+    }
+
+    public function projects()
+    {
+        return $this->belongsToMany(Project::class,'employee_project');
     }
 }
