@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateEmployeeRequest extends FormRequest
+class UpdateSignatureRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class UpdateEmployeeRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return false;
     }
 
     /**
@@ -27,12 +27,4 @@ class UpdateEmployeeRequest extends FormRequest
             //
         ];
     }
-
-    // public function prepareForValidation()
-    // {
-
-    //     $this->merge([
-    //         'signature' => 
-    //     ]);
-    // }
 }

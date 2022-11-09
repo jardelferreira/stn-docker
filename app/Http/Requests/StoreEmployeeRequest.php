@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class StoreEmployeeRequest extends FormRequest
@@ -34,7 +35,8 @@ class StoreEmployeeRequest extends FormRequest
         $random_string = Str::random();
         $this->merge([
             'slug' => Str::slug("{$this->name}-{$random_string}"),
-            'uuid' => Str::uuid()
+            'uuid' => Str::uuid(),
+            'signature' => Hash::make(substr(filter_var($this->cpf,FILTER_SANITIZE_NUMBER_INT),0,4))
         ]);
     }
 }

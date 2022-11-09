@@ -68,7 +68,7 @@ class EmployeeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Employee $employee)
-    {
+    {  
         return view('dashboard.employees.edit',[
             'users' => User::all(),
             'professions' => Profession::all(),
