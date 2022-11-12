@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Formlist;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateFormlistRequest extends FormRequest
@@ -13,7 +14,7 @@ class UpdateFormlistRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**

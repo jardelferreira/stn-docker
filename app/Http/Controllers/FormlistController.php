@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreFormlistRequest;
 use App\Http\Requests\UpdateFormlistRequest;
+use App\Models\Base;
 use App\Models\Formlist;
 
 class FormlistController extends Controller
@@ -15,7 +16,9 @@ class FormlistController extends Controller
      */
     public function index()
     {
-        //
+        return view('dashboard.formlists.index',[
+            'formlists' => Formlist::all()
+        ]);
     }
 
     /**
@@ -25,7 +28,9 @@ class FormlistController extends Controller
      */
     public function create()
     {
-        //
+        return view('dashboard.formlists.create',[
+            'bases' => Base::all(),
+        ]);
     }
 
     /**
@@ -36,7 +41,9 @@ class FormlistController extends Controller
      */
     public function store(StoreFormlistRequest $request)
     {
-        //
+        Formlist::create($request->all());
+
+        return redirect()->route('dashboard.formlists');
     }
 
     /**
@@ -47,7 +54,9 @@ class FormlistController extends Controller
      */
     public function show(Formlist $formlist)
     {
-        //
+        return view('dashboard.formlists.show',[
+            'formlist' => $formlist
+        ]);
     }
 
     /**
@@ -58,7 +67,10 @@ class FormlistController extends Controller
      */
     public function edit(Formlist $formlist)
     {
-        //
+        return view('dashboard.formlists.edit',[
+            'bases' => Base::all(),
+            'formlist' => $formlist
+        ]);
     }
 
     /**
@@ -70,7 +82,9 @@ class FormlistController extends Controller
      */
     public function update(UpdateFormlistRequest $request, Formlist $formlist)
     {
-        //
+        $formlist->update($request->all());
+
+        return redirect()->route('dashboard.formlists');
     }
 
     /**
@@ -81,6 +95,8 @@ class FormlistController extends Controller
      */
     public function destroy(Formlist $formlist)
     {
-        //
+        $formlist->delete();
+
+        return redirect()->route('dashboard.formlists');
     }
 }

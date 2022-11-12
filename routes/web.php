@@ -4,6 +4,7 @@ use App\Http\Controllers\BaseController;
 use App\Http\Controllers\CostController;
 use App\Http\Controllers\DepartamentCostController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\FormlistController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -229,6 +230,22 @@ Route::prefix('dashboard')->middleware('auth')->group(function(){
         Route::put('/{employee}',[EmployeeController::class,'update'])->name('dashboard.employees.update');
         Route::post('/',[EmployeeController::class,'store'])->name('dashboard.employees.store');
         Route::delete('/',[EmployeeController::class,'destroy'])->name('dashboard.employees.destroy');
+
+  
+    });
+    
+    Route::prefix('formularios')->group(function(){
+        Route::get('/',[FormlistController::class,'index'])->name('dashboard.formlists');
+        Route::get('/{formlist}/editar',[FormlistController::class,'edit'])->name('dashboard.formlists.edit');
+        Route::get('/criar',[FormlistController::class,'create'])->name('dashboard.formlists.create');
+        Route::get('/{formlist}/empregado',[FormlistController::class,'show'])->name('dashboard.formlists.show');
+        // Route::get('/{formlist}/vincular',[FormlistController::class,'projects'])->name('dashboard.formlists.projects');
+        
+        
+        // Route::put('/{formlist}/projects/update',[FormlistController::class,'syncProjectsById'])->name('dashboard.formlists.sync');
+        Route::put('/{formlist}',[FormlistController::class,'update'])->name('dashboard.formlists.update');
+        Route::post('/',[FormlistController::class,'store'])->name('dashboard.formlists.store');
+        Route::delete('/',[FormlistController::class,'destroy'])->name('dashboard.formlists.destroy');
 
   
     });

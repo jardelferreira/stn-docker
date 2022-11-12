@@ -55,6 +55,7 @@ class InvoiceProductsController extends Controller
                 "value_und" => floatVal($request->value_unid[$i]),
                 "value_total" => floatval($request->value_unid[$i]) * floatVal($request->qtd[$i]),
                 "description" => $request->description[$i],
+                "ca_number" => $request->ca_number[$i],
             ]);
         }
 

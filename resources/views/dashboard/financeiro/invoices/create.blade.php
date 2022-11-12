@@ -39,7 +39,7 @@
           <small id="helpName" class="form-text text-muted">Informar valor</small>
         </div>
         <div class="form-group">
-          <label for="value_departament">Valor</label>
+          <label for="value_departament">Valor para Departamento</label>
           <input type="number" step="0.01" autocomplete="off" class="form-control" name="value_departament" id="value_departament" aria-describedby="helpName" placeholder="R$ 1.000,00">
           <small id="helpName" class="form-text text-muted">Informar valor</small>
         </div>

@@ -295,7 +295,12 @@ return [
                 ],
             ]
         ],
-        ['header' => 'account_settings'],
+        // ['header' => 'account_settings'],
+        [
+            'text' => "Formulários",
+            'icon' =>"fa fa-circle",
+            'route' => 'dashboard.formlists'
+        ],
         [
             'text' => 'Controle de acesso',
             'icon' => 'fa fa-user',

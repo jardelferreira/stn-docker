@@ -36,6 +36,7 @@ class StoreInvoiceProductsRequest extends FormRequest
             'und.*' => "required|max:10",
             'value_unid.*' => "required|numeric",
             'image_path.*' => "nullable",
+            'ca_number.*' => "nullable"
         ];
     }
 }

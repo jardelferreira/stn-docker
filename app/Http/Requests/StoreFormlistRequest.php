@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Str;
 
 class StoreFormlistRequest extends FormRequest
 {
@@ -13,7 +14,7 @@ class StoreFormlistRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -26,5 +27,13 @@ class StoreFormlistRequest extends FormRequest
         return [
             //
         ];
+    }
+
+    public function prepareForValidation()
+    {
+        return $this->merge([
+            'uuid' => Str::uuid(),
+            'revision' => "00"
+        ]);
     }
 }

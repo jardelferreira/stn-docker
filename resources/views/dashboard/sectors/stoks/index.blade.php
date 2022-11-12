@@ -14,8 +14,9 @@
             <thead class="thead-inverse">
                 <tr>
                     <th>Produto</th>
-                    <th>Nome</th>
+                    <th>Descrição</th>
                     <th>Qtd</th>
+                    <th>Certificado</th>
                     <th>NF</th>
                     {{-- <th>Ações</th> --}}
                 </tr>
@@ -26,6 +27,7 @@
                             <td scope="row">{{ $item->invoiceProduct->name }}</td>
                             <td scope="row">{{ $item->invoiceProduct->description}}</td>
                             <td scope="row">{{ $item->invoiceProduct->qtd}}</td>
+                            <td scope="row">{{ $item->invoiceProduct->ca_number}}</td>
                             <td scope="row">{{ $item->invoiceProduct->invoice->name}}</td>
                             {{-- <td class="btn-group" role="group">
                                 <a class="btn btn-warning btn-sm mr-1"

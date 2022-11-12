@@ -15,7 +15,7 @@ class BaseObserver
 
         $base->name = Str::upper("{$base->name}-{$project->initials}");
         $base->uuid = Str::uuid();
-        // $base->slug = Str::slug($base->name);
+        $base->slug = Str::random();
 
     }
 

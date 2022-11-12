@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\Base;
 use App\Models\Cost;
 use App\Models\DepartamentCost;
+use App\Models\Formlist;
 use App\Models\Invoice;
 use App\Models\Profession;
 use App\Models\Project;
@@ -15,6 +16,7 @@ use App\Models\User;
 use App\Observers\BaseObserver;
 use App\Observers\CostObserver;
 use App\Observers\DepartamentCostObserver;
+use App\Observers\FormlistObserver;
 use App\Observers\InvoiceObserver;
 use Yajra\Acl\Models\Role;
 use App\Observers\RoleObserver;
@@ -63,5 +65,6 @@ class EventServiceProvider extends ServiceProvider
         Base::observe(BaseObserver::class);
         Sector::observe(SectorObserver::class);
         Profession::observe(ProfessionObserver::class);
+        Formlist::observe(FormlistObserver::class);
     }
 }

@@ -37,7 +37,7 @@
                                 aria-describedby="undHelp" placeholder="Ex: PÇ" value="{{old('und')[$i]}}">
                             <small id="undHelp" class="form-text text-muted">EX: PÇ,M. Ton, M²</small>
                         </div>
-                        <div class="form-group col-5">
+                        <div class="form-group col-4">
                             <label for="name[]">Item</label>
                             <input type="text" required class="form-control" name="name[]" id="name[]" value="{{old('name')[$i]}}"
                                 aria-describedby="nameHelp" placeholder=" nome do meu produto aqui">
@@ -48,6 +48,12 @@
                             <input type="number" required class="form-control" name="value_unid[]" id="value_unid[]" value="{{old('value_unid')[$i]}}"
                                 aria-describedby="value_unidHelp" placeholder="10.0">
                             <small id="value_unidHelp" class="form-text text-muted">Valor unitário</small>
+                        </div>
+                        <div class="form-group col-2">
+                            <label for="ca_number[]">Certificado</label>
+                            <input type="number" required class="form-control" name="ca_number[]" id="ca_number[]" value="{{old('ca_number')[$i]}}"
+                                aria-describedby="ca_numberHelp" placeholder="CA-10245">
+                            <small id="ca_numberHelp" class="form-text text-muted">Identificação do certificado</small>
                         </div>
                         <div class="form-group col-2">
                     <label for="value_total[]">Valor Total</label>
@@ -90,7 +96,7 @@
                             aria-describedby="undHelp" placeholder="Ex: PÇ">
                         <small id="undHelp" class="form-text text-muted">EX: PÇ,M. Ton, M²</small>
                     </div>
-                    <div class="form-group col-5">
+                    <div class="form-group col-4">
                         <label for="name[]">Item</label>
                         <input type="text" required class="form-control" name="name[]" id="name[]"
                             aria-describedby="nameHelp" placeholder=" nome do meu produto aqui">
@@ -101,6 +107,12 @@
                         <input type="number" required class="form-control" name="value_unid[]" id="value_unid[]"
                             aria-describedby="value_unidHelp" placeholder="10.0">
                         <small id="value_unidHelp" class="form-text text-muted">Valor unitário</small>
+                    </div>
+                    <div class="form-group col-2">
+                        <label for="ca_number[]">Certificado</label>
+                        <input type="text" required class="form-control" name="ca_number[]" id="ca_number[]"
+                            aria-describedby="ca_numberHelp" placeholder="CA-10321">
+                        <small id="ca_numberHelp" class="form-text text-muted">Identificação do certificado</small>
                     </div>
                     <input type="hidden" class="form-control value_total" name="value_total[]" id="value_total[]"
                         aria-describedby="value_totalHelp" placeholder="10.0">

@@ -9,7 +9,7 @@ class Base extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['id','uuid','name','description','place','project_id'];
+    protected $fillable = ['id','uuid','slug','name','description','place','project_id'];
 
     public function project()
     {
