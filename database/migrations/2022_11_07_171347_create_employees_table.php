@@ -21,7 +21,8 @@ class CreateEmployeesTable extends Migration
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('registration')->unique();
             $table->string('cpf')->unique();
-            $table->date('adimission')->nullable();
+            $table->string('signature');
+            $table->date('admission')->nullable();
             $table->timestamps();
         });
 

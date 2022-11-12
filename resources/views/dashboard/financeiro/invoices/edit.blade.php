@@ -2,6 +2,8 @@
 
 @section('content')
 <div class="container">
+{{@$errors}}
+
   <form action="{{route('dashboard.invoices.update')}}" method="post" autocomplete="off" enctype="multipart/form-data">
       @csrf
         @method('PUT')
@@ -34,8 +36,13 @@
           </select>
         </div>
         <div class="form-group">
-          <label for="value">Valor</label>
+          <label for="value">Valor total</label>
           <input type="number" value="{{$invoice->value}}" step="0.01" autocomplete="off" class="form-control" name="value" id="value" aria-describedby="helpName" placeholder="R$ 1.000,00">
+          <small id="helpName" class="form-text text-muted">Informar valor</small>
+        </div>
+        <div class="form-group">
+          <label for="value_departament">Valor para o Departamento</label>
+          <input type="number" step="0.01" autocomplete="off" value="{{$invoice->value_departament}}" class="form-control" name="value_departament" id="value_departament" aria-describedby="helpName" placeholder="R$ 1.000,00">
           <small id="helpName" class="form-text text-muted">Informar valor</small>
         </div>
         <div class="form-group">

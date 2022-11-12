@@ -9,10 +9,15 @@ class Employee extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['uuid','slug','profession_id','user_id','registration','cpf','adminssion'];
+    protected $fillable = ['uuid','slug','profession_id','user_id','registration','cpf','admission'];
 
     public function user()
     {
-        return ;
+        return $this->belongsTo(User::class);
+    }
+
+    public function signatures()
+    {
+        return $this->morphMany(Signature::class,'signaturable');
     }
 }

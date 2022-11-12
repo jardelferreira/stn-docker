@@ -2,12 +2,11 @@
 
 namespace Database\Factories;
 
-use App\Models\Base;
-use App\Models\Sector;
+use App\Models\DepartamentCost;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
-class BaseFactory extends Factory
+class DepartamentCostFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -16,23 +15,22 @@ class BaseFactory extends Factory
      */
     public function definition()
     {
+        $name = Str::random(10);
         return [
-            'name' => Str::random(),
+            'name' => $name,
+            'amount' => 0,
+            'slug' => Str::random(),
             'description' => $this->faker->text(20),
-            'place' => $this->faker->locale(),
             'uuid' => $this->faker->uuid()
         ];
     }
 
     public function configure()
     {
-        return $this->afterMaking(function (Base $base){
+        return $this->afterMaking(function (DepartamentCost $departamentCost){
 
-        })->afterCreating(function (Base $base){
-            Sector::factory(2)->create([
-                'base_id' => $base->id,
-                'project_id' => $base->project_id
-            ]);
+        })->afterCreating(function (DepartamentCost $sectorCost){
+            
         });
     }
 }

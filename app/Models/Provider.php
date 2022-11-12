@@ -11,7 +11,7 @@ class Provider extends Model
 
     protected $table = 'providers';
 
-    protected $fillable = ['corporate_name','fantasy_name','cnpj','headquarters','email','phone','address','slug','uuid'];
+    protected $fillable = ['user_id','corporate_name','fantasy_name','cnpj','headquarters','email','phone','address','slug','uuid'];
     // futuramente -> email,fone,address,
 
     static function filterProvidersFromProjectByNames($query,Sector $sector)

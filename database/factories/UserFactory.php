@@ -2,7 +2,10 @@
 
 namespace Database\Factories;
 
+use App\Models\Provider;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class UserFactory extends Factory
@@ -15,10 +18,11 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
+            'uuid' => $this->faker->uuid(),
             'name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'password' => 'usuario123', // password
             'remember_token' => Str::random(10),
         ];
     }
@@ -34,6 +38,16 @@ class UserFactory extends Factory
             return [
                 'email_verified_at' => null,
             ];
+        });
+    }
+
+    public function configure()
+    {
+        return $this->afterMaking(function(User $user){
+
+        })->afterCreating(function(User $user){
+            $provider = Provider::factory(['user_id' => $user->id])->create();
+            $user->providers()->save($provider);
         });
     }
 }

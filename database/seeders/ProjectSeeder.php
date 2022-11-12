@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Provider;
+use App\Models\Project;
 use Illuminate\Database\Seeder;
 
-class ProviderSeeder extends Seeder
+class ProjectSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,6 +14,6 @@ class ProviderSeeder extends Seeder
      */
     public function run()
     {
-        Provider::factory(5)->create();
+        Project::factory()->create();
     }
 }

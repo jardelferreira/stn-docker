@@ -14,7 +14,11 @@ class EmployeeFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'uuid' => $this->faker->uuid(),
+            'slug' => $this->faker->slug(),
+            'registration' => $this->faker->phoneNumber(),
+            'cpf' => $this->faker->phoneNumber(),
+            'admission' => $this->faker->date()
         ];
     }
 }

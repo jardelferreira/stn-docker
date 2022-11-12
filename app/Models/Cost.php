@@ -17,4 +17,9 @@ class Cost extends Model
     {
         return $this->belongsTo(Project::class);
     }
+
+    public function sectorsCost()
+    {
+        return $this->hasMany(sectorsCosts::class);
+    }
 }

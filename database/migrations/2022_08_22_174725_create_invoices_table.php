@@ -16,7 +16,8 @@ class CreateInvoicesTable extends Migration
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid');
-            $table->string('slug',60)->unique();
+            $table->string('slug',60);
+            $table->unique(['invoice_type','number','provider_id','departament_cost_id'],'invoice_departament_unique');
             $table->string('number',15);
             $table->string('name',65);
             $table->foreignId('provider_id')->references('id')->on('providers')->onDelete('cascade');
@@ -42,6 +43,7 @@ class CreateInvoicesTable extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('invoices');
     }
 }

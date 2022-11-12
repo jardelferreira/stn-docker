@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Provider;
+// use App\Models\Provider;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Str;
 
@@ -25,18 +25,29 @@ class StoreInvoiceRequest extends FormRequest
      */
     public function rules() 
     {
-        $departament = intVal($this->departament_cost_id);
         return [
-            'slug' => "required|unique:invoices,slug,{$departament},departament_cost_id"
+            'slug' => "required|unique:invoices,slug,{$this->slug}",
+            'invoice_type' => "required",
+            'provider_id' => "required",
+            'departament_cost_id' => "required",
+            'number' => "required|unique:invoices,number,null,{$this->number},invoice_type,{$this->invoice_type},provider_id,{$this->provider_id},departament_cost_id,{$this->departament_cost_id}"
         ];
     }
 
     // Form request class...
     protected function prepareForValidation(): void
     {
-        $provider = Provider::where('id',$this->provider_id)->first();
+        // $departament_cost = DepartamentCost::where('id',$this->departament_cost_id)->first();
+        // $provider = Provider::where('id',$this->provider_id)->first();
         $this->merge([
-            'slug' => Str::upper("{$this->invoice_type}-{$this->number}-{$provider->uuid}")
+            'slug' => Str::random(30)
         ]);
+    }
+
+    public function messages()
+    {
+        return [
+            'number.unique' => "Esta NF já está cadastrada para este departamento!"
+        ];
     }
 }

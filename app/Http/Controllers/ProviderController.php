@@ -44,6 +44,7 @@ class ProviderController extends Controller
     {
         $fornecedor = $request->all();
         $fornecedor['headquarters'] = 0;
+        $fornecedor['user_id'] = 1;
         Provider::create($fornecedor);
 
         return \redirect()->route('dashboard.providers.index');

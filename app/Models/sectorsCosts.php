@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class sectorsCosts extends Model
 {
     use HasFactory;
-
+ 
     protected $table = 'cost_sectors';
 
     protected $fillable = ['name','amount','cost_center_id','description','slug','project_id','uuid'];
@@ -16,5 +16,10 @@ class sectorsCosts extends Model
     public function cost()
     {
         return $this->belongsTo(Cost::class,'cost_center_id','id');
+    }
+
+    public function departamentsCost()
+    {
+        return $this->hasMany(DepartamentCost::class);
     }
 }

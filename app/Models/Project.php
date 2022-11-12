@@ -20,4 +20,9 @@ class Project extends Model
     {
         return $this->belongsToMany(Provider::class,'provider_project');
     }
+
+    public function costs()
+    {
+        return $this->hasMany(Cost::class);
+    }
 }

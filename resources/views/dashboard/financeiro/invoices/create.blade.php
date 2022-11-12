@@ -34,8 +34,13 @@
           </select>
         </div>
         <div class="form-group">
-          <label for="value">Valor</label>
+          <label for="value">Valor total</label>
           <input type="number" step="0.01" autocomplete="off" class="form-control" name="value" id="value" aria-describedby="helpName" placeholder="R$ 1.000,00">
+          <small id="helpName" class="form-text text-muted">Informar valor</small>
+        </div>
+        <div class="form-group">
+          <label for="value_departament">Valor</label>
+          <input type="number" step="0.01" autocomplete="off" class="form-control" name="value_departament" id="value_departament" aria-describedby="helpName" placeholder="R$ 1.000,00">
           <small id="helpName" class="form-text text-muted">Informar valor</small>
         </div>
         <div class="form-group">
@@ -64,9 +69,7 @@
         <label for="file">Carregar arquivo</label>
         <input id="file" class="form-control-file" type="file" name="file_invoice">
       </div>
-      
-      <a href="http://www.google.com.br" class="btn btn-danger" target="_blank">Ir para o Google</a>
-        <button type="submit" class="btn btn-primary">Cadastrar</button>
+          <button type="submit" class="btn btn-primary">Cadastrar</button>
     </form>
 
 @stop

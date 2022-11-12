@@ -16,6 +16,7 @@ class CreateProvidersTable extends Migration
         Schema::create('providers', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid');
+            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('slug',60)->unique();
             $table->string('address');
             $table->string('phone');
@@ -35,6 +36,7 @@ class CreateProvidersTable extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('providers');
     }
 }

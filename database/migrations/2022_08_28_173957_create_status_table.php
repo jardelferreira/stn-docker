@@ -18,19 +18,20 @@ class CreateStatusTable extends Migration
             $table->string('name')->unique();
             $table->string('description')->nullable();
             $table->string('color')->default('danger');
+            $table->morphs('statuable');
             $table->timestamps();
         });
 
-        Schema::create('project_status', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('project_id')->references('id')->on('projects')->onDelete('cascade');
-            $table->foreignId('status_id')->references('id')->on('status')->onDelete('cascade');
-        });
-        Schema::create('invoice_status', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('invoice_id')->references('id')->on('invoices')->onDelete('cascade');
-            $table->foreignId('status_id')->references('id')->on('status')->onDelete('cascade');
-        });
+        // Schema::create('project_status', function (Blueprint $table) {
+        //     $table->id();
+        //     $table->foreignId('project_id')->references('id')->on('projects')->onDelete('cascade');
+        //     $table->foreignId('status_id')->references('id')->on('status')->onDelete('cascade');
+        // });
+        // Schema::create('invoice_status', function (Blueprint $table) {
+        //     $table->id();
+        //     $table->foreignId('invoice_id')->references('id')->on('invoices')->onDelete('cascade');
+        //     $table->foreignId('status_id')->references('id')->on('status')->onDelete('cascade');
+        // });
     }
 
     /**
@@ -41,9 +42,8 @@ class CreateStatusTable extends Migration
     public function down()
     {
         Schema::disableForeignKeyConstraints();
-
-        Schema::dropIfExists('invoice_status');
-        Schema::dropIfExists('project_status');
+        // Schema::dropIfExists('invoice_status');
+        // Schema::dropIfExists('project_status');
         Schema::dropIfExists('status');
     }
 }

@@ -63,5 +63,13 @@ class User extends Authenticatable
         return \route('dashboard.users.show',\auth()->user()->id);
     }
 
-   
+   public function signatures()
+   {
+    return $this->morphedByMany(Signature::class,'signaturable');
+   }
+
+   public function providers()
+   {
+    return $this->hasMany(Provider::class);
+   }
 }

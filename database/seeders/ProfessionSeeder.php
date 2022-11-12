@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Profession;
 use Illuminate\Database\Seeder;
 
 class ProfessionSeeder extends Seeder
@@ -13,6 +14,6 @@ class ProfessionSeeder extends Seeder
      */
     public function run()
     {
-        //
+        Profession::factory(4)->create();
     }
 }
