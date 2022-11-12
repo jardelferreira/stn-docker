@@ -17,8 +17,16 @@ class CreateSignaturesTable extends Migration
             $table->id();
             $table->uuid('uuid');
             $table->string('event');
-            $table->foreignId('employee_id')->references('id')->on('employees')->onDelete('cascade');
+            $table->string('signature');
+            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->morphs('signaturable');
+            $table->timestamps();
+        });
+        
+        Schema::create('signature_user',function(Blueprint $table){
+            $table->id();
+            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->string('signature');
             $table->timestamps();
         });
     }
@@ -30,6 +38,8 @@ class CreateSignaturesTable extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
+        Schema::dropIfExists('signature_user');
         Schema::dropIfExists('signatures');
     }
 }

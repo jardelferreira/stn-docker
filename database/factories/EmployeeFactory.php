@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Profession;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class EmployeeFactory extends Factory
 {
@@ -16,7 +17,7 @@ class EmployeeFactory extends Factory
     {
         return [
             'uuid' => $this->faker->uuid(),
-            'slug' => $this->faker->slug(),
+            'slug' => Str::random(),
             'registration' => $this->faker->phoneNumber(),
             'cpf' => $this->faker->phoneNumber(),
             'admission' => $this->faker->date(),

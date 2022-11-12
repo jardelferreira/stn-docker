@@ -24,7 +24,7 @@ class CreateEmployeesTable extends Migration
             $table->date('admission')->nullable();
             $table->timestamps();
         });
-
+        
         Schema::create('employee_project', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->foreignId('project_id')->references('id')->on('projects')->onDelete('cascade');

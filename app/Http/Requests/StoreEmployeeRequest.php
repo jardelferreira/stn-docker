@@ -36,7 +36,6 @@ class StoreEmployeeRequest extends FormRequest
         $this->merge([
             'slug' => Str::slug("{$this->name}-{$random_string}"),
             'uuid' => Str::uuid(),
-            'signature' => Hash::make(substr(filter_var($this->cpf,FILTER_SANITIZE_NUMBER_INT),0,4))
         ]);
     }
 }
