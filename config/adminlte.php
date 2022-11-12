@@ -254,6 +254,10 @@ return [
                     'text'  => 'Profissões',
                     'route' => 'dashboard.professions'
                 ],
+                [
+                    'text'  => 'Empregados',
+                    'route' => 'dashboard.employees'
+                ],
             ]
         ],
         [

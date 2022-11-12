@@ -22,7 +22,7 @@ class CreateEmployeesTable extends Migration
             $table->string('registration')->unique();
             $table->string('cpf')->unique();
             $table->string('signature');
-            $table->date('admission')->nullable();
+            $table->date('adimission')->nullable();
             $table->timestamps();
         });
 

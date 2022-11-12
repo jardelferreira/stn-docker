@@ -17,7 +17,7 @@ class CreateSignaturesTable extends Migration
             $table->id();
             $table->uuid('uuid');
             $table->string('event');
-            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreignId('employee_id')->references('id')->on('employees')->onDelete('cascade');
             $table->morphs('signaturable');
             $table->timestamps();
         });

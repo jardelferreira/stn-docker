@@ -41,6 +41,7 @@ class CreateStatusTable extends Migration
      */
     public function down()
     {
+        
         Schema::disableForeignKeyConstraints();
         // Schema::dropIfExists('invoice_status');
         // Schema::dropIfExists('project_status');
