@@ -14,6 +14,9 @@ class ProfessionSeeder extends Seeder
      */
     public function run()
     {
-        Profession::factory(4)->create();
+        $professions = ['Almoxarife A','Engenheiro','Servente A','Montador B','Aux. de escritório', 'Gerente','Assistende Administrativo'];
+        foreach ($professions as $profession) {
+            Profession::factory()->create(['name' => $profession]);
+        }
     }
 }

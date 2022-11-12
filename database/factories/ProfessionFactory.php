@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class ProfessionFactory extends Factory
 {
@@ -15,11 +16,12 @@ class ProfessionFactory extends Factory
     {
         return [
             'uuid' => $this->faker->uuid,
-            'slug' => $this->faker->slug(),
+            'slug' => Str::random(),
             'description' => $this->faker->text(25),
-            'salary' => $this->faker->floatval(),
+            'salary' => 1000,
             'aditional' => false,
             'percent' => 0.3
         ];
     }
+    
 }

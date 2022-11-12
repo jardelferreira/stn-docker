@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Profession;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class EmployeeFactory extends Factory
@@ -18,7 +19,8 @@ class EmployeeFactory extends Factory
             'slug' => $this->faker->slug(),
             'registration' => $this->faker->phoneNumber(),
             'cpf' => $this->faker->phoneNumber(),
-            'admission' => $this->faker->date()
+            'admission' => $this->faker->date(),
+            'profession_id' => Profession::all('id')->random()
         ];
     }
 }

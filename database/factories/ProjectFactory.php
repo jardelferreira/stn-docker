@@ -18,10 +18,9 @@ class ProjectFactory extends Factory
     {
         $prefix = Str::random(4);
         return [
-            'name' => "Project ".$prefix,
             'slug' => "PROJECT-{$prefix}",
             'description' => $this->faker->text(20),
-            'initials' => "PJ{$prefix}",
+            'initials' => "PJ-{$prefix}",
             'uuid' => $this->faker->uuid()
         ];
     }

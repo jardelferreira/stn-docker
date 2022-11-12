@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Employee;
 use App\Models\Provider;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -46,8 +47,10 @@ class UserFactory extends Factory
         return $this->afterMaking(function(User $user){
 
         })->afterCreating(function(User $user){
-            $provider = Provider::factory(['user_id' => $user->id])->create();
-            $user->providers()->save($provider);
+
+            $user->providers()->save(Provider::factory(['user_id' => $user->id])->create());
+            $user->employees()->save(Employee::factory(['user_id' => $user->id])->create());            
         });
+        
     }
 }
