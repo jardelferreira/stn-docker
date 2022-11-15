@@ -22,7 +22,7 @@ class StoksController extends Controller
     public function index(Sector $sector)
     {   
         // dd($sector->stoks()->with('invoiceProduct.invoice')->get());
-        return view('dashboard.sectors.stoks.index',[
+        return view('dashboard.ptojects.bases.sectors.stoks.index',[
             'sector' => $sector,
             'stoks' => $sector->stoks()->with('invoiceProduct.invoice')->get(),
         ]);
@@ -36,7 +36,7 @@ class StoksController extends Controller
     public function create(Sector $sector)
     {
         // dd($sector->project->providers()->get());
-        return view('dashboard.sectors.stoks.create',[
+        return view('dashboard.ptojects.bases.sectors.stoks.create',[
             'sector' => $sector
         ]);
     }

@@ -5,7 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreBaseRequest;
 use App\Http\Requests\UpdateBaseRequest;
 use App\Models\Base;
+use App\Models\Employee;
+use App\Models\Formlist;
 use App\Models\Project;
+use App\Models\User;
+use Illuminate\Http\Request;
 
 class BaseController extends Controller
 {
@@ -16,7 +20,7 @@ class BaseController extends Controller
      */
     public function index()
     {
-        return view('dashboard.bases.index',[
+        return view('dashboard.projects.bases.index',[
             'bases' => Base::all()
         ]);
     }
@@ -28,7 +32,7 @@ class BaseController extends Controller
      */
     public function create()
     {
-        return view('dashboard.bases.create',[
+        return view('dashboard.projects.bases.create',[
             'projects' => Project::all()
         ]);
     }
@@ -54,8 +58,9 @@ class BaseController extends Controller
      */
     public function show(Base $base)
     {
-        return view('dashboard.bases.show',[
-            'base' => $base
+        return view('dashboard.projects.bases.show',[
+            'base' => $base,
+            'sectors' => $base->sectors()->get()
         ]);
     }
 
@@ -68,7 +73,7 @@ class BaseController extends Controller
     public function edit(Base $base)
     {
         $base->name = str_replace("-{$base->project()->first()->initials}","",$base->name);
-        return view('dashboard.bases.edit',[
+        return view('dashboard.projects.bases.edit',[
             'base' => $base,
             'projects' => Project::all()
         ]);
@@ -101,5 +106,64 @@ class BaseController extends Controller
         $base->delete();
 
         return redirect()->route('dashboard.bases.index');
+    }
+
+    public function formlists(Base $base)
+    {
+        return view('dashboard.projects.bases.formlists',[
+            'formlists' => Formlist::all(),
+            'base' => $base,
+            'base_formlists' => $base->formlists()->pluck('formlist_id')->toArray(),
+
+        ]);
+    }
+
+    public function syncFormlistsById(Base $base, Request $request)
+    {
+        $base->formlists()->sync($request->formlists);
+
+        return redirect()->route('dashboard.bases.show',$base);
+    }
+
+    public function showFormlists(Base $base)
+    {
+        return view('dashboard.projects.bases.showFormlists',[
+            'base' => $base,
+            'formlists' => $base->formlists()->get()
+        ]);
+    }
+
+    public function employeesLinked(Base $base)
+    {
+        return view('dashboard.projects.bases.employeesLinked',[
+            'base' => $base,
+            'employees' => $base->employees
+        ]);
+    }
+
+    public function employees(Base $base)
+    {
+        // dd($base, $base->employees()->get());
+        return view('dashboard.projects.bases.employees',[
+            'employees' => Employee::all(),
+            'base' => $base,
+            'base_employees' => $base->employees()->pluck('employee_id')->toArray(),
+
+        ]);
+    }
+
+    public function syncEmployeesById(Base $base, Request $request)
+    {
+        $base->employees()->sync($request->employees);
+
+        return redirect()->route('dashboard.bases.show',$base);
+    }
+
+    public function showEmployees(Base $base)
+    {
+        return view('dashboard.projects.bases.showEmployees',[
+            'base' => $base,
+            'employees' => $base->employees()->get()
+        ]);
     }
 }

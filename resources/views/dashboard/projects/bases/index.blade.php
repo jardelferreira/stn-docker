@@ -24,6 +24,8 @@
                    <td scope="row">{{$item->place}}</td>
                    <td scope="row">{{$item->project->name}}</td>
                    <td class="btn-group" role="group">
+
+                       <a class="btn btn-warning btn-sm mr-1" href="{{route('dashboard.bases.show',$item)}}" ><i class="fa fa-eye" aria-hidden="true"></i></a>
                        <a class="btn btn-info btn-sm mr-1" href="{{route('dashboard.bases.edit',['base' => $item])}}" >Editar</a>
                         <form action="{{route('dashboard.bases.destroy',['base' => $item->id])}}" method="POST">
                             @csrf

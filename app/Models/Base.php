@@ -20,4 +20,14 @@ class Base extends Model
     {
         return $this->hasMany(Sector::class);
     }
+    
+    public function formlists()
+    {
+        return $this->belongsToMany(Formlist::class,'formlist_base');
+    }
+    
+    public function employees()
+    {
+        return $this->belongsToMany(Employee::class,'employee_base','base_id','employee_id');
+    }
 }

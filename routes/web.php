@@ -177,12 +177,23 @@ Route::prefix('dashboard')->middleware('auth')->group(function(){
     Route::prefix('bases')->group(function(){
         Route::get('/',[BaseController::class,'index'])->name('dashboard.bases.index');
         Route::get('/criar',[BaseController::class,'create'])->name('dashboard.bases.create');
-        Route::get('/{base}',[BaseController::class,'show'])->name('dashboard.bases.show');
-        Route::get('/{base}/editar',[BaseController::class,'edit'])->name('dashboard.bases.edit');
-
         Route::post('/',[BaseController::class,'store'])->name('dashboard.bases.store');
         Route::put('/',[BaseController::class,'update'])->name('dashboard.bases.update');
-        Route::delete('/{base}',[BaseController::class,'destroy'])->name('dashboard.bases.destroy');
+        
+        Route::prefix('{base}')->group(function(){
+            Route::get('/',[BaseController::class,'show'])->name('dashboard.bases.show');
+            Route::delete('/',[BaseController::class,'destroy'])->name('dashboard.bases.destroy');
+            Route::get('/editar',[BaseController::class,'edit'])->name('dashboard.bases.edit');
+            // Route::get('/formularios',[BaseController::class,'formlists'])->name('dashboard.bases.formlists');
+            Route::get('/formularios',[BaseController::class,'formlists'])->name('dashboard.bases.formlists');
+            Route::get('/formularios/show',[BaseController::class,'showFormlists'])->name('dashboard.bases.formlists.show');
+            Route::put('/formularios/sync',[BaseController::class,'syncFormlistsById'])->name('dashboard.bases.formlists.sync');
+            //employees bases
+            Route::get('/funcionarios',[BaseController::class,'employees'])->name('dashboard.bases.employees');
+            Route::get('/funcionarios/show',[BaseController::class,'showEmployees'])->name('dashboard.bases.employees.show');
+            Route::get('/funcionarios/linked',[BaseController::class,'employeesLinked'])->name('dashboard.bases.employees.linked');
+            Route::put('/funcionarios/sync',[BaseController::class,'syncEmployeesById'])->name('dashboard.bases.employees.sync');
+        });
         
     });
     Route::prefix('setores')->group(function(){

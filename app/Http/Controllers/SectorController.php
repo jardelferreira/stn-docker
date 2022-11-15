@@ -16,7 +16,7 @@ class SectorController extends Controller
      */
     public function index()
     {
-        return view('dashboard.sectors.index',[
+        return view('dashboard.projects.bases.sectors.index',[
             'sectors' => Sector::all()
         ]);
     }
@@ -28,7 +28,7 @@ class SectorController extends Controller
      */
     public function create()
     {
-        return  view('dashboard.sectors.create',[
+        return  view('dashboard.projects.bases.sectors.create',[
             'bases' => Base::all()
         ]);
     }
@@ -54,7 +54,7 @@ class SectorController extends Controller
      */
     public function show(Sector $sector)
     {
-        return  view('dashboard.sectors.show');
+        return  view('dashboard.projects.bases.sectors.show');
     }
 
     /**
@@ -65,7 +65,7 @@ class SectorController extends Controller
      */
     public function edit(Sector $sector)
     {
-        return  view('dashboard.sectors.edit',[
+        return  view('dashboard.projects.bases.sectors.edit',[
             'bases' => Base::all(),
             'sector' => $sector
         ]);

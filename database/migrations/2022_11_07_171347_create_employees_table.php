@@ -31,6 +31,13 @@ class CreateEmployeesTable extends Migration
             $table->foreignId('employee_id')->references('id')->on('employees')->onDelete('cascade');
             $table->timestamps();
         });
+        
+        Schema::create('employee_base', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->foreignId('base_id')->references('id')->on('bases')->onDelete('cascade');
+            $table->foreignId('employee_id')->references('id')->on('employees')->onDelete('cascade');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -42,6 +49,7 @@ class CreateEmployeesTable extends Migration
     {
         Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('employee_project');
+        Schema::dropIfExists('employee_base');
         Schema::dropIfExists('employees');
     }
 }
