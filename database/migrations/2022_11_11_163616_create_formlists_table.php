@@ -21,6 +21,7 @@ class CreateFormlistsTable extends Migration
             $table->string('description')->nullable();
             $table->string('revision');
             $table->string('area');
+            $table->string('departament')->nullable();
             $table->timestamps();
         });
 
@@ -32,11 +33,12 @@ class CreateFormlistsTable extends Migration
             $table->unique(['base_id','formlist_id'],'base_formlist_unique');
             $table->timestamps();
         });
-        Schema::create('formlist_employee',function(Blueprint $table){
+        Schema::create('formlist_base_employee',function(Blueprint $table){
             $table->id();
             $table->foreignId('employee_id')->references('id')->on('employees')->onDelete('cascade');
-            $table->foreignId('formlist_id')->references('id')->on('formlists')->onDelete('cascade');
-            $table->unique(['employee_id','formlist_id'],'formlist_employee_unique');
+            $table->foreignId('base_id')->references('id')->on('bases')->onDelete('cascade');
+            $table->foreignId('formlist_id')->references('id')->on('formlist_base')->onDelete('cascade');
+            $table->unique(['formlist_id','base_id','employee_id'],'formlist_base_employee_unique');
             $table->timestamps();
         });
     }
@@ -49,7 +51,7 @@ class CreateFormlistsTable extends Migration
     public function down()
     {
         Schema::disableForeignKeyConstraints();
-        Schema::dropIfExists('formlist_employee');
+        Schema::dropIfExists('formlist_base_employee');
         Schema::dropIfExists('formlist_base');
         Schema::dropIfExists('formlists');
     }

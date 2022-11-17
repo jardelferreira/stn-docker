@@ -2,15 +2,18 @@
 
 namespace App\Models;
 
+use Yajra\Acl\Models\Role;
+use Illuminate\Support\Str;
+use Yajra\Acl\Traits\HasRole;
+use Yajra\Acl\Models\Permission;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Notifications\Notifiable;
 use Yajra\Acl\Traits\HasRoleAndPermission;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Yajra\Acl\Models\Role;
-use Yajra\Acl\Traits\HasRole;
-use Yajra\Acl\Models\Permission;
 
 class User extends Authenticatable
 {
@@ -23,7 +26,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
-        'email',  
+        'email',
         'password',
         'image_path',
         'uuid',
@@ -48,6 +51,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected $cipher = "aes-128-gcm";
+
     public function permissions()
     {
         return $this->belongsToMany(Permission::class);
@@ -60,21 +65,98 @@ class User extends Authenticatable
 
     public function adminlte_profile_url()
     {
-        return \route('dashboard.users.show',\auth()->user()->id);
+        return \route('dashboard.users.show', \auth()->user()->id);
     }
 
-   public function signatures()
-   {
-    return $this->morphedByMany(Signature::class,'signaturable');
-   }
+    public function signatures()
+    {
+        return $this->morphMany(Signature::class, 'signaturable');
+    }
 
-   public function providers()
-   {
-    return $this->hasMany(Provider::class);
-   }
+    public function providers()
+    {
+        return $this->hasMany(Provider::class);
+    }
 
-   public function employees()
-   {
-    return $this->hasMany(Employee::class);
-   }
+    public function employees()
+    {
+        return $this->hasMany(Employee::class);
+    }
+
+    public function signature()
+    {
+        return $this->hasMany(SignatureUser::class)->latest()->first();
+    }
+
+    public function generateSignature($pass)
+    {
+        // dd();
+        $signature_pass = $this->encryptPass($pass);
+        // dd($signature_pass,$this->decryptPass($signature_pass));
+            $signature = $this->signatures()->save(Signature::create([
+            'user_id' => $this->id,
+            'signature' => Hash::make($pass),
+            'signaturable_type' => get_class($this),
+            'signaturable_id'   => $this->id,
+            'event' => "Primeira assinatura",
+            'uuid' => Str::uuid(),
+        ]));
+        $user_signature = SignatureUser::create([
+            'user_id' => $this->id,
+            'signature_id' => $signature->id,
+            'signature' => $signature_pass
+        ]);
+        // dd($signature, $signature_pass, $user_signature);
+    }
+
+
+    public function hasSignature()
+    {
+        return $this->signature()->count() ? true : false;
+    }
+
+    public function encryptPass($simple_string)
+    {
+    
+        // Store the cipher method
+        $ciphering = "AES-128-CTR";
+
+        // Use OpenSSl Encryption method
+        $iv_length = openssl_cipher_iv_length($ciphering);
+        $options = 0;
+
+        // Non-NULL Initialization Vector for encryption
+        $encryption_iv = substr($this->uuid,0,16);
+
+        // Store the encryption key
+        $encryption_key = "jardel@mail";
+
+        // Use openssl_encrypt() function to encrypt the data
+        $encryption = openssl_encrypt(
+            $simple_string,
+            $ciphering,
+            $encryption_key,
+            $options,
+            $encryption_iv
+        );
+        return $encryption;
+    }
+
+    public function decryptPass($encryption)
+    {
+        $ciphering = "AES-128-CTR";
+        $decryption_key = "jardel@mail";
+        $decryption_iv = substr($this->uuid,0,16);
+        $options = 0;
+
+       // Use openssl_decrypt() function to decrypt the data
+       $decryption = openssl_decrypt(
+        $encryption,
+        $ciphering,
+        $decryption_key,
+        $options,
+        $decryption_iv
+    );
+    return $decryption;
+    }
 }

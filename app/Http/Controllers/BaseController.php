@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateBaseRequest;
 use App\Models\Base;
 use App\Models\Employee;
 use App\Models\Formlist;
+use App\Models\FormlistBaseEmployee;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -110,7 +111,7 @@ class BaseController extends Controller
 
     public function formlists(Base $base)
     {
-        return view('dashboard.projects.bases.formlists',[
+        return view('dashboard.projects.bases.formlists.index',[
             'formlists' => Formlist::all(),
             'base' => $base,
             'base_formlists' => $base->formlists()->pluck('formlist_id')->toArray(),
@@ -127,7 +128,8 @@ class BaseController extends Controller
 
     public function showFormlists(Base $base)
     {
-        return view('dashboard.projects.bases.showFormlists',[
+        // dd($base);
+        return view('dashboard.projects.bases.formlists.showFormlists',[
             'base' => $base,
             'formlists' => $base->formlists()->get()
         ]);
@@ -135,7 +137,7 @@ class BaseController extends Controller
 
     public function employeesLinked(Base $base)
     {
-        return view('dashboard.projects.bases.employeesLinked',[
+        return view('dashboard.projects.bases.employees.employeesLinked',[
             'base' => $base,
             'employees' => $base->employees
         ]);
@@ -144,7 +146,7 @@ class BaseController extends Controller
     public function employees(Base $base)
     {
         // dd($base, $base->employees()->get());
-        return view('dashboard.projects.bases.employees',[
+        return view('dashboard.projects.bases.employees.index',[
             'employees' => Employee::all(),
             'base' => $base,
             'base_employees' => $base->employees()->pluck('employee_id')->toArray(),
@@ -161,9 +163,59 @@ class BaseController extends Controller
 
     public function showEmployees(Base $base)
     {
-        return view('dashboard.projects.bases.showEmployees',[
+        return view('dashboard.projects.bases.employees.showEmployees',[
             'base' => $base,
             'employees' => $base->employees()->get()
+        ]);
+    }
+
+    public function formlistsByEmployee(Base $base,Employee $employee)
+    {
+        // dd($employee->formlistsByBase($base->id)->get());   
+        // dd($employee->formlistBaseFromEmployee()->get()->toArray());
+        return view('dashboard.projects.bases.employees.formlists',[
+            'base' => $base,
+            'employee' => $employee,
+            'formlists' => $employee->formlistsByBase($base->id)->get()
+        ]);
+    }
+
+    public function listFormlistsForEmployee(Base $base,Employee $employee)
+    {
+        // dd($employee->formlistsByBase($base->id)->get());
+        return view('dashboard.projects.bases.employees.listFormlists',[
+            'base' => $base,
+            'employee' => $employee,
+            'formlists' => $base->formlists()->get(),
+            // 'employee_formlists' => $employee->formlists()->pluck('formlist_base_id')->toArray()
+            'employee_formlists' => $employee->formlistsByBase($base->id)->pluck('formlist_id')->toArray()
+
+        ]);
+    }
+
+    public function syncFormlistsByEmployee(Base $base,Employee $employee,  Request $request)
+    {   
+        //filtrar apenas os inputs selecionados
+        $pivotData = array_fill(0, count($request->formlists), ['employee_id' => $employee->id,'base_id' => $base->id]);
+        //combinar arrays
+        $syncData  = array_combine($request->formlists, $pivotData);
+        // dd($syncData);
+        $employee->formlistsByBase($base->id)->sync($syncData);
+
+        return redirect()->route('dashboard.bases.employees.list.formlists',[
+            'base' => $base,
+            'employee' => $employee,
+            // 'employee_formlist' => $employee->formlistBaseFromEmployee()->pluck('formlist_id')
+        ]);
+    }
+
+    public function fieldsFormlistByEmployee(Base $base,Employee $employee, FormlistBaseEmployee $formlist_employee)
+    {
+        // dd($formlist_employee->fields()->get());
+        return view('dashboard.projects.bases.employees.formlistsFields',[
+            'employee' => $formlist_employee->employee,
+            'base' => $formlist_employee->base,
+            'formlist' => $formlist_employee->formlist,
         ]);
     }
 }

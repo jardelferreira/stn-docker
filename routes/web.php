@@ -39,7 +39,9 @@ Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::prefix('dashboard')->middleware('auth')->group(function(){
-    
+    Route::get('teste',function(){
+        return view('dashboard.projects.bases.employees.formlistsFields');
+    });
     Route::prefix('api')->group(function(){
         Route::get('invoice/{invoice}/products',[StoksController::class,'getProductsByInvoiceId'])->name('api.invoice.products');
         Route::get('providers/invoices/{sector}',[StoksController::class,'getAllInvoicesFromProviderByProject'])->name('api.providers.invoices');
@@ -55,6 +57,7 @@ Route::prefix('dashboard')->middleware('auth')->group(function(){
         Route::get('/{user}/editar', [UserController::class, 'edit'])->name('dashboard.users.edit');
     
         Route::post('/', [UserController::class, 'store'])->name('dashboard.users.store');
+        Route::post('{user}/assinatura', [UserController::class, 'generateSignature'])->name('dashboard.users.signature');
     
         Route::delete('/', [UserController::class, 'destroy'])->name('dashboard.users.destroy');
         Route::put('/', [UserController::class, 'update'])->name('dashboard.users.update');
@@ -185,14 +188,27 @@ Route::prefix('dashboard')->middleware('auth')->group(function(){
             Route::delete('/',[BaseController::class,'destroy'])->name('dashboard.bases.destroy');
             Route::get('/editar',[BaseController::class,'edit'])->name('dashboard.bases.edit');
             // Route::get('/formularios',[BaseController::class,'formlists'])->name('dashboard.bases.formlists');
+            // formlists x bases
             Route::get('/formularios',[BaseController::class,'formlists'])->name('dashboard.bases.formlists');
             Route::get('/formularios/show',[BaseController::class,'showFormlists'])->name('dashboard.bases.formlists.show');
             Route::put('/formularios/sync',[BaseController::class,'syncFormlistsById'])->name('dashboard.bases.formlists.sync');
-            //employees bases
-            Route::get('/funcionarios',[BaseController::class,'employees'])->name('dashboard.bases.employees');
-            Route::get('/funcionarios/show',[BaseController::class,'showEmployees'])->name('dashboard.bases.employees.show');
-            Route::get('/funcionarios/linked',[BaseController::class,'employeesLinked'])->name('dashboard.bases.employees.linked');
-            Route::put('/funcionarios/sync',[BaseController::class,'syncEmployeesById'])->name('dashboard.bases.employees.sync');
+            //employees x bases
+            Route::prefix('funcionarios')->group(function(){
+
+                Route::get('/',[BaseController::class,'employees'])->name('dashboard.bases.employees');
+                Route::get('/show',[BaseController::class,'showEmployees'])->name('dashboard.bases.employees.show');
+                Route::get('/vinculados',[BaseController::class,'employeesLinked'])->name('dashboard.bases.employees.linked');
+                Route::put('/sync',[BaseController::class,'syncEmployeesById'])->name('dashboard.bases.employees.sync');
+                   
+                Route::prefix('{employee}/formularios')->group(function(){
+                    Route::get('/',[BaseController::class,'formlistsByEmployee'])->name('dashboard.bases.employees.formlists');
+                    Route::get('/list',[BaseController::class,'listFormlistsForEmployee'])->name('dashboard.bases.employees.list.formlists');
+                    Route::put('/sync',[BaseController::class,'syncFormlistsByEmployee'])->name('dashboard.bases.employees.formlists.sync');
+                        Route::prefix('{formlist_employee}/ficha')->group(function(){
+                            Route::get('/',[BaseController::class,'fieldsFormlistByEmployee'])->name('dashboard.bases.employees.formlists.fields');
+                        });
+                    });
+            });
         });
         
     });

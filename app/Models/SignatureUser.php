@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class FormlistBase extends Model
+class SignatureUser extends Model
 {
     use HasFactory;
 
-    protected $table = 'formlist_base';
+    protected $fillable = ['user_id','signature_id','signature'];
 
-    protected $fillable = ['employee_id','formlist_base_id'];
+    protected $table = "signature_user";
 }

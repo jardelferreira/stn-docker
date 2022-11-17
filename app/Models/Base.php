@@ -30,4 +30,4 @@ class Base extends Model
     {
         return $this->belongsToMany(Employee::class,'employee_base','base_id','employee_id');
     }
-}
+} 

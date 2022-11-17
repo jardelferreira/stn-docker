@@ -13,7 +13,7 @@
         <thead class="thead-inverse">
             <tr>
                 <th>#</th>
-                <th rowspan="2">Marque os funcionários que deseja vincular a esta base</th>
+                <th colspan="2">Marque os funcionários que deseja vincular a esta base</th>
             </tr>
             </thead>
             <tbody>

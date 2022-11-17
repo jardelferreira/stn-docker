@@ -25,4 +25,14 @@ class Formlist extends Model
     {
         return $this->hasOneThrough(Base::class,FormlistBase::class);
     }
+
+    public function formlistBase()
+    {
+        return $this->belongsToMany(Formlist::class,'formlist_base','base_id','formlist_id');
+    }
+
+    public function fields()
+    {
+        return $this->belongsToMany(Field::class,'formlist_base_employee');
+    }
 }

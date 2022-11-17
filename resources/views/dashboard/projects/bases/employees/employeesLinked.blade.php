@@ -18,6 +18,7 @@
                     <th>CPF</th>
                     <th>Matrícula</th>
                     <th>Adimissão</th>
+                    <th>Ações</th>
                 </tr>
             </thead>
             <tbody>
@@ -28,6 +29,10 @@
                         <td scope="row">{{ $item->cpf }}</td>
                         <td scope="row">{{ $item->registration }}</td>
                         <td scope="row">{{ date('d/m/Y', strtotime($item->adimission)) }}</td>
+                        <td>
+                            <a href="{{route('dashboard.bases.employees.formlists',
+                            ['base' => $base,'employee' => $item])}}" class="btn btn-sm btn-info">Ver Formulários</a>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
@@ -36,3 +41,5 @@
         <p>Não há Funcionários para listagem</p>
     @endif
 @endsection
+
+{{-- select users.`name`, professions.`name` from employees join users on employees.`user_id` = users.`id` join professions on professions.`id` = employees.`profession_id` join employee_base where employees.id = employee_base.`employee_id`;  --}}

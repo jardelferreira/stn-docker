@@ -9,7 +9,7 @@ class Signature extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['uuid','user_id','event','signaturable_id','signaturable_type'];
+    protected $fillable = ['uuid','user_id','event','signature','signaturable_id','signaturable_type'];
 
     public function signaturable()
     {
