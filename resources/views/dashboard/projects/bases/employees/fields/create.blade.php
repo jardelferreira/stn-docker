@@ -3,7 +3,7 @@
 @section('title', 'Cadastro de registro')
 
 @section('content_header')
-    <h1> Adicionar registro a - {{ $formlist_employee->base->name }} / {{ $formlist_employee->employee->user->name }} <a
+    <h1> Adicionar registro a - {{ $base->name }} / {{ $employee->user->name }} <a
             class="btn btn-primary"
             href="{{ route('dashboard.bases.employees.list.formlists', ['base' => $base, 'employee' => $employee]) }}"
             role="button">Vincular novo - <i class="fa fa-plus" aria-hidden="true"></i></a></h1>
@@ -16,7 +16,7 @@
             <option>Selecione</option>
         </select>
     </div>
-    <form action="{{route('dashboard.fields.salveField',$formlist_employee)}}" method="post">
+    <form action="{{route('dashboard.fields.salveField',$formlist)}}" method="post">
         @csrf
         @method('POST')
         {{-- <input type="hidden" name="signature_delivered"> --}}

@@ -32,11 +32,11 @@ class FieldController extends Controller
      */
     public function create(FormlistBaseEmployee $formlist_employee)
     {
-        // dd($formlist_employee->base->sectors()->stoks());
-        // dd($formlist_employee->with('base.sectors.stoks.invoiceProduct.invoice')->first());
+        // dd($formlist_employee->id);
         return view('dashboard.projects.bases.employees.fields.create',[
             'base' => $formlist_employee->base()->first(),
-            'employee' => $formlist_employee->employee()->first(),
+            'formlist' => $formlist_employee->id,
+            'employee' => $formlist_employee->employee,
             'formlist_employee' => $formlist_employee->with('base.sectors.stoks.invoiceProduct.invoice')->first()
         ]);
     }
@@ -123,6 +123,7 @@ class FieldController extends Controller
     public function salveField(FormlistBaseEmployee $formlist_employee,Request $request)
     {   
         $employee = $formlist_employee->employee()->first();
+        // dd($formlist_employee);
         if (!$employee->user->hasSignature()) {
             //redireciona o usuário que não tem assinatura
             return redirect()->route('dashboard.users.show',[
@@ -152,7 +153,11 @@ class FieldController extends Controller
         // dd($dados);
         Field::create($dados);
 
-        return redirect()->route('dashboard.fields.create',$formlist_employee);
+        return redirect()->route('dashboard.bases.employees.formlists.fields',[
+            'formlist_employee' => $formlist_employee,
+            'employee' => $formlist_employee->employee,
+            'base' => $formlist_employee->base
+        ]);
     }
     
 }
