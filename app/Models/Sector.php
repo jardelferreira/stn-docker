@@ -23,7 +23,7 @@ class Sector extends Model
 
     public function stoks()
     {
-        return $this->hasOne(Stoks::class,'sector_id','id');
+        return $this->hasMany(Stoks::class,'sector_id','id');
     }
     
 }

@@ -20,8 +20,8 @@ class CreateFieldsTable extends Migration
         Schema::create('fields', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid');
-            $table->string('qtd_required');
-            $table->string('qtd_delivered')->nullable();
+            $table->string('qtd_delivered');
+            $table->string('qtd_required')->nullable();
             $table->string('observation')->nullable();
             $table->integer('signature_returned',false,true)->nullable();
             $table->string('ca_first')->nullable();

@@ -211,11 +211,14 @@ class BaseController extends Controller
 
     public function fieldsFormlistByEmployee(Base $base,Employee $employee, FormlistBaseEmployee $formlist_employee)
     {
-        // dd($formlist_employee->fields()->get());
+        // dd($formlist_employee->fields()->with('stoks')->get());
         return view('dashboard.projects.bases.employees.formlistsFields',[
             'employee' => $formlist_employee->employee,
             'base' => $formlist_employee->base,
             'formlist' => $formlist_employee->formlist,
+            'formlist_employee' => $formlist_employee->id,
+            'fields' => $formlist_employee->fields()->get()
         ]);
     }
+    
 }

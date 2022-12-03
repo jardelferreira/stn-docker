@@ -4,6 +4,7 @@ use App\Http\Controllers\BaseController;
 use App\Http\Controllers\CostController;
 use App\Http\Controllers\DepartamentCostController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\FieldController;
 use App\Http\Controllers\FormlistController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -206,6 +207,7 @@ Route::prefix('dashboard')->middleware('auth')->group(function(){
                     Route::put('/sync',[BaseController::class,'syncFormlistsByEmployee'])->name('dashboard.bases.employees.formlists.sync');
                         Route::prefix('{formlist_employee}/ficha')->group(function(){
                             Route::get('/',[BaseController::class,'fieldsFormlistByEmployee'])->name('dashboard.bases.employees.formlists.fields');
+                            // Route::get('/adicionar',[FieldController::class,'create'])->name('dashboard.bases.employees.formlists.fields.create');
                         });
                     });
             });
@@ -275,6 +277,13 @@ Route::prefix('dashboard')->middleware('auth')->group(function(){
         Route::delete('/',[FormlistController::class,'destroy'])->name('dashboard.formlists.destroy');
 
   
+    });
+
+    Route::prefix('ficheiros/{formlist_employee}')->group(function(){
+        Route::get('adicionar',[FieldController::class,'create'])->name('dashboard.fields.create');
+        Route::get('sectors',[FieldController::class,'getSectors'])->name('dashboard.fields.getSectors');
+        Route::get('sectors/{sector}',[FieldController::class,'getStoksBySector'])->name('dashboard.fields.getStoksBySector');
+        Route::post('save',[FieldController::class,'salveField'])->name('dashboard.fields.salveField');
     });
 
 });

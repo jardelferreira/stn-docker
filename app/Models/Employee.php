@@ -49,4 +49,9 @@ class Employee extends Model
         return $this->belongsToMany(Formlist::class,'formlist_base_employee');
     }
 
+    public function signature()
+    {
+        return $this->morphOne(Signature::class,'signaturable');
+    }
+
 }

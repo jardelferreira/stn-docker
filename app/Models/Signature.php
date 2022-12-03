@@ -15,4 +15,9 @@ class Signature extends Model
     {
         return $this->morphTo();
     }
+
+    static function generateSignature(Model $model)
+    {
+        dd($model);   
+    }
 }

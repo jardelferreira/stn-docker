@@ -93,7 +93,7 @@
                         };
                     },
                     processResults: function(response) {
-                        console.log(response)
+                       
                         let invoices = response.map(function(e) {
                             return {
                                 "id": e.id,

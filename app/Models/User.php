@@ -14,6 +14,7 @@ use Yajra\Acl\Traits\HasRoleAndPermission;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable
 {
@@ -94,8 +95,8 @@ class User extends Authenticatable
         $signature_pass = $this->encryptPass($pass);
         // dd($signature_pass,$this->decryptPass($signature_pass));
             $signature = $this->signatures()->save(Signature::create([
-            'user_id' => $this->id,
-            'signature' => Hash::make($pass),
+            'user_id' => Auth::user()->id,
+            'signature' => Hash::make($signature_pass),
             'signaturable_type' => get_class($this),
             'signaturable_id'   => $this->id,
             'event' => "Primeira assinatura",
@@ -106,15 +107,17 @@ class User extends Authenticatable
             'signature_id' => $signature->id,
             'signature' => $signature_pass
         ]);
-        // dd($signature, $signature_pass, $user_signature);
+        
+        return $signature;
     }
 
 
     public function hasSignature()
     {
-        return $this->signature()->count() ? true : false;
+        return $this->signatures()->count() ? true : false;
     }
 
+    
     public function encryptPass($simple_string)
     {
     
