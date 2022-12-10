@@ -17,6 +17,7 @@ class SectorsCostObserver
     {
         $sectorsCosts->project_id = $sectorsCosts->cost->project->id;
         $sectorsCosts->name = Str::upper($sectorsCosts->name);
+        $sectorsCosts->description = Str::upper($sectorsCosts->description);
         $sectorsCosts->slug = Str::random(10);
         $sectorsCosts->uuid = Str::uuid();
     }
@@ -32,6 +33,17 @@ class SectorsCostObserver
         //
     }
 
+        /**
+     * Handle the sectorsCosts "updated" event.
+     *
+     * @param  \App\Models\sectorsCosts  $sectorsCosts
+     * @return void
+     */
+    public function updating(sectorsCosts $sectorsCosts)
+    {
+        $sectorsCosts->name = Str::upper($sectorsCosts->name);
+        $sectorsCosts->description = Str::upper($sectorsCosts->description);
+    }
     /**
      * Handle the sectorsCosts "updated" event.
      *
@@ -42,6 +54,8 @@ class SectorsCostObserver
     {
         //
     }
+
+
 
     /**
      * Handle the sectorsCosts "deleted" event.

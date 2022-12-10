@@ -26,6 +26,11 @@ class Employee extends Model
         return $this->belongsToMany(Project::class,'employee_project');
     }
 
+    public function bases()
+    {
+        return $this->belongsToMany(Base::class,'employee_base');
+    }
+
     // public function signatures()
     // {
     //     return $this->morphMany(Signature::class,'signaturable');
@@ -46,7 +51,12 @@ class Employee extends Model
 
     public function formlists()
     {
-        return $this->belongsToMany(Formlist::class,'formlist_base_employee');
+        return $this->belongsToMany(Formlist::class,'formlist_base_employee')->withPivot(['id','base_id']);
+    }
+
+    public function formlistsFromEmployee()
+    {
+        return $this->hasMany(FormlistBaseEmployee::class);
     }
 
     public function signature()

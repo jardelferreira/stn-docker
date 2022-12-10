@@ -9,13 +9,18 @@ class Formlist extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['uuid','name','revision','area','description'];
+    protected $fillable = ['uuid','name','revision','area','description','base_id'];
+    protected $hidden = ['pivot'];
 
     public function bases()
     {
         return $this->belongsToMany(Base::class,'formlist_base');
     }
 
+    public function base()
+    {
+        return $this->belongsTo(Base::class);
+    }
     public function employees()
     {
         return $this->belongsToMany(Employee::class,'formlist_employee');
@@ -23,7 +28,7 @@ class Formlist extends Model
 
     public function ownerBase()
     {
-        return $this->hasOneThrough(Base::class,FormlistBase::class);
+        return $this->hasOneThrough(Base::class,FormlistBaseEmployee::class,'formlist_id','id','id','base_id');
     }
 
     public function formlistBase()

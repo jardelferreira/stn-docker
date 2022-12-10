@@ -5,7 +5,7 @@
   <div class="col-md-12">
     <div class="page-header">
       <h1>
-        Base <small>{{$base->project->initials}}/{{$base->name}}</small>
+        Base <small>{{$base->project->initials}}/{{$base->name}}</small> <a class="btn btn-sm btn-success" href="{{route('dashboard.bases.stoks',$base)}}"> Ver estoque</a>
       </h1>
     </div>
     <div class="row">
@@ -62,8 +62,8 @@
             - <i class="fa-solid fa-diagram-project"></i></a>
           <div class="list-group-item collapse" id="collapseSectors">
 
-              <a class="list-group-item btn btn-warning"  href="#">Cadastrar</a>
-              <a class="list-group-item btn btn-warning"  href="#">Listar</a>
+              <a class="list-group-item btn btn-warning"  data-toggle="modal" data-target="#sectorModal" data-whatever="{{$base->name}}">Cadastrar Setor</a>
+              <a class="list-group-item btn btn-warning"  href="{{route('dashboard.bases.sectors',$base)}}">Listar</a>
               <a class="list-group-item btn btn-warning"  href="#">Terceira opção</a>
             @foreach ($sectors as $item)
             <p class="list-group-item-text">
@@ -82,7 +82,42 @@
     </div>
   </div>
 </div>
+{{-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#sectorModal" data-whatever="{{$base->name}}">Open modal for {{$base->name}}</button> --}}
 
+<div class="modal fade" id="sectorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Cadastrar novo Setor</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="{{route('dashboard.sectors.store')}}" method="post" autocomplete="off">
+          @csrf
+          @method('POST')
+          <div class="form-group">
+            <label for="name">Nome do setor:</label>
+            <input type="text" autocomplete="off" class="form-control" name="name" id="name" aria-describedby="helpName" placeholder="nome da Setores">
+            <small id="helpName" class="form-text text-muted">Insira o nome do setor</small>
+          </div>
+          <div class="form-group">
+            <label for="description">Descrição do setor:</label>
+            <input type="text" autocomplete="off" class="form-control" name="description" id="description" aria-describedby="description" placeholder="nome da Setores">
+            <small id="description" class="form-text text-muted">Descreva este setores</small>
+          </div>
+          <input type="hidden" name="base_id" value="{{$base->id}}">
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+          <button type="submit" class="btn btn-primary">Cadastrar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 @endsection
 
 

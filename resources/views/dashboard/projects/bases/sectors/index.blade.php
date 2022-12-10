@@ -12,6 +12,7 @@
         <thead class="thead-inverse">
             <tr>
                 <th>Setores</th>
+                <th>Descrição</th>
                 <th>Local</th>  
                 <th>Projeto</th> 
                 <th>Ações</th>
@@ -21,6 +22,7 @@
                @foreach ($sectors as $item)
                <tr>
                    <td scope="row">{{$item->name}}</td>
+                   <td scope="row">{{$item->description}}</td>
                    <td scope="row">{{$item->base->place}}</td>
                    <td scope="row">{{$item->project->name}}</td>
                    <td class="btn-group" role="group">

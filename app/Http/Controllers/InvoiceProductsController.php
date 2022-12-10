@@ -50,6 +50,7 @@ class InvoiceProductsController extends Controller
                 'image_path' => "image",
                 'invoice_id' => $invoice->id,
                 "qtd" => floatVal($request->qtd[$i]),
+                "qtd_available" => floatVal($request->qtd[$i]),
                 "und" => $request->und[$i],
                 "name" => $request->name[$i],
                 "value_und" => floatVal($request->value_unid[$i]),

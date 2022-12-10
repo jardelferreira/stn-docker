@@ -6,6 +6,7 @@ use App\Http\Requests\StoreSectorRequest;
 use App\Http\Requests\UpdateSectorRequest;
 use App\Models\Base;
 use App\Models\Sector;
+use Illuminate\Http\Request;
 
 class SectorController extends Controller
 {
@@ -26,10 +27,13 @@ class SectorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
+        // dd($request->all());
+        $base = Base::where('id',$request->base)->first();
         return  view('dashboard.projects.bases.sectors.create',[
-            'bases' => Base::all()
+            'bases' => Base::all(),
+            'base' => $base
         ]);
     }
 

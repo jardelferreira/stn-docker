@@ -17,7 +17,7 @@ class CreateProvidersTable extends Migration
             $table->id();
             $table->uuid('uuid');
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->string('slug',60)->unique();
+            $table->string('slug')->unique();
             $table->string('address');
             $table->string('phone');
             $table->string('email')->unique();

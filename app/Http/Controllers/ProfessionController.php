@@ -87,8 +87,9 @@ class ProfessionController extends Controller
      * @param  \App\Models\Profession  $profession
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Profession $profession)
+    public function destroy(Request $request)
     {
+        $profession = Profession::where("id",$request->id)->first();
         $profession->delete();
 
         return redirect()->route('dashboard.professions');

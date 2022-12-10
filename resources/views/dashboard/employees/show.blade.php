@@ -10,328 +10,60 @@
 
 @endsection
 @section('content')
-<h5>{{$project->name}} - {{$project->initials}}</h5>
+<h5>{{$employee->user->name}}</h5>
 
 <div class="grey-bg container-fluid">
-  {{-- <section id="minimal-statistics">
-
-    <div class="row">
-      <div class="col-xl-3 col-sm-6 col-12"> 
-        <div class="card">
-          <div class="card-content">
-            <div class="card-body">
-              <div class="media d-flex">
-                <div class="align-self-center">
-                  <i class="icon-pencil primary font-large-2 float-left"></i>
-                </div>
-                <div class="media-body text-right">
-                  <h3>278</h3>
-                  <span>New Posts</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-xl-3 col-sm-6 col-12">
-        <div class="card">
-          <div class="card-content">
-            <div class="card-body">
-              <div class="media d-flex">
-                <div class="align-self-center">
-                  <i class="icon-speech warning font-large-2 float-left"></i>
-                </div>
-                <div class="media-body text-right">
-                  <h3>156</h3>
-                  <span>New Comments</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-xl-3 col-sm-6 col-12">
-        <div class="card">
-          <div class="card-content">
-            <div class="card-body">
-              <div class="media d-flex">
-                <div class="align-self-center">
-                  <i class="icon-graph success font-large-2 float-left"></i>
-                </div>
-                <div class="media-body text-right">
-                  <h3>64.89 %</h3>
-                  <span>Bounce Rate</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-xl-3 col-sm-6 col-12">
-        <div class="card">
-          <div class="card-content">
-            <div class="card-body">
-              <div class="media d-flex">
-                <div class="align-self-center">
-                  <i class="icon-pointer danger font-large-2 float-left"></i>
-                </div>
-                <div class="media-body text-right">
-                  <h3>423</h3>
-                  <span>Total Visits</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  
-    <div class="row">
-      <div class="col-xl-3 col-sm-6 col-12">
-        <div class="card">
-          <div class="card-content">
-            <div class="card-body">
-              <div class="media d-flex">
-                <div class="media-body text-left">
-                  <h3 class="danger">278</h3>
-                  <span>New Projects</span>
-                </div>
-                <div class="align-self-center">
-                  <i class="icon-rocket danger font-large-2 float-right"></i>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-xl-3 col-sm-6 col-12">
-        <div class="card">
-          <div class="card-content">
-            <div class="card-body">
-              <div class="media d-flex">
-                <div class="media-body text-left">
-                  <h3 class="success">156</h3>
-                  <span>New Clients</span>
-                </div>
-                <div class="align-self-center">
-                  <i class="icon-user success font-large-2 float-right"></i>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+  <div class="accordion" id="accordionEmployee">
+    <div class="card">
+      <div class="card-header" id="headingOne">
+        <h2 class="mb-0">
+          <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+            Bases
+          </button>
+        </h2>
       </div>
   
-      <div class="col-xl-3 col-sm-6 col-12">
-        <div class="card">
-          <div class="card-content">
-            <div class="card-body">
-              <div class="media d-flex">
-                <div class="media-body text-left">
-                  <h3 class="warning">64.89 %</h3>
-                  <span>Conversion Rate</span>
-                </div>
-                <div class="align-self-center">
-                  <i class="icon-pie-chart warning font-large-2 float-right"></i>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-xl-3 col-sm-6 col-12">
-        <div class="card">
-          <div class="card-content">
-            <div class="card-body">
-              <div class="media d-flex">
-                <div class="media-body text-left">
-                  <h3 class="primary">423</h3>
-                  <span>Support Tickets</span>
-                </div>
-                <div class="align-self-center">
-                  <i class="icon-support primary font-large-2 float-right"></i>
-                </div>
-              </div>
-            </div>
-          </div>
+      <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionEmployee">
+        <div class="card-body">
+          <ul class="list-group">
+            @foreach ($employee->bases as $base)
+            <li class="list-group-item">{{$base->name}}</li>
+                
+            @endforeach
+          
+          </ul>
         </div>
       </div>
     </div>
-  
-    <div class="row">
-      <div class="col-xl-3 col-sm-6 col-12">
-        <div class="card">
-          <div class="card-content">
-            <div class="card-body">
-              <div class="media d-flex">
-                <div class="media-body text-left">
-                  <h3 class="primary">278</h3>
-                  <span>New Posts</span>
-                </div>
-                <div class="align-self-center">
-                  <i class="icon-book-open primary font-large-2 float-right"></i>
-                </div>
-              </div>
-              <div class="progress mt-1 mb-0" style="height: 7px;">
-                <div class="progress-bar bg-primary" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div>
-          </div>
-        </div>
+    <div class="card">
+      <div class="card-header" id="headingTwo">
+        <h2 class="mb-0">
+          <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+            Collapsible Group Item #2
+          </button>
+        </h2>
       </div>
-      <div class="col-xl-3 col-sm-6 col-12">
-        <div class="card">
-          <div class="card-content">
-            <div class="card-body">
-              <div class="media d-flex">
-                <div class="media-body text-left">
-                  <h3 class="warning">156</h3>
-                  <span>New Comments</span>
-                </div>
-                <div class="align-self-center">
-                  <i class="icon-bubbles warning font-large-2 float-right"></i>
-                </div>
-              </div>
-              <div class="progress mt-1 mb-0" style="height: 7px;">
-                <div class="progress-bar bg-warning" role="progressbar" style="width: 35%" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-  
-      <div class="col-xl-3 col-sm-6 col-12">
-        <div class="card">
-          <div class="card-content">
-            <div class="card-body">
-              <div class="media d-flex">
-                <div class="media-body text-left">
-                  <h3 class="success">64.89 %</h3>
-                  <span>Bounce Rate</span>
-                </div>
-                <div class="align-self-center">
-                  <i class="icon-cup success font-large-2 float-right"></i>
-                </div>
-              </div>
-              <div class="progress mt-1 mb-0" style="height: 7px;">
-                <div class="progress-bar bg-success" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-xl-3 col-sm-6 col-12">
-        <div class="card">
-          <div class="card-content">
-            <div class="card-body">
-              <div class="media d-flex">
-                <div class="media-body text-left">
-                  <h3 class="danger">423</h3>
-                  <span>Total Visits</span>
-                </div>
-                <div class="align-self-center">
-                  <i class="icon-direction danger font-large-2 float-right"></i>
-                </div>
-              </div>
-              <div class="progress mt-1 mb-0" style="height: 7px;">
-                <div class="progress-bar bg-danger" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div>
-          </div>
+      <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionEmployee">
+        <div class="card-body">
+          Some placeholder content for the second accordion panel. This panel is hidden by default.
         </div>
       </div>
     </div>
-  </section>
-   --}}
-  <section id="stats-subtitle">
-  {{-- <div class="row">
-    <div class="col-xl-6 col-md-12">
-      <div class="card overflow-hidden">
-        <div class="card-content">
-          <div class="card-body cleartfix">
-            <div class="media align-items-stretch">
-              <div class="align-self-center">
-                <i class="icon-pencil primary font-large-2 mr-2"></i>
-              </div>
-              <div class="media-body">
-                <h4>Total Posts</h4>
-                <span>Monthly blog posts</span>
-              </div>
-              <div class="align-self-center">
-                <h1>18,000</h1>
-              </div>
-            </div>
-          </div>
-        </div>
+    <div class="card">
+      <div class="card-header" id="headingThree">
+        <h2 class="mb-0">
+          <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+            Collapsible Group Item #3
+          </button>
+        </h2>
       </div>
-    </div>
-
-    <div class="col-xl-6 col-md-12">
-      <div class="card">
-        <div class="card-content">
-          <div class="card-body cleartfix">
-            <div class="media align-items-stretch">
-              <div class="align-self-center">
-                <i class="icon-speech warning font-large-2 mr-2"></i>
-              </div>
-              <div class="media-body">
-                <h4>Total Comments</h4>
-                <span>Monthly blog comments</span>
-              </div>
-              <div class="align-self-center"> 
-                <h1>84,695</h1>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div> --}}
-
-  <div class="row">
-    <div class="col-xl-6 col-md-12">
-      <div class="card">
-        <div class="card-content">
-          <div class="card-body cleartfix">
-            <div class="media align-items-stretch">
-              <div class="align-self-center">
-                <h1 class="mr-2">$76.456.590,00</h1>
-              </div>
-              <div class="media-body">
-                <h4>Valor</h4>
-                <span><a href="#"> Medições</a></span>
-              </div>
-              <div class="align-self-center">
-                <i class="icon-heart danger font-large-2"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-xl-6 col-md-12">
-      <div class="card">
-        <div class="card-content">
-          <div class="card-body cleartfix">
-            <div class="media align-items-stretch">
-              <div class="align-self-center">
-                <h1 class="mr-2">$36,000.00</h1>
-              </div>
-              <div class="media-body">
-                <h4>Custo Total</h4>
-                <span><a href="#">Centros de custo</a></span>
-              </div>
-              <div class="align-self-center">
-                <i class="icon-wallet success font-large-2"></i>
-              </div>
-            </div>
-          </div>
+      <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionEmployee">
+        <div class="card-body">
+          And lastly, the placeholder content for the third and final accordion panel. This panel is hidden by default.
         </div>
       </div>
     </div>
   </div>
-</section>
 </div>
 
 @endsection

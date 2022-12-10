@@ -114,7 +114,7 @@ class FieldController extends Controller
         $stoks = $sector->stoks()->with('invoiceProduct')->get();
         $array = [];
         foreach ($stoks as $key => $value) {
-            $array[$key] = ['id' => $value->id, 'name' => $value->invoiceProduct->name];
+            $array[$key] = ['id' => $value->id, 'description' => $value->invoiceProduct->description];
         }
         
         return response()->json($array);

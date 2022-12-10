@@ -109,6 +109,13 @@ class BaseController extends Controller
         return redirect()->route('dashboard.bases.index');
     }
 
+    public function stoks(Base $base)
+    {
+        return view('dashboard.projects.bases.stoks',[
+            'base' => $base
+        ]);
+    }
+
     public function formlists(Base $base)
     {
         return view('dashboard.projects.bases.formlists.index',[
@@ -145,9 +152,8 @@ class BaseController extends Controller
 
     public function employees(Base $base)
     {
-        // dd($base, $base->employees()->get());
         return view('dashboard.projects.bases.employees.index',[
-            'employees' => Employee::all(),
+            'employees' => $base->project()->first()->employees()->with('user')->get(),
             'base' => $base,
             'base_employees' => $base->employees()->pluck('employee_id')->toArray(),
 
@@ -220,5 +226,26 @@ class BaseController extends Controller
             'fields' => $formlist_employee->fields()->get()
         ]);
     }
+
+    public function detachEmployee(Base $base, Employee $employee)
+    {
+        $base->employees()->detach($employee->id);
+
+        return redirect()->route('dashboard.bases.employees.linked',$base);
+    }
+
+    public function sectors(Base $base)
+    {
+        return view('dashboard.projects.bases.sectors',[
+            'base' => $base,
+            'sectors' => $base->sectors()->get()
+        ]);
+    }
     
+    public function detachFormlist(Base $base,Request $request)
+    {
+        $base->formlists()->detach($request->id);
+
+        return redirect()->route('dashboard.bases.formlists.show',$base);
+    }
 }

@@ -1,10 +1,10 @@
 @extends('adminlte::page')
 
-@section('title', 'Funcionários vinculados')
+@section('title', 'Empregados')
 
 @section('content_header')
-    <h1>Listagem de Funcionários - {{$base->name }} - <a class="btn btn-primary"
-        href="{{route('dashboard.bases.employees',$base)}}" role="button">Vincular funcionários - <i class="fa fa-plus"
+    <h1>Listagem de Empregados - <a name="" id="" class="btn btn-primary"
+            href="{{ route('dashboard.projects.listEmployees',$project) }}" role="button">Vincular funcionários - <i class="fa fa-plus"
                 aria-hidden="true"></i></a></h1>
 @stop
 
@@ -29,12 +29,16 @@
                         <td scope="row">{{ $item->cpf }}</td>
                         <td scope="row">{{ $item->registration }}</td>
                         <td scope="row">{{ date('d/m/Y', strtotime($item->adimission)) }}</td>
-                        <td scope="row" class="btn-group">
-                            <a href="{{route('dashboard.bases.employees.formlists',['base' => $base,'employee' => $item])}}" class="btn btn-sm btn-info mx-1">Ver Formulários</a>
-                            <form action="{{route('dashboard.bases.employees.detachEmployee',['base' => $base,'employee' => $item])}}" method="post">
+                        <td class="btn-group" role="group">
+                            {{-- <a href="#" class="btn btn-sm mr-1 btn-secondary">Projetos</a> --}}
+                            {{-- <a class="btn btn-info btn-sm mr-1 btn-sm" href="{{ route('dashboard.employees.edit', $item) }}">Editar</a> --}}
+                            {{-- <a class="btn btn-warning btn-sm mr-1 btn-sm" href="{{ route('dashboard.employees.projects', $item) }}">Vincular</a> --}}
+                            <a href="{{ route('dashboard.employees.show', $item) }}" target="_blank" class="mr-1 btn btn-success btn-sm">Visualizar</a>
+                            <form action="{{ route('dashboard.projects.detachEmployee',['project' => $project, 'employee' => $item]) }}" method="POST"
+                                id="{{ $item->id }}">
                                 @csrf
                                 @method('POST')
-                                <button type="submit" class="btn btn-sm btn-danger mx-1">Desvincular</button>
+                                <button class="btn btn-danger btn-sm mr-1" type="submit">Desvincular</button>
                             </form>
                         </td>
                     </tr>
@@ -42,8 +46,6 @@
             </tbody>
         </table>
     @else
-        <p>Não há Funcionários para listagem</p>
+        <p>Não há Empregados para listagem</p>
     @endif
 @endsection
-
-{{-- select users.`name`, professions.`name` from employees join users on employees.`user_id` = users.`id` join professions on professions.`id` = employees.`profession_id` join employee_base where employees.id = employee_base.`employee_id`;  --}}

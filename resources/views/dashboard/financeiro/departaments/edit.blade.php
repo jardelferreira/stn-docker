@@ -19,8 +19,8 @@
         </div>
         <div class="form-group">
             <label for="cost_sector_id">Setor de custo</label>
-            <select class="form-control" name="cost_sector_id" id="sectors">
-              @foreach ($sectors as $item)
+            <select class="form-control" name="cost_sector_id" id="sectors" readonly disabled>
+              @foreach ($sectors as $item )
                   <option value="{{$item->id}}"
                     @if ($item->id == $departament->cost_sector_id)
                         selected

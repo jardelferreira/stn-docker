@@ -87,7 +87,7 @@
             </tbody>
             <tfoot class="table table-bordered table-sm table-striped">
                 <thead class="thead-dark text-center">
-                    <th class="border border-dark text-center" width="20px">#</th>
+                    <th class="border border-dark text-center" width="25px">#</th>
                     <th class="border border-dark text-center">Qtd.</th>
                     <th class="border border-dark text-center">Cód</th>
                     <th class="border border-dark text-center">C.A.</th>
@@ -116,7 +116,7 @@
                             <td class="border border-dark">{{ $field->qtd_delivered }}</td>
                             <td class="border border-dark">{{ $field->stoks->id }}</td>
                             <td class="border border-dark">{{ $field->stoks->invoiceProduct->ca_number }}</td>
-                            <td class="border border-dark"> Descrição do produto na ficha - {{ $field->stoks->invoiceProduct->description }}</td>
+                            <td class="border border-dark">{{ $field->stoks->invoiceProduct->description }}</td>
                             <td class="border border-dark">{{ date('d/m/Y', strtotime($field->date_delivered)) }}</td>
                             <td class="border border-dark">
                                 @if ($field->signature_delivered)
@@ -162,9 +162,9 @@
         }
     </style>
     <style>
-        @page {
+        /* @page {
             size: landscape;
-        }
+        } */
 
         #list tr:nth-child(even) {
             background-color: #A9BCF5;

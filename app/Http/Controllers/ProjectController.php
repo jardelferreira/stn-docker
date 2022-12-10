@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProjectRequest;
+use App\Models\Employee;
 use App\Models\Project;
 use App\Models\Provider;
 use Illuminate\Http\Request;
@@ -136,5 +137,37 @@ class ProjectController extends Controller
         $project->providers()->sync($request->providers);
        
         return redirect()->route('dashboard.projects.providers',$project);
+    }
+
+    public function employees(Project $project)
+    {
+        return view('dashboard.projects.employees',[
+            'employees' => $project->employees()->get(),
+            'project' => $project
+        ]);
+    }
+
+    public function detachEmployee(Project $project, Employee $employee)
+    {
+        $project->employees()->detach($employee->id);
+
+        return redirect()->route('dashboard.projects.employees',$project);
+    }
+
+    public function listEmployees(Project $project)
+    {
+        return view('dashboard.projects.listEmployees',[
+            'employees' => Employee::all(),
+            'project' => $project,
+            'project_employees' => $project->employees()->pluck('employee_id')->toArray(),
+
+        ]);
+    }
+
+    public function syncEmployees(Project $project, Request $request)
+    {
+        $project->employees()->sync($request->employees);
+
+        return redirect()->route('dashboard.projects.employees', $project);
     }
 }

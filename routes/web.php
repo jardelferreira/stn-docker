@@ -103,14 +103,18 @@ Route::prefix('dashboard')->middleware('auth')->group(function(){
         Route::get('/criar',[ProjectController::class,'create'])->name('dashboard.projects.create');
         Route::get('/{project}',[ProjectController::class,'show'])->name('dashboard.projects.show');
         Route::get('/{project}/editar',[ProjectController::class,'edit'])->name('dashboard.projects.edit');
+        Route::get('/{project}/funcionarios',[ProjectController::class,'employees'])->name('dashboard.projects.employees');
+        Route::get('/{project}/listar_funcionarios',[ProjectController::class,'listEmployees'])->name('dashboard.projects.listEmployees');
         
         Route::post('/',[ProjectController::class,'store'])->name('dashboard.projects.store');
+        Route::post('/{project}/employee/{employee}',[ProjectController::class,'detachEmployee'])->name('dashboard.projects.detachEmployee');
         Route::put('/',[ProjectController::class,'update'])->name('dashboard.projects.update');
         Route::delete('/',[ProjectController::class,'destroy'])->name('dashboard.projects.destroy');
 
         Route::get('/{project}/vincular',[ProjectController::class,'providers'])->name('dashboard.projects.providers');
 
         Route::put('/{project}/sync',[ProjectController::class,'syncProviders'])->name('dashboard.projects.syncProviders');
+        Route::put('/{project}/syncEmployees',[ProjectController::class,'syncEmployees'])->name('dashboard.projects.syncEmployees');
 
     });
 
@@ -119,10 +123,11 @@ Route::prefix('dashboard')->middleware('auth')->group(function(){
         Route::get('/criar',[CostController::class,'create'])->name('dashboard.costs.create');
         Route::get('/{cost}',[CostController::class,'show'])->name('dashboard.costs.show');
         Route::get('/{cost}/editar',[CostController::class,'edit'])->name('dashboard.costs.edit');
+        Route::get('/{cost}/setordecustos/criar',[SectorsCostsController::class,'createSectorForCost'])->name('dashboard.costs.createSector');
 
         Route::post('/',[CostController::class,'store'])->name('dashboard.costs.store');
         Route::put('/',[CostController::class,'update'])->name('dashboard.costs.update');
-        Route::delete('/',[CostController::class,'delete'])->name('dashboard.costs.destroy');
+        Route::delete('/',[CostController::class,'destroy'])->name('dashboard.costs.destroy');
         
     });
 
@@ -134,7 +139,7 @@ Route::prefix('dashboard')->middleware('auth')->group(function(){
 
         Route::post('/',[SectorsCostsController::class,'store'])->name('dashboard.costs_sectors.store');
         Route::put('/',[SectorsCostsController::class,'update'])->name('dashboard.costs_sectors.update');
-        Route::delete('/',[SectorsCostsController::class,'delete'])->name('dashboard.costs_sectors.destroy');
+        Route::delete('/',[SectorsCostsController::class,'destroy'])->name('dashboard.costs_sectors.destroy');
         
     });
     Route::prefix('departamentodecustos')->group(function(){
@@ -188,11 +193,17 @@ Route::prefix('dashboard')->middleware('auth')->group(function(){
             Route::get('/',[BaseController::class,'show'])->name('dashboard.bases.show');
             Route::delete('/',[BaseController::class,'destroy'])->name('dashboard.bases.destroy');
             Route::get('/editar',[BaseController::class,'edit'])->name('dashboard.bases.edit');
+
+            Route::get('/estoque',[BaseController::class,'stoks'])->name('dashboard.bases.stoks');
             // Route::get('/formularios',[BaseController::class,'formlists'])->name('dashboard.bases.formlists');
             // formlists x bases
             Route::get('/formularios',[BaseController::class,'formlists'])->name('dashboard.bases.formlists');
             Route::get('/formularios/show',[BaseController::class,'showFormlists'])->name('dashboard.bases.formlists.show');
             Route::put('/formularios/sync',[BaseController::class,'syncFormlistsById'])->name('dashboard.bases.formlists.sync');
+            Route::delete('/formularios/detach',[BaseController::class,'detachFormlist'])->name('dashboard.bases.detachFormlist');
+            
+            Route::get('/setores',[BaseController::class,'sectors'])->name('dashboard.bases.sectors');
+            
             //employees x bases
             Route::prefix('funcionarios')->group(function(){
 
@@ -200,6 +211,7 @@ Route::prefix('dashboard')->middleware('auth')->group(function(){
                 Route::get('/show',[BaseController::class,'showEmployees'])->name('dashboard.bases.employees.show');
                 Route::get('/vinculados',[BaseController::class,'employeesLinked'])->name('dashboard.bases.employees.linked');
                 Route::put('/sync',[BaseController::class,'syncEmployeesById'])->name('dashboard.bases.employees.sync');
+                Route::post('/{employee}/detach',[BaseController::class,'detachEmployee'])->name('dashboard.bases.employees.detachEmployee');
                    
                 Route::prefix('{employee}/formularios')->group(function(){
                     Route::get('/',[BaseController::class,'formlistsByEmployee'])->name('dashboard.bases.employees.formlists');
@@ -251,8 +263,10 @@ Route::prefix('dashboard')->middleware('auth')->group(function(){
         Route::get('/',[EmployeeController::class,'index'])->name('dashboard.employees');
         Route::get('/{employee}/editar',[EmployeeController::class,'edit'])->name('dashboard.employees.edit');
         Route::get('/criar',[EmployeeController::class,'create'])->name('dashboard.employees.create');
+        Route::get('/criar/{project}/projeto/profissoes',[EmployeeController::class,'getProfessions'])->name('dashboard.employees.getProfessions');
         Route::get('/{employee}/empregado',[EmployeeController::class,'show'])->name('dashboard.employees.show');
         Route::get('/{employee}/vincular',[EmployeeController::class,'projects'])->name('dashboard.employees.projects');
+        Route::get('/{employee}/formularios',[EmployeeController::class,'formlists'])->name('dashboard.employees.formlists');
         
         
         Route::put('/{employee}/projects/update',[EmployeeController::class,'syncProjectsById'])->name('dashboard.employees.sync');

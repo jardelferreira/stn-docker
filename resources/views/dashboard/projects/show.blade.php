@@ -1,18 +1,24 @@
 @extends('adminlte::page')
 
 @section('css')
-<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/bootstrap-extended.min.css">
-<link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/fonts/simple-line-icons/style.min.css">
-<link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/colors.min.css">
-<link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/bootstrap.min.css">
-<link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+<style>
+  div.list-group-item > a:hover{
+    font-weight: bold
+  }
+  .list-group-item > .btn-success, .btn-primary {
+    color: black
+  }
 
+  .list-group-item > .btn-success:hover{
+    color: #fff;
+  }
+</style>
 @endsection
 @section('content')
-<div class="d-flex py-1">
-  <div class="row align-items-end ">
-    <h5>{{$project->name}} - {{$project->initials}}</h5>
+<div class="d-block py-1 alert alert-secondary align-items-center">
+  <h2 class="row">Projeto - {{$project->name}}</h2>
+  <h6 class="row"><small>{{$project->description}}</small></h6>
+  {{-- <div class="row align-items-end ">
 
     <form method="post" class="ml-1" action="{{route('dashboard.projects.destroy',['id' => $project->id])}}">
       @csrf
@@ -22,7 +28,7 @@
   </div>
   <div class="row align-items-end ml-1">
     <a class="btn btn-primary" href="{{route('dashboard.projects.edit',$project->id)}}">Editar</a>
-  </div>
+  </div> --}}
 
 </div>
 <div class="grey-bg container-fluid">
@@ -348,7 +354,172 @@
 </div>
 
 <a name="provider" id="provider" class="btn btn-primary" href="{{route('dashboard.projects.providers',$project)}}" role="button">Vincular Fornecedores</a>
+{{-- <button class="btn btn-success"  data-toggle="modal" data-target="#baseModal" data-whatever="{{$project->id}}">Cadastrar Base</button> --}}
+<button class="btn btn-warning"  data-toggle="modal" data-target="#costModal" data-whatever="{{$project->id}}">Cadastrar Centro de custo</button>
 
+<div class="teste">
+  <div class="modal fade" id="costModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Cadastrar novo centro de custo</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          
+          <form action="{{route('dashboard.costs.store')}}" method="post" autocomplete="off">
+            @csrf
+            @method('POST')
+            <input type="hidden" name="project_id" value="{{$project->id}}" >
+              <div class="form-group">
+                <label for="name">Nome do Centro de custo</label>
+                <input type="text" autocomplete="off" class="form-control" name="name" id="name" aria-describedby="helpName" placeholder="nome da centro de custo">
+                <small id="helpName" class="form-text text-muted">Insira o nome do Centro de custo</small>
+              </div>
+              <div class="form-group">
+                <label for="description">Descrição do Centro de custo</label>
+                <input type="text" autocomplete="off" class="form-control" name="description" id="description" aria-describedby="description" placeholder="nome da centro de custo">
+                <small id="description" class="form-text text-muted">Descreva este centro de custo</small>
+              </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+            <button type="submit" class="btn btn-primary">Cadastrar</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<div class="row my-1">
+  <div class="col-md-3 my-1">
+    <div class="list-group">
+       <a class="list-group-item list-group-item-action active bg-primary" data-toggle="collapse" href="#collapseEmployees"
+        role="button" aria-expanded="false" aria-controls="collapseEmployees"> Funcionários  
+        - <i class="fa fa-user-alt" aria-hidden="true"> </i></a>
+      <div class="list-group-item collapse" id="collapseEmployees">
+
+        <a class="list-group-item btn btn-primary" href="{{ route('dashboard.projects.listEmployees',$project) }}">Vincular</a>
+          <a class="list-group-item btn btn-primary"  href="{{route('dashboard.projects.employees',$project)}}">Listar</a>
+          <a class="list-group-item btn btn-primary"  href="#">Terceira opção</a>
+      </div>
+      <div class="list-group-item justify-content-between">
+        Pendências <span class="badge badge-danger badge-pill">14</span>
+      </div> <a href="#" class="list-group-item list-group-item-action active justify-content-between">
+        Solicitações - <span class="badge badge-light badge-pill">156</span></a>
+    </div>
+  </div>
+  <div class="col-md-3 my-1">
+    <div class="list-group">
+       <a class="list-group-item list-group-item-action bg-dark active" data-toggle="collapse" href="#collapseBases"
+        role="button" aria-expanded="false" aria-controls="collapseBases"> Bases  
+        - <i class="fa fa-archive" aria-hidden="true"></i></a>
+      <div class="list-group-item collapse" id="collapseBases">
+        <a class="list-group-item btn btn-dark"  data-toggle="modal" data-target="#baseModal" data-whatever="{{$project->id}}">Cadastrar</a>
+        <a class="list-group-item btn btn-dark"  href="#">Listar</a>
+
+        @foreach ($project->bases as $item)
+        <p class="list-group-item-text">
+          {{$loop->index +1}} - 
+          <a href="#">{{$item->name}}</a>
+        </p>
+        @endforeach
+      </div>
+      <div class="list-group-item justify-content-between">
+        Pendências <span class="badge badge-danger badge-pill">14</span>
+      </div> <a href="#" class="list-group-item list-group-item-action active justify-content-between">
+        Solicitações - <span class="badge badge-light badge-pill">156</span></a> 
+    </div>
+  </div>
+  <div class="col-md-3 my-1">
+    <div class="list-group">
+       <a class="list-group-item list-group-item-action bg-success active" data-toggle="collapse" href="#collapseProviders"
+        role="button" aria-expanded="false" aria-controls="collapseProviders"> Fornecedores
+        - <i class="fa fa-archive" aria-hidden="true"></i></a>
+      <div class="list-group-item collapse" id="collapseProviders">
+        <a class="list-group-item btn btn-success"  href="#">Cadastrar</a>
+        <a class="list-group-item btn btn-success"  href="#">Listar</a>
+
+        @foreach ($project->providers as $item)
+        <p class="list-group-item-text">
+          {{$loop->index +1}} - 
+          <a href="#">{{$item->fantasy_name}}</a>
+        </p>
+        @endforeach
+      </div>
+      <div class="list-group-item justify-content-between">
+        Pendências <span class="badge badge-danger badge-pill">14</span>
+      </div> <a href="#" class="list-group-item list-group-item-action active justify-content-between">
+        Solicitações - <span class="badge badge-light badge-pill">156</span></a> 
+    </div>
+  </div>
+  <div class="col-md-3 my-1">
+    <div class="list-group">
+       <a class="list-group-item list-group-item-action active bg-warning" data-toggle="collapse" href="#collapseSectors"
+        role="button" aria-expanded="false" aria-controls="collapseSectors"> Setores 
+        - <i class="fa-solid fa-diagram-project"></i></a>
+      <div class="list-group-item collapse" id="collapseSectors">
+
+          <a class="list-group-item btn btn-warning"  data-toggle="modal" data-target="#sectorModal" data-whatever="{{$project->name}}">Cadastrar Setor</a>
+          <a class="list-group-item btn btn-warning"  href="#">Listar</a>
+          <a class="list-group-item btn btn-warning"  href="#">Terceira opção</a>
+        @foreach ($project->sectors as $item)
+        <p class="list-group-item-text">
+          {{$loop->index +1}} - 
+          <a href="#">{{$item->name}}</a>
+        </p>
+        @endforeach
+      </div>
+      <div class="list-group-item justify-content-between">
+        Pendências <span class="badge badge-danger badge-pill">14</span>
+      </div> <a href="#" class="list-group-item list-group-item-action active justify-content-between">
+        Solicitações - <span class="badge badge-light badge-pill">156</span></a>
+    </div>
+  </div>
+
+</div>
+<div class="modal fade" id="baseModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Cadastrar nova base</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="{{route('dashboard.bases.store')}}" method="post" autocomplete="off">
+          @csrf
+          @method('POST')
+          <input type="hidden" name="project_id" value="{{$project->id}}" >
+          <div class="form-group">
+            <label for="name">Nome do Base</label>
+            <input type="text" autocomplete="off" class="form-control" name="name" id="name" aria-describedby="helpName" placeholder="nome da Bases">
+            <small id="helpName" class="form-text text-muted">Insira o nome do Base</small>
+          </div>
+          <div class="form-group">
+            <label for="place">Local da Base</label>
+            <input type="text" autocomplete="off" class="form-control" name="place" id="place" aria-describedby="place" placeholder="nome da Bases">
+            <small id="place" class="form-text text-muted">Insira o local do Base</small>
+          </div>
+          <div class="form-group">
+            <label for="description">Descrição do Base</label>
+            <input type="text" autocomplete="off" class="form-control" name="description" id="description" aria-describedby="description" placeholder="nome da Bases">
+            <small id="description" class="form-text text-muted">Descreva este Bases</small>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+          <button type="submit" class="btn btn-primary">Cadastrar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 @endsection
-
+@section('css')
+    
+@endsection
 

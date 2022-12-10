@@ -54,14 +54,16 @@ class StoksController extends Controller
 
         foreach ($request->products as $key => $product) {
             $invoice_product = InvoiceProducts::where('id',$product['id'])->first();
+            //criar controle para evitar inserir quatidade maior que a disponível
+            $qtd_remaining = floatVal($invoice_product->qtd_available) - floatval($product['qtd']);
             try {
-               $result[$key] = Stoks::create([
+                $result[$key] = Stoks::create([
                     'uuid' => Str::uuid(),
                     'slug' => $invoice_product->slug,
                     'sector_id' => $sector->id,
                     'base_id' => $sector->base_id,
                     'project_id' => $sector->project_id,
-                    'invoice_products_id' => intval($product['id']),
+                    'invoice_products_id' => intval($product['id']), 
                     'qtd' => floatval($product['qtd']),
                     'image_path' => $invoice_product->image_path,
                     'status' => 'disponível',
@@ -69,6 +71,7 @@ class StoksController extends Controller
             } catch (\Throwable $th) {
                 return response()->json($th);
             }
+            $invoice_product->update(['qtd_available' => $qtd_remaining]);
            
         }
        return response()->json($result);
@@ -121,7 +124,7 @@ class StoksController extends Controller
 
     public function getProductsByInvoiceId(Invoice $invoice)
     {
-        return  response()->json($invoice->products()->get());
+        return  response()->json($invoice->products()->where('qtd_available','>',0)->get());
     }
     
     public function getAllInvoicesFromProviderByProject(Request $request)

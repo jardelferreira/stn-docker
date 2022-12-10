@@ -20,7 +20,7 @@
         </div>
         <div class="form-group">
             <label for="project_id"></label>
-            <select class="form-control" name="project_id" id="projects">
+            <select class="form-control" readonly disabled name="project_id" id="projects">
               @foreach ($projects as $item)
                   <option value="{{$item->id}}"
                     @if ($item->id == $cost->project_id)

@@ -92,8 +92,13 @@ class CostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $cost = Cost::where("id",$request->cost_id)->first();
+
+        if (is_object($cost)) {
+            $cost->delete();
+        }
+        return redirect()->route('dashboard.costs.index');
     }
 }

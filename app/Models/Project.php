@@ -25,4 +25,24 @@ class Project extends Model
     {
         return $this->hasMany(Cost::class);
     }
+
+    public function employees()
+    {
+        return $this->belongsToMany(Employee::class, 'employee_project');
+    }
+
+    public function professions()
+    {
+        return $this->belongsToMany(Profession::class,'profession_project');
+    }
+
+    public function bases()
+    {
+        return $this->hasMany(Base::class);
+    }
+
+    public function sectors()
+    {
+        return $this->hasMany(Sector::class);
+    }
 }

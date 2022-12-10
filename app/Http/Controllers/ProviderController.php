@@ -90,9 +90,14 @@ class ProviderController extends Controller
      * @param  \App\Models\Provider  $provider
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Provider $provider)
+    public function destroy(Request $request)
     {
-        //
+        $provider = Provider::where("id",$request->id)->first();
+        if (is_object($provider)) {
+            $provider->delete();
+        }
+
+        return redirect()->route('dashboard.providers.index');
     }
 
     public function projects(Provider $provider)

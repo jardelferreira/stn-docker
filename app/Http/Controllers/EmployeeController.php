@@ -33,7 +33,7 @@ class EmployeeController extends Controller
     {
         return view('dashboard.employees.create',[
             'users' => User::all(),
-            'professions' => Profession::all()
+            'professions' => Profession::all(),
         ]);
     }
 
@@ -58,7 +58,10 @@ class EmployeeController extends Controller
      */
     public function show(Employee $employee)
     {
-        return view('dashboard.employees.show');
+        dd($employee->bases()->get());
+        return view('dashboard.employees.show',[
+            'employee' => $employee
+        ]);
     }
 
     /**
@@ -96,8 +99,9 @@ class EmployeeController extends Controller
      * @param  \App\Models\Employee  $employee
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Employee $employee)
+    public function destroy(Request $request)
     {
+        $employee = Employee::where('id', $request->id)->first();
         $employee->delete();
 
         return redirect()->route('dashboard.employees');
@@ -118,5 +122,28 @@ class EmployeeController extends Controller
         $employee->projects()->sync($request->projects);
 
         return redirect()->route('dashboard.employees');
+    }
+
+    public function getProfessions(Project $project)
+    {
+        $professions = $project->professions()->get();
+
+        return response()->json($professions);
+    }
+
+    public function listProject(Employee $employee)
+    {
+        return view('dashboard.employees.listProjects',[
+            'projects' => $employee->projects()->get(),
+            'employee' => $employee
+        ]);
+    }
+
+    public function formlists(Employee $employee)
+    {
+        return view('dashboard.employees.formlists',[
+            'employee' => $employee,
+            'formlists' => $employee->formlists()->get()
+        ]);
     }
 }

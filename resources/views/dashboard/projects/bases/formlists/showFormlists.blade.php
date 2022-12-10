@@ -15,6 +15,7 @@
                 <th>Revisão</th> 
                 <th>Área</th> 
                 <th>Descrição</th> 
+                <th>Ações</th> 
             </tr>
             </thead>
             <tbody>
@@ -24,6 +25,13 @@
                    <td scope="row">Rev-{{$item->revision}}</td>
                    <td scope="row">{{$item->area}}</td>
                    <td scope="row">{{$item->description}}</td>
+                   <td>
+                    <form action="{{route('dashboard.bases.detachFormlist',['base' => $base,'id' => $item->id])}}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                    <button class="btn btn-danger btn-sm" type="submit">Desvincular</button>
+                    </form>
+                   </td>
                </tr>
                @endforeach
             </tbody>

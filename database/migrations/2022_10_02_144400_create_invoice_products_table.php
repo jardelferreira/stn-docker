@@ -20,6 +20,7 @@ class CreateInvoiceProductsTable extends Migration
             $table->string('name');
             $table->string('description');
             $table->decimal('qtd',12,2,true);
+            $table->decimal('qtd_available',12,2,true); // cada vez que adicionar, subtrair a quatidade
             $table->string('und');
             $table->decimal('value_und',12,2,true);
             $table->decimal('value_total',12,2,true);

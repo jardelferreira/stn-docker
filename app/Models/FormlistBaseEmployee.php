@@ -13,6 +13,8 @@ class FormlistBaseEmployee extends Model
 
     protected $table = 'formlist_base_employee';
     protected $fillable = ['id', 'formlist_id', 'base_id', 'employee_id'];
+    protected $hidden = ['pivot'];
+
 
     public function formlist()
     {

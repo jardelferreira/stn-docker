@@ -7,25 +7,27 @@
 @stop
 
 @section('content')
-    <form action="#" id="produtos" method="post"></form>
-    <div class="form-group">
-        <label for="provider_id">Fornecedor</label>
-        <select class="form-control" name="provider_id " id="provider_id"></select>
-    </div>
-    <div class="form-group">
-        <label for="invoice_id">Número da nota</label>
-        <select class="custom-select" name="invoice_id" id="invoice_id">
+    <form action="#" id="produtos" method="post" class="row container">
+        
+        <div class="form-group col-sm-12 col-md-8 col-lg-8 mx-1">
+            <label for="provider_id">Fornecedor:</label>
+            <select class="form-control" name="provider_id " id="provider_id"></select>
+        </div>
+        <div class="form-group col-sm-12 col-md-3 col-lg-3 mx-1">
+            <label for="invoice_id">Número da nota:</label>
+            <select class="custom-select" name="invoice_id" id="invoice_id">
 
-        </select>
-    </div>
-    <hr>
-    <div class="btn-group" role="group" aria-label="Basic example">
-        <button type="button" id="add_all" class="btn mr-1 btn-primary">Adicionar Todos</button>
-        <button type="button" id="add_selected" class="btn mr-1 btn-secondary">Adicionar Selecionados</button>
-        {{-- <button type="button" id="" class="btn mr-1 btn-warning">Selecionar outra NF</button> --}}
-        {{-- <button type="button" id="clear" class="btn mr-1 btn-danger">Limpar Tabela</button> --}}
-    </div>
-    <table class="table table-strped tabelaEditavel" id="{{ $sector->id }}" >
+            </select>
+        </div>
+        <hr>
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <button type="button" id="add_all" class="btn mr-1 btn-primary">Adicionar Todos</button>
+            <button type="button" id="add_selected" class="btn mr-1 btn-secondary">Adicionar Selecionados</button>
+            {{-- <button type="button" id="" class="btn mr-1 btn-warning">Selecionar outra NF</button> --}}
+            {{-- <button type="button" id="clear" class="btn mr-1 btn-danger">Limpar Tabela</button> --}}
+        </div>
+</div>
+    <table class="table table-strped tabelaEditavel" id="{{ $sector->id }}">
         <thead>
             <tr>
                 <th>#</th>
@@ -93,7 +95,7 @@
                         };
                     },
                     processResults: function(response) {
-                       
+
                         let invoices = response.map(function(e) {
                             return {
                                 "id": e.id,
@@ -109,6 +111,7 @@
             });
             $("#invoice_id").on("change", (e) => {
                 invoice = parseInt($('#invoice_id').val())
+                $("#produtos tr").remove();
                 if (invoice) {
                     $("tbody").html = ""
                     $.ajax({
@@ -116,16 +119,33 @@
                             url: `http://localhost/dashboard/api/invoice/${invoice}/products`,
                         })
                         .done(function(data) {
-                            data.forEach(product => {
-                                $("tbody").append(`<tr  id='${product.id}'>
-                                    <td><input class="form-check-input" name="" id="" type="checkbox" value="checkedValue" aria-label="Text for screen reader"></td>
-                                    <td>${product.name}</td>
-                                    <td>${product.und}</td>
-                                    <td>${product.qtd}</td>                                    
-                                    <td class='editavel'>${product.qtd}</td> 
-                                    <td><button type="button" class="btn mr-1 btn-success btn-sm">Ação</button></td>                                                                       
-                                    </tr>`)
-                            });
+                            if (!data.length) {
+                                alert("NF não tem produto disponível");
+                            } else {
+
+                                data.forEach(product => {
+                                    if (parseFloat(product.qtd_available) <= 0) {
+                                        $("tbody").append(`<tr  id='${product.id}'>
+                                            <td><input class="form-check-input" name="" id="" type="checkbox" value="checkedValue" aria-label="Text for screen reader"></td>
+                                            <td>${product.description}</td>
+                                        <td>${product.und}</td>
+                                        <td>${product.qtd}</td>                                    
+                                        <td >Sem estoque</td> 
+                                        <td><button type="button" class="btn mr-1 btn-success btn-sm">Ação</button></td>                                                                       
+                                        </tr>`)
+                                    } else {
+                                        $("tbody").append(`<tr  id='${product.id}'>
+                                            <td><input class="form-check-input mx-2" name="" id="" type="checkbox" value="checkedValue" aria-label="Text for screen reader"></td>
+                                            <td>${product.description}</td>
+                                            <td>${product.und}</td>
+                                            <td>${product.qtd}</td>                                    
+                                            <td class='editavel'>${product.qtd_available}</td> 
+                                            <td><button type="button" class="btn mr-1 btn-success btn-sm">Ação</button></td>                                                                       
+                                            </tr>`)
+
+                                    }
+                                });
+                            }
                             $(".editavel").dblclick(function() {
                                 var conteudoOriginal = $(this).text();
 
@@ -150,18 +170,34 @@
                         });
                 }
             })
-            $("#add_all").on("click", (e) => {
+            $("#add_all, #add_selected").on("click", (e) => addStok(e));
+
+            function addStok(event) {
                 let dados = {};
                 dados.products = [];
                 dados._token = $('meta[name="csrf-token"]').attr('content');
                 dados.sector = parseInt($('table').attr("id"))
-                $("tbody > tr").each((index1, tr) => {
-                    dados.products.push({
-                        sector: parseInt($('table').attr("id")),
-                        id: parseInt($(tr).attr("id")),
-                        qtd: parseFloat($(tr).children()[4].innerText)
+                if (event.target.id == "add_selected") {
+                    $("tbody > tr").each((index1, tr) => {
+                        if ($(tr).find(`input[type='checkbox']`).prop('checked')) {
+                            dados.products.push({
+                                sector: parseInt($('table').attr("id")),
+                                id: parseInt($(tr).attr("id")),
+                                qtd: parseFloat($(tr).children()[4].innerText)
+                            })
+                        }
                     })
-                })
+
+                } else {
+                    $("tbody > tr").each((index1, tr) => {
+                        dados.products.push({
+                            sector: parseInt($('table').attr("id")),
+                            id: parseInt($(tr).attr("id")),
+                            qtd: parseFloat($(tr).children()[4].innerText)
+                        })
+                    })
+
+                }
                 // objeto montado com os dados
 
                 $.ajaxSetup({
@@ -169,12 +205,15 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
                 });
+                console.log(dados.products);
                 $.post("http://localhost/dashboard/api/products/store", dados,
                     function(data, status) {
                         console.log(data)
                         alert("Data: " + data + "\nStatus: " + status);
+                        $("#produtos tr").remove();
                     });
-            })
+            } // fim addStok
+
         });
     </script>
 @stop

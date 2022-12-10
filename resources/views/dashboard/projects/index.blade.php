@@ -28,21 +28,30 @@
                                 </div>
                             </div>
                         </div>
-                        <h5 class="card-title mb-0"><a class="mx-auto" href="{{route('dashboard.projects.show',$project)}}"><small>{{$project->initials}}</small></a></h5>
-                        <div class="badge bg-success my-2">Finished</div>
+                        <h5 class="card-title mb-0 font-weight-bold"><a class="mx-auto" href="{{route('dashboard.projects.show',$project)}}"><small>{{$project->initials}}</small></a></h5>
                     </div>
+                    <?php $progress  = random_int(0,100) ?>
+                    @if ($progress == 100)
+                    <div class="badge bg-success my-2 p-0">Finalizado</div>
+                        
+                    @else
+                    <div class="badge bg-primary my-2 p-0">Em andamento</div>
+                        
+                    @endif
                     <div class="card-body px-4 pt-2">
                         <p>{{$project->description}}</p>
-    
+                        <hr>
+                        <p>Engenheiros responsáveis</p>
                         <img src="https://bootdey.com/img/Content/avatar/avatar3.png" class="rounded-circle mr-1" alt="Avatar" width="28" height="28">
                         <img src="https://bootdey.com/img/Content/avatar/avatar2.png" class="rounded-circle mr-1" alt="Avatar" width="28" height="28">
                         <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="rounded-circle mr-1" alt="Avatar" width="28" height="28">
                     </div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item px-4 pb-4">
-                            <p class="mb-2 font-weight-bold">Progress <span class="float-right">100%</span></p>
+            
+                            <p class="mb-2 font-weight-bold">Progress <span class="float-right">{{$progress}}%</span></p>
                             <div class="progress progress-sm">
-                                <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
+                                <div class="progress-bar" role="progressbar" aria-valuenow="{{$progress}}" aria-valuemin="0" aria-valuemax="100" style="width: {{$progress}}%;">
                                 </div>
                             </div>
                         </li>
@@ -50,7 +59,7 @@
                 </div>
             </div>    
             @endforeach
-            <div class="col-12 col-md-6 col-lg-3">
+            {{-- <div class="col-12 col-md-6 col-lg-3">
                 <div class="card">
     
                     <div class="card-header px-4 pt-4">
@@ -330,7 +339,7 @@
                         </li>
                     </ul>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
     @else

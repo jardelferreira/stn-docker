@@ -31,10 +31,11 @@
                         <td scope="row">{{ date('d/m/Y', strtotime($item->adimission)) }}</td>
                         <td class="btn-group" role="group">
                             <a href="#" class="btn btn-sm mr-1 btn-secondary">Projetos</a>
+                            <a href="{{route('dashboard.employees.formlists',$item)}}" class="btn btn-sm mr-1 btn-success">Fichas</a>
                             <a class="btn btn-info btn-sm mr-1 btn-sm" href="{{ route('dashboard.employees.edit', $item) }}">Editar</a>
                             <a class="btn btn-warning btn-sm mr-1 btn-sm" href="{{ route('dashboard.employees.projects', $item) }}">Vincular</a>
                             <a href="{{ route('dashboard.employees.show', $item) }}" target="_blank" class="mr-1 btn btn-success btn-sm">Visualizar</a>
-                            <form action="{{ route('dashboard.employees.destroy', $item) }}" method="POST"
+                            <form action="{{ route('dashboard.employees.destroy',['id' => $item]) }}" method="POST"
                                 id="{{ $item->id }}">
                                 @csrf
                                 @method('DELETE')

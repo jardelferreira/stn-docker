@@ -10,13 +10,13 @@
 @stop
 
 @section('content')
+<form action="{{route('dashboard.fields.salveField',$formlist)}}" method="post">
     <div class="form-group">
         <label for="setor_id">Selecione um Setor</label>
         <select class="form-control" name="setor_id" id="setor_id">
             <option>Selecione</option>
         </select>
     </div>
-    <form action="{{route('dashboard.fields.salveField',$formlist)}}" method="post">
         @csrf
         @method('POST')
         {{-- <input type="hidden" name="signature_delivered"> --}}
@@ -28,7 +28,7 @@
             </select>
         </div>
         <div class="form-group">
-            <label for="qtd_delivered">Quantidade:</label>
+            <label for="qtd_delivered">Quantidade disponível: 20 und</label>
             <input type="number" class="form-control" name="qtd_delivered" id="qtd_delivered"
                 aria-describedby="qtd_delivered" placeholder="2">
             <small id="qtd_delivered" class="form-text text-muted">Informe a quantidade entregue</small>
@@ -96,7 +96,7 @@
                             let sectors = response.map(function(e) {
                                 return {
                                     "id": e.id,
-                                    "text": e.name
+                                    "text": e.description
                                 }
                             })
                             return {

@@ -36,6 +36,18 @@ class SectorsCostsController extends Controller
     }
 
     /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function createSectorForCost(Cost $cost)
+    {
+        return \view('dashboard.financeiro.costs.createSector',[
+            'cost' => $cost
+        ]);
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\StoresectorsCostsRequest  $request
@@ -94,8 +106,12 @@ class SectorsCostsController extends Controller
      * @param  \App\Models\sectorsCosts  $sectorsCosts
      * @return \Illuminate\Http\Response
      */
-    public function destroy(sectorsCosts $sectorsCosts)
+    public function destroy(Request $request)
     {
-        //
+        $sectorsCosts = sectorsCosts::where("id",$request->id)->first();
+
+        $sectorsCosts->delete();
+
+        return redirect()->route('dashboard.cost_sectors.index');
     }
 }
