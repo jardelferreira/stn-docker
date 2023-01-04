@@ -35,6 +35,7 @@
                 <th>Und</th>
                 <th>Qtd em NF</th>
                 <th>Qtd disponível</th>
+                <th>Qtd Para adicionar</th>
                 <th>Ações</th>
             </tr>
         </thead>
@@ -140,7 +141,8 @@
                                             <td>${product.description}</td>
                                             <td>${product.und}</td>
                                             <td>${product.qtd}</td>                                    
-                                            <td class='editavel'>${product.qtd_available}</td> 
+                                            <td>${product.qtd_available}</td> 
+                                            <td class='editavel'>0</td> 
                                             <td><button type="button" class="btn mr-1 btn-success btn-sm">Ação</button></td>                                                                       
                                             </tr>`)
 
