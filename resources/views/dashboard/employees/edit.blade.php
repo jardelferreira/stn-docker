@@ -7,7 +7,7 @@
 @stop
 
 @section('content')
-    <form action="{{route("dashboard.employees.store",$employee)}}" method="post" autocomplete="off">
+    <form action="{{route("dashboard.employees.update",$employee)}}" method="post" autocomplete="off">
         @csrf
         @method('put')
         <div class="form-group">
@@ -48,7 +48,7 @@
           <small id="registration" class="form-text text-muted">Informe o Vencimento</small>
         </div>
         
-        <button type="submit" class="btn btn-primary">Cadastrar</button>
+        <button type="submit" class="btn btn-primary">Salvar Alterações</button>
     </form>
 
 @stop
