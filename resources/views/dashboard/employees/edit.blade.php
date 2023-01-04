@@ -38,8 +38,8 @@
           </select>
         </div>
         <div class="form-group">
-          <label for="adimission">Adimissão</label>
-          <input type="date" value="{{$employee->adimission}}" autocomplete="off" class="form-control" name="adimission" id="adimission" aria-describedby="Adimission">
+          <label for="admission">Adimissão</label>
+          <input type="date" value="{{$employee->admission}}" autocomplete="off" class="form-control" name="admission" id="admission" aria-describedby="Adimission">
           <small id="Adimission" class="form-text text-muted">Informe a Adimissão</small>
         </div>
         <div class="form-group">
