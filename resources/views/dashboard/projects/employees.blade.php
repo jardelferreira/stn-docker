@@ -28,7 +28,7 @@
                         <td scope="row">{{ $item->profession->name }}</td>
                         <td scope="row">{{ $item->cpf }}</td>
                         <td scope="row">{{ $item->registration }}</td>
-                        <td scope="row">{{ date('d/m/Y', strtotime($item->adimission)) }}</td>
+                        <td scope="row">{{ date('d/m/Y', strtotime($item->admission)) }}</td>
                         <td class="btn-group" role="group">
                             {{-- <a href="#" class="btn btn-sm mr-1 btn-secondary">Projetos</a> --}}
                             {{-- <a class="btn btn-info btn-sm mr-1 btn-sm" href="{{ route('dashboard.employees.edit', $item) }}">Editar</a> --}}

@@ -19,6 +19,7 @@ class EmployeeController extends Controller
      */
     public function index()
     {
+        // dd(Employee::all());
         return view('dashboard.employees.index',[
             'employees' => Employee::all()
         ]);
@@ -45,6 +46,7 @@ class EmployeeController extends Controller
      */
     public function store(StoreEmployeeRequest $request)
     {
+        dd($request->all());
         Employee::create($request->all());
 
         return redirect()->route('dashboard.employees');

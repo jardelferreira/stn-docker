@@ -142,7 +142,7 @@
                                             <td>${product.und}</td>
                                             <td>${product.qtd}</td>                                    
                                             <td>${product.qtd_available}</td> 
-                                            <td class='editavel'>0</td> 
+                                            <td class='editavel'>Clique duas vezes</td> 
                                             <td><button type="button" class="btn mr-1 btn-success btn-sm">Ação</button></td>                                                                       
                                             </tr>`)
 
