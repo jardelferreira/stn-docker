@@ -235,10 +235,18 @@ Route::prefix('dashboard')->middleware('auth')->group(function(){
         Route::post('/',[SectorController::class,'store'])->name('dashboard.sectors.store');
         Route::put('/',[SectorController::class,'update'])->name('dashboard.sectors.update');
         Route::delete('/{sector}',[SectorController::class,'destroy'])->name('dashboard.sectors.destroy');
+        
 
         Route::prefix('{sector}/estoque')->group(function(){
             Route::get('/',[StoksController::class,'index'])->name('dashboard.sectors.stoks.index');
             Route::get('/cadastrar',[StoksController::class,'create'])->name('dashboard.sectors.stoks.create');
+            Route::get('/cadastrar/invoice/{invoice}/products',[StoksController::class,'getProductsByInvoiceId'])->name('dashboard.sectors.stoks.invoices.products');
+            Route::get('cadastrar/providers',[StoksController::class,'filterProviders'])->name('dashboard.sectors.stoks.providers');
+            Route::get('cadastrar/providers/invoices',[StoksController::class,'getAllInvoicesFromProviderByProject'])->name('dashboard.sectors.stoks.providers.invoices');
+
+            Route::post('/products/store',[StoksController::class,'store'])->name('dashboard.sectors.stoks.store');
+
+            
         });
         
     });

@@ -53,10 +53,11 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
         $(document).ready(function() {
+            var url = window.location.href;
 
             $("#provider_id").select2({
                 ajax: {
-                    url: `http://localhost/dashboard/api/providers/${parseInt($("table").attr("id"))}`,
+                    url: `${url}/providers`,
                     type: "GET",
                     dataType: 'json',
                     delay: 250,
@@ -84,7 +85,7 @@
 
             $("#invoice_id").select2({
                 ajax: {
-                    url: `http://localhost/dashboard/api/providers/invoices/${parseInt($("table").attr("id"))}`,
+                    url: `${url}/providers/invoices`,
                     type: "GET",
                     dataType: 'json',
                     delay: 250,
@@ -116,7 +117,7 @@
                     $("tbody").html = ""
                     $.ajax({
                             method: "GET",
-                            url: `http://localhost/dashboard/api/invoice/${invoice}/products`,
+                            url: `${url}/invoice/${invoice}/products`,
                         })
                         .done(function(data) {
                             if (!data.length) {
@@ -206,7 +207,7 @@
                     }
                 });
                 console.log(dados.products);
-                $.post("http://localhost/dashboard/api/products/store", dados,
+                $.post(`${url}/product/store`, dados,
                     function(data, status) {
                         console.log(data)
                         alert("Data: " + data + "\nStatus: " + status);

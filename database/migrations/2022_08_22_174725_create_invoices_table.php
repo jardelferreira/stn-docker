@@ -16,7 +16,7 @@ class CreateInvoicesTable extends Migration
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid');
-            $table->string('slug',60);
+            $table->string('slug');
             $table->unique(['invoice_type','number','provider_id','departament_cost_id'],'invoice_departament_unique');
             $table->string('number',15);
             $table->string('name',65);

@@ -47,7 +47,7 @@ class StoksController extends Controller
      * @param  \App\Http\Requests\StoreStoksRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreStoksRequest $request)
+    public function store(Sector $sector, StoreStoksRequest $request)
     {
         $result = [];
         $sector = Sector::where('id',$request->sector)->first();
@@ -122,8 +122,9 @@ class StoksController extends Controller
         //
     }
 
-    public function getProductsByInvoiceId(Invoice $invoice)
+    public function getProductsByInvoiceId(Sector $sector, Invoice $invoice)
     {
+        // dd($invoice);
         return  response()->json($invoice->products()->where('qtd_available','>',0)->get());
     }
     

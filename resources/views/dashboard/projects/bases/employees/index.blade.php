@@ -3,7 +3,7 @@
 @section('title','Vincular Funcionários')
 
 @section('content_header')
-    <h4>Vincular funcionários para - <small class="text-primary">{{$base->name}}</small> - <a class="btn btn-success btn-sm" href="{{route('dashboard.employees.create')}}" role="button">Criar novo Fornecedor- <i class="fa fa-plus" aria-hidden="true"></i></a></h4>
+    <h4>Vincular funcionários para - <small class="text-primary">{{$base->name}}</small> - <a class="btn btn-success btn-sm" href="{{route('dashboard.employees.create')}}" role="button">Criar novo Funcionário- <i class="fa fa-plus" aria-hidden="true"></i></a></h4>
 @stop
 
 @section('content')
