@@ -275,10 +275,10 @@ Route::prefix('dashboard')->middleware('auth')->group(function(){
         Route::get('/{employee}/empregado',[EmployeeController::class,'show'])->name('dashboard.employees.show');
         Route::get('/{employee}/vincular',[EmployeeController::class,'projects'])->name('dashboard.employees.projects');
         Route::get('/{employee}/formularios',[EmployeeController::class,'formlists'])->name('dashboard.employees.formlists');
+        Route::put('/{employee}/update',[EmployeeController::class,'update'])->name('dashboard.employees.update');
         
         
         Route::put('/{employee}/projects/update',[EmployeeController::class,'syncProjectsById'])->name('dashboard.employees.sync');
-        Route::put('/{employee}',[EmployeeController::class,'update'])->name('dashboard.employees.update');
         Route::post('/',[EmployeeController::class,'store'])->name('dashboard.employees.store');
         Route::put('/',[EmployeeController::class,'update'])->name('dashboard.employees.update');
         Route::delete('/',[EmployeeController::class,'destroy'])->name('dashboard.employees.destroy');

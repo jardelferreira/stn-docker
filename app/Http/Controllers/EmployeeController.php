@@ -88,8 +88,9 @@ class EmployeeController extends Controller
      * @param  \App\Models\Employee  $employee
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateEmployeeRequest $request, Employee $employee)
+    public function update(Employee $employee,UpdateEmployeeRequest $request)
     {
+        $employee = Employee::where("uuid",$request->uuid)->first();
         $employee->update($request->all());
 
         return redirect()->route('dashboard.employees');

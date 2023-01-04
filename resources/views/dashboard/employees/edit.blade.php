@@ -10,6 +10,7 @@
     <form action="{{route("dashboard.employees.update",$employee)}}" method="post" autocomplete="off">
         @csrf
         @method('put')
+        <input type="hidden" name="uuid" value="{{$employee->uuid}}">
         <div class="form-group">
           <label for="cpf">CPF</label>
           <input type="text" autocomplete="off" class="form-control" value="{{$employee->cpf}}" name="cpf" id="cpf" aria-describedby="helpCPF">
