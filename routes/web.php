@@ -17,6 +17,7 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfessionController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProviderController;
+use App\Http\Controllers\PublicController;
 use App\Http\Controllers\SectorController;
 use App\Http\Controllers\SectorsCostsController;
 use App\Http\Controllers\StoksController;
@@ -37,6 +38,13 @@ Route::get('/', function () {
 });
 
 Auth::routes();
+
+Route::prefix('publico')->group(function(){
+    Route::get('projetos',[PublicController::class,'projects'])->name('public.projects');
+    Route::get('projetos/{project}/bases',[PublicController::class,'bases'])->name('public.projects.bases');
+    Route::get('projetos/{project}/estoque',[PublicController::class,'stokFromProject'])->name('public.projects.stoks');
+    Route::get('projetos/bases/{base}/estoque',[PublicController::class,'stokFromBase'])->name('public.projects.bases.stoks');
+});
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::prefix('dashboard')->middleware('auth')->group(function(){

@@ -16,7 +16,7 @@ class Sector extends Model
         return $this->hasOne(Base::class,'id','base_id');
     }
 
-    public function project()
+    public function project() 
     {
         return $this->hasOne(Project::class,'id','project_id');
     }
