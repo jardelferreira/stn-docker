@@ -252,7 +252,7 @@ Route::prefix('dashboard')->middleware('auth')->group(function(){
             Route::get('cadastrar/providers',[StoksController::class,'filterProviders'])->name('dashboard.sectors.stoks.providers');
             Route::get('cadastrar/providers/invoices',[StoksController::class,'getAllInvoicesFromProviderByProject'])->name('dashboard.sectors.stoks.providers.invoices');
 
-            Route::post('/products/store',[StoksController::class,'store'])->name('dashboard.sectors.stoks.store');
+            Route::post('cadastrar/products/store',[StoksController::class,'store'])->name('dashboard.sectors.stoks.store');
 
             
         });
