@@ -3,7 +3,9 @@
 @section('title','Produtos da nota')
 
 @section('content_header')
-    <h1>Listagem de produtos - {{$invoice->name}}</h1>
+    <h1>Listagem de produtos - {{$invoice->name}} - <a class="btn btn-primary btn-sm mr-1"
+        href="{{ route('dashboard.invoices.popular.create', $invoice) }}">Adicionar novos
+        produtos</a></h1>
 @stop
 
 @section('content')
