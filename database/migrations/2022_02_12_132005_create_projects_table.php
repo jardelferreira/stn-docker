@@ -17,9 +17,9 @@ class CreateProjectsTable extends Migration
             $table->id();
             $table->uuid('uuid');
             $table->string('name')->unique();
-            $table->string('slug',60)->unique();
+            $table->string('slug')->unique();
             $table->longText('description')->nullable();
-            $table->string('initials',25)->unique();
+            $table->string('initials')->unique();
             $table->timestamps();
         });
 

@@ -417,8 +417,8 @@
         role="button" aria-expanded="false" aria-controls="collapseBases"> Bases  
         - <i class="fa fa-archive" aria-hidden="true"></i></a>
       <div class="list-group-item collapse" id="collapseBases">
-        <a class="list-group-item btn btn-dark"  data-toggle="modal" data-target="#baseModal" data-whatever="{{$project->id}}">Cadastrar</a>
-        <a class="list-group-item btn btn-dark"  href="#">Listar</a>
+        <a class="list-group-item btn "  data-toggle="modal" data-target="#baseModal" data-whatever="{{$project->id}}">Cadastrar</a>
+        <a class="list-group-item btn "  href="#">Listar</a>
 
         @foreach ($project->bases as $item)
         <p class="list-group-item-text">

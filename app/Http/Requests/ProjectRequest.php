@@ -25,9 +25,9 @@ class ProjectRequest extends FormRequest
     {
         
         return [
-            'name' => "required|min:10|max:60|unique:projects,name,{$this->uuid},uuid",
+            'name' => "required|min:3|max:255|unique:projects,name,{$this->uuid},uuid",
             'description' => 'nullable',
-            'initials' => "required|min:2|max:25|unique:projects,initials,{$this->uuid},uuid"
+            'initials' => "required|min:2|max:255|unique:projects,initials,{$this->uuid},uuid"
         ];
     }
 }
