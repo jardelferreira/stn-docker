@@ -47,7 +47,9 @@ Route::prefix('publico')->group(function(){
 });
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
-Route::prefix('dashboard')->middleware('auth')->group(function(){
+Route::get('/unauthorized', [HomeController::class, 'unauthorized'])->name('unauthorized');
+
+Route::prefix('dashboard')->middleware(['auth','permission:dashboard'])->group(function(){
     Route::get('teste',function(){
         return view('dashboard.projects.bases.employees.formlistsFields');
     });
