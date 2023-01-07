@@ -1,13 +1,13 @@
 @extends('adminlte::page')
 
-@section('title', 'Dashboard')
+@section('title', 'Editar Projeto')
 
 @section('content_header')
     <h1>Editar de Projeto -> {{$project->name}}</h1>
 @stop
 
 @section('content')
-    <form action="{{route('dashboard.projects.update')}}" method="post" autocomplete="off">
+    <form action="{{route('dashboard.projects.update', $project)}}" method="post" autocomplete="off">
         @csrf
         @method('PUT')
         <input type="hidden" name="uuid" value="{{$project->uuid}}">

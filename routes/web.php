@@ -110,15 +110,16 @@ Route::prefix('dashboard')->middleware(['auth','permission:dashboard'])->group(f
 
     Route::prefix('projects')->group(function(){
         Route::get('/',[ProjectController::class,'index'])->name('dashboard.projects');
+        Route::get('/json/project',[ProjectController::class,'getProjectByUuid'])->name('dashboard.projects.json.project');
         Route::get('/criar',[ProjectController::class,'create'])->name('dashboard.projects.create');
-        Route::get('/{project}',[ProjectController::class,'show'])->name('dashboard.projects.show');
+        Route::get('/{project}/show',[ProjectController::class,'show'])->name('dashboard.projects.show');
         Route::get('/{project}/editar',[ProjectController::class,'edit'])->name('dashboard.projects.edit');
         Route::get('/{project}/funcionarios',[ProjectController::class,'employees'])->name('dashboard.projects.employees');
         Route::get('/{project}/listar_funcionarios',[ProjectController::class,'listEmployees'])->name('dashboard.projects.listEmployees');
         
         Route::post('/',[ProjectController::class,'store'])->name('dashboard.projects.store');
         Route::post('/{project}/employee/{employee}',[ProjectController::class,'detachEmployee'])->name('dashboard.projects.detachEmployee');
-        Route::put('/',[ProjectController::class,'update'])->name('dashboard.projects.update');
+        Route::put('/{project}/update',[ProjectController::class,'update'])->name('dashboard.projects.update');
         Route::delete('/',[ProjectController::class,'destroy'])->name('dashboard.projects.destroy');
 
         Route::get('/{project}/vincular',[ProjectController::class,'providers'])->name('dashboard.projects.providers');

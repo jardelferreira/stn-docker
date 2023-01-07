@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProjectRequest;
-use App\Models\Employee;
+use App\Models\User;
 use App\Models\Project;
+use App\Models\Employee;
 use App\Models\Provider;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\ProjectRequest;
 
 class ProjectController extends Controller
 {
@@ -17,6 +19,8 @@ class ProjectController extends Controller
      */
     public function index()
     {
+        $user = User::where('id',Auth::user()->id)->first();
+        
         return \view('dashboard/projects.index', [
             'projects' => Project::all()
         ]);
@@ -97,9 +101,7 @@ class ProjectController extends Controller
 
         $project->update($request->all());
         
-        return \view('dashboard/projects.show', [
-            'project' => Project::where('uuid', $request->uuid)->first()
-        ]);
+        return redirect()->route('dashboard.projects');
     }
 
     /**
@@ -110,15 +112,35 @@ class ProjectController extends Controller
      */
     public function destroy(Request $request)
     {
-        $project = Project::where('id', $request->id)->first();
+        $user = User::where('id',Auth::user()->id)->first();
 
+        if (!$user->can('projeto-deletar')) {
+            return response()->json([
+                'confirm' => false,
+                'title' => "Ação rejeitada!",
+                'message' => "Você não possui autorização para esta ação.",
+                'type' => 'error'
+            ]);
+        }
+        $project = Project::getProjectByUuid($request->uuid)->first();
+        
         if (is_object($project)) {
             $project->delete();
+            $data = [
+                'confirm' => true,
+                'title' => "Projeto deletado!",
+                'message' => "O projeto {$project->name} deletado",
+                'type' => 'success'
+            ];
+            return response()->json($data);
 
-            return \redirect()->route('dashboard.projects');
+            // return \redirect()->route('dashboard.projects');
         }
-        return redirect()->route('dashboard.projects', [
-            'message' => 'Projeto não encontrado'
+        return response()->json([
+            'confirm' => false,
+            'title' => "Desculpe-nos!",
+            'message' => "Não foi possível realizar operação, favor contactar o Admin",
+            'type' => 'warning'
         ]);
     }
 
@@ -170,4 +192,10 @@ class ProjectController extends Controller
 
         return redirect()->route('dashboard.projects.employees', $project);
     }
+
+    public function getProjectByUuid(Request $request)
+    {
+        return Project::getProjectByUuid($request->uuid)->first();
+    }
+
 }

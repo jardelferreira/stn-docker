@@ -45,4 +45,9 @@ class Project extends Model
     {
         return $this->hasMany(Sector::class);
     }
+
+    static function getProjectByUuid($uuid)
+    {
+        return Project::where("uuid",$uuid);
+    }
 }
