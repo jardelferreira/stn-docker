@@ -35,7 +35,7 @@ use App\Http\Controllers\StoksController;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 
 Auth::routes();
 

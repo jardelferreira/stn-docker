@@ -60,6 +60,9 @@
     </nav>
     <!-- Masthead-->
     <header class="masthead bg-primary text-white text-center">
+        @error('permission')
+        <div class=" my-0 alert alert-danger">{{$message}}</div>
+        @enderror
         <div class="container d-flex align-items-center flex-column">
             <!-- Masthead Avatar Image-->
             <img class="masthead-avatar mb-5" src="{{ asset('assets/img/avataaars.svg') }}" alt="..." />

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -13,7 +15,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth']);
     }
 
     /**
@@ -23,6 +25,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $user = User::where("id",Auth::user()->id)->first();
+        if($user->can('dashboard')){
+            return view('home');
+        }
+        Auth::setUser($user);
+        Auth::logout();
+        return redirect()->route('welcome')->withErrors(['permission' => 'Você não possui permissão para acessar a Dashboard, favor contactar o Admin.']);
     }
 }
