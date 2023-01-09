@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Support\Str;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreProviderRequest extends FormRequest
@@ -24,7 +25,16 @@ class StoreProviderRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            "slug" => "required|unique:providers,slug,{$this->uuid},uuid",
+            "email" => "required|email|unique:providers,email,{$this->uuid},uuid",
+            "cnpj" => "rrequired|"
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+        return $this->merge([
+            "slug" => Str::slug(Str::upper($this->corporate_name) . " " . $this->cnpj)
+        ]);
     }
 }

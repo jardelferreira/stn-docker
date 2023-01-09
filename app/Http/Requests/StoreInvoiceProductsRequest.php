@@ -16,11 +16,6 @@ class StoreInvoiceProductsRequest extends FormRequest
         return true;
     }
 
-    public function prepareForValidation()
-    {
-       
-    }
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -39,4 +34,25 @@ class StoreInvoiceProductsRequest extends FormRequest
             'ca_number.*' => "nullable"
         ];
     }
+
+    public function messages()
+    {
+        return [
+            "name.*.required" => "O campo nome é obrigatório",
+            "qtd.*.required" => "O campo quantidade é obrigatório",
+            "qtd.*.numeric" => "O campo quantidade deve conter um valor numérico",
+            "und.*.required" => "O campo unidade é obrigatório",
+            "und.*.max" => "O campo und deve ter no máximo 10 caracteres",
+            "value_unid.*.required" => "O campo valor unitário é obrigatório",
+            "value_unid.*.numeric" => "O campo valor unitário deve conter um valor numérico",
+        ];
+    }
+
+    public function prepareForValidation()
+    {
+       return $this->merge([
+        
+       ]);
+    }
+
 }

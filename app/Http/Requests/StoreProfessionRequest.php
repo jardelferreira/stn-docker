@@ -25,7 +25,18 @@ class StoreProfessionRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            "name" => "required|max:60",
+            "description" => "required|max:255"
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            "name.required" => "O campo nome é obrigatório",
+            "name.max" => "O campo nome deve ter no máximo 60 caracteres",
+            "description.required" => "O campo descrição é obrigatório",
+            "description.max" => "O campo descrição deve ter no máximo 255 caracteres"
         ];
     }
     // Form request class...

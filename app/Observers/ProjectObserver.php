@@ -20,7 +20,6 @@ class ProjectObserver
     public function creating(Project $project)
     {
         
-        $project->initials = Str::upper($project->initials);
         $project->name = Str::upper($project->name);
         $project->slug = Str::random(10);
         $project->uuid = Str::uuid();
