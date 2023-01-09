@@ -86,7 +86,6 @@
 </script>
 <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
 <script>
-    $(document).ready(function() {
         var lang = "";
 
         $(document).ready(function() {
@@ -104,7 +103,6 @@
             });
 
         });
-    });
 </script>
 
 </html>

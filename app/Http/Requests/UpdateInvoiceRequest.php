@@ -26,19 +26,40 @@ class UpdateInvoiceRequest extends FormRequest
      */
     public function rules()
     {
-        $departament = intVal($this->departament_cost_id);
         return [
-            'slug' => "required|unique:invoices,slug,{$departament},departament_cost_id"
+            'invoice_type' => "required",
+            'provider_id' => "required|exists:providers,id",
+            'departament_cost_id' => "required|exists:departament_costs,id",
+            'number' => "required|unique:invoices,number,null,{$this->number},invoice_type,{$this->invoice_type},provider_id,{$this->provider_id},departament_cost_id,{$this->departament_cost_id}",
+            'value' => "required|numeric",
+            'value_departament' => "required|numeric",
+            'file_invoice' => "mimes:pdf|required",
         ];
     }
 
      // Form request class...
      protected function prepareForValidation(): void
      {
-         $departament_cost = DepartamentCost::where('id',$this->departament_cost_id)->first();
-         $provider = Provider::where('id',$this->provider_id)->first();
          $this->merge([
-             'slug' => "{$this->invoice_type}-{$this->number}-{$provider->slug}-{$departament_cost->slug}"
+             
          ]);
+     }
+
+     public function messages()
+     {
+         return [
+             'number.unique' => "Esta NF já está cadastrada para este departamento!",
+             "number.required" => "O número da nota é obrigatório",
+             "slug.required" => "houve um erro em gerar um slug para esta nota",
+             "slug.unique" => "houve o slug gerado não é único",
+             "departament_cost_id.required" => "O campo departamento de custo é obrigatório",
+             "departament_cost_id.exists" => "O departamento não existe",
+             "provider_id.required" => "O campo fornecedor é obrigatório",
+             "provider_id.exists" => "O fornecedor não existe",
+             "value.numeric" => "O valor total não é um decimal válido",
+             "value.required" => "O campo valor total é Obrigatório" ,
+             "value_departament.numeric" => "O valor para departamento não é um decimal válido",
+             "value_departament.required" => "O campo valor para departamento é Obrigatório",
+         ];
      }
 }

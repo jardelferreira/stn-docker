@@ -4,15 +4,15 @@
 
 @section('content_header')
     <h1>Listagem de Notas - <a name="" id="" class="btn btn-success"
-            href="{{ route('dashboard.invoices.create') }}" role="button">Criar novo - <i class="fa fa-plus"
+            href="{{ route('dashboard.invoices.create') }}" role="button">Cadastrar nova NF - <i class="fa fa-plus"
                 aria-hidden="true"></i></a></h1>
 @stop
 
 @section('content')
     @if (count($invoicers))
-        <div class="table-responsive text-nowrap">
-            <table class="table table-striped table-inverse">
-                <thead class="thead-inverse">
+        <div class="table">
+            <table class="text-nowrap table-sm table-striped table-responsive" id="nfs">
+                <thead>
                     <tr>
                         <th>Arquivado por</th>
                         <th>Nota</th>
@@ -37,8 +37,8 @@
                             <td scope="row">{{ date('d/m/Y', strtotime($item->issue)) }}</td>
                             <td scope="row">{{ date('d/m/Y', strtotime($item->due_date)) }}</td>
                             <td class="btn-group" role="group">
-                                <a class="btn btn-info btn-sm mr-1"
-                                    href="{{ route('dashboard.invoices.edit', $item) }}">Editar</a>
+                                {{-- <a class="btn btn-info btn-sm mr-1"
+                                    href="{{ route('dashboard.invoices.edit', $item) }}">Editar</a> --}}
                                 @if (count($item->products))
                                     <a class="btn btn-success btn-sm mr-1"
                                         href="{{ route('dashboard.invoicesProducts.index', ['invoice' => $item->id]) }}">Ver
@@ -63,4 +63,26 @@
     @else
         <p>Não há Notas para listagem</p>
     @endif
+@endsection
+@section('js')
+@section('plugins.Datatables', true)
+<script>
+    var lang = "";
+    $(document).ready(function() {
+        $.ajax({
+            url: "//cdn.datatables.net/plug-ins/1.13.1/i18n/pt-BR.json",
+            success: function(result) {
+                $('#nfs').DataTable({
+                    "language": result,
+                    lengthMenu: [
+                        [10, 25, 50, -1],
+                        [10, 25, 50, 'Tudo'],
+                    ],
+                });
+            }
+        });
+
+    });
+</script>
+
 @endsection
