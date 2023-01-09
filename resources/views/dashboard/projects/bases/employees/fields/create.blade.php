@@ -96,7 +96,7 @@
                             let sectors = response.map(function(e) {
                                 return {
                                     "id": e.id,
-                                    "text": e.description
+                                    "text": e.name
                                 }
                             })
                             return {
