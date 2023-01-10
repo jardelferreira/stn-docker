@@ -40,7 +40,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::prefix('publico')->group(function(){
-    Route::get('projetos',[PublicController::class,'projects'])->name('public.projects');
+    // Route::get('projetos',[PublicController::class,'projects'])->name('public.projects');
     Route::get('projetos/{project}/bases',[PublicController::class,'bases'])->name('public.projects.bases');
     Route::get('projetos/{project}/estoque',[PublicController::class,'stokFromProject'])->name('public.projects.stoks');
     Route::get('projetos/bases/{base}/estoque',[PublicController::class,'stokFromBase'])->name('public.projects.bases.stoks');
@@ -318,6 +318,16 @@ Route::prefix('dashboard')->middleware(['auth','permission:dashboard'])->group(f
         Route::get('sectors',[FieldController::class,'getSectors'])->name('dashboard.fields.getSectors');
         Route::get('sectors/{sector}',[FieldController::class,'getStoksBySector'])->name('dashboard.fields.getStoksBySector');
         Route::post('save',[FieldController::class,'salveField'])->name('dashboard.fields.salveField');
+    });
+
+});
+
+Route::prefix('publico')->group(function() {
+    Route::get('/',[PublicController::class,'index'])->name('public.index');
+    Route::prefix('projetos')->group(function(){
+        Route::get('/',[PublicController::class,'projects'])->name('public.projects');
+        Route::get('/{project}/estoque',[PublicController::class,'stokFromProject'])->name('public.projects.stoks');
+
     });
 
 });

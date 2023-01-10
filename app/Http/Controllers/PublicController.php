@@ -8,9 +8,15 @@ use Illuminate\Http\Request;
 
 class PublicController extends Controller
 {
+
+    public function index()
+    {
+        return view('publico.index');
+    }
+
     public function projects()
     {
-        return view('publico.projects.index',[
+        return view('publico.projects.principal',[
             'projects' => Project::all()
         ]);
     }
