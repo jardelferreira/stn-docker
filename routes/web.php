@@ -326,7 +326,7 @@ Route::post('publico/login',[PublicController::class,'authenticate'])->name('pub
 
 Route::prefix('publico')->middleware('auth')->group(function() {
     Route::get('/',[PublicController::class,'index'])->name('public.index');
-    Route::prefix('projetos')->group(function(){
+    Route::prefix('projetos')->middleware('permission:public-projects')->group(function(){
         Route::get('/',[PublicController::class,'projects'])->name('public.projects');
         Route::get('/{project}/estoque',[PublicController::class,'stokFromProject'])->name('public.projects.stoks');
         Route::get('/{project}/bases',[PublicController::class,'bases'])->name('public.projects.bases');
