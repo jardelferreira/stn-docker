@@ -31,16 +31,19 @@
                 <p><small>STN Empreendimentos</small></p>
             </div>
             <div class="list-group list-group-flush my-1">
-                
-                <a href="{{route('home')}}"
-                class="list-group-item list-group-item-action border-bottom py-1 mb-1"><i
-                        class="fas fa-tachometer-alt me-2"></i><small>Dashboard</small></a>
-                <a href="{{route('public.projects')}}"
-                    class="list-group-item list-group-item-action border-bottom py-1 mb-1"><i
-                    class="fas fa-tachometer-alt me-2"></i><small>Projetos</small></a>
-                    @yield('sidebar-list')
 
-                        
+                <a href="{{ route('public.index') }}"
+                    class="list-group-item list-group-item-action border-bottom py-1 mb-1">
+                    <i class="fas fa-warehouse    "></i>
+                    <small>Home</small></a>
+                <a href="{{ route('home') }}" class="list-group-item list-group-item-action border-bottom py-1 mb-1"><i
+                        class="fas fa-tachometer-alt me-2"></i><small>Dashboard</small></a>
+                <a href="{{ route('public.projects') }}"
+                    class="list-group-item list-group-item-action border-bottom py-1 mb-1"><i
+                        class="fas fa-tachometer-alt me-2"></i><small>Projetos</small></a>
+                @yield('sidebar-list')
+
+
                 {{-- 
                 <small><a href="#"
                         class="list-group-item list-group-item-action bg-transparent text-light fw-bold"><i
@@ -89,29 +92,27 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle second-text fw-bold" href="#" id="navbarDropdown"
                                 role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-user me-2"></i>Usuário
+                                <i class="fas fa-user me-2"></i>{{Auth::user()->name }}
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">Profile</a></li>
-                                <li><a class="dropdown-item" href="#">Settings</a></li>
-                                <li><a class="dropdown-item" href="#">Logout</a></li>
-                            </ul>
+                                <li class="dropdown-item"><a class="btn " href="#">Profile <i class="far fa-address-card"></i></a></li>
+                                <li class="dropdown-item"><a class="btn " href="#">Settings <i class="far fa-cog"></i></a></li>
+                                <li class="dropdown-item"><a class="btn btn-danger" href="{{route('public.logout')}}">Logout <i class="fas fa-power-off"></i></a></li>                            </ul>
                         </li>
                     </ul>
                 </div>
             </nav>
             @yield('content')
         </div>
-    <!-- /#page-content-wrapper -->
+        <!-- /#page-content-wrapper -->
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
         crossorigin="anonymous"></script>
     @yield('js')
     <script>
-
         $(document).ready(() => {
-            $(".list-group-item").each((i,e) => {
+            $(".list-group-item").each((i, e) => {
                 if (e.href == window.location.href) {
                     e.classList.add("active")
                 }
@@ -125,6 +126,9 @@
         };
     </script>
     <style>
+        #breadcrumb{
+            margin-left: 25px;
+        }
         :root {
             --main-bg-color: #113f67;
             --main-text-color: #113f67;
@@ -202,7 +206,7 @@
             font-size: 1.3rem;
         }
 
-        .list-group-item:hover{
+        .list-group-item:hover {
             background: rgb(18, 159, 187);
             color: #e7eaf6;
             font-weight: bold;

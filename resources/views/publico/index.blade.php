@@ -10,6 +10,9 @@
 
 @section('content')
 <div class="container-fluid px-4">
+    @section('breadcrumb-list')
+        <li class="breadcrumb-item active" aria-current="page">Bases</li>
+        @endsection
     <div class="row g-3 my-2">
         <div class="col-md-3">
             <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">

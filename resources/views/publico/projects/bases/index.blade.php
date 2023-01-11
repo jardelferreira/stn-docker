@@ -6,16 +6,11 @@
 @endsection
 
 @section('content')
-    <div class="bg-light mt-1">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('public.index') }}">Página principal</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Bases</li>
-            </ol>
-        </nav>
-        <hr>
+    <div class="bg-light">
         <h1>Listagem de Bases do Projeto - <small>{{ $project->name }}</small></h1>
-        <hr>
+        @include('publico.components.breadcrumb',array('breadcrumb' => array(
+            ['url' => 'public.projects', 'name' => 'Projetos']
+    ), 'current' => 'Bases'))
         @if (count($bases))
             <table class="table table-striped table-sm" id="bases">
                 <thead class="thead-inverse">

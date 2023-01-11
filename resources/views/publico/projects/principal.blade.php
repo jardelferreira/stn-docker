@@ -12,8 +12,9 @@
 @endsection
 
 @section('content')
-    <div class="bg-light mt-1 mx-1">
-        <h4>Listagem de Projetos</h4>
+    <div class="bg-light mt-1">
+        <h2>Listagem de Projetos</h2>
+            @include('publico.components.breadcrumb',array('breadcrumb' => [], 'current' => 'Projetos'))
         <hr>
         @if (count($projects))
             <table class="table table-striped table-sm table-light" id="projects">

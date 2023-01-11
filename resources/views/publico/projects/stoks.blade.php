@@ -9,8 +9,10 @@
 
 @endsection
 @section('content')
-    <div class="bg-light mt-1 ">
+    <div class="bg-light">
         <h1>Listagem de estoque do projeto - <small>{{ $project->name }}</small></h1>
+        @include('publico.components.breadcrumb',array('breadcrumb' => [], 'current' => 'Estoque'))
+
         <hr>
         @if (count($project->bases()->get()))
             <div class="">
