@@ -24,7 +24,7 @@
                    <td scope="row">{{$item->formlist->area}}</td>
                    <td scope="row">{{$item->base->name}}</td>
                    <td class="btn-group" role="group">
-                    <a href="{{route('public.employees.formlists.show',$item->id)}}" target="_blank" class="btn btn-sm btn-info">Ver</a>
+                    <a href="{{route('public.employees.formlists.show',$item->id)}}" class="btn btn-sm btn-info">Ver</a>
                     </td>
                </tr>
                @endforeach
