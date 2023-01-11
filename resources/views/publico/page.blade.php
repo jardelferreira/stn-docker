@@ -33,9 +33,6 @@
             </div>
             <div class="list-group list-group-flush my-1">
 
-                <a href="{{ route('welcome') }}"
-                    class="list-group-item list-group-item-action border-bottom py-1 mb-1">
-                    Pagina inicial</a>
                 <a href="{{ route('public.index') }}"
                     class="list-group-item list-group-item-action border-bottom py-1 mb-1">
                     <i class="fas fa-warehouse    "></i>

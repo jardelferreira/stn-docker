@@ -242,13 +242,8 @@ return [
             'text' => 'search',
         ],
         [
-            'text' => 'blog',
-            'url'  => 'admin/blog',
-            'can'  => 'manage-blog',
-        ],
-        [
             'text' => 'Painel Publico',
-            'url' => '/publico'
+            'route' => 'public.index'
         ],
         [
             'text' => 'DP',
