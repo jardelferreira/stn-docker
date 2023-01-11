@@ -57,6 +57,9 @@ class PublicController extends Controller
 
     public function formlists(User $user)
     {
+        if (Auth::id() !== $user->id) {
+            abort(403);
+        }
         $employee = $user->employee()->first();
         return view('publico.employees.formlists',[
             'employee' => $employee
@@ -65,7 +68,11 @@ class PublicController extends Controller
 
     public function fieldsFormlistByEmployee(FormlistBaseEmployee $formlist)
     {
-        // dd($formlist->fields()->toSql());
+        $user = User::where("id",Auth::id())->first();
+        if($user->employee->id != $formlist->employee->id){
+            abort(403);
+        }
+      
         return view('publico.employees.formlistsFields',[
             'employee' => $formlist->employee,
             'base' => $formlist->base,
