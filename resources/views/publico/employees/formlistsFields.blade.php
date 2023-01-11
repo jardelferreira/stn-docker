@@ -2,7 +2,6 @@
 
 @section('title', 'Formulário')
 
-
 @section('content')
     <h2 class="bg-light"><a class="ms-4 btn btn-primary" href="#">imprimir ficha<i class="fas fa-print fa-fw"></i></a></h2>
     <div class="table-responsive text-nowrap bg-light mt-1 mx-1" id="section-to-print">
@@ -108,27 +107,8 @@
     </div>
 @endsection
 
-@section('js')
-    <script>
-        $("input:checkbox").on('click', function() {
-            // in the handler, 'this' refers to the box clicked on
-            var $box = $(this);
-            if ($box.is(":checked")) {
-                // the name of the box is retrieved using the .attr() method
-                // as it is assumed and expected to be immutable
-                var group = "input:checkbox[name='" + $box.attr("name") + "']";
-                // the checked state of the group/box on the other hand will change
-                // and the current value is retrieved using .prop() method
-                $(group).prop("checked", false);
-                $box.prop("checked", true);
-            } else {
-                $box.prop("checked", false);
-            }
-        });
-    </script>
-@endsection
-
 @section('css')
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
 
     <style>
         td>span {
@@ -178,4 +158,23 @@
             }
         }
     </style>
+@endsection
+@section('js')
+    <script>
+        $("input:checkbox").on('click', function() {
+            // in the handler, 'this' refers to the box clicked on
+            var $box = $(this);
+            if ($box.is(":checked")) {
+                // the name of the box is retrieved using the .attr() method
+                // as it is assumed and expected to be immutable
+                var group = "input:checkbox[name='" + $box.attr("name") + "']";
+                // the checked state of the group/box on the other hand will change
+                // and the current value is retrieved using .prop() method
+                $(group).prop("checked", false);
+                $box.prop("checked", true);
+            } else {
+                $box.prop("checked", false);
+            }
+        });
+    </script>
 @endsection

@@ -248,7 +248,7 @@ return [
         ],
         [
             'text' => 'Painel Publico',
-            'route' => 'public.index'
+            'url' => '/publico'
         ],
         [
             'text' => 'DP',
