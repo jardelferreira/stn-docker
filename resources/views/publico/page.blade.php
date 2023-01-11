@@ -37,17 +37,20 @@
                     class="list-group-item list-group-item-action border-bottom py-1 mb-1">
                     <i class="fas fa-warehouse    "></i>
                     Home</a>
-                <a href="{{ route('home') }}" class="list-group-item list-group-item-action border-bottom py-1 mb-1"><i
-                        class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
+                @can('dashboard')
+                    <a href="{{ route('home') }}" class="list-group-item list-group-item-action border-bottom py-1 mb-1"><i
+                            class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
+                @endcan
+                @can('public-projects')
+                    
                 <a href="{{ route('public.projects') }}"
-                    class="list-group-item list-group-item-action border-bottom py-1 mb-1"><i
-                        class="fas fa-tachometer-alt me-2"></i>Projetos</a>
-                <a href="{{ route('public.employees.formlists',Auth::id()) }}"
+                class="list-group-item list-group-item-action border-bottom py-1 mb-1"><i
+                class="fas fa-tachometer-alt me-2"></i>Projetos</a>
+                @endcan
+                <a href="{{ route('public.employees.formlists', Auth::id()) }}"
                     class="list-group-item list-group-item-action border-bottom py-1 mb-1">
                     <i class="fas fa-id-card me-2"></i>Minhas Fichas</a>
                 @yield('sidebar-list')
-
-
                 {{-- 
                 <small><a href="#"
                         class="list-group-item list-group-item-action bg-transparent text-light fw-bold"><i
@@ -96,12 +99,17 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle second-text fw-bold" href="#" id="navbarDropdown"
                                 role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-user me-2"></i>{{Auth::user()->name }}
+                                <i class="fas fa-user me-2"></i>{{ Auth::user()->name }}
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li class="dropdown-item"><a class="btn " href="#">Profile <i class="far fa-address-card"></i></a></li>
-                                <li class="dropdown-item"><a class="btn " href="#">Settings <i class="far fa-cog"></i></a></li>
-                                <li class="dropdown-item"><a class="btn btn-danger" href="{{route('public.logout')}}">Logout <i class="fas fa-power-off"></i></a></li>                            </ul>
+                                <li class="dropdown-item"><a class="btn " href="#">Profile <i
+                                            class="far fa-address-card"></i></a></li>
+                                <li class="dropdown-item"><a class="btn " href="#">Settings <i
+                                            class="far fa-cog"></i></a></li>
+                                <li class="dropdown-item"><a class="btn btn-danger"
+                                        href="{{ route('public.logout') }}">Logout <i class="fas fa-power-off"></i></a>
+                                </li>
+                            </ul>
                         </li>
                     </ul>
                 </div>
@@ -130,9 +138,10 @@
         };
     </script>
     <style>
-        #breadcrumb{
+        #breadcrumb {
             margin-left: 25px;
         }
+
         :root {
             --main-bg-color: #113f67;
             --main-text-color: #113f67;

@@ -4,9 +4,9 @@
 
 @section('content')
     <h2 class="bg-light"><a class="ms-4 btn btn-primary" href="#">imprimir ficha<i class="fas fa-print fa-fw"></i></a></h2>
-    <div class="table-responsive text-nowrap bg-light mt-1 mx-1" id="section-to-print">
+    <div class="table-responsive text-nowrap bg-light mt-1 mx-1">
 
-        <table class="table table-sm table-bordered">
+        <table class="table table-sm table-bordered" id="section-to-print">
             <thead class="">
                 <tr>
                     <th class="border border-dark" colspan="2" id="img_logo">
@@ -72,16 +72,18 @@
                     <td class="border border-dark text-center font-weight-bold" colspan="2"><span> Entrega</span></td>
                     <td class="border border-dark text-center font-weight-bold" colspan="2"><span> Devolução</span></td>
                 </tr>
-            <tr id="head-itens">
-                    <td class="border border-dark text-center " width="25px"><span>#</span></td>
-                    <td class="border border-dark text-center "><span>Código.</span></td>
-                    <td class="border border-dark text-center "><span>Qtd.</span></td>
-                    <td class="border border-dark text-center "><span>C.A.</span></td>
-                    <td class="border border-dark text-center "><span>Descrição</span></td>
-                    <td class="border border-dark text-center "><span>Data</span></td>
-                    <td class="border border-dark text-center "><span>Assinatura</span></td>
-                    <td class="border border-dark text-center "><span>Data</span></td>
-                    <td class="border border-dark text-center "><span>Assinatura</span></td>
+            </tbody>
+            <tbody id="list">
+            <tr id="head-itens" class="table table-bordered">
+                    <th class="border border-dark text-center " width="25px"><span>#</span></th>
+                    <th class="border border-dark text-center "><span>Código.</span></th>
+                    <th class="border border-dark text-center "><span>Qtd.</span></th>
+                    <th class="border border-dark text-center "><span>C.A.</span></th>
+                    <th class="border border-dark text-center "><span>Descrição</span></th>
+                    <th class="border border-dark text-center "><span>Data</span></th>
+                    <th class="border border-dark text-center "><span>Assinatura</span></th>
+                    <th class="border border-dark text-center "><span>Data</span></th>
+                    <th class="border border-dark text-center "><span>Assinatura</span></th>
             </tr>
                     @foreach ($fields as $key => $field)
                         <tr>
