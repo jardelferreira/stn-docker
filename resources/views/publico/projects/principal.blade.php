@@ -4,7 +4,7 @@
 @section('title', 'Lista de projetos')
 
 @section('css')
-<link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
 @endsection
 
 @section('sidebar-list')
@@ -13,37 +13,39 @@
 
 @section('content')
     <div class="bg-light mt-1">
-        <h2>Listagem de Projetos</h2>
-            @include('publico.components.breadcrumb',array('breadcrumb' => [], 'current' => 'Projetos'))
+        <h2 class="ms-2">Listagem de Projetos</h2>
+        @include('publico.components.breadcrumb', ['breadcrumb' => [], 'current' => 'Projetos'])
         <hr>
         @if (count($projects))
-            <table class="table table-striped table-sm table-light" id="projects">
-                <thead class="thead-inverse">
-                    <tr>
-                        <th>Projetos</th>
-                        {{-- <th>Descrição</th> --}}
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($projects as $item)
+        <div class="table-responsive">
+                <table class="table table-striped table-sm " style="width: 100%" id="projects">
+                    <thead class="">
                         <tr>
-                            <td scope="row"><small>{{ $item->name }}</small></td>
-                            <td class="btn-group" role="group">
-                                <a class="btn btn-warning btn-sm mx-1"
-                                    href="{{ route('public.projects.bases', $item) }}"><small>Ver Bases</small></a>
-                                <a class="btn btn-primary btn-sm mx-1"
-                                    href="{{ route('public.projects.stoks', $item) }}"><small>Consultar Estoque</small></a>
-                            </td>
+                            <th>Projetos</th>
+                            {{-- <th>Descrição</th> --}}
+                            <th>Ações</th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        @else
-            <p>Não há Projetos para listagem</p>
-        @endif
+                    </thead>
+                    <tbody>
+                        @foreach ($projects as $item)
+                            <tr>
+                                <td scope="row"><small>{{ $item->name }}</small></td>
+                                <td class="btn-group" role="group">
+                                    <a class="btn btn-warning btn-sm mx-1"
+                                        href="{{ route('public.projects.bases', $item) }}"><small>Ver Bases</small></a>
+                                    <a class="btn btn-primary btn-sm mx-1"
+                                        href="{{ route('public.projects.stoks', $item) }}"><small>Consultar
+                                            Estoque</small></a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            @else
+                <p>Não há Projetos para listagem</p>
+            @endif
+        </div>
     </div>
-
 @endsection
 @section('js')
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>

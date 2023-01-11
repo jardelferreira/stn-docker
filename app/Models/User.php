@@ -84,6 +84,11 @@ class User extends Authenticatable
         return $this->hasMany(Employee::class);
     }
 
+    public function employee()
+    {
+        return $this->hasOne(Employee::class);
+    }
+
     public function signature()
     {
         return $this->hasMany(SignatureUser::class)->latest()->first();

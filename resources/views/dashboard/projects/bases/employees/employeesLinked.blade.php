@@ -28,7 +28,7 @@
                         <td scope="row">{{ $item->profession->name }}</td>
                         <td scope="row">{{ $item->cpf }}</td>
                         <td scope="row">{{ $item->registration }}</td>
-                        <td scope="row">{{ date('d/m/Y', strtotime($item->adimission)) }}</td>
+                        <td scope="row">{{ date('d/m/Y', strtotime($item->admission)) }}</td>
                         <td scope="row" class="btn-group">
                             <a href="{{route('dashboard.bases.employees.formlists',['base' => $base,'employee' => $item])}}" class="btn btn-sm btn-info mx-1">Ver Formulários</a>
                             <form action="{{route('dashboard.bases.employees.detachEmployee',['base' => $base,'employee' => $item])}}" method="post">

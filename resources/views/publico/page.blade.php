@@ -8,7 +8,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     {{-- Custom Meta Tags --}}
     @yield('meta_tags')
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    {{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" /> --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 
     @yield('css')
@@ -35,12 +36,15 @@
                 <a href="{{ route('public.index') }}"
                     class="list-group-item list-group-item-action border-bottom py-1 mb-1">
                     <i class="fas fa-warehouse    "></i>
-                    <small>Home</small></a>
+                    Home</a>
                 <a href="{{ route('home') }}" class="list-group-item list-group-item-action border-bottom py-1 mb-1"><i
-                        class="fas fa-tachometer-alt me-2"></i><small>Dashboard</small></a>
+                        class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
                 <a href="{{ route('public.projects') }}"
                     class="list-group-item list-group-item-action border-bottom py-1 mb-1"><i
-                        class="fas fa-tachometer-alt me-2"></i><small>Projetos</small></a>
+                        class="fas fa-tachometer-alt me-2"></i>Projetos</a>
+                <a href="{{ route('public.employees.formlists',Auth::id()) }}"
+                    class="list-group-item list-group-item-action border-bottom py-1 mb-1">
+                    <i class="fas fa-id-card me-2"></i>Minhas Fichas</a>
                 @yield('sidebar-list')
 
 
@@ -78,7 +82,7 @@
             <nav class="navbar navbar-expand-lg navbar-light bg-light py-4 px-4">
                 <div class="d-flex align-items-center">
                     <i class="fas fa-align-left primary-text fs-4 me-3 " id="menu-toggle"> Menu </i>
-                    <h2 class="fs-2 m-0"> - Painel do usuário</h2>
+                    <h2 class="fs-2 m-0 d-none d-md-block"> - Painel do usuário</h2>
                 </div>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"

@@ -12,7 +12,7 @@
     <title>Login</title>
   </head>
   <body>
-    <section class="">
+    <section class="" id="section-login">
       <div class="container">
         <div class="row d-flex justify-content-center align-items-center">
           <div class="col col-xl-10">
@@ -28,7 +28,7 @@
                @enderror
               </div>
               <div class="row g-0">
-                <div class="col-md-6  ml-1 col-lg-5 d-none mt-2 d-md-block">
+                <div class="col-md-6 col-lg-6 d-none mt-2 d-md-block">
                   <img src="{{asset('images/stn02.jpg')}}"
                     alt="login form" class="img-fluid" style="border-radius: 1rem;" />
                 </div>
@@ -78,6 +78,12 @@
       body{
         background: rgb(18, 159, 187);
             background: linear-gradient(90deg, rgba(18, 159, 187, 1) 4%, rgba(103, 138, 179, 1) 45%, rgba(11, 7, 71, 1) 95%);
+      }
+      @media(max-width: 768px){
+
+        #section-login{
+          margin-top: 30px !important;
+        }
       }
     </style>
 

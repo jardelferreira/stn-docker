@@ -41,9 +41,7 @@ Auth::routes();
 
 Route::prefix('publico')->group(function(){
     // Route::get('projetos',[PublicController::class,'projects'])->name('public.projects');
-    Route::get('projetos/{project}/bases',[PublicController::class,'bases'])->name('public.projects.bases');
-    Route::get('projetos/{project}/estoque',[PublicController::class,'stokFromProject'])->name('public.projects.stoks');
-    Route::get('projetos/bases/{base}/estoque',[PublicController::class,'stokFromBase'])->name('public.projects.bases.stoks');
+    
 });
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
@@ -331,7 +329,10 @@ Route::prefix('publico')->middleware('auth')->group(function() {
     Route::prefix('projetos')->group(function(){
         Route::get('/',[PublicController::class,'projects'])->name('public.projects');
         Route::get('/{project}/estoque',[PublicController::class,'stokFromProject'])->name('public.projects.stoks');
-
+        Route::get('/{project}/bases',[PublicController::class,'bases'])->name('public.projects.bases');
+        Route::get('/{project}/estoque',[PublicController::class,'stokFromProject'])->name('public.projects.stoks');
+        Route::get('/bases/{base}/estoque',[PublicController::class,'stokFromBase'])->name('public.projects.bases.stoks');
     });
-
+    Route::get('fichas/{user}/funcionario',[PublicController::class,'formlists'])->name('public.employees.formlists');
+    Route::get('fichas/{formlist}/show',[PublicController::class,'fieldsFormlistByEmployee'])->name('public.employees.formlists.show');
 });

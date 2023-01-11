@@ -6,12 +6,13 @@
 @endsection
 
 @section('content')
-    <div class="bg-light">
-        <h1>Listagem de Bases do Projeto - <small>{{ $project->name }}</small></h1>
+    <div class="bg-light mt-1">
+        <h2 class="ms-2">Listagem de Bases do Projeto - <small>{{ $project->name }}</small></h2>
         @include('publico.components.breadcrumb',array('breadcrumb' => array(
             ['url' => 'public.projects', 'name' => 'Projetos']
     ), 'current' => 'Bases'))
         @if (count($bases))
+        <div class="table-responsive">
             <table class="table table-striped table-sm" id="bases">
                 <thead class="thead-inverse">
                     <tr>
@@ -32,6 +33,7 @@
                     @endforeach
                 </tbody>
             </table>
+        </div>
         @else
             <p>Não há Projetos para listagem</p>
         @endif

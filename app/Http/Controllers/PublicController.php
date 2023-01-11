@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Base;
+use App\Models\User;
 use App\Models\Project;
+use App\Models\Employee;
 use Illuminate\Http\Request;
+use App\Models\FormlistBaseEmployee;
 use Illuminate\Support\Facades\Auth;
 
 class PublicController extends Controller
@@ -49,6 +52,26 @@ class PublicController extends Controller
         // dd($base->sectors()->with('stoks')->get());
         return view('publico.projects.bases.stoks', [
             'base' => $base
+        ]);
+    }
+
+    public function formlists(User $user)
+    {
+        $employee = $user->employee()->first();
+        return view('publico.employees.formlists',[
+            'employee' => $employee
+        ]);
+    }
+
+    public function fieldsFormlistByEmployee(FormlistBaseEmployee $formlist)
+    {
+        // dd($formlist->fields()->toSql());
+        return view('publico.employees.formlistsFields',[
+            'employee' => $formlist->employee,
+            'base' => $formlist->base,
+            'formlist' => $formlist->formlist,
+            'formlist_employee' => $formlist->id,
+            'fields' => $formlist->fields()->get()
         ]);
     }
 

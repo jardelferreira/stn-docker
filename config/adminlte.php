@@ -247,6 +247,10 @@ return [
             'can'  => 'manage-blog',
         ],
         [
+            'text' => 'Painel Publico',
+            'route' => 'public.index'
+        ],
+        [
             'text' => 'DP',
             'icon' => 'fa fa-circle',
             'submenu' => [

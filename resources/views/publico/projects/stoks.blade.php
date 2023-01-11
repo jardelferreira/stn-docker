@@ -9,14 +9,15 @@
 
 @endsection
 @section('content')
-    <div class="bg-light">
-        <h1>Listagem de estoque do projeto - <small>{{ $project->name }}</small></h1>
-        @include('publico.components.breadcrumb',array('breadcrumb' => [], 'current' => 'Estoque'))
-
-        <hr>
+    <div class="bg-light mt-1">
+        <h1 class="ms-2">Listagem de estoque do projeto - <small>{{ $project->name }}</small></h1>
+        @include('publico.components.breadcrumb', [
+            'breadcrumb' => [['url' => 'public.projects', 'name' => 'Projetos']],
+            'current' => 'Estoque',
+        ])
         @if (count($project->bases()->get()))
-            <div class="">
-                <table class=" table table-striped text-nowrap table-responsive table-sm" id="stok">
+            <div class="table-responsive">
+                <table class=" table table-striped table-sm" id="stok">
                     <thead class="thead-inverse">
                         <tr>
                             <th>Base</th>

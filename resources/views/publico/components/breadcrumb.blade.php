@@ -3,7 +3,7 @@
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ route('public.index') }}">Página principal</a></li>
             @foreach ($breadcrumb as $item)
-            <li class="breadcrumb-item"><a href="{{ route($item['url']) }}">{{$item['name']}}</a></li>
+            <li class="breadcrumb-item"><a href="{{ route($item['url'], $item['id'] ?? "") }}">{{$item['name']}}</a></li>
             
             @endforeach
             <li class="breadcrumb-item active" aria-current="page">{{$current}}</li>

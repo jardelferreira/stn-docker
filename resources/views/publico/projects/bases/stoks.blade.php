@@ -4,13 +4,15 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
     @endsection
 @section('content')
-    <div class="bg-light">
-        @section('breadcrumb-list')
-        <li class="breadcrumb-item active" aria-current="page">Estoque</li>
-        @endsection
-    <h1>Listagem de estoque da Base - <small>{{ $base->name }}</small> - {{ $base->project->name }}</h1>
-    <hr>
+    <div class="bg-light mt-1">
+        <h2 class="ms-2">Listagem de estoque da Base - <small>{{ $base->name }}</small> - {{ $base->project->name }}</h2>
+        @include('publico.components.breadcrumb',array('breadcrumb' => array(
+            ['url' => 'public.projects', 'name' => 'Projetos'],
+            ['url' => 'public.projects.bases', 'name' => "{$base->project->name} - Bases", 'id' => $base->project->id],
+    ), 'current' => 'Bases'))
+
     @if (count($base->sectors()->get()))
+    <div class="table-responsive">
         <table class="table table-striped table-sm" id="stok">
             <thead class="thead-inverse">
                 <tr>
@@ -35,6 +37,7 @@
                 @endforeach
             </tbody>
         </table>
+    </div>
     @else
         <p>Não há Produtos para listagem</p>
     @endif

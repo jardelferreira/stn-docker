@@ -3,10 +3,10 @@
 @section('title_prefix', "STN-")
 @section('title',"Painel do Usuário")
 
-@section('sidebar-list')
-<small><a href="{{ route('public.projects') }}" class="list-group-item list-group-item-action bg-transparent text-light active">
-    <i class="fas fa-tachometer-alt me-2"></i>Projetos</a></small>
-@endsection
+{{-- @section('sidebar-list')
+<a href="{{ route('public.projects') }}" class="list-group-item list-group-item-action border-bottom py-1 mb-1">
+    <i class="fas fa-tachometer-alt me-2"></i>Projetos</a>
+@endsection --}}
 
 @section('content')
 <div class="container-fluid px-4">
