@@ -140,7 +140,7 @@ class FieldController extends Controller
         // dd(date("Y-m-d H:i:s"));
 
         $dados = [
-            'uuid' => Str::uuid(),
+            'uuid' => Str::uuid(), 
             'ca_first' => $stok->invoiceProduct->ca_number,
             'date_delivered' => date("Y-m-d H:i:s"),
             'user_id' => intVal(Auth::user()->id),
@@ -151,6 +151,62 @@ class FieldController extends Controller
         ];
         $dados = array_merge($dados,$request->all());
         // dd($dados);
+        Field::create($dados);
+
+        return redirect()->route('dashboard.bases.employees.formlists.fields',[
+            'formlist_employee' => $formlist_employee,
+            'employee' => $formlist_employee->employee,
+            'base' => $formlist_employee->base
+        ]);
+    }
+
+    public function assingnField(FormlistBaseEmployee $formlist_employee,Request $request)
+    {
+        $employee = $formlist_employee->employee()->first();
+
+        if(!$employee->user->hasSignature()){
+            return response()->json(['message' => 'É necessário cadastrar uma assinatura.']);
+        }
+
+        $stok = Stoks::where('id',$request->stok_id)->first();
+
+        $signature = $employee->signature()->create([
+            'uuid' => Str::uuid(),
+            'user_id' => Auth::user()->id,
+            'signature' => $employee->user->signature()->signature,
+            'event' => $formlist_employee->saveEventString($stok->invoiceProduct,$request->qtd_delivered)
+        ]);
+
+        if($signature){
+            return response()->json([
+                'success' => true,
+                'signature_id' => $signature->id,
+                'message' => "Documento assinado com sucesso!"
+            ]);
+        }
+            return response()->json([
+                'success' => false,
+                'message' => 'Erro ao tentar assinar documento!'
+            ]);     
+    }
+
+    public function salveFieldAfterAssign(FormlistBaseEmployee $formlist_employee,Request $request)
+    {
+        $employee = $formlist_employee->employee()->first();
+        $stok = Stoks::where('id',$request->stok_id)->first();
+        
+        $dados = [
+            'uuid' => Str::uuid(), 
+            'ca_first' => $stok->invoiceProduct->ca_number,
+            'date_delivered' => date("Y-m-d H:i:s"),
+            'user_id' => intVal(Auth::user()->id),
+            'employee_id' => intVal($employee->id),
+            'formlist_base_employee_id' => intVal($formlist_employee->id),
+            // 'signature_delivered' => $request->signature_id, //trazer via request
+            'qtd_required' => 0
+        ];
+        $dados = array_merge($dados,$request->all());
+
         Field::create($dados);
 
         return redirect()->route('dashboard.bases.employees.formlists.fields',[

@@ -94,6 +94,11 @@ class User extends Authenticatable
         return $this->hasMany(SignatureUser::class)->latest()->first();
     }
 
+    public function allSignaturesUser()
+    {
+        return $this->hasMany(SignatureUser::class);
+    }
+
     public function generateSignature($pass)
     {
         // dd();
@@ -166,5 +171,19 @@ class User extends Authenticatable
         $decryption_iv
     );
     return $decryption;
+    }
+
+    public function checkSignature(String $pass)
+    {
+        if($this->signature()->signature === $this->encryptPass($pass)){
+            return array([
+                'success' => true,
+                'message' => "Senha correta"
+            ]);
+        }
+        if(array_key_exists($this->encryptPass($pass),$this->signature()->toArray())){
+            
+        }
+
     }
 }

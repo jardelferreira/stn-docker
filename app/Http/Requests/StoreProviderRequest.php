@@ -27,7 +27,7 @@ class StoreProviderRequest extends FormRequest
         return [
             "slug" => "required|unique:providers,slug,{$this->uuid},uuid",
             "email" => "required|email|unique:providers,email,{$this->uuid},uuid",
-            "cnpj" => "rrequired|"
+            "cnpj" => "required|"
         ];
     }
 
