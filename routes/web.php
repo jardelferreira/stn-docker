@@ -316,6 +316,8 @@ Route::prefix('dashboard')->middleware(['auth','permission:dashboard'])->group(f
         Route::get('sectors',[FieldController::class,'getSectors'])->name('dashboard.fields.getSectors');
         Route::get('sectors/{sector}',[FieldController::class,'getStoksBySector'])->name('dashboard.fields.getStoksBySector');
         Route::post('save',[FieldController::class,'salveField'])->name('dashboard.fields.salveField');
+        Route::post('signatureField',[FieldController::class,'signatureField'])->name('dashboard.fields.signatureField');
+        Route::post('salveFieldAfterAssign',[FieldController::class,'salveFieldAfterAssign'])->name('dashboard.fields.salveFieldAfterAssign');
     });
 
 });

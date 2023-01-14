@@ -50,3 +50,5 @@
     @stack('js')
     @yield('js')
 @stop
+@section('plugins.Sweetalert2', true)
+

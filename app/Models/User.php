@@ -173,17 +173,40 @@ class User extends Authenticatable
     return $decryption;
     }
 
-    public function checkSignature(String $pass)
+    public function checkSignature($pass)
     {
-        if($this->signature()->signature === $this->encryptPass($pass)){
-            return array([
-                'success' => true,
-                'message' => "Senha correta"
-            ]);
-        }
-        if(array_key_exists($this->encryptPass($pass),$this->signature()->toArray())){
-            
-        }
+        if($pass != null){
 
+            if($this->signature()->signature == $this->encryptPass($pass)){
+                return array(
+                    'success' => true,
+                    'message' => "Senha correta"
+                );
+            }
+            elseif(array_key_exists($this->encryptPass($pass),$this->allSignaturesUser()->pluck('signature')->toArray())) {
+                return array(
+                    'success' => false,
+                    'message' => "Você está tentando usar uma senha antiga.",
+                    'type' => 'warning'
+                );
+
+            }else{
+                return array(
+                    'success' => false,
+                    'message' => "Senha incorreta",
+                    'footer' => "Erro de Senha.",
+                    'type' => 'error',
+                );
+            }
+        }else{
+            return array(
+                'success' => false,
+                'message' => "Informe uma senha",
+                'footer' => "Erro de Senha.",
+                'type' => 'warning',
+            );
+        }
+            
+        
     }
 }
