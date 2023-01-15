@@ -162,9 +162,9 @@
         }
     </style>
     <style>
-        /* @page {
+        @page {
             size: landscape;
-        } */
+        }
 
         #list tr:nth-child(even) {
             background-color: #A9BCF5;

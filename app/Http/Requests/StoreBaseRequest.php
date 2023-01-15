@@ -27,7 +27,7 @@ class StoreBaseRequest extends FormRequest
             'name' => "required|max:55",
             'description' => "required|max:255",
             'place' => "required|max:75",
-            'project_id' => "required|exists:projects"
+            'project_id' => "required|exists:projects,id"
         ];
     }
 
