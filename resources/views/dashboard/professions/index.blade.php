@@ -23,12 +23,12 @@
                    <td scope="row">{{$item->description}}</td>
                    <td class="btn-group" role="group">
                        <a class="btn btn-info btn-sm mr-1" href="{{route('dashboard.professions.edit',$item->id)}}" >Editar</a>
-                       <a class="btn btn-warning btn-sm mr-1" href="{{route('dashboard.professions.projects',$item)}}" >Vincular</a>
-                        <form action="{{route('dashboard.professions.destroy',['id' => $item->id])}}" method="POST">
+                       <a class="btn btn-warning btn-sm mr-1" href="{{route('dashboard.professions.projects',$item)}}" >Vincular a projetos</a>
+                        {{-- <form action="{{route('dashboard.professions.destroy',['id' => $item->id])}}" method="POST">
                             @csrf
                             @method('DELETE')
                         <button class="btn btn-danger btn-sm" type="submit">Deletar</button>
-                        </form>
+                        </form> --}}
                     </td>
                </tr>
                @endforeach
