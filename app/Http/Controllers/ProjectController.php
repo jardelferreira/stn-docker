@@ -176,12 +176,19 @@ class ProjectController extends Controller
         return redirect()->route('dashboard.projects.employees',$project);
     }
 
+    public function attachEmployee(Project $project, Employee $employee)
+    {
+        $project->employees()->attach($employee->id);
+
+        return redirect()->route('dashboard.projects.employees',$project);
+    }
+
     public function listEmployees(Project $project)
     {
+        // dd($project->employees()->get()->pluck('id')->toArray());
         return view('dashboard.projects.listEmployees',[
-            'employees' => Employee::all(),
+            'employees' => $project->employeesForLink()->get(),
             'project' => $project,
-            'project_employees' => $project->employees()->pluck('employee_id')->toArray(),
 
         ]);
     }

@@ -116,7 +116,8 @@ Route::prefix('dashboard')->middleware(['auth','permission:dashboard'])->group(f
         Route::get('/{project}/listar_funcionarios',[ProjectController::class,'listEmployees'])->name('dashboard.projects.listEmployees');
         
         Route::post('/',[ProjectController::class,'store'])->name('dashboard.projects.store');
-        Route::post('/{project}/employee/{employee}',[ProjectController::class,'detachEmployee'])->name('dashboard.projects.detachEmployee');
+        Route::post('/{project}/employee/{employee}/detach',[ProjectController::class,'detachEmployee'])->name('dashboard.projects.detachEmployee');
+        Route::post('/{project}/employee/{employee}/attach',[ProjectController::class,'attachEmployee'])->name('dashboard.projects.attachEmployee');
         Route::put('/{project}/update',[ProjectController::class,'update'])->name('dashboard.projects.update');
         Route::delete('/',[ProjectController::class,'destroy'])->name('dashboard.projects.destroy');
 
@@ -221,6 +222,7 @@ Route::prefix('dashboard')->middleware(['auth','permission:dashboard'])->group(f
                 Route::get('/vinculados',[BaseController::class,'employeesLinked'])->name('dashboard.bases.employees.linked');
                 Route::put('/sync',[BaseController::class,'syncEmployeesById'])->name('dashboard.bases.employees.sync');
                 Route::post('/{employee}/detach',[BaseController::class,'detachEmployee'])->name('dashboard.bases.employees.detachEmployee');
+                Route::post('/{employee}/atttach',[BaseController::class,'atttachEmployee'])->name('dashboard.bases.employees.atttachEmployee');
                    
                 Route::prefix('{employee}/formularios')->group(function(){
                     Route::get('/',[BaseController::class,'formlistsByEmployee'])->name('dashboard.bases.employees.formlists');

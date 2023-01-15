@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Project extends Model
 {
@@ -31,6 +32,10 @@ class Project extends Model
         return $this->belongsToMany(Employee::class, 'employee_project');
     }
 
+    public function employeesForLink()
+    {
+        return Employee::whereNotIn('id',$this->employees()->get()->pluck('id')->toArray());
+    }
     public function professions()
     {
         return $this->belongsToMany(Profession::class,'profession_project');
