@@ -9,8 +9,11 @@
         <a class="btn btn-primary"
             href="{{ route('dashboard.bases.employees.list.formlists', ['base' => $base, 'employee' => $employee]) }}"
             role="button">Vincular novo - <i class="fa fa-plus" aria-hidden="true"></i></a>
-        <a name="del" id="del" class="btn btn-danger" href="#" role="button">Excluir formulário</a>
-
+        {{-- <a name="del" id="del" class="btn btn-danger" href="#" role="button">Excluir formulário</a> --}}
+        <a id="del" class="btn btn-outline-danger" href="#"  role="button"
+        onclick="DownloadFile('{{$formlist->name}}-{{$employee->user->name}}.pdf','{{route('formlistPdf',$formlist)}}')">
+        Salvar PDF - <i class="fa fa-file-pdf " aria-hidden="true"></i>
+        </a>
     </h1>
 @stop
 
@@ -101,7 +104,7 @@
                     @foreach ($fields as $key => $field)
                         <tr>
                             <td class="border border-dark p-0 m-0">
-                                <div class="dropdown" with="10px" padding="0" margin="0">
+                                <div class="dropdown" with="5px" style="max-height: 10px;" padding="0" margin="0">
                                     <button class="btn btn-warning btn-sm dropdown-toggle" type="button"
                                         id="dropdownMenu{{ $key }}" data-toggle="dropdown" aria-haspopup="true"
                                         aria-expanded="false">
@@ -113,20 +116,20 @@
                                     </div>
                                 </div>
                             </td>
-                            <td class="border border-dark">{{ $field->qtd_delivered }}</td>
-                            <td class="border border-dark">{{ $field->stoks->id }}</td>
-                            <td class="border border-dark">{{ $field->stoks->invoiceProduct->ca_number }}</td>
-                            <td class="border border-dark">{{ $field->stoks->invoiceProduct->description }}</td>
-                            <td class="border border-dark">{{ date('d/m/Y', strtotime($field->date_delivered)) }}</td>
-                            <td class="border border-dark">
+                            <td class="border border-dark"><p class="h6">{{ $field->qtd_delivered }}</p></td>
+                            <td class="border border-dark"><p class="h6">{{ $field->stoks->id }}</p></td>
+                            <td class="border border-dark"><p class="h6">{{ $field->stoks->invoiceProduct->ca_number }}</p></td>
+                            <td class="border border-dark"><p class="h6">{{ $field->stoks->invoiceProduct->description }}</p></td>
+                            <td class="border border-dark"><p class="h6">{{ date('d/m/Y', strtotime($field->date_delivered)) }}</p></td>
+                            <td class="border border-dark"><p class="h6">
                                 @if ($field->signature_delivered)
                                     Assinado
                                 @else
                                     Falha na assinatura
                                 @endif
-                            </td>
-                            <td class="border border-dark">{{ $field->date_returned }}</td>
-                            <td class="border border-dark">{{ $field->signature_returned }}</td>
+                            </p></td>
+                            <td class="border border-dark"><p class="h6">{{ $field->date_returned }}</p></td>
+                            <td class="border border-dark"><p class="h6">{{ $field->signature_returned }}</p></td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -152,11 +155,53 @@
                 $box.prop("checked", false);
             }
         });
+        function DownloadFile(fileName,url) { 
+            $.ajax({
+                url: url,
+                cache: false,
+                xhr: function () {
+                    var xhr = new XMLHttpRequest();
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState == 2) {
+                            if (xhr.status == 200) {
+                                xhr.responseType = "blob";
+                                console.log("recebido")
+                            } else {
+                                xhr.responseType = "text";
+                            }
+                        }
+                    };
+                    console.log("enviando")
+                    return xhr;
+                },
+                success: function (data) {
+                    //Convert the Byte Data to BLOB object.
+                    console.log("convertendo para blob")
+                    var blob = new Blob([data], { type: "application/octetstream" });
+                    //Check the Browser type and download the File.
+                    var isIE = false || !!document.documentMode;
+                    if (isIE) {
+                        window.navigator.msSaveBlob(blob, fileName);
+                    } else {
+                        console.log("preparando download")
+                        var url = window.URL || window.webkitURL;
+                        link = url.createObjectURL(blob);
+                        var a = $("<a />");
+                        a.attr("download", fileName);
+                        a.attr("href", link);
+                        $("body").append(a);
+                        a[0].click();
+                        $("body").remove(a);
+                    }
+                }
+            });
+        };
     </script>
 @endsection
 
 @section('css')
     <style>
+        
         td>span {
             font-weight: bold;
         }

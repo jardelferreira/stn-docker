@@ -51,6 +51,7 @@ Route::prefix('dashboard')->middleware(['auth','permission:dashboard'])->group(f
     Route::get('teste',function(){
         return view('dashboard.projects.bases.employees.formlistsFields');
     });
+    Route::get('formulario/{formlist_employee}',[BaseController::class,'formlistPdf'])->name('formlistPdf');
     Route::prefix('api')->group(function(){
         Route::get('invoice/{invoice}/products',[StoksController::class,'getProductsByInvoiceId'])->name('api.invoice.products');
         Route::get('providers/invoices/{sector}',[StoksController::class,'getAllInvoicesFromProviderByProject'])->name('api.providers.invoices');

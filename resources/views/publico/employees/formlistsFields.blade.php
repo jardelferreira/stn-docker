@@ -1,9 +1,10 @@
 @extends('publico.page')
 
 @section('title', 'Formulário')
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
 
 @section('content')
-    <h2 class="bg-light"><a class="ms-4 btn btn-primary" href="#">imprimir ficha<i class="fas fa-print fa-fw"></i></a></h2>
+    <h2 class="bg-light"><a class="ms-4 btn btn-primary" onclick="window.print()" href="#">imprimir ficha<i class="fas fa-print fa-fw"></i></a></h2>
     <div class="table-responsive text-nowrap bg-light mt-1 mx-1">
 
         <table class="table table-sm table-bordered" id="section-to-print">
@@ -110,20 +111,12 @@
 @endsection
 
 @section('css')
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
 
     <style>
         td>span {
             font-weight: bold;
         }
-/* 
-        #head-itens > td{
-            background-color: black;
-            color: #fff;
-        } */
-    </style>
 
-    <style>
         #list tr:nth-child(even) {
             background-color: #A9BCF5;
         }
@@ -161,7 +154,10 @@
         }
     </style>
 @endsection
+
 @section('js')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
         $("input:checkbox").on('click', function() {
             // in the handler, 'this' refers to the box clicked on

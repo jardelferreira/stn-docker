@@ -21,6 +21,7 @@
         "sass-loader": "^11.0.1"
     },
     "dependencies": {
+        "html2canvas": "^1.4.1",
         "inputmask": "^5.0.7"
     }
 }
