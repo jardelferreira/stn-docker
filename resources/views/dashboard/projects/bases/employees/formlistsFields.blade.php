@@ -257,7 +257,7 @@
                             icon: 'success',
                             title: 'Tudo pronto, baixando!',
                             showConfirmButton: false,
-                            timer: 100
+                            timer: 1500
                         })
                         a.attr("download", fileName);
                         a.attr("href", link);

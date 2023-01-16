@@ -215,6 +215,7 @@
         });
 
         function DownloadFile(fileName, url) {
+            var popupTextElement = "";
             $.ajax({
                 url: url,
                 cache: false,
@@ -224,18 +225,43 @@
                         if (xhr.readyState == 2) {
                             if (xhr.status == 200) {
                                 xhr.responseType = "blob";
-                                console.log("recebido")
+                                popupTextElement.innerHTML = popupTextElement.innerHTML +
+                                    `<br/>
+                                        <div class="alert alert-success" role="alert">
+                                        Processando...
+                                        </div>`
                             } else {
                                 xhr.responseType = "text";
                             }
                         }
                     };
-                    console.log("enviando")
+
+                    swal.fire({
+                        title: "<span id='save-popup-title'>Gerando PDF para ficha...</span>",
+                        html: "<div id='save-popup-icon'></div><span id='save-popup-message'></span>",
+                        confirmButtonColor: "#1a7bb9",
+                        confirmButtonText: "Ok",
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading()
+                            popupTextElement = document.getElementById(
+                                "save-popup-message");
+                            popupTextElement.innerHTML = popupTextElement.innerHTML +
+                                `<br/>
+                                        <div class="alert alert-success" role="alert">
+                                        Enviando...
+                                        </div>`;
+                        }
+                    });
                     return xhr;
                 },
                 success: function(data) {
                     //Convert the Byte Data to BLOB object.
-                    console.log("convertendo para blob")
+                    popupTextElement.innerHTML = popupTextElement.innerHTML +
+                        `<br/>
+                                        <div class="alert alert-success" role="alert">
+                                        Gerando pdf...
+                                        </div>`
                     var blob = new Blob([data], {
                         type: "application/octetstream"
                     });
@@ -244,10 +270,21 @@
                     if (isIE) {
                         window.navigator.msSaveBlob(blob, fileName);
                     } else {
-                        console.log("preparando download")
+                        popupTextElement.innerHTML = popupTextElement.innerHTML +
+                            `<br/>
+                            <div class="alert alert-success" role="alert">
+                            Preparando seu download...
+                            </div>`
                         var url = window.URL || window.webkitURL;
                         link = url.createObjectURL(blob);
                         var a = $("<a />");
+                        swal.close()
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Tudo pronto, baixando!',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
                         a.attr("download", fileName);
                         a.attr("href", link);
                         $("body").append(a);
