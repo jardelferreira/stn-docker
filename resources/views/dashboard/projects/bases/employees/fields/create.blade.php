@@ -44,8 +44,7 @@
         <div class="form row">
             <div class="form-group col-lg-6  col-md-6">
                 <label for="qtd_delivered">Quantidade disponível: 20 und</label>
-                <input type="number" class="form-control" name="qtd_delivered" id="qtd_delivered"
-                    aria-describedby="qtd_delivered" placeholder="2">
+                <input type="number" class="form-control" name="qtd_delivered" id="qtd_delivered">
                 @error('qtd_delivered')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
@@ -137,7 +136,7 @@
         });
         $("#add").on("click", (e) => {
 
-            if (!$("#stok_id").val() && $("#qtd_delivered").val() < 0) {
+            if ($("#stok_id").val() != null && $("#qtd_delivered").val() != null && $("#qtd_delivered").val() != '') {
 
                 var url = window.location.href;
 

@@ -12,6 +12,7 @@
             onclick="DownloadFile('{{ $formlist->name }}-{{ $employee->user->name }}.pdf','{{ route('formlistPdf', $formlist_employee) }}')">
             Salvar PDF - <i class="fa fa-file-pdf " aria-hidden="true"></i>
         </a>
+        
     </h2>
     <div class="table-responsive text-nowrap bg-light mt-1 mx-1">
 
@@ -197,7 +198,9 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
+           
         })
+
         $("input:checkbox").on('click', function() {
             // in the handler, 'this' refers to the box clicked on
             var $box = $(this);
