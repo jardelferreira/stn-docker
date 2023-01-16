@@ -11,7 +11,7 @@
             role="button">Vincular novo - <i class="fa fa-plus" aria-hidden="true"></i></a>
         {{-- <a name="del" id="del" class="btn ml-1 rounded btn-danger" href="#" role="button">Excluir formulário</a> --}}
         <a id="del" class="btn ml-1 rounded btn-outline-danger btn-sm" href="#" role="button"
-            onclick="DownloadFile('{{ $formlist->name }}-{{ $employee->user->name }}.pdf','{{ route('formlistPdf', $formlist) }}')">
+            onclick="DownloadFile('{{ $formlist->name }}-{{ $employee->user->name }}.pdf','{{ route('formlistPdf', $formlist_employee) }}')">
             Salvar PDF - <i class="fa fa-file-pdf " aria-hidden="true"></i>
         </a>
         <a class="ml-1 rounded btn btn-primary btn-sm" onclick="window.print()" href="#">imprimir ficha<i

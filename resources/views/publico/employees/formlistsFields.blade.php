@@ -9,7 +9,7 @@
         <a class="ms-4 btn btn-primary btn-sm" onclick="window.print()" href="#">imprimir ficha<i
                 class="fas fa-print fa-fw"></i></a>
         <a id="del" class="btn btn-outline-danger btn-sm" href="#" role="button"
-            onclick="DownloadFile('{{ $formlist->name }}-{{ $employee->user->name }}.pdf','{{ route('formlistPdf', $formlist) }}')">
+            onclick="DownloadFile('{{ $formlist->name }}-{{ $employee->user->name }}.pdf','{{ route('formlistPdf', $formlist_employee) }}')">
             Salvar PDF - <i class="fa fa-file-pdf " aria-hidden="true"></i>
         </a>
     </h2>
