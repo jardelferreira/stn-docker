@@ -97,22 +97,42 @@
                 </tr>
                 @foreach ($fields as $key => $field)
                     <tr>
-                        <td class="border text-center border-dark p-0 m-0"><p style="padding: 0; margin: 0; font-size: 0.8em;">{{ $key + 1 }}</p></td>
-                        <td class="border text-center border-dark"><p style="padding: 0; margin: 0; font-size: 0.8em;">{{ $field->stoks->id }}</p></td>
-                        <td class="border text-center border-dark"><p style="padding: 0; margin: 0; font-size: 0.8em;">{{ $field->qtd_delivered }}</p></td>
-                        <td class="border text-center border-dark"><p style="padding: 0; margin: 0; font-size: 0.8em;">{{ $field->stoks->invoiceProduct->ca_number }}</p></td>
-                        <td class="border text-center border-dark"><p style="padding: 0; margin: 0; font-size: 0.8em;">{{ $field->stoks->invoiceProduct->description }}</p></td>
-                        <td class="border text-center border-dark"><p style="padding: 0; margin: 0; font-size: 0.8em;">{{ date('d/m/Y', strtotime($field->date_delivered)) }}</p>
+                        <td class="border text-center border-dark p-0 m-0">
+                            <p style="padding: 0; margin: 0; font-size: 0.8em;">{{ $key + 1 }}</p>
                         </td>
-                        <td class="border text-center border-dark"><p style="padding: 0; margin: 0; font-size: 0.8em;">
-                            @if ($field->signature_delivered)
-                                Assinado
-                            @else
-                                Falha na assinatura
-                            @endif
-                        </p></td>
-                        <td class="border text-center border-dark"><p style="padding: 0; margin: 0; font-size: 0.8em;">{{ $field->date_returned }}</p></td>
-                        <td class="border text-center border-dark"><p style="padding: 0; margin: 0; font-size: 0.8em;">{{ $field->signature_returned }}</p></td>
+                        <td class="border text-center border-dark">
+                            <p style="padding: 0; margin: 0; font-size: 0.8em;">{{ $field->stoks->id }}</p>
+                        </td>
+                        <td class="border text-center border-dark">
+                            <p style="padding: 0; margin: 0; font-size: 0.8em;">{{ $field->qtd_delivered }}</p>
+                        </td>
+                        <td class="border text-center border-dark">
+                            <p style="padding: 0; margin: 0; font-size: 0.8em;">
+                                {{ $field->stoks->invoiceProduct->ca_number }}</p>
+                        </td>
+                        <td class="border text-center border-dark">
+                            <p style="padding: 0; margin: 0; font-size: 0.8em;">
+                                {{ $field->stoks->invoiceProduct->description }}</p>
+                        </td>
+                        <td class="border text-center border-dark">
+                            <p style="padding: 0; margin: 0; font-size: 0.8em;">
+                                {{ date('d/m/Y', strtotime($field->date_delivered)) }}</p>
+                        </td>
+                        <td class="border text-center border-dark">
+                            <p style="padding: 0; margin: 0; font-size: 0.8em;">
+                                @if ($field->signature_delivered)
+                                    Assinado
+                                @else
+                                    Falha na assinatura
+                                @endif
+                            </p>
+                        </td>
+                        <td class="border text-center border-dark">
+                            <p style="padding: 0; margin: 0; font-size: 0.8em;">{{ $field->date_returned }}</p>
+                        </td>
+                        <td class="border text-center border-dark">
+                            <p style="padding: 0; margin: 0; font-size: 0.8em;">{{ $field->signature_returned }}</p>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
@@ -171,6 +191,13 @@
         integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
+        $(document).onready(() => {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+        })
         $("input:checkbox").on('click', function() {
             // in the handler, 'this' refers to the box clicked on
             var $box = $(this);
