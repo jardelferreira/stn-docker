@@ -292,7 +292,7 @@ Route::prefix('dashboard')->middleware(['auth','permission:dashboard'])->group(f
         
         Route::put('/{employee}/projects/update',[EmployeeController::class,'syncProjectsById'])->name('dashboard.employees.sync');
         Route::post('/',[EmployeeController::class,'store'])->name('dashboard.employees.store');
-        Route::put('/',[EmployeeController::class,'update'])->name('dashboard.employees.update');
+        // Route::put('/',[EmployeeController::class,'update'])->name('dashboard.employees.update');
         Route::delete('/',[EmployeeController::class,'destroy'])->name('dashboard.employees.destroy');
 
   
