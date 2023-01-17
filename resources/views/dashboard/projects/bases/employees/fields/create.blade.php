@@ -134,6 +134,13 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+
+        function signatureCanvas() {
+            Swal.fire({
+                title: "Assinatura Digital",
+                html: ""
+            })
+        }
         $("#add").on("click", (e) => {
 
             if ($("#stok_id").val() != null && $("#qtd_delivered").val() != null && $("#qtd_delivered").val() != '') {
