@@ -18,6 +18,7 @@
                 <th>Qtd</th>
                 <th>Und.</th>
                 <th>Item</th>
+                <th>Certificado</th>
                 <th>Valor Unitário</th>
                 {{-- <th>Detalhes</th> --}}
             </tr>
@@ -30,6 +31,7 @@
                    <td scope="row">{{$item->qtd}}</td>
                    <td scope="row">{{$item->und}}</td>
                    <td scope="row">{{$item->name}}</td>
+                   <td scope="row">{{$item->ca_number}}</td>
                    <td scope="row">{{$item->value_und}}</td>
                    {{-- <td scope="row"><a href="{{route('dashboard.invoicesProducts.show',$item)}}" target="_blank" class="text-danger" ><i class="fa fa-file-pdf  ml-3 fa-xl" aria-hidden="true"></i></a></td> --}}
                </tr>

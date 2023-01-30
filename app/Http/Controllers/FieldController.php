@@ -112,10 +112,10 @@ class FieldController extends Controller
 
     public function getStoksBySector(FormlistBaseEmployee $formlist_employee, Sector $sector)
     {
-        $stoks = $sector->stoks()->with('invoiceProduct')->get();
+        $stoks = $sector->stoks()->where('qtd',">", 0)->with('invoiceProduct')->get();
         $array = [];
         foreach ($stoks as $key => $value) {
-            $array[$key] = ['id' => $value->id, 'name' => $value->invoiceProduct->name];
+            $array[$key] = ['id' => $value->id, 'name' => $value->invoiceProduct->name, "qtd" => $value->qtd];
         }
 
         return response()->json($array);
@@ -227,6 +227,8 @@ class FieldController extends Controller
         $dados = array_merge($dados, $request->all());
 
         Field::create($dados);
+        
+        $stok->update(['qtd' => $stok->qtd - $request->qtd_delivered]);
 
         $signature = Signature::where("id",$request->signature_id);
         $signature->update(['event' => $event]);

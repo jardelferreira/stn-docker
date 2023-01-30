@@ -131,7 +131,7 @@
                             </td>
                             <td class="border border-dark text-center">
                                 <p style="padding: 0; margin: 0; font-size: 0.8em;">
-                                    {{ $field->stoks->invoiceProduct->ca_number }}</p>
+                                    {{ $field->ca_first ?? $field->ca_second }}</p>
                             </td>
                             <td class="border border-dark text-center">
                                 <p style="padding: 0; margin: 0; font-size: 0.8em;">
@@ -186,7 +186,7 @@
                 return `<div class="container">
 		<div class="row">
 			<div class="col-md-12">
-		 		<canvas id="sig-canvas" width="620" height="160">
+		 		<canvas id="sig-canvas" width="480" height="160">
 		 			Get a better browser, bro.
 		 		</canvas>
 		 	</div>
@@ -335,7 +335,7 @@
             Swal.fire({
                 title: "Assine o documento no campo abaixo",
                 html: signatureHtml(),
-                width: 700,
+                width: 580,
                 showCancelButton: true,
             })
 
@@ -354,7 +354,8 @@
             var ctx = canvas.getContext("2d");
             ctx.strokeStyle = "#222222";
             ctx.lineWidth = 4;
-
+            // ctx.moveTo(60,100);
+            // ctx.lineTo(500,100)
             var drawing = false;
             var mousePos = {
                 x: 0,
