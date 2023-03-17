@@ -152,7 +152,7 @@
                 // requisição
                 return $.ajax({
                     method: "POST",
-                    url: `${window.location.href.replace("https","http")}/retirar`,
+                    url: `${window.location.href}/retirar`,
                     data: {
                         pass: pass,
                          qtd: $("#qtd").val(),
