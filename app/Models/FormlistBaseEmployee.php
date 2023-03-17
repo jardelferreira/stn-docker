@@ -36,12 +36,12 @@ class FormlistBaseEmployee extends Model
         return $this->belongsTo(Base::class);
     }
 
-    public function saveEventString($product, $qtd)
+    public function saveEventString($product, $qtd, $type = 0)
     {
+        $direction = ['adiciona', 'devolve'];
         $user = Auth::user();
         $formlist = $this->formlist()->first();
-        return "{$user->name} adiciona em {$formlist->name} de {$this->employee->user()->first()->name}, {$qtd} {$product->und} de {$product->name}";
+        return "{$user->name} {$direction[$type]} em {$formlist->name} de {$this->employee->user()->first()->name}, {$qtd} {$product->und} de {$product->name}";
     }
-
     
 }

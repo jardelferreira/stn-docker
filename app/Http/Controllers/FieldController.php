@@ -8,6 +8,7 @@ use App\Models\Sector;
 use App\Models\FormlistBaseEmployee;
 use App\Http\Requests\StoreFieldRequest;
 use App\Http\Requests\UpdateFieldRequest;
+use App\Models\Employee;
 use App\Models\Signature;
 use App\Models\Stoks;
 use Illuminate\Http\Request;
@@ -112,7 +113,7 @@ class FieldController extends Controller
 
     public function getStoksBySector(FormlistBaseEmployee $formlist_employee, Sector $sector)
     {
-        $stoks = $sector->stoks()->where('qtd',">", 0)->with('invoiceProduct')->get();
+        $stoks = $sector->stoks()->where('qtd', ">", 0)->with('invoiceProduct')->get();
         $array = [];
         foreach ($stoks as $key => $value) {
             $array[$key] = ['id' => $value->id, 'name' => $value->invoiceProduct->name, "qtd" => $value->qtd];
@@ -161,6 +162,61 @@ class FieldController extends Controller
         ]);
     }
 
+    public function devolutionField(
+        Base $base,Employee $employee, FormlistBaseEmployee $formlist_employee, Request $request)
+    {
+        
+        $employee = $formlist_employee->employee()->first();
+        if (!$employee->user->hasSignature()) {
+            return response()->json([
+                'success' => false,
+                'type' => 'info',
+                'message' => 'É necessário cadastrar uma assinatura.',
+                'footer' => "Erro de Senha."
+            ]);
+        }
+
+        $check = $employee->user->checkSignature($request->pass);
+        if (!$check['success']) {
+            return response()->json($check);
+        }
+        $field = Field::where("id", $request->id)->first();
+        $stok = Stoks::where('id', $field->stok_id)->first();
+        $event = $formlist_employee->saveEventString($stok->invoiceProduct, $field->qtd_delivered, 1);
+
+
+        $signature_returned = $employee->signature()->create([
+            'uuid' => Str::uuid(),
+            'user_id' => intVal(Auth::user()->id),
+            'signature' => $employee->user->signature()->signature,
+            'event' => $event
+        ]);
+
+        if ($signature_returned) {
+            $field->update([
+                'date_returned' => date("Y-m-d H:i:s"),
+                'signature_returned' => $signature_returned->id,
+            ]);
+
+            $stok->update(['qtd' => $stok->qtd + $field->qtd_delivered]);
+
+            return response()->json([
+                'success' => true,
+                'type'    => 'success',
+                'message' => "Devolução realizada com sucesso.",
+                'footer'  => "Devolução de material"
+            ]);
+        }
+        return response()->json([
+            'success' => false,
+            'type' => 'error',
+            'message' => 'Erro ao tentar assinar documento!',
+            'footer'  => "Devolução de material"
+
+        ]);
+
+    }
+
     public function signatureField(FormlistBaseEmployee $formlist_employee, Request $request)
     {
 
@@ -174,15 +230,15 @@ class FieldController extends Controller
                 'footer' => "Erro de Senha."
             ]);
         }
-        
+
         $check = $employee->user->checkSignature($request->pass);
         if (!$check['success']) {
             return response()->json($check);
         }
- 
-        if($request->signature_delivered){
+
+        if ($request->signature_delivered) {
             $signature_delivered = $request->signature_delivered;
-        }else{
+        } else {
 
             $signature_delivered = $employee->signature()->create([
                 'uuid' => Str::uuid(),
@@ -190,7 +246,6 @@ class FieldController extends Controller
                 'signature' => $employee->user->signature()->signature,
                 'event' => "O Item será adicionado a ficha."
             ]);
-            
         }
         if ($signature_delivered) {
             return response()->json([
@@ -227,10 +282,10 @@ class FieldController extends Controller
         $dados = array_merge($dados, $request->all());
 
         Field::create($dados);
-        
+
         $stok->update(['qtd' => $stok->qtd - $request->qtd_delivered]);
 
-        $signature = Signature::where("id",$request->signature_id);
+        $signature = Signature::where("id", $request->signature_id);
         $signature->update(['event' => $event]);
 
         return redirect()->route('dashboard.bases.employees.formlists.fields', [

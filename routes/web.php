@@ -231,6 +231,8 @@ Route::prefix('dashboard')->middleware(['auth','permission:dashboard'])->group(f
                     Route::put('/sync',[BaseController::class,'syncFormlistsByEmployee'])->name('dashboard.bases.employees.formlists.sync');
                         Route::prefix('{formlist_employee}/ficha')->group(function(){
                             Route::get('/',[BaseController::class,'fieldsFormlistByEmployee'])->name('dashboard.bases.employees.formlists.fields');
+                            Route::post('/remove',[BaseController::class,'removeFieldFormlistByEmployee'])->name('dashboard.bases.employees.formlists.fields.remove');
+                            Route::post('/devolver',[FieldController::class,'devolutionField'])->name('dashboard.bases.employees.formlists.fields.devolution');
                             // Route::get('/adicionar',[FieldController::class,'create'])->name('dashboard.bases.employees.formlists.fields.create');
                         });
                     });
@@ -255,9 +257,10 @@ Route::prefix('dashboard')->middleware(['auth','permission:dashboard'])->group(f
             Route::get('/cadastrar/invoice/{invoice}/products',[StoksController::class,'getProductsByInvoiceId'])->name('dashboard.sectors.stoks.invoices.products');
             Route::get('cadastrar/providers',[StoksController::class,'filterProviders'])->name('dashboard.sectors.stoks.providers');
             Route::get('cadastrar/providers/invoices',[StoksController::class,'getAllInvoicesFromProviderByProject'])->name('dashboard.sectors.stoks.providers.invoices');
-
+            
             Route::post('cadastrar/products/store',[StoksController::class,'store'])->name('dashboard.sectors.stoks.store');
-
+            
+            Route::post('/retirar',[StoksController::class,'removeFromStock'])->name('dashboard.sectors.stoks.removeFromStock');
             
         });
         

@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Models\Stoks;
+use App\Models\Sector;
+use App\Models\Invoice;
+use App\Models\Provider;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Models\InvoiceProducts;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreStoksRequest;
 use App\Http\Requests\UpdateStoksRequest;
-use App\Models\Invoice;
-use App\Models\InvoiceProducts;
-use App\Models\Provider;
-use App\Models\Sector;
-use App\Models\Stoks;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class StoksController extends Controller
 {
@@ -152,6 +154,53 @@ class StoksController extends Controller
         $products = $invoice->products()->get();
 
         return response()->json($products);
+
+    }
+
+    public function removeFromStock(Sector $sector, Request $request)
+    {
+        $user  = User::where('id',Auth()->user()->id)->first();
+
+        if (!$user->hasSignature()) {
+            return response()->json([
+                'success' => false,
+                'type' => 'info',
+                'message' => 'É necessário cadastrar uma assinatura.',
+                'footer' => "Erro de Senha."
+            ]);
+        }
+
+        $check = $user->checkSignature($request->pass);
+        if (!$check['success']) {
+            return response()->json($check);
+        }
+        $stok = Stoks::where("id",$request->id)->first();
+        $qtd = $stok->qtd - floatval($request->qtd);
+
+        if ($qtd < 0) {
+            return response()->json([
+                'success' => false,
+                'type' => 'error',
+                'message' => "Quantidade insuficiente no estoque, existem {$stok->qtd} und do produto: {$stok->invoiceProduct->description}",
+                'footer' => "Retirada de estoque."
+            ]);
+        }
+        if($stok->update(['qtd' => $qtd])){
+            $stok = Stoks::where("id",$request->id)->first();
+            return response()->json([
+                'success' => true,
+                'type' => 'success',
+                'message' => "Retirada do estoque com sucesso, Restam {$stok->qtd} und do produto: {$stok->invoiceProduct->description}",
+                'footer' => "Retirada de estoque."
+            ]);
+        };
+        return response()->json([
+            'success' => false,
+            'type' => 'error',
+            'message' => "Descupe-nos, ocorreu um erro interno no processo.",
+            'footer' => "Retirada de estoque."
+        ]);
+
 
     }
     

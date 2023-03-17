@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use App\Models\FormlistBaseEmployee;
 use App\Http\Requests\StoreBaseRequest;
 use App\Http\Requests\UpdateBaseRequest;
+use App\Models\Field;
 use PDF;
 
 class BaseController extends Controller
@@ -258,5 +259,45 @@ class BaseController extends Controller
         ]);
         $pdf = Pdf::loadHTML($html);
         return $pdf->download("{$formlist_employee->formlist->name}-{$formlist_employee->employee->user->name}.pdf");
+    }
+
+    public function removeFieldFormlistByEmployee(
+        Base $base, Employee $employee, FormlistBaseEmployee $formlist_employee,Request $request
+    )
+    {
+        $user  = User::where('id',Auth()->user()->id)->first();
+
+        if (!$user->hasSignature()) {
+            return response()->json([
+                'success' => false,
+                'type' => 'info',
+                'message' => 'É necessário cadastrar uma assinatura.',
+                'footer' => "Erro de Senha."
+            ]);
+        }
+
+        $check = $user->checkSignature($request->pass);
+        if (!$check['success']) {
+            return response()->json($check);
+        }
+
+        $field = Field::where("id",$request->id);
+
+        if($field->delete()){
+            return response()->json([
+                'success' => true,
+                'type' => 'success',
+                'message' => "O item foi retirado do formulário com sucesso!",
+                'footer' => "Gerenciamento de fichas."
+            ]);
+        }
+
+        return response()->json([
+            'success' => false,
+            'type' => 'erro',
+            'message' => "Não foi possível executar a requisição.",
+            'footer' => "Erro interno."
+        ]);
+
     }
 }

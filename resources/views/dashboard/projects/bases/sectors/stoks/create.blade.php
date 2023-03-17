@@ -170,7 +170,8 @@
                                 // });
                             });
                     }
-                })
+                });
+                
                 $("#add_all, #add_selected").on("click", (e) => addStok(e));
 
                 function addStok(event) {

@@ -43,7 +43,8 @@
         </div>
         <div class="form row">
             <div class="form-group col-lg-6  col-md-6">
-                <label for="qtd_delivered">Quantidade disponível: <span class="text-danger" id="qtd_available">0</span> und</label>
+                <label for="qtd_delivered">Quantidade disponível: <span class="text-danger" id="qtd_available">0</span>
+                    und</label>
                 <input type="number" class="form-control" name="qtd_delivered" id="qtd_delivered">
                 @error('qtd_delivered')
                     <div class="invalid-feedback">{{ $message }}</div>
@@ -69,7 +70,7 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
         $(document).ready(function() {
-
+ 
             var $url = window.location.href
 
             $("#setor_id").select2({
@@ -127,7 +128,7 @@
                 }).on('select2:select', function(e) {
                     var qtd_available = e.params.data.qtd;
                     $("#qtd_available").text(qtd_available)
-                    
+
                 })
             })
 

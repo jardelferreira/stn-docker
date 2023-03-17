@@ -21,8 +21,8 @@ class CreateProvidersTable extends Migration
             $table->string('address');
             $table->string('phone');
             $table->string('email')->unique();
-            $table->string('corporate_name',55);
-            $table->string('fantasy_name',55);
+            $table->string('corporate_name');
+            $table->string('fantasy_name');
             $table->integer('headquarters')->default(0);
             $table->string('cnpj')->unique();
             $table->timestamps();
