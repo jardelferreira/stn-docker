@@ -24,11 +24,11 @@
             <tbody>
                 @foreach ($stoks as $item)
                     <tr>
-                        <td scope="row" class="text-nowrap">{{ $item->invoiceProduct->name }}</td>
-                        <td scope="row" class="text-nowrap">{{ $item->invoiceProduct->description }}</td>
-                        <td scope="row" class="text-nowrap">{{ $item->qtd }}</td>
-                        {{-- <td scope="row" class="text-nowrap">{{ $item->invoiceProduct->ca_number }}</td> --}}
-                        <td scope="row" class="text-nowrap">{{ $item->invoiceProduct->invoice->name }}</td>
+                        <td scope="row">{{ $item->invoiceProduct->name }}</td>
+                        <td scope="row">{{ $item->invoiceProduct->description }}</td>
+                        <td scope="row">{{ $item->qtd }}</td>
+                        {{-- <td scope="row">{{ $item->invoiceProduct->ca_number }}</td> --}}
+                        <td scope="row">{{ $item->invoiceProduct->invoice->name }}</td>
                         <td>
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#rmModal"
                                 data-id="{{ $item->id }}" data-name="{{ $item->invoiceProduct->name }}"
