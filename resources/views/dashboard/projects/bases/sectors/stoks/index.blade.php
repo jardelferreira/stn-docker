@@ -148,11 +148,11 @@
                 if (!pass) {
                     Swal.showValidationMessage("O campo Senha é Obrigatório!")
                 }
-
+                
                 // requisição
                 return $.ajax({
                     method: "POST",
-                    url: `${window.location.href}/retirar`,
+                    url: `${window.location.href.replace("https","http")}/retirar`,
                     data: {
                         pass: pass,
                          qtd: $("#qtd").val(),
