@@ -10,7 +10,7 @@
 
 @section('content')
     @if (count($stoks))
-        <table class="table table-striped table-inverse table-responsive">
+        <table class="table table-striped table-inverse table-responsive" id="stok">
             <thead class="thead-inverse">
                 <tr>
                     <th>Produto</th>
@@ -86,11 +86,27 @@
 
 <script>
     $(document).ready(() => {
+
+        $.ajax({
+                url: "//cdn.datatables.net/plug-ins/1.13.1/i18n/pt-BR.json",
+                success: function(result) {
+                    $('#stok').DataTable({
+                        "language": result,
+                        lengthMenu: [
+                            [10, 25, 50, -1],
+                            [10, 25, 50, 'Tudo'],
+                        ],
+                    });
+                }
+            });
+
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+
+
 
         $('#rmModal').on('show.bs.modal', function(event) {
             var button = $(event.relatedTarget);
