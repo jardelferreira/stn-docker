@@ -9,6 +9,7 @@
 @stop
 
 @section('content')
+<input type="search" name="search" style="display: none">
     @if (count($stoks))
         <table class="table table-striped table-inverse table-responsive" id="stok">
             <thead class="thead-inverse">
@@ -67,15 +68,15 @@
                         <label for="qtd" class="col-form-label col-6">Quantidade à retirar:</label>
                         <input type="number" step="1" class="form-control col-3" id="qtd">
                         <div class="col-3">
-                            <div class="bg-success btn ">+</div>
-                            <div class="bg-danger btn ml-1 ">-</div>
+                            <div class="bg-success btn " id="btn-plus">+</div>
+                            <div class="bg-danger btn ml-1 " id="btn-minus">-</div>
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                <button type="button" id="remove" class="btn btn-danger">Confirmar</button>
+                <button  class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button  id="remove" class="btn btn-danger">Confirmar</button>
             </div>
         </div>
     </div>
@@ -184,4 +185,19 @@
             }
         })
     });
+
+    $("#btn-plus").on("click",() =>{
+        val = parseFloat($("#qtd").val());
+        val++
+        if(!(val > qtd.value)){
+        $('#qtd').val(val);
+        }
+    })
+    $("#btn-minus").on("click",() =>{
+        val = parseFloat($("#qtd").val());
+        val--
+        if((val > 0)){
+        $('#qtd').val(val);
+        }
+    })
 </script>

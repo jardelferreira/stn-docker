@@ -26,7 +26,7 @@ class StoksController extends Controller
         // dd($sector->stoks()->with('invoiceProduct.invoice')->get());
         return view('dashboard.projects.bases.sectors.stoks.index',[
             'sector' => $sector,
-            'stoks' => $sector->stoks()->with('invoiceProduct.invoice')->get(),
+            'stoks' => $sector->stoks()->with('invoiceProduct.invoice')->where('qtd','>',0)->get(),
         ]);
     }
 
