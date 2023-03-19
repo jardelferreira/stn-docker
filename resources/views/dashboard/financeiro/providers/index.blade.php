@@ -8,7 +8,7 @@
 
 @section('content')
 @if (count($providers))
-    <table class="table table-striped table-inverse table-responsive">
+    <table class="table table-striped table-inverse table-responsive" id="providers">
         <thead class="thead-inverse">
             <tr>
                 <th>Razão Social</th>
@@ -39,4 +39,27 @@
                @else
                    <p>Não há Fornecedores para listagem</p>
                @endif
+@endsection
+@section('js')
+@section('plugins.Datatables', true)
+<script>
+    var lang = "";
+    $(document).ready(function() {
+        $.ajax({
+            url: "//cdn.datatables.net/plug-ins/1.13.1/i18n/pt-BR.json",
+            success: function(result) {
+                $('#providers').DataTable({
+                    responsive: true,
+                    order: [0,'desc'],
+                    "language": result,
+                    lengthMenu: [
+                        [10, 25, 50, -1],
+                        [10, 25, 50, 'Tudo'],
+                    ],
+                });
+            }
+        });
+
+    });
+</script>
 @endsection

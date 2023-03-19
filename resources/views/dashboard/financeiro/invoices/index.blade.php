@@ -10,11 +10,11 @@
 
 @section('content')
     @if (count($invoicers))
-        <div class="table">
+        <div class="table ">
             <table class="text-nowrap table-sm table-striped table-responsive" id="nfs">
                 <thead>
                     <tr>
-                        <th>Arquivado por</th>
+                        <th>#</th>
                         <th>Nota</th>
                         <th>Valor departamento</th>
                         <th>Valor total</th>
@@ -22,12 +22,13 @@
                         <th>Emissão</th>
                         <th>Vencimento</th>
                         <th>Ações</th>
+                        <th>Lançada por</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($invoicers as $item)
                         <tr>
-                            <td scope="row">{{ $item->user->name }}</td>
+                            <td scope="row">{{ $item->id }}</td>
                             <td scope="row">{{ $item->name }}</td>
                             <td scope="row">{{ $item->value_departament }}</td>
                             <td scope="row">{{ $item->value }}</td>
@@ -44,7 +45,7 @@
                                         href="{{ route('dashboard.invoicesProducts.index', ['invoice' => $item->id]) }}">Ver
                                         Produtos</a>
                                 @else
-                                    <a class="btn btn-warning btn-sm mr-1"
+                                    <a class="btn ml-1 btn-warning btn-sm mr-1"
                                         href="{{ route('dashboard.invoices.popular.create', ['invoice' => $item->id]) }}">Cadastrar
                                         produtos</a>
                                 @endif
@@ -55,6 +56,8 @@
                                     <button class="btn btn-danger btn-sm" type="submit">Deletar</button>
                                 </form>
                             </td>
+                            <td scope="row">{{ $item->user->name }}</td>
+
                         </tr>
                     @endforeach
                 </tbody>
@@ -73,6 +76,8 @@
             url: "//cdn.datatables.net/plug-ins/1.13.1/i18n/pt-BR.json",
             success: function(result) {
                 $('#nfs').DataTable({
+                    responsive: true,
+                    order: [0,'desc'],
                     "language": result,
                     lengthMenu: [
                         [10, 25, 50, -1],

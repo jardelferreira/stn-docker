@@ -8,7 +8,7 @@
 
 @section('content')
 @if (count($professions))
-    <table class="table table-striped table-inverse table-responsive">
+    <table class="table table-striped table-inverse table-responsive" id="professions">
         <thead class="thead-inverse">
             <tr>
                 <th>profissões</th>
@@ -37,4 +37,27 @@
                @else
                    <p>Não há profissões para listagem</p>
                @endif
+@endsection
+@section('js')
+@section('plugins.Datatables', true)
+<script>
+    var lang = "";
+    $(document).ready(function() {
+        $.ajax({
+            url: "//cdn.datatables.net/plug-ins/1.13.1/i18n/pt-BR.json",
+            success: function(result) {
+                $('#professions').DataTable({
+                    responsive: true,
+                    order: [0,'desc'],
+                    "language": result,
+                    lengthMenu: [
+                        [10, 25, 50, -1],
+                        [10, 25, 50, 'Tudo'],
+                    ],
+                });
+            }
+        });
+
+    });
+</script>
 @endsection

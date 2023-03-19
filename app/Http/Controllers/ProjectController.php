@@ -9,6 +9,7 @@ use App\Models\Provider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\ProjectRequest;
+use App\Models\Invoice;
 
 class ProjectController extends Controller
 {
@@ -58,6 +59,9 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
+        // $invoice = Invoice::where('id',4)->first();
+        // dd($invoice->amountProducts(),$invoice->products()->get(), $invoice);
+        // dd($project->employeesOnBases()->get());
         if ($project->id) {
             return \view('dashboard/projects.show', [
                 'project' => $project

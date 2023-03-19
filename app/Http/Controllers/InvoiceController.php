@@ -20,7 +20,7 @@ class InvoiceController extends Controller
     public function index()
     {
         return \view('dashboard.financeiro.invoices.index',[
-            'invoicers' => Invoice::all()
+            'invoicers' => Invoice::all()->sortBy('id',SORT_DESC,true)
         ]);
     }
 
@@ -72,7 +72,6 @@ class InvoiceController extends Controller
      */
     public function show(Invoice $invoice)
     {
-
         $header = [
             'Content-Type' => 'application/pdf',
             'Content-Disposition' => 'inline; filename="' . $invoice->name . '"'
@@ -90,6 +89,7 @@ class InvoiceController extends Controller
      */
     public function edit(Invoice $invoice)
     {
+        
         return  \view('dashboard.financeiro.invoices.edit',[
             'invoice' => $invoice,
             'providers' => Provider::all(),

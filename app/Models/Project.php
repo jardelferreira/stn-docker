@@ -17,6 +17,30 @@ class Project extends Model
         return $this->hasMany(Invoice::class);
     }
 
+    public function amountInvoicesByProject()
+    {
+        return $this->hasMany(Invoice::class)
+        ->selectRaw('invoices.project_id, SUM(invoices.value) as amount_project, COUNT(invoices.project_id) as count_invoices')
+        ->groupBy('invoices.project_id')
+        ->first();
+    }
+
+    public function amountProductsByProject()
+    {
+        return $this->hasManyThrough(InvoiceProducts::class,Invoice::class)
+        ->selectRaw('invoices.project_id, COUNT(invoice_products.id) as count_products, SUM(invoice_products.qtd) as amount_products')
+        ->groupBy('invoices.project_id')
+        ->first();
+    }
+    
+    public function amountFormlists()
+    {
+        return $this->hasManyThrough(FormlistBaseEmployee::class,Base::class)
+        ->selectRaw('bases.project_id, COUNT(formlist_base_employee.base_id) as count_formlists')
+        ->groupBy('bases.project_id')
+        ->first();
+    }
+
     public function providers()
     {
         return $this->belongsToMany(Provider::class,'provider_project');
@@ -27,9 +51,19 @@ class Project extends Model
         return $this->hasMany(Cost::class);
     }
 
+    public function departamentCosts()
+    {
+        return $this->hasMany(DepartamentCost::class);
+    }
+
     public function employees()
     {
         return $this->belongsToMany(Employee::class, 'employee_project');
+    }
+
+    public function employeesOnBases()
+    {
+        return $this->hasManyThrough(Employees_Base::class,Base::class);
     }
 
     public function employeesForLink()

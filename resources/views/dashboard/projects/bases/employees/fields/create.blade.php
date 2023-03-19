@@ -158,7 +158,7 @@
                 var url = window.location.href;
 
                 Swal.fire({
-                    title: 'Digite sua senha.',
+                    title: 'Digite a senha do funcionário.',
                     input: 'password',
                     inputAttributes: {
                         autocapitalize: 'off',

@@ -8,7 +8,7 @@
 
 @section('content')
 @if (count($users))
-    <table class="table table-striped table-inverse table-responsive">
+    <table class="table table-striped table-inverse table-responsive" id="users">
         <thead class="thead-inverse">
             <tr>
                 <th>Nome</th>
@@ -21,9 +21,9 @@
                <tr>
                    <td scope="row">{{$item->name}}</td>
                    <td>{{$item->email}}</td>
-                   <td><a name="" id="" class="btn btn-primary btn-sm" href="{{route('dashboard.users.show',['user' => $item->id])}}" role="button">
-                    Ver Perfil - <i class="fa fa-user" aria-hidden="true"></i></a></td>
-                   <td><form action="{{route('dashboard.users.destroy',[ 'user' => $item->id])}}" method="POST">
+                   <td class="btn-group" role="group"><a name="" id="" class="btn btn-primary btn-sm" href="{{route('dashboard.users.show',['user' => $item->id])}}" role="button">
+                    Ver Perfil - <i class="fa fa-user" aria-hidden="true"></i></a>
+                   <form action="{{route('dashboard.users.destroy',[ 'user' => $item->id])}}" method="POST">
                     @method('delete')
                     @csrf
                     <button type="submit" class="btn btn-sm btn-danger">Deletar</button>
@@ -35,4 +35,27 @@
                @else
                    <p>Não há usuários para listagem</p>
                @endif
+@endsection
+@section('js')
+@section('plugins.Datatables', true)
+<script>
+    var lang = "";
+    $(document).ready(function() {
+        $.ajax({
+            url: "//cdn.datatables.net/plug-ins/1.13.1/i18n/pt-BR.json",
+            success: function(result) {
+                $('#users').DataTable({
+                    responsive: true,
+                    order: [0,'desc'],
+                    "language": result,
+                    lengthMenu: [
+                        [10, 25, 50, -1],
+                        [10, 25, 50, 'Tudo'],
+                    ],
+                });
+            }
+        });
+
+    });
+</script>
 @endsection

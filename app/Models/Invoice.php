@@ -27,6 +27,13 @@ class Invoice extends Model
         return $this->hasMany(InvoiceProducts::class);
     }
 
+    public function amountProducts()
+    {
+        return $this->hasMany(InvoiceProducts::class)
+        ->selectRaw('invoice_products.invoice_id,COUNT(invoice_products.id) as count_products, SUM(invoice_products.value_total) as amount_value')
+        ->groupBy('invoice_products.invoice_id');
+    }
+
     public function project()
     {
         return $this->belongsTo(Project::class);
@@ -46,5 +53,6 @@ class Invoice extends Model
     {
         return $this->belongsTo(DepartamentCost::class,"departament_cost_id","id");
     }
+    
 
 }
