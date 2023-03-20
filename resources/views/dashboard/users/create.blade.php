@@ -33,8 +33,8 @@
             <input type="password" class="form-control" name="password" autocomplete="off" id="password" placeholder="informe sua senha">
           </div>
           <div class="form-group">
-            <label for="_confirm">Confirmação de senha</label>
-            <input type="password" class="form-control" name="_confirm" autocomplete="off" id="_confirm" placeholder="repita a senha">
+            <label for="password_confirmation">Confirmação de senha</label>
+            <input type="password" class="form-control" name="password_confirmation" autocomplete="off" id="password_confirmation" placeholder="repita a senha">
           </div>
         </div>
         <button type="submit" class="btn btn-primary">Cadastrar</button>
