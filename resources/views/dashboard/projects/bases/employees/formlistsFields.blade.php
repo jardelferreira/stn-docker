@@ -118,7 +118,7 @@
                                         aria-haspopup="true" aria-expanded="false">
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenu{{ $key }}">
-                                        @if ($field->date_returned)
+                                        @if (!$field->date_returned)
                                          <button class="dropdown-item bg-info"
                                         onclick="devolutionField({{ $field->id }})">Devolução</button>
                                         @endif
