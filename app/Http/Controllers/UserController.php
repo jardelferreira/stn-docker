@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRequest;
 use App\Models\Signature;
 use App\Models\User;
 use Yajra\Acl\Models\Role;
@@ -45,7 +46,7 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, User $user)
+    public function store(UserRequest $request, User $user)
     {
         $user->create($request->all());
 

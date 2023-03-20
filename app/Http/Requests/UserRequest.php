@@ -30,4 +30,18 @@ class UserRequest extends FormRequest
             'password' => ['required', 'confirmed', Password::min(4)]
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'email.unique' => "O email já está cadastrado",
+            'email.required' => "O campo e-mail é obrigatório",
+            'name.required' => "O campo nome é obrigatório",
+            'name.min' => "O campo nome precisa ter 4 caracteres no mínimo",
+            'name.max' => "O campo nome pode ter até 55 caracteres",
+            'password.required' => 'A senha é obrigatória',
+            'password.confirmed' => 'Os campos senhas não conferem'
+        ];
+    }
+    
 }
