@@ -26,15 +26,15 @@
         </div>
         <div class="form-group">
           <label for="email">E-mail:</label>
-          <input type="email" class="form-control" autocomplete="off" name="email" id="email" aria-describedby="emailHelpId" placeholder="usuario@mail">
+          <input type="email" class="form-control" autocomplete="off" name="email" id="email" required aria-describedby="emailHelpId" placeholder="usuario@mail">
           <small id="emailHelpId" class="form-text text-muted">informe um e-mail válido</small>
           <div class="form-group">
             <label for="password">Senha</label>
-            <input type="password" class="form-control" name="password" autocomplete="off" id="password" placeholder="informe sua senha">
+            <input type="password" class="form-control" name="password" autocomplete="off" id="password" required placeholder="informe sua senha">
           </div>
           <div class="form-group">
             <label for="password_confirmation">Confirmação de senha</label>
-            <input type="password" class="form-control" name="password_confirmation" autocomplete="off" id="password_confirmation" placeholder="repita a senha">
+            <input type="password" class="form-control" name="password_confirmation" autocomplete="off" required id="password_confirmation" placeholder="repita a senha">
           </div>
         </div>
         <button type="submit" class="btn btn-primary">Cadastrar</button>

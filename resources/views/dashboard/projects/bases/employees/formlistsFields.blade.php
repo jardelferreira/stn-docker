@@ -118,8 +118,10 @@
                                         aria-haspopup="true" aria-expanded="false">
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenu{{ $key }}">
-                                        <button class="dropdown-item bg-info"
-                                            onclick="devolutionField({{ $field->id }})">Devolução</button>
+                                        @if ($field->date_returned)
+                                         <button class="dropdown-item bg-info"
+                                        onclick="devolutionField({{ $field->id }})">Devolução</button>
+                                        @endif
                                         <button class="dropdown-item bg-success" type="button">Alteração</button>
                                         <button class="dropdown-item bg-danger"
                                             onclick="removeField({{ $field->id }})" type="button">Excluir</button>
