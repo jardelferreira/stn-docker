@@ -34,7 +34,7 @@
                                         <i class="icon-pencil primary font-large-2 float-left"></i>
                                     </div>
                                     <div class="media-body text-right">
-                                        <h3>{{ $project->amountInvoicesByProject()->count_invoices }}</h3>
+                                        <h3>{{ $project->amountInvoicesByProject()->count_invoices ?? 0 }}</h3>
                                         <span>Total de notas cadastradas</span>
                                     </div>
                                 </div>
@@ -51,7 +51,7 @@
                                         <i class="icon-speech warning font-large-2 float-left"></i>
                                     </div>
                                     <div class="media-body text-right">
-                                        <p>[{{ $project->amountProductsByProject()->count_products }}] <i class="fa fa-arrow-right" aria-hidden="true"></i> {{ $project->amountProductsByProject()->amount_products }}</p>
+                                        <p>[{{ $project->amountProductsByProject()->count_products ?? 0}}] <i class="fa fa-arrow-right" aria-hidden="true"></i> {{ $project->amountProductsByProject()->amount_products ?? 0}}</p>
                                         <span>Total de produtos comprados</span>
                                     </div>
                                 </div>
@@ -68,7 +68,7 @@
                                         <i class="icon-pointer danger font-large-2 float-left"></i>
                                     </div>
                                     <div class="media-body text-right">
-                                        <h3>R$ {{ number_format($project->amountInvoicesByProject()->amount_project, 2, ',', '.') }}
+                                        <h3>R$ {{ number_format($project->amountInvoicesByProject()->amount_project ?? 0, 2, ',', '.') }}
                                         </h3>
                                         <span>Custo total de compras</span>
                                     </div>
@@ -86,7 +86,7 @@
                                         <i class="icon-graph success font-large-2 float-left"></i>
                                     </div>
                                     <div class="media-body text-right">
-                                        <h3>{{ ($project->amountInvoicesByProject()->amount_project / 500000.0) * 100 }}%</h3>
+                                        <h3>{{(($project->amountInvoicesByProject()->amount_project ?? 0) / 500000.0) * 100 }}% </h3>
                                         <span>Percentual da estimativa</span>
                                     </div>
                                 </div>
@@ -225,7 +225,7 @@
                             <div class="card-body">
                                 <div class="media d-flex">
                                     <div class="media-body text-left">
-                                        <h3 class="primary">{{$project->amountFormlists()->count_formlists}}</h3>
+                                        <h3 class="primary">{{$project->amountFormlists()->count_formlists ?? 0}}</h3>
                                         <span>Total de fichas abertas</span>
                                     </div>
                                     <div class="align-self-center">
