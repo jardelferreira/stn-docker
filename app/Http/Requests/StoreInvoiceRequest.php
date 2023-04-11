@@ -30,8 +30,7 @@ class StoreInvoiceRequest extends FormRequest
             'invoice_type' => "required",
             'provider_id' => "required|exists:providers,id",
             'departament_cost_id' => "required|exists:departament_costs,id",
-            'number' => "required|unique:invoices,number,null,{$this->number},invoice_type,{$this->invoice_type},provider_id,{$this->provider_id},departament_cost_id,{$this->departament_cost_id}",
-            'value' => "required|numeric",
+            'number' => "required",
             'value_departament' => "required|numeric",
             'file_invoice' => "mimes:pdf|required",
         ];

@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Invoice;
+use App\Models\Provider;
+use App\Models\DepartamentCost;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreInvoiceRequest;
 use App\Http\Requests\UpdateInvoiceRequest;
-use App\Models\DepartamentCost;
-use App\Models\Provider;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 
 class InvoiceController extends Controller
 {
@@ -31,6 +32,7 @@ class InvoiceController extends Controller
      */
     public function create()
     {
+        Artisan::call('route:cache');
         return \view('dashboard.financeiro.invoices.create',[
             'providers' => Provider::all(),
             'departament_costs' => DepartamentCost::all()
