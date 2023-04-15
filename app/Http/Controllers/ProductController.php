@@ -61,7 +61,9 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        return view('dashboard.financeiro.products.edit',['product' => $product]);
+        return view('dashboard.financeiro.products.edit',[
+            'product' => $product,
+            'categories' => Category::all()]);
     }
 
     /**
