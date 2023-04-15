@@ -325,9 +325,9 @@ Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard'])->group(
         Route::prefix('products')->group(function(){
             Route::get('/',[ProductController::class,'index'])->name('dashboard.financeiro.products');
             Route::get('/criar',[ProductController::class,'create'])->name('dashboard.financeiro.products.create');
-            Route::get('/{category}',[ProductController::class,'show'])->name('dashboard.financeiro.products.show');
-            Route::get('/{category}',[ProductController::class,'edit'])->name('dashboard.financeiro.products.edit');
-            Route::put('/{category}',[ProductController::class,'update'])->name('dashboard.financeiro.products.update');
+            Route::get('/{product}',[ProductController::class,'show'])->name('dashboard.financeiro.products.show');
+            Route::get('/{product}',[ProductController::class,'edit'])->name('dashboard.financeiro.products.edit');
+            Route::put('/{product}',[ProductController::class,'update'])->name('dashboard.financeiro.products.update');
             Route::delete('/{category}',[ProductController::class,'destroy'])->name('dashboard.financeiro.products.destroy');
             Route::post('/',[ProductController::class,'store'])->name('dashboard.financeiro.products.store');
         });
