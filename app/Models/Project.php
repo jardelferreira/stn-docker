@@ -91,4 +91,9 @@ class Project extends Model
     {
         return Project::where("uuid",$uuid);
     }
+
+    public function products()
+    {
+        return $this->belongsToMany(ProductProject::class);
+    }
 }

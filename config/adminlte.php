@@ -243,11 +243,16 @@ return [
         ],
         [
             'text' => 'Painel Publico',
-            'route' => 'public.index'
+            'route' => 'public.index',
+            'icon' => 'fa fa-dashcube',
+            'icon_color'  => 'primary',
+            'classes' => "bg-light",
         ],
         [
             'text' => 'DP',
-            'icon' => 'fa fa-circle',
+            'icon' => 'fa fa-users',
+            'icon_color'  => 'primary',
+            'classes' => "bg-light",
             'submenu' => [
                 [
                     'text'  => 'Profissões',
@@ -261,19 +266,30 @@ return [
         ],
         [
             'text'        => 'Financeiro',
-            'icon'        => 'far fa-fw fa-file',
+            'icon'        => 'fa fa-bar-chart',
+            'icon_color'  => 'primary',
+            'classes' => "bg-light",
             'submenu' => [
                 [
-                    'text' => 'projetos',
-                    'url'  => '#'
-                ],
-                [
-                    'text' => 'NFs',
-                    'route' => 'dashboard.invoices.index'
-                ],
-                [
-                    'text' => 'Fornecedores',
-                    'route'  => 'dashboard.providers.index'
+                    'text' => 'Suprimentos',
+                    'submenu'  => [
+                        [
+                            'text' => 'NFs',
+                            'route' => 'dashboard.invoices.index'
+                        ],
+                        [
+                            'text' => 'Fornecedores',
+                            'route'  => 'dashboard.providers.index'
+                        ],
+                        [
+                            'text' => 'Categorias',
+                            'route'  => 'dashboard.financeiro.categories'
+                        ],
+                        [
+                            'text' => 'Produtos',
+                            'route'  => 'dashboard.financeiro.products'
+                        ],
+                    ]
                 ],
                 [
                     'text' => 'Custos',
@@ -297,12 +313,16 @@ return [
         // ['header' => 'account_settings'],
         [
             'text' => "Formulários",
-            'icon' =>"fa fa-circle",
-            'route' => 'dashboard.formlists'
+            'icon' =>"fa fa-id-card-o",
+            'route' => 'dashboard.formlists',
+            'icon_color'  => 'primary',
+            'classes' => "bg-light",
         ],
         [
             'text' => 'Controle de acesso',
-            'icon' => 'fa fa-user',
+            'icon' => 'fas fa-users-cog ',
+            'icon_color'  => 'primary',
+            'classes' => "bg-light",
             'role' => ['sys-admin','sys-manager'],
             'submenu' => [
                 [
@@ -331,7 +351,9 @@ return [
         ,
         [
             'text' => 'Projetos',
-            'icon' => 'fas fa-fw fa-user',
+            'icon_color'  => 'primary',
+            'classes' => "bg-light",
+            'icon' => 'fas fa-project-diagram ',
             'canAtLeast'  => ['manager-projects','sys-admin'],
             'submenu' => [
                 [

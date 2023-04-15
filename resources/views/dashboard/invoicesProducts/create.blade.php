@@ -20,7 +20,7 @@
 
             <input type="hidden" name="cont" id="cont" value="{{ old('cont') }}">
             @for ($i = 0; $i < old('cont'); $i++)
-            <div class="itens">
+            <div class="itens"> 
                     <hr>
                     <button id="rmv" type="button" class="btn btn-danger mr-0"><i class="fa fa-trash"
                             aria-hidden="true" disable></i></button>
@@ -62,6 +62,17 @@
                     <small id="value_totalHelp" class="form-text text-muted">Valor total</small>
                 </div>
                     </div>
+                    <div class="form-group col-12">
+                        <label for="product_id">Identifique a categoria</label>
+                        <select class="form-control" name="product_id[]" id="product_id">
+                          <option>Selecione</option>
+                          @foreach ($products as $item)
+                          <option value="{{$item->id}}" @if (old() && old('product_id') == $item->id)
+                              selected
+                          @endif>{{$item->description}}</option>
+                          @endforeach
+                        </select>
+                      </div>
                     <div class="form-group col-12">
                         <label for="description[]">Descrição do Item</label>
                         <input type="text" class="form-control" name="description[]" id="description[]" value="{{old('description')[$i] ?? ""}}"
@@ -116,6 +127,15 @@
                     </div>
                     <input type="hidden" class="form-control value_total" name="value_total[]" id="value_total[]"
                         aria-describedby="value_totalHelp" placeholder="10.0">
+                        <div class="form-group col-12">
+                            <label for="product_id[]">Identifique o Produto</label>
+                            <select class="form-control" name="product_id[]" id="product_id[]">
+                              <option>Selecione</option>
+                              @foreach ($products as $item)
+                              <option value="{{$item->id}}">{{$item->name}} <strong>{{$item->description}}</strong></option>
+                              @endforeach
+                            </select>
+                          </div>
                 <div class="form-group col-12">
                     <label for="description[]">Descrição do Item</label>
                     <input type="text" class="form-control" name="description[]" id="description[]"

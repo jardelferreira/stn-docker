@@ -67,6 +67,7 @@ class StoksController extends Controller
                     'project_id' => $sector->project_id,
                     'invoice_products_id' => intval($product['id']), 
                     'qtd' => floatval($product['qtd']),
+                    'product_id' => $invoice_product->product_id,
                     'image_path' => $invoice_product->image_path,
                     'status' => 'disponível',
                 ]);

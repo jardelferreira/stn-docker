@@ -6,6 +6,7 @@ use App\Http\Requests\StoreInvoiceProductsRequest;
 use App\Http\Requests\UpdateInvoiceProductsRequest;
 use App\Models\Invoice;
 use App\Models\InvoiceProducts;
+use App\Models\Product;
 use Illuminate\Support\Str;
 
 class InvoiceProductsController extends Controller
@@ -30,7 +31,8 @@ class InvoiceProductsController extends Controller
     public function create(Invoice $invoice)
     {
         return view('dashboard.invoicesProducts.create', [
-            'invoice' => $invoice
+            'invoice' => $invoice,
+            'products' =>Product::all()
         ]);
     }
 
@@ -57,6 +59,7 @@ class InvoiceProductsController extends Controller
                 "value_total" => floatval($request->value_unid[$i]) * floatVal($request->qtd[$i]),
                 "description" => $request->description[$i],
                 "ca_number" => $request->ca_number[$i],
+                "product_id" => $request->product_id[$i],
             ]);
         }
 

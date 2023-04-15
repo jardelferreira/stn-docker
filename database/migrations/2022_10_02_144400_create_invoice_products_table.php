@@ -24,6 +24,7 @@ class CreateInvoiceProductsTable extends Migration
             $table->string('und');
             $table->decimal('value_und',12,2,true);
             $table->decimal('value_total',12,2,true);
+            $table->foreignId('product_id')->references('id')->on('products');
             $table->string('owner')->nullable();
             $table->string('ca_number')->nullable();
             $table->string('image_path')->nullable();
