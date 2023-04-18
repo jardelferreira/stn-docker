@@ -36,6 +36,7 @@
                         <option value="FAT">FAT</option>
                         <option value="CTE">CTE</option>
                         <option value="REC">REC</option>
+                        <option value="CF">CUPOM FISCAL</option>
                     </select>
                     <small id="helpInvoice_type" class="form-text text-muted">Informe o tipo</small>
                 </div>
