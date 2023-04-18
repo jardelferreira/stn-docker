@@ -86,6 +86,7 @@
         <form action="{{ route('dashboard.invoices.popular.store', ['invoice' => $invoice->id]) }}" method="post"
             autocomplete="off" enctype="multipart/form-data" id="myform">
             @csrf
+            <input type="hidden" name="_token2" value="{{ csrf_field() }}">
             @method('POST')
 
             <input type="hidden" name="cont" id="cont" value="1">

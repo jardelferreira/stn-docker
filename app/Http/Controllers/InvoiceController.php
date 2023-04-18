@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreInvoiceRequest;
 use App\Http\Requests\UpdateInvoiceRequest;
+use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
 {
@@ -32,7 +33,6 @@ class InvoiceController extends Controller
      */
     public function create()
     {
-        Artisan::call('route:cache');
         return \view('dashboard.financeiro.invoices.create',[
             'providers' => Provider::all(),
             'departament_costs' => DepartamentCost::all()
@@ -45,7 +45,7 @@ class InvoiceController extends Controller
      * @param  \App\Http\Requests\StoreInvoiceRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreInvoiceRequest $request)
+    public function store(Request $request)
     {
         // $invoice = $request->all();
 
@@ -59,7 +59,6 @@ class InvoiceController extends Controller
         // \dd($cascade_path);
         // $path = $request->file('file_invoice')->storeAs('public/files',"{$cascade_path}{$invoice['name']}.pdf");
         // $invoice['file_path'] = $path;
-
         Invoice::create($request->all());
 
         return \redirect()->route('dashboard.invoices.index');

@@ -12,8 +12,11 @@ class TodoProgress extends Model
     protected $fillable = ['status','description','last_progress','todo_id'];
 
     private $enum = 
-    ['created-light' => 'Criado',
-    'finished-success' => 'Finalizado',
+    ['created' => ['color' => 'light','pt-br' => 'Criado'],
+    'finished' => ['color' => 'success','pt-br' => 'Finalizado'],
+    'running' => ['color' => 'light','pt-br' => 'Criado'],
+    'pending' => ['color' => 'light','pt-br' => 'Criado'],
+    'cancelled' => ['color' => 'light','pt-br' => 'Criado'],
     'running-primary' => 'Em Andamento',
     'pending-warning' => 'Pendente',
     'stopped-danger' => 'Parado',
