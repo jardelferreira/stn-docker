@@ -31,7 +31,7 @@ class CreateInvoicesTable extends Migration
             $table->date('issue');
             $table->date('due_date');
             $table->string('file_path');
-            $table->enum('invoice_type',['NF','NFS','CTE','FAT','REC']);
+            $table->enum('invoice_type',['NF','NFS','CTE','FAT','REC','CF']);
             $table->timestamps();
         });
     }
