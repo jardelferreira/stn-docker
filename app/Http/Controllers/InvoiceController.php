@@ -47,18 +47,7 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
-        // $invoice = $request->all();
 
-        // $provider = Provider::where('id',2)->first();
-
-        // $departament_cost = DepartamentCost::find($invoice['departament_cost_id']);
-        // \dd($departament_cost->sectorCost);
-        // $invoice['name'] = "{$invoice['invoice_type']}-{$invoice['number']}-{$provider->fantasy_name}";
-        // $invoice['user_id'] = Auth::user()->id;
-        // $cascade_path = "{$departament_cost->sectorCost->cost->project->initials}/{$departament_cost->sectorCost->cost->name}/{$departament_cost->sectorCost->name}/{$departament_cost->name}/";
-        // \dd($cascade_path);
-        // $path = $request->file('file_invoice')->storeAs('public/files',"{$cascade_path}{$invoice['name']}.pdf");
-        // $invoice['file_path'] = $path;
         Invoice::create($request->all());
 
         return \redirect()->route('dashboard.invoices.index');

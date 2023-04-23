@@ -30,8 +30,8 @@
                         <tr>
                             <td scope="row">{{ $item->id }}</td>
                             <td scope="row">{{ $item->name }}</td>
-                            <td scope="row">{{ $item->value_departament }}</td>
-                            <td scope="row">{{ $item->value }}</td>
+                            <td scope="row">R$ {{number_format($item->value_departament,2,",",".")}}</td>
+                            <td scope="row">R$ {{number_format($item->value,2,",",".")}}</td>
                             <td scope="row"><a href="{{ route('dashboard.invoices.show', $item) }}" target="_blank"
                                     class="text-danger"><i class="fa fa-file-pdf  ml-3 fa-xl" aria-hidden="true"></i></a>
                             </td>

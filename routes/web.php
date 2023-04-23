@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BaseController;
+use App\Http\Controllers\BranchController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CostController;
 use App\Http\Controllers\DepartamentCostController;
@@ -20,6 +21,7 @@ use App\Http\Controllers\ProfessionController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\PublicController;
+use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\SectorController;
 use App\Http\Controllers\SectorsCostsController;
 use App\Http\Controllers\StoksController;
@@ -333,6 +335,35 @@ Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard'])->group(
         });
 
     });
+    
+    Route::prefix('financeiro')->group(function(){
+
+        Route::prefix('filiais')->group(function(){
+
+            Route::get('',[BranchController::class,'index'])->name('dashboard.financeiro.branches');
+            Route::get('/criar',[BranchController::class,'create'])->name('dashboard.financeiro.branches.create');
+            Route::get('/{branch}/editar',[BranchController::class,'edit'])->name('dashboard.financeiro.branches.edit');
+            Route::get('/{branch}/show',[BranchController::class,'show'])->name('dashboard.financeiro.branches.show');
+            
+            Route::put('/{branch}',[BranchController::class,'update'])->name('dashboard.financeiro.branches.update');
+            Route::delete('/{branch}',[BranchController::class,'destroy'])->name('dashboard.financeiro.branches.destroy');
+            Route::post('',[BranchController::class,'store'])->name('dashboard.financeiro.branches.store');
+        });
+        
+        Route::prefix('recibos')->group(function(){
+            Route::get('',[ReceiptController::class,'index'])->name('dashboard.financeiro.receipts');
+            Route::get('/criar',[ReceiptController::class,'create'])->name('dashboard.financeiro.receipts.create');
+            Route::get('/{receipt}/editar',[ReceiptController::class,'edit'])->name('dashboard.financeiro.receipts.edit');
+            Route::get('/{receipt}/show',[ReceiptController::class,'show'])->name('dashboard.financeiro.receipts.show');
+            
+            Route::put('/{receipt}',[ReceiptController::class,'update'])->name('dashboard.financeiro.receipts.update');
+            Route::delete('/{receipt}',[ReceiptController::class,'destroy'])->name('dashboard.financeiro.receipts.destroy');
+            Route::post('',[ReceiptController::class,'store'])->name('dashboard.financeiro.receipts.store');
+            Route::post('/{receipt}/storeList',[ReceiptController::class,'storeList'])->name('dashboard.financeiro.receipts.storeList');
+
+        });
+
+    });
 });
 
 Route::get('publico/login', [PublicController::class, 'login'])->name('public.login');
@@ -350,4 +381,5 @@ Route::prefix('publico')->middleware('auth')->group(function () {
     });
     Route::get('fichas/{user}/funcionario', [PublicController::class, 'formlists'])->name('public.employees.formlists');
     Route::get('fichas/{formlist}/show', [PublicController::class, 'fieldsFormlistByEmployee'])->name('public.employees.formlists.show');
+
 });

@@ -271,6 +271,10 @@ return [
             'classes' => "bg-light",
             'submenu' => [
                 [
+                    'text' => 'Filiais',
+                    'route' => 'dashboard.financeiro.branches'
+                ],
+                [
                     'text' => 'Suprimentos',
                     'submenu'  => [
                         [
@@ -314,9 +318,20 @@ return [
         [
             'text' => "Formulários",
             'icon' =>"fa fa-id-card-o",
-            'route' => 'dashboard.formlists',
             'icon_color'  => 'primary',
             'classes' => "bg-light",
+            'submenu' => [
+               [
+                'text' => "Fichas de materiais",
+                'route' => 'dashboard.formlists',
+                'icon' => "fa fa-id-card-o",
+               ],
+               [
+                'text' => 'Recibo de pagamentos',
+                'icon' => "fa fa-id-card-o",
+                'route' => 'dashboard.financeiro.receipts',
+               ]
+            ]
         ],
         [
             'text' => 'Controle de acesso',

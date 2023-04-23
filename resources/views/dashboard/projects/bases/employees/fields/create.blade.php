@@ -38,7 +38,6 @@
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
                 <small id="stok_id" class="form-text text-muted">Lista de Produtos</small>
-
             </div>
         </div>
         <div class="form row">
@@ -70,7 +69,7 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
         $(document).ready(function() {
- 
+
             var $url = window.location.href
 
             $("#setor_id").select2({
