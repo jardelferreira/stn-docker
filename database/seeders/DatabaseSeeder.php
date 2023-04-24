@@ -2,9 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Project;
 use Illuminate\Database\Seeder;
-use App\Models\User;
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,6 +17,8 @@ class DatabaseSeeder extends Seeder
             ProjectSeeder::class,
             ProfessionSeeder::class,
             UserSeeder::class,
+            TasksTableSeeder::class,
+            LinksTableSeeder::class,
         ]);
     }
 }

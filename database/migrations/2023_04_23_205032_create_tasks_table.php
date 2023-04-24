@@ -15,6 +15,19 @@ class CreateTasksTable extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
+            $table->string('text');
+            $table->integer('duration');
+            $table->float('progress');
+            $table->dateTime('start_date');
+            $table->integer('parent');
+            $table->integer('sortorder')->default(0);
+            $table->timestamps();
+        });
+
+        Schema::create('project_tasks',function(Blueprint $table){
+            $table->id();
+            $table->foreignId('task_id')->references('id')->on('tasks');
+            $table->foreignId('project_id')->references('id')->on('projects');
             $table->timestamps();
         });
     }
@@ -26,6 +39,8 @@ class CreateTasksTable extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
+        Schema::dropIfExists('project_tasks');
         Schema::dropIfExists('tasks');
     }
 }

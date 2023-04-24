@@ -8,6 +8,7 @@ use App\Http\Controllers\DepartamentCostController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\FieldController;
 use App\Http\Controllers\FormlistController;
+use App\Http\Controllers\GanttController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -53,6 +54,9 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/unauthorized', [HomeController::class, 'unauthorized'])->name('unauthorized');
 
 Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard'])->group(function () {
+    
+    Route::get('gantt',[GanttController::class,'index'])->name('dashboard.projects.statistics.gantt');
+    
     Route::get('teste', function () {
         return view('dashboard.projects.bases.employees.formlistsFields');
     });
