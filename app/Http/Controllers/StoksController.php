@@ -23,7 +23,7 @@ class StoksController extends Controller
      */
     public function index(Sector $sector)
     {   
-        // dd($sector->stoks()->with('invoiceProduct')->where('qtd','>',0)->where('id','<',160)->get());
+        // dd($sector->stoks()->with('invoiceProduct')->where('slug','like','%lixadeira%')->get());
         // dd($sector->stoks()->with('invoiceProduct.invoice')->get());
         return view('dashboard.projects.bases.sectors.stoks.index',[
             'sector' => $sector,

@@ -111,12 +111,14 @@ class FieldController extends Controller
         return response()->json($array);
     }
 
-    public function getStoksBySector(FormlistBaseEmployee $formlist_employee, Sector $sector)
+    public function getStoksBySector(FormlistBaseEmployee $formlist_employee, Sector $sector, Request $request)
     {
-        $stoks = $sector->stoks()->where('qtd', ">", 0)->with('invoiceProduct')->get();
+        $stoks = $sector->stoks()->where('qtd', ">", 0)
+        ->with('invoiceProduct')->where('slug','LIKE',"%$request->q%")->orderBy('slug','ASC')->get();
+
         $array = [];
         foreach ($stoks as $key => $value) {
-            $array[$key] = ['id' => $value->id, 'name' => $value->invoiceProduct->name, "qtd" => $value->qtd];
+            $array[$key] = ['id' => $value->id, 'name' => $value->invoiceProduct->name, "qtd" => $value->qtd,  'req' => $request->all()];
         }
 
         return response()->json($array);

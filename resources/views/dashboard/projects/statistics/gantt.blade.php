@@ -22,7 +22,8 @@
     <div id="gantt_here" style='width:100%; height:100%;'></div>
     <script type="text/javascript">
         gantt.config.date_format = "%Y-%m-%d %H:%i:%s";
-
+        gantt.config.order_branch = true;
+        gantt.config.order_branch_free = true;
         gantt.init("gantt_here");
 
         gantt.load("/api/data");

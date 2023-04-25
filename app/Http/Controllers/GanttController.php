@@ -20,7 +20,7 @@ class GanttController extends Controller
         $links = new Link();
 
         return response()->json([
-            'data' => $tasks->all(),
+            'data' => $tasks->orderBy('sortorder')->get(),
             'links' => $links->all(),
         ]);
     }
