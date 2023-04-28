@@ -26,6 +26,8 @@ use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\SectorController;
 use App\Http\Controllers\SectorsCostsController;
 use App\Http\Controllers\StoksController;
+use App\Models\Task;
+use Illuminate\Support\Facades\Date;
 
 /*
 |--------------------------------------------------------------------------
@@ -58,7 +60,18 @@ Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard'])->group(
     Route::get('gantt',[GanttController::class,'index'])->name('dashboard.projects.statistics.gantt');
     
     Route::get('teste', function () {
-        return view('dashboard.projects.bases.employees.formlistsFields');
+        $task = Task::find(3);
+        $date = date_create($task->start_date);
+        $origin = date_create($task->start_date);
+        $new_date = $date->modify("+ 10 day");
+        $parent = $task->parentTask()->first();
+        $parent->start_date = date_create($parent->start_date)->modify("+ 2 day");
+        $parent->save();
+        // $frompdate = $task->parentTask()->first();
+        // $frompdate->duration = $frompdate->duration + $origin->diff($date)->days;
+        // $frompdate->save();
+        $newParent = Task::find($parent->id)->first();
+        dd($origin->diff($date)->days,$parent, $newParent);
     });
     Route::get('formulario/{formlist_employee}', [BaseController::class, 'formlistPdf'])->name('formlistPdf');
     Route::prefix('api')->group(function () {

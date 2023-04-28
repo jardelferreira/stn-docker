@@ -54,6 +54,7 @@ class ReceiptController extends Controller
      */
     public function show(Receipt $receipt)
     {
+        // dd($receipt->list()->toSql(),ReceiptList::all());
         return view('dashboard.financeiro.receipts.show',['receipt' => $receipt]);
     }
 
@@ -102,11 +103,11 @@ class ReceiptController extends Controller
 
     public function storeList(Receipt $receipt,Request $request)
     {
-        // dd($receipt->list()->get());
         $data = [];
-       for ($i=0; $i < count($request->qtd) - 1; $i++) { 
-        array_push($data, new ReceiptList(['qtd' => $request->qtd[$i],'description' => $request->description[$i], 'receipt_id' => $receipt->id]));
-       }
+        for ($i=0; $i < count($request->qtd); $i++) { 
+            array_push($data, new ReceiptList(['qtd' => $request->qtd[$i],'description' => $request->description[$i], 'receipt_id' => $receipt->id]));
+        }
+        
         $receipt->list()->saveMany($data);
 
         return redirect()->back();

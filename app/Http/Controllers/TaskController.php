@@ -17,6 +17,7 @@ class TaskController extends Controller
         $task->duration = $request->duration;
         $task->progress = $request->has("progress") ? $request->progress : 0;
         $task->parent = $request->parent;
+        $task->sortorder = Task::max("sortorder") + 1;
 
         $task->save();
 
@@ -31,12 +32,26 @@ class TaskController extends Controller
         $task = Task::find($id);
 
         $task->text = $request->text;
-        $task->start_date = $request->start_date;
         $task->duration = $request->duration;
         $task->progress = $request->has("progress") ? $request->progress : 0;
         $task->parent = $request->parent;
+        
+        $group = true;
 
-        $task->save();
+        if ($parent = $task->parentTask()->first()) {
+            if ($parent->start_date < $request->start_date) {
+
+                $newDate = $request->start_date;
+
+                $interval = date_create($task->start_date)->diff(date_create($request->start_date))->days;
+                $task->start_date = $request->start_date;
+                $task->save();
+                if ($subtasks = $task->subTasks() & $group) {
+                    
+                }              
+            }
+
+        }
 
         if ($request->has("target")) {
             $this->updateOrder($id, $request->target);
@@ -79,5 +94,32 @@ class TaskController extends Controller
         $updatedTask = Task::find($taskId);
         $updatedTask->sortorder = $targetOrder;
         $updatedTask->save();
+    }
+
+    public function updateSubtasksDates(Task $task, $group = true)
+    {
+        $subtasks = $task->subTasks();
+        foreach ($subtasks as $ $subtask) {
+            
+        }
+        
+            
+    }
+
+    public function updateDurations(Task $task)
+    {
+        if($parent = $task->parentTask()->first()){
+            
+            $parentEndDate = date_create($parent->start_date)->modify("+ {$parent->duration} day");
+            $taskEndDate = date_create($task->start_date)->modify("+ {$task->duration} day");
+            
+            if ($taskEndDate > $parentEndDate) {
+                $interval = $parentEndDate->diff($taskEndDate)->days;
+                $parent->duration = $parent->duration + $interval;
+                $parent->save();
+                $this->updateDurations($parent);
+            }
+        }
+
     }
 }

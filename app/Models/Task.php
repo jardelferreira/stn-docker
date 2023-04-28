@@ -14,4 +14,14 @@ class Task extends Model
     public function getOpenAttribute(){
         return true;
     }
+
+    public function subTasks()
+    {
+        return $this->hasMany(Task::class,'parent');
+    }
+
+    public function parentTask()
+    {
+        return $this->hasOne(Task::class,'id','parent');
+    }
 }
