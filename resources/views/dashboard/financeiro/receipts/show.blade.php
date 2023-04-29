@@ -7,6 +7,9 @@
             margin: 0;
             border: 0;
         }
+        html{
+            font-size: 1.4rem;
+        }
     </style>
 @endsection
 @section('content')
@@ -73,7 +76,7 @@
                 <p class="border-bottom border-dark p-0 mb-3 mt-2">{{ $receipt->local }}, <span id="emited"
                         data-created="{{ $receipt->created_at }}"></span></p>
                 <p class=" mt-2 mb-2 mt-5 p-0"></p>
-                <p class="border-top border-dark p-0 mt-0 text-center" style="width: 10cm;">Assinatura</p>
+                <p class="border-top border-dark p-0 mt-0 text-center" style="width: 15cm;">Assinatura</p>
             </div>
             <div class="d-flex justify-content-center">
                 <small>gerado em jfwebsystem.com.br  <span id="genered"> {{ date_create($receipt->created_at)->format("d/m/Y H:i:s") }}</span> Usuário: <span
