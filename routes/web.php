@@ -60,13 +60,14 @@ Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard'])->group(
     Route::get('gantt', [GanttController::class, 'index'])->name('dashboard.projects.statistics.gantt');
 
     Route::get('teste', function () {
-        $task = Task::find(4);
+        $task = Task::find(2);
         $parent = $task->parentTask()->first();
-        $subtasks = $task->subTasks();
-        $data1 = $task->start_date;
-        $data2 = $parent->start_date;
-        dd(date_create($data1)->diff(date_create($data2))->days);
-        dd($task->start_date, date_modify(date_create($task->start_date), "+ 1 day"));
+        $lastDate = "";
+        foreach ($task->subTasks()->get() as $subtask) {
+            $newDate = date_create($subtask->start_date)->modify("+ {$subtask->duration} day");
+            $lastDate =  $lastDate > $newDate ? $lastDate : $newDate;
+        }
+        dd($lastDate);
     });
     Route::get('formulario/{formlist_employee}', [BaseController::class, 'formlistPdf'])->name('formlistPdf');
     Route::prefix('api')->group(function () {

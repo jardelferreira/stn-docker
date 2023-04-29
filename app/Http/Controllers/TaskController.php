@@ -40,6 +40,8 @@ class TaskController extends Controller
         $taskEndDate = date_create($request->start_date)->modify("+ {$request->duration} day");
         $displaciment = $task->start_date > $request->start_date ? "past" : "future";
         $interval = date_create($task->start_date)->diff(date_create($request->start_date))->days;
+        $taskDuration = $task->duration;
+        $lastDate = $this->getLastDate($task);
 
         if ($task->parentTask()->exists()) {
             $parent = $task->parentTask()->first();
@@ -67,6 +69,8 @@ class TaskController extends Controller
             if ($parent->start_date < $request->start_date) {
 
                 $task->start_date = $limitFinalDate ?? $request->start_date;
+                $task->duration = $taskEndDate >  $lastDate ?
+                $request->duration : date_create($request->start_date)->diff($lastDate)->days;
                 $task->save();
                 $this->updateSubtasksDates($task, $group, $interval, $displaciment);
             } else {
@@ -155,7 +159,7 @@ class TaskController extends Controller
             $parentDate = $parent->start_date;
             if ($parent->start_date > $task->start_date) {
                 $parent->start_date = $task->start_date;
-                $parent->duration+= date_create($taskDate)->diff(date_create($parentDate))->days; 
+                $parent->duration += date_create($taskDate)->diff(date_create($parentDate))->days;
                 $parent->save();
                 $this->updateParentDates($parent);
             }
@@ -175,5 +179,15 @@ class TaskController extends Controller
                 $this->updateParentDuration($parent, $schedule);
             }
         }
+    }
+
+    public function getLastDate(Task $task, $lastDate = "")
+    {
+
+        foreach ($task->subTasks()->get() as $subtask) {
+            $newDate = date_create($subtask->start_date)->modify("+ {$subtask->duration} day");
+            $lastDate =  $lastDate > $newDate ? $lastDate : $newDate;
+        }
+        return $lastDate;
     }
 }
