@@ -56,22 +56,17 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/unauthorized', [HomeController::class, 'unauthorized'])->name('unauthorized');
 
 Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard'])->group(function () {
-    
-    Route::get('gantt',[GanttController::class,'index'])->name('dashboard.projects.statistics.gantt');
-    
+
+    Route::get('gantt', [GanttController::class, 'index'])->name('dashboard.projects.statistics.gantt');
+
     Route::get('teste', function () {
-        $task = Task::find(3);
-        $date = date_create($task->start_date);
-        $origin = date_create($task->start_date);
-        $new_date = $date->modify("+ 10 day");
+        $task = Task::find(4);
         $parent = $task->parentTask()->first();
-        $parent->start_date = date_create($parent->start_date)->modify("+ 2 day");
-        $parent->save();
-        // $frompdate = $task->parentTask()->first();
-        // $frompdate->duration = $frompdate->duration + $origin->diff($date)->days;
-        // $frompdate->save();
-        $newParent = Task::find($parent->id)->first();
-        dd($origin->diff($date)->days,$parent, $newParent);
+        $subtasks = $task->subTasks();
+        $data1 = $task->start_date;
+        $data2 = $parent->start_date;
+        dd(date_create($data1)->diff(date_create($data2))->days);
+        dd($task->start_date, date_modify(date_create($task->start_date), "+ 1 day"));
     });
     Route::get('formulario/{formlist_employee}', [BaseController::class, 'formlistPdf'])->name('formlistPdf');
     Route::prefix('api')->group(function () {
@@ -330,56 +325,53 @@ Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard'])->group(
         Route::post('salveFieldAfterAssign', [FieldController::class, 'salveFieldAfterAssign'])->name('dashboard.fields.salveFieldAfterAssign');
     });
 
-    Route::prefix('suprimentos')->group(function(){
-        Route::prefix('categorias')->group(function(){
-            Route::get('/',[CategoryController::class,'index'])->name('dashboard.financeiro.categories');
-            Route::get('/criar',[CategoryController::class,'create'])->name('dashboard.financeiro.categories.create');
-            Route::get('/{category}',[CategoryController::class,'show'])->name('dashboard.financeiro.categories.show');
-            Route::get('/{category}',[CategoryController::class,'edit'])->name('dashboard.financeiro.categories.edit');
-            Route::put('/{category}',[CategoryController::class,'update'])->name('dashboard.financeiro.categories.update');
-            Route::delete('/{category}',[CategoryController::class,'destroy'])->name('dashboard.financeiro.categories.destroy');
-            Route::post('/',[CategoryController::class,'store'])->name('dashboard.financeiro.categories.store');
-        });
-        
-        Route::prefix('products')->group(function(){
-            Route::get('/',[ProductController::class,'index'])->name('dashboard.financeiro.products');
-            Route::get('/criar',[ProductController::class,'create'])->name('dashboard.financeiro.products.create');
-            Route::get('/{product}',[ProductController::class,'show'])->name('dashboard.financeiro.products.show');
-            Route::get('/{product}',[ProductController::class,'edit'])->name('dashboard.financeiro.products.edit');
-            Route::put('/{product}',[ProductController::class,'update'])->name('dashboard.financeiro.products.update');
-            Route::delete('/{product}',[ProductController::class,'destroy'])->name('dashboard.financeiro.products.destroy');
-            Route::post('/',[ProductController::class,'store'])->name('dashboard.financeiro.products.store');
+    Route::prefix('suprimentos')->group(function () {
+        Route::prefix('categorias')->group(function () {
+            Route::get('/', [CategoryController::class, 'index'])->name('dashboard.financeiro.categories');
+            Route::get('/criar', [CategoryController::class, 'create'])->name('dashboard.financeiro.categories.create');
+            Route::get('/{category}', [CategoryController::class, 'show'])->name('dashboard.financeiro.categories.show');
+            Route::get('/{category}', [CategoryController::class, 'edit'])->name('dashboard.financeiro.categories.edit');
+            Route::put('/{category}', [CategoryController::class, 'update'])->name('dashboard.financeiro.categories.update');
+            Route::delete('/{category}', [CategoryController::class, 'destroy'])->name('dashboard.financeiro.categories.destroy');
+            Route::post('/', [CategoryController::class, 'store'])->name('dashboard.financeiro.categories.store');
         });
 
+        Route::prefix('products')->group(function () {
+            Route::get('/', [ProductController::class, 'index'])->name('dashboard.financeiro.products');
+            Route::get('/criar', [ProductController::class, 'create'])->name('dashboard.financeiro.products.create');
+            Route::get('/{product}', [ProductController::class, 'show'])->name('dashboard.financeiro.products.show');
+            Route::get('/{product}', [ProductController::class, 'edit'])->name('dashboard.financeiro.products.edit');
+            Route::put('/{product}', [ProductController::class, 'update'])->name('dashboard.financeiro.products.update');
+            Route::delete('/{product}', [ProductController::class, 'destroy'])->name('dashboard.financeiro.products.destroy');
+            Route::post('/', [ProductController::class, 'store'])->name('dashboard.financeiro.products.store');
+        });
     });
-    
-    Route::prefix('financeiro')->group(function(){
 
-        Route::prefix('filiais')->group(function(){
+    Route::prefix('financeiro')->group(function () {
 
-            Route::get('',[BranchController::class,'index'])->name('dashboard.financeiro.branches');
-            Route::get('/criar',[BranchController::class,'create'])->name('dashboard.financeiro.branches.create');
-            Route::get('/{branch}/editar',[BranchController::class,'edit'])->name('dashboard.financeiro.branches.edit');
-            Route::get('/{branch}/show',[BranchController::class,'show'])->name('dashboard.financeiro.branches.show');
-            
-            Route::put('/{branch}',[BranchController::class,'update'])->name('dashboard.financeiro.branches.update');
-            Route::delete('/{branch}',[BranchController::class,'destroy'])->name('dashboard.financeiro.branches.destroy');
-            Route::post('',[BranchController::class,'store'])->name('dashboard.financeiro.branches.store');
-        });
-        
-        Route::prefix('recibos')->group(function(){
-            Route::get('',[ReceiptController::class,'index'])->name('dashboard.financeiro.receipts');
-            Route::get('/criar',[ReceiptController::class,'create'])->name('dashboard.financeiro.receipts.create');
-            Route::get('/{receipt}/editar',[ReceiptController::class,'edit'])->name('dashboard.financeiro.receipts.edit');
-            Route::get('/{receipt}/show',[ReceiptController::class,'show'])->name('dashboard.financeiro.receipts.show');
-            
-            Route::put('/{receipt}',[ReceiptController::class,'update'])->name('dashboard.financeiro.receipts.update');
-            Route::delete('/{receipt}',[ReceiptController::class,'destroy'])->name('dashboard.financeiro.receipts.destroy');
-            Route::post('',[ReceiptController::class,'store'])->name('dashboard.financeiro.receipts.store');
-            Route::post('/{receipt}/storeList',[ReceiptController::class,'storeList'])->name('dashboard.financeiro.receipts.storeList');
+        Route::prefix('filiais')->group(function () {
 
+            Route::get('', [BranchController::class, 'index'])->name('dashboard.financeiro.branches');
+            Route::get('/criar', [BranchController::class, 'create'])->name('dashboard.financeiro.branches.create');
+            Route::get('/{branch}/editar', [BranchController::class, 'edit'])->name('dashboard.financeiro.branches.edit');
+            Route::get('/{branch}/show', [BranchController::class, 'show'])->name('dashboard.financeiro.branches.show');
+
+            Route::put('/{branch}', [BranchController::class, 'update'])->name('dashboard.financeiro.branches.update');
+            Route::delete('/{branch}', [BranchController::class, 'destroy'])->name('dashboard.financeiro.branches.destroy');
+            Route::post('', [BranchController::class, 'store'])->name('dashboard.financeiro.branches.store');
         });
 
+        Route::prefix('recibos')->group(function () {
+            Route::get('', [ReceiptController::class, 'index'])->name('dashboard.financeiro.receipts');
+            Route::get('/criar', [ReceiptController::class, 'create'])->name('dashboard.financeiro.receipts.create');
+            Route::get('/{receipt}/editar', [ReceiptController::class, 'edit'])->name('dashboard.financeiro.receipts.edit');
+            Route::get('/{receipt}/show', [ReceiptController::class, 'show'])->name('dashboard.financeiro.receipts.show');
+
+            Route::put('/{receipt}', [ReceiptController::class, 'update'])->name('dashboard.financeiro.receipts.update');
+            Route::delete('/{receipt}', [ReceiptController::class, 'destroy'])->name('dashboard.financeiro.receipts.destroy');
+            Route::post('', [ReceiptController::class, 'store'])->name('dashboard.financeiro.receipts.store');
+            Route::post('/{receipt}/storeList', [ReceiptController::class, 'storeList'])->name('dashboard.financeiro.receipts.storeList');
+        });
     });
 });
 
@@ -398,5 +390,4 @@ Route::prefix('publico')->middleware('auth')->group(function () {
     });
     Route::get('fichas/{user}/funcionario', [PublicController::class, 'formlists'])->name('public.employees.formlists');
     Route::get('fichas/{formlist}/show', [PublicController::class, 'fieldsFormlistByEmployee'])->name('public.employees.formlists.show');
-
 });

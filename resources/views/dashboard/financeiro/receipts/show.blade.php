@@ -19,7 +19,7 @@
                 <div class="ml-5" id="qrcode"></div>
             </div>
             <div class="alert alert-secondary text-center font-weight-bold text-uppercase h-5">Recibo - <span
-                    id="number"><span id="zerofill"></span>{{ $receipt->id }}</span></div>
+                    id="number"><span id="zerofill"></span>{{str_repeat("0",(strlen($receipt->id) < 5 ? 4 - strlen($receipt->id): 0))}}{{ $receipt->id }}</span></div>
             <div class=" mb-1 text-uppercase text-center font-weight-bold align-self-center border border-dark">
                 {{ $receipt->branch->nome }}
                 CNPJ n.º<span>{{ $receipt->branch->cnpj }}</span></div>
@@ -76,7 +76,7 @@
                 <p class="border-top border-dark p-0 mt-0 text-center" style="width: 10cm;">Assinatura</p>
             </div>
             <div class="d-flex justify-content-center">
-                <small>gerado em jfwebsystem.com.br: <span id="genered">{{ $receipt->created_at }}</span> Usuário: <span
+                <small>gerado em jfwebsystem.com.br  <span id="genered"> {{ date_create($receipt->created_at)->format("d/m/Y H:i:s") }}</span> Usuário: <span
                         class="font-weight-bold">
                         {{ $receipt->user->name }}</span></small>
             </div>
