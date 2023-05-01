@@ -18,7 +18,8 @@ class CreateSignaturesTable extends Migration
             $table->uuid('uuid');
             $table->string('event');
             $table->string('signature');
-            $table->longText('signature_image');
+            $table->longText('signature_image')->nullable();
+            $table->string('path')->nullable();
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->morphs('signaturable');
             $table->timestamps();

@@ -25,4 +25,15 @@ class Receipt extends Model
     {
         return $this->hasMany(ReceiptList::class);
     }
+
+    public function signature()
+    {
+        return $this->morphOne(Signature::class, 'signaturable');
+    }
+
+    public function saveEventString()
+    {
+        $date = date_create(now())->format("d-m-Y H:i:s");
+        return "Recibo gerado por {$this->user->name}, em {$this->created_at}, no valor de R$ {$this->value} para o favorecido: {$this->favored}, Nº do documento: {$this->register} - assinado digitalmente em: {$date}";
+    }
 }

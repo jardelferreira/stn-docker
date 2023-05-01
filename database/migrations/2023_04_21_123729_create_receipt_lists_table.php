@@ -17,7 +17,7 @@ class CreateReceiptListsTable extends Migration
             $table->id();
             $table->string('qtd');
             $table->string('description');
-            $table->foreignId('receipt_id')->references('id')->on('receipts');
+            $table->foreignId('receipt_id')->references('id')->on('receipts')->onDelete('cascade');
             $table->timestamps();
         });
     }

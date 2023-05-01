@@ -7,13 +7,53 @@
             margin: 0;
             border: 0;
         }
-        html{
-            font-size: 1.4rem;
+
+        svg:not(:root) {
+            display: block;
+        }
+
+        .playable-code {
+            background-color: #a3e8ff;
+            border: none;
+            border-left: 6px solid #558abb;
+            border-width: medium medium medium 6px;
+            color: #4d4e53;
+            height: 100px;
+            width: 90%;
+            padding: 10px 10px 0;
+        }
+
+        .playable-canvas {
+            border: 1px solid #4d4e53;
+            border-radius: 2px;
+        }
+
+        .playable-buttons {
+            text-align: right;
+            width: 90%;
+            padding: 5px 10px 5px 26px;
         }
     </style>
 @endsection
 @section('content')
     <div>
+        <div class="btn-group">
+            @if ($receipt->link)
+            <a class="mx-1 btn btn-primary" href="{{ $receipt->link }}" target="_blank">Acessar link público</a>
+            @else
+            <a href="#" class="mx-1 btn btn-secondary">Atualizar link público</a>
+            @endif
+            @if (!$receipt->temporary_link)
+            <button type="button" class="btn btn-primary btn-sm" id="genLink">
+                <small>Gerar link de assinatura</small>
+            </button>
+            @else
+            <input type="text" id="clipboardExample1" class="d-none" value="{{ $receipt->temporary_link }}">
+            <button type="button" id="clipboard" class="btn btn-info btn-clipboard" data-clipboard-action="copy"
+                data-clipboard-target="#clipboardExample1">Copiar link público</button>
+
+            @endif
+        </div>
         <div class="border border-dark">
             <div class="logo d-flex justify-content-center m-2">
                 <img src="{{ asset('images/stnlogo.png') }}" height="100px" width="200px"
@@ -22,9 +62,11 @@
                 <div class="ml-5" id="qrcode"></div>
             </div>
             <div class="alert alert-secondary text-center font-weight-bold text-uppercase h-5">Recibo - <span
-                    id="number"><span id="zerofill"></span>{{str_repeat("0",(strlen($receipt->id) < 5 ? 4 - strlen($receipt->id): 0))}}{{ $receipt->id }}</span></div>
+                    id="number"><span
+                        id="zerofill"></span>{{ str_repeat('0', strlen($receipt->id) < 5 ? 4 - strlen($receipt->id) : 0) }}{{ $receipt->id }}</span>
+            </div>
             <div class=" mb-1 text-uppercase text-center font-weight-bold align-self-center border border-dark">
-                {{ $receipt->branch->nome }}
+                {{ $receipt->branch->nome }} / {{ $receipt->branch->cidade }}-{{ $receipt->branch->uf }} -
                 CNPJ n.º<span>{{ $receipt->branch->cnpj }}</span></div>
             <div class="border border-dark mb-1 p-1">
                 <div class="border border-bottom">Eu,<span class="my-1">{{ $receipt->favored }}</span></div>
@@ -67,7 +109,7 @@
                     <P class="font-weight-bold">Referente a:</P>
                     <ul class="list-group">
                         @foreach ($receipt->list as $item)
-                            <li class="list-group-item">{{ $item->qtd }} - {{ $item->description}}</li>
+                            <li class="list-group-item">{{ $item->qtd }} - {{ $item->description }}</li>
                         @endforeach
                     </ul>
                 @endif
@@ -79,15 +121,132 @@
                 <p class="border-top border-dark p-0 mt-0 text-center" style="width: 15cm;">Assinatura</p>
             </div>
             <div class="d-flex justify-content-center">
-                <small>gerado em jfwebsystem.com.br  <span id="genered"> {{ date_create($receipt->created_at)->format("d/m/Y H:i:s") }}</span> Usuário: <span
+                <small>gerado em jfwebsystem.com.br <span id="genered">
+                        {{ date_create($receipt->created_at)->format('d/m/Y H:i:s') }}</span> Usuário: <span
                         class="font-weight-bold">
                         {{ $receipt->user->name }}</span></small>
             </div>
         </div>
     </div>
+
 @endsection
 @section('js')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <script>
+        $(document).ready(function() {
+
+            new ClipboardJS('.btn-clipboard');
+
+        });
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        getNowDate = () => {
+            date = new Date().addHours(24);
+            date_string = date.toLocaleString("pt-BR", {
+                year: 'numeric',
+                month: 'numeric',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: 'numeric'
+            })
+            // parse date_string formtat '01/05/2023, 11:12' to array ['01', '05', '2023', ' T11:12']
+            date_array = date_string.replace(", ", "/T").split("/")
+            // generate especific format from input datetime-locale => "yyyy-MM-ddThh:mm" 
+
+            return `${date_array[2]}-${date_array[1]}-${date_array[0]}${date_array[3]}`;
+        }
+
+        $("#genLink").on("click", () => {
+            var url = window.location.href;
+
+            Swal.fire({
+                title: 'Informe a data limite para o link',
+                html: ` <input type="datetime-local" class="swal2-input" name="assign_limit" id="assign_limit" aria-describedby="limit" placeholder="">`,
+                footer: `<p>prazo mínimo de 1h</p>`,
+                inputAttributes: {
+                    autocapitalize: 'off',
+                    required: true,
+                },
+                confirmButtonText: 'Confirmar',
+                showLoaderOnConfirm: true,
+                didOpen: (e) => {
+                    Swal.getHtmlContainer().querySelector('#assign_limit').value = getNowDate();
+
+                },
+                inputValidator: (value) => {
+                    return new Promise((resolve) => {
+                        if (!value) {
+                            resolve($("#assign_limit").val())
+                        }
+                        resolve()
+                    })
+                },
+                preConfirm: (pass) => {
+                    Swal.showLoading()
+                    datetime = Swal.getHtmlContainer().querySelector('#assign_limit').value;
+                    if (!datetime) {
+                        Swal.showValidationMessage("A data é Obrigatória!")
+                    }
+                    // requisição
+                    return $.ajax({
+                        method: "POST",
+                        url: url.replace("show", "genTemporaryLink"),
+                        data: {
+                            datetime: `${datetime.replace("T"," ")}:00`,
+                        }
+                    }).done(function(response) {
+                        return response
+                    }).fail(function(jqXHR, textStatus) {
+                        Swal.showValidationMessage(
+                            `Request failed: ${textStatus}`
+                        )
+                        Swal.close()
+                    });
+                    // fim requisição
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.DismissReason.timer
+                    console.log(result)
+                        Swal.fire({
+                            icon: "success",
+                            title: "Url Gerada com sucesso!",
+                            html: `<div class="input-group">
+                                        <span class="input-group-addon hidden-xs linkname">
+                                        <strong>Url publica</strong>
+                                        </span>
+                                        <span id="copyButton" class="input-group-addon btn" title="Clique para copiar">
+                                        <i class="fa fa-clipboard" aria-hidden="true"></i>
+                                        </span>
+                                        <input type="text" id="copyTarget" class="form-control" value="${result.value.receipt.temporary_link}">
+                                        <span class="copied">Copied !</span>
+                                    </div>
+                                    </div>`
+                        })
+
+                    // Swal.fire({
+                    //     icon: result.value.type,
+                    //     title: result.value.message,
+                    //     text: result.value.event,
+                    //     footer: result.value.footer,
+                    //     didOpen: (element) => {
+                    //         $("#signature_delivered").val(signature);
+                    //         $("form").submit();
+                    //     }
+                    // })
+
+                }
+            })
+
+        })
+    </script>
     <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
+
 
     <script>
         String.prototype.extenso = function(c) {
@@ -161,22 +320,26 @@
             });
 
             add = document.getElementById("add")
-            add.addEventListener("click", () => {
-                clone = document.getElementById("formline").cloneNode(true)
-                document.getElementById("form").prepend(clone)
-                rm = document.getElementById("rm")
-                rm.addEventListener("click", (e) => {
-                    console.log(e)
-                    if (e.target.parentNode.tagName == "DIV") {
-                        e.target.parentNode.remove()
-                    } else {
-                        e.target.parentNode.parentNode.remove()
-                    }
+            if (add) {
 
+                add.addEventListener("click", () => {
+                    clone = document.getElementById("formline").cloneNode(true)
+                    document.getElementById("form").prepend(clone)
+                    rm = document.getElementById("rm")
+                    rm.addEventListener("click", (e) => {
+                        console.log(e)
+                        if (e.target.parentNode.tagName == "DIV") {
+                            e.target.parentNode.remove()
+                        } else {
+                            e.target.parentNode.parentNode.remove()
+                        }
+
+                    })
                 })
-            })
+                document.getElementById("send").addEventListener("click", () => document.getElementById("form")
+                    .submit())
+            }
 
-            document.getElementById("send").addEventListener("click", () => document.getElementById("form").submit())
 
         }
     </script>

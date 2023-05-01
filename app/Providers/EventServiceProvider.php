@@ -2,17 +2,7 @@
 
 namespace App\Providers;
 
-use App\Models\Base;
-use App\Models\Cost;
-use App\Models\DepartamentCost;
-use App\Models\Formlist;
-use App\Models\Invoice;
-use App\Models\Profession;
-use App\Models\Project;
-use App\Models\Provider;
-use App\Models\Sector;
-use App\Models\sectorsCosts;
-use App\Models\User;
+use App\Models\{Base,Cost, DepartamentCost, Formlist, Invoice, Profession, Project, Provider, Receipt, Sector, sectorsCosts, User} ;
 use App\Observers\BaseObserver;
 use App\Observers\CostObserver;
 use App\Observers\DepartamentCostObserver;
@@ -26,6 +16,7 @@ use App\Observers\PermissionObserver;
 use App\Observers\ProfessionObserver;
 use App\Observers\ProjectObserver;
 use App\Observers\ProviderObserver;
+use App\Observers\ReceiptObserver;
 use App\Observers\SectorObserver;
 use App\Observers\SectorsCostObserver;
 use Illuminate\Support\Facades\Event;
@@ -66,5 +57,6 @@ class EventServiceProvider extends ServiceProvider
         Sector::observe(SectorObserver::class);
         Profession::observe(ProfessionObserver::class);
         Formlist::observe(FormlistObserver::class);
+        Receipt::observe(ReceiptObserver::class);
     }
 }
