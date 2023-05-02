@@ -205,10 +205,10 @@
         window.signatureHtml = () => {
             return `<div class="container bg-light">
 		<div m-0 p-0" id="canvas">
-		 		<canvas id="sig-canvas" width="720" height="420" class="bg-light">
+		 		<canvas id="sig-canvas" width="660" height="380" class="bg-light">
 		 		</canvas>
 		</div>
-		<div id="image" width="720" height="420">
+		<div id="image" width="660" height="380">
 				<img id="sig-image" src=""/>
 		</div>`
         }
