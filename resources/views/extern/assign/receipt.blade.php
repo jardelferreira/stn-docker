@@ -410,7 +410,9 @@
                     icon: 'question',
                     html: `<h3>Enviar assinatura digital? `,
                     confirmButtonText: 'Confirmar',
+                    cancelButtonText: 'desistir',
                     showLoaderOnConfirm: true,
+                    showCancelButton: true,
                     preConfirm: (pass) => {
                         Swal.showLoading()
                         dataUrl = canvas.toDataURL();
