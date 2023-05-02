@@ -53,7 +53,7 @@
 
         }
 
-        #img-signature {
+        #img_signature {
             width: 10cm;
         }
     </style>
@@ -95,7 +95,7 @@
                         data-created="{{ $receipt->created_at }}"></span></p>
                 <p class=" mt-2 mb-2 mt-5 p-0">
                     @if ($receipt->signature()->exists())
-                        <img src="{{ $receipt->signature->signature_image ?? '' }}" id="img_signature"
+                        <img src="{{ $receipt->signature->signature_image ?? '' }}" id="img_signature" width="10cm"
                             alt="assinatura digital">
                     @endif
                 </p>

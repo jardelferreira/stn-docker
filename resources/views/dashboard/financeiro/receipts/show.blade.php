@@ -33,6 +33,9 @@
             width: 90%;
             padding: 5px 10px 5px 26px;
         }
+        #img_signature {
+            width: 10cm;
+        }
     </style>
 @endsection
 @section('content')
@@ -126,7 +129,7 @@
                         data-created="{{ $receipt->created_at }}"></span></p>
                 <p class=" mt-2 mb-2 mt-5 p-0">
                     @if ($receipt->signature()->exists())
-                        <img src="{{ $receipt->signature->signature_image ?? '' }}" alt="assinatura digital">
+                        <img src="{{ $receipt->signature->signature_image ?? '' }}" alt="assinatura digital" id="img_signature">
                     @endif
                 </p>
                 <p class="border-top border-dark p-0 mt-0 text-center" style="width: 15cm;">Assinatura</p>
