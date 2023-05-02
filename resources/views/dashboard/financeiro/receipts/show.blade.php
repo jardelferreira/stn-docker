@@ -37,27 +37,30 @@
 @endsection
 @section('content')
     <div>
-        <div class="btn-group">
-            @if ($receipt->link)
-            <a class="mx-1 btn btn-primary" href="{{$receipt->link}}" target="_blank">Acessar link público</a>
-            @else
-            <form action="{{route('dashboard.financeiro.receipts.genLink',$receipt)}}" method="post">
-            @csrf
-            @method('PUT')
-            <button class="mx-1 btn btn-secondary" type="submit">Atualizar link público</button>
-            </form>
-            @endif
-            @if (!$receipt->temporary_link)
-            <button type="button" class="btn btn-primary btn-sm" id="genLink">
-                <small>Gerar link de assinatura</small>
-            </button>
-            @else
-            <input type="text" id="clipboardExample1" class="d-none" value="{{ $receipt->temporary_link }}">
-            <button type="button" id="clipboard" class="btn btn-info btn-clipboard" data-clipboard-action="copy"
-                data-clipboard-target="#clipboardExample1">Copiar link para assinatura</button>
-                <a class="btn btn-secondary ml-1" target="_blank" href="{{$receipt->temporary_link}}">Link para ssinatura</a>
-            @endif
-        </div>
+        @if ($receipt->list()->exists())
+            <div class="btn-group">
+                @if ($receipt->link)
+                    <a class="mx-1 btn btn-primary" href="{{ $receipt->link }}" target="_blank">Acessar link público</a>
+                @else
+                    <form action="{{ route('dashboard.financeiro.receipts.genLink', $receipt) }}" method="post">
+                        @csrf
+                        @method('PUT')
+                        <button class="mx-1 btn btn-secondary" type="submit">Atualizar link público</button>
+                    </form>
+                @endif
+                @if (!$receipt->temporary_link)
+                    <button type="button" class="btn btn-primary btn-sm" id="genLink">
+                        <small>Gerar link de assinatura</small>
+                    </button>
+                @else
+                    <input type="text" id="clipboardExample1" class="d-none" value="{{ $receipt->temporary_link }}">
+                    <button type="button" id="clipboard" class="btn btn-info btn-clipboard" data-clipboard-action="copy"
+                        data-clipboard-target="#clipboardExample1">Copiar link para assinatura</button>
+                    <a class="btn btn-secondary ml-1" target="_blank" href="{{ $receipt->temporary_link }}">Link para
+                        ssinatura</a>
+                @endif
+            </div>
+        @endif
         <div class="border border-dark">
             <div class="logo d-flex justify-content-center m-2">
                 <img src="{{ asset('images/stnlogo.png') }}" height="100px" width="200px"
@@ -123,7 +126,7 @@
                         data-created="{{ $receipt->created_at }}"></span></p>
                 <p class=" mt-2 mb-2 mt-5 p-0">
                     @if ($receipt->signature()->exists())
-                    <img src="{{ $receipt->signature->signature_image ?? ""}}" alt="assinatura digital">
+                        <img src="{{ $receipt->signature->signature_image ?? '' }}" alt="assinatura digital">
                     @endif
                 </p>
                 <p class="border-top border-dark p-0 mt-0 text-center" style="width: 15cm;">Assinatura</p>
@@ -220,11 +223,11 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     Swal.DismissReason.timer
-                        Swal.fire({
-                            icon: "success",
-                            title: "Url Gerada com sucesso!",
-                      })
-                      window.location.reload()
+                    Swal.fire({
+                        icon: "success",
+                        title: "Url Gerada com sucesso!",
+                    })
+                    window.location.reload()
                     // Swal.fire({
                     //     icon: result.value.type,
                     //     title: result.value.message,

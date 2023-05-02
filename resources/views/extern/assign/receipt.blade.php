@@ -13,18 +13,21 @@
 </head>
 
 <body class="p-2">
-    <div id="header">
-    <h1>Assinatura de recibo</h1>
-    <div class="btn-group">
-        <a class="ml-1 rounded btn btn-primary btn-sm" onclick="window.print()" href="#">imprimir Recibo<i
-                class="fas fa-print fa-fw"></i></a>
-        @if (!$receipt->signature->signature_image)
-            <button class="btn btn-info ml-1" onclick="signatureCanvas()">Assinatura Digital<i class="fa fa-pencil ml-1"
-                    aria-hidden="true"></i> </button>
-        @endif
-    </div>
-    <hr>
-</div>
+    @if ($receipt->list()->exists())
+
+        <div id="header">
+            <h1>Assinatura de recibo</h1>
+            <div class="btn-group">
+                <a class="ml-1 rounded btn btn-primary btn-sm" onclick="window.print()" href="#">imprimir Recibo<i
+                        class="fas fa-print fa-fw"></i></a>
+                @if (!$receipt->signature->signature_image)
+                    <button class="btn btn-info ml-1" onclick="signatureCanvas()">Assinatura Digital<i
+                            class="fa fa-pencil ml-1" aria-hidden="true"></i> </button>
+                @endif
+            </div>
+            <hr>
+        </div>
+    @endif
     <style>
         * {
             padding: 0;
@@ -35,17 +38,20 @@
         html {
             font-size: 1.4rem;
         }
+
         @media print {
             #header {
                 display: none;
             }
         }
+
         #sig-canvas {
             border: 2px dotted #CCCCCC;
             border-radius: 15px;
             cursor: crosshair;
         }
-        #img-signature{
+
+        #img-signature {
             width: 10cm;
         }
     </style>
@@ -87,7 +93,8 @@
                         data-created="{{ $receipt->created_at }}"></span></p>
                 <p class=" mt-2 mb-2 mt-5 p-0">
                     @if ($receipt->signature()->exists())
-                        <img src="{{ $receipt->signature->signature_image ?? "" }}" id="img_signature" alt="assinatura digital">
+                        <img src="{{ $receipt->signature->signature_image ?? '' }}" id="img_signature"
+                            alt="assinatura digital">
                     @endif
                 </p>
                 <p class="border-top border-dark p-0 mt-0 text-center" style="width: 15cm;">Assinatura</p>
