@@ -130,7 +130,7 @@ class FieldController extends Controller
         // dd($formlist_employee);
         if (!$employee->user->hasSignature()) {
             //redireciona o usuário que não tem assinatura
-            return redirect()->route('dashboard.users.show', [ 
+            return redirect()->route('dashboard.users.show', [  
                 'user' => $employee->user
             ])->with(['message' => "O usuário ainda não possui senha para assinar, favor gerar senha, favor Gerar senhar"]);
         }

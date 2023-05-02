@@ -122,8 +122,8 @@
                 <p class="border-bottom border-dark p-0 mb-3 mt-2">{{ $receipt->local }}, <span id="emited"
                         data-created="{{ $receipt->created_at }}"></span></p>
                 <p class=" mt-2 mb-2 mt-5 p-0">
-                    @if ($receipt->signature->signature_image)
-                    <img src="{{ $receipt->signature->signature_image }}" alt="assinatura digital">
+                    @if ($receipt->signature()->exists())
+                    <img src="{{ $receipt->signature->signature_image ?? ""}}" alt="assinatura digital">
                     @endif
                 </p>
                 <p class="border-top border-dark p-0 mt-0 text-center" style="width: 15cm;">Assinatura</p>
