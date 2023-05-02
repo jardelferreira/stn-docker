@@ -20,7 +20,7 @@ class ReceiptObserver
      */
     public function created(Receipt $receipt)
     {
-        $receipt->link = URL::signedRoute('extern.receiptShow',['receipt' => $receipt->id]);
+        $receipt->link = URL::signedRoute('extern.receiptShow',['receipt' => $receipt->id],null,false);
         $receipt->save();
     }
 

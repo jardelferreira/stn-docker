@@ -192,7 +192,7 @@ class ReceiptController extends Controller
             return response()->json(['minutos' => round(($time)), 'tempo menor que o esperado']);
         }
 
-        $receipt->temporary_link = URL::temporarySignedRoute('extern.externAssignShow', now()->addMinutes($time), ['receipt' => $receipt->id],);
+        $receipt->temporary_link = URL::temporarySignedRoute('extern.externAssignShow', now()->addMinutes($time), ['receipt' => $receipt->id],false);
 
         $receipt->save();
 
@@ -201,7 +201,7 @@ class ReceiptController extends Controller
 
     public function genPublicLink(Receipt $receipt)
     {
-        $receipt->link = URL::signedRoute('extern.receiptShow', ['receipt' => $receipt->id]);
+        $receipt->link = URL::signedRoute('extern.receiptShow', ['receipt' => $receipt->id],null,false);
         $receipt->save();
 
         return redirect()->back();
