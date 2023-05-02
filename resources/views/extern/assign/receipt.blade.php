@@ -49,6 +49,8 @@
             border: 2px dotted #CCCCCC;
             border-radius: 15px;
             cursor: crosshair;
+            margin: 0;
+            
         }
 
         #img-signature {
@@ -202,38 +204,38 @@
     <script>
         window.signatureHtml = () => {
             return `<div class="container bg-light">
-		<div class="row" id="canvas">
-			<div class="col-md-12">
-		 		<canvas id="sig-canvas" class="bg-light" width="480" height="160">
-		 			Get a better browser, bro.
+		<div class="col-12 m-0 p-0" id="canvas">
+		 		<canvas id="sig-canvas" width="510px" height="180px" class="bg-light">
 		 		</canvas>
-		 	</div>
 		</div>
-		<div class="row" id="image">
+		<div id="image">
 			<div class="col-md-12 mb-2">
 				<img id="sig-image" src=""/>
 			</div>
-		</div>
-        <div class="row">
-			<div class="col-md-12">
-				<button class="btn btn-primary" id="sig-submitBtn">Visualizar</button>
-				<button class="btn btn-success" id="sig-send">Assinar</button>
-				<button class="btn btn-secondary ml-2" id="sig-clearBtn">Apagar assinatura</button>
-			</div>
-		</div>
-	</div>`
+		</div>`
         }
     </script>
+    
     {{-- canvas --}}
     <script>
         function signatureCanvas() {
             Swal.fire({
-                title: "Assine o documento no campo abaixo",
+                title: "<small>Assine o documento no campo abaixo</small>",
                 html: signatureHtml(),
-                width: 580,
+                footer: `<div class="row">
+				<button class="btn btn-primary btn-sm mt-0 mb-0" id="sig-submitBtn"><small>Visualizar</small></button>
+				<button class="btn btn-success btn-sm mt-0 mb-0" id="sig-send"><small>Assinar</small></button>
+				<button class="btn btn-secondary btn-sm ml-1 mt-0 mb-0" id="sig-clearBtn"><small>Apagar</small></button>
+				<button class="btn btn-danger ml-1 btn-sm p-0" id="close">fechar</button>
+		        </div>`,
                 background: "linear-gradient( 95.2deg, rgba(173,252,234,1) 26.8%, rgba(192,229,246,1) 64% )",
                 showCancelButton: false,
-                showConfirmButton: false
+                showConfirmButton: false,
+                width: 640,
+                customClass:{
+                    container: "",
+                    htmlContainer: "col-lg-10 col-md-10 col-sm-12 p-0"
+                }
             })
 
             $("#sig-send").hide();
@@ -363,6 +365,17 @@
             var clearBtn = document.getElementById("sig-clearBtn");
             var submitBtn = document.getElementById("sig-submitBtn");
             var sendBtn = document.getElementById("sig-send");
+            var closeBtn = document.getElementById("close");
+
+            closeBtn.addEventListener("click",(e) => {
+                clearCanvas();
+                sigImage.setAttribute("src", "");
+                $("#sig-submitBtn").show();
+                $("#image").show();
+                $("#canvas").show();
+                $("#sig-send").hide();
+                Swal.close()
+            })
             clearBtn.addEventListener("click", function(e) {
                 clearCanvas();
                 sigImage.setAttribute("src", "");
