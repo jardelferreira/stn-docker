@@ -29,7 +29,7 @@
         }
 
         #img_signature {
-            width: 10cm;
+            width: 7cm;
         }
         @media print {
             #header {

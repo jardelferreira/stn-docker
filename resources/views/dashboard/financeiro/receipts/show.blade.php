@@ -34,7 +34,7 @@
             padding: 5px 10px 5px 26px;
         }
         #img_signature {
-            width: 10cm;
+            width: 7cm;
         }
     </style>
 @endsection
