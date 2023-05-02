@@ -20,7 +20,7 @@
             <div class="btn-group">
                 <a class="ml-1 rounded btn btn-primary btn-sm" onclick="window.print()" href="#">imprimir Recibo<i
                         class="fas fa-print fa-fw"></i></a>
-                @if (!$receipt->signature->signature_image)
+                @if (!$receipt->signature()->exists())
                     <button class="btn btn-info ml-1" onclick="signatureCanvas()">Assinatura Digital<i
                             class="fa fa-pencil ml-1" aria-hidden="true"></i> </button>
                 @endif
