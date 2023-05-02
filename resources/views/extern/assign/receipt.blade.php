@@ -50,7 +50,7 @@
             border-radius: 15px;
             cursor: crosshair;
             margin: 0;
-            
+
         }
 
         #img-signature {
@@ -204,18 +204,16 @@
     <script>
         window.signatureHtml = () => {
             return `<div class="container bg-light">
-		<div class="col-12 m-0 p-0" id="canvas">
-		 		<canvas id="sig-canvas" width="510px" height="180px" class="bg-light">
+		<div m-0 p-0" id="canvas">
+		 		<canvas id="sig-canvas" width="1024" height="560" class="bg-light">
 		 		</canvas>
 		</div>
-		<div id="image">
-			<div class="col-md-12 mb-2">
+		<div id="image" width="1024" height="560">
 				<img id="sig-image" src=""/>
-			</div>
 		</div>`
         }
     </script>
-    
+
     {{-- canvas --}}
     <script>
         function signatureCanvas() {
@@ -231,11 +229,8 @@
                 background: "linear-gradient( 95.2deg, rgba(173,252,234,1) 26.8%, rgba(192,229,246,1) 64% )",
                 showCancelButton: false,
                 showConfirmButton: false,
-                width: 640,
-                customClass:{
-                    container: "",
-                    htmlContainer: "col-lg-10 col-md-10 col-sm-12 p-0"
-                }
+                width: 1024,
+
             })
 
             $("#sig-send").hide();
@@ -367,7 +362,7 @@
             var sendBtn = document.getElementById("sig-send");
             var closeBtn = document.getElementById("close");
 
-            closeBtn.addEventListener("click",(e) => {
+            closeBtn.addEventListener("click", (e) => {
                 clearCanvas();
                 sigImage.setAttribute("src", "");
                 $("#sig-submitBtn").show();
