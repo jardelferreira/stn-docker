@@ -5,7 +5,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=0.5, shrink-to-fit=no">
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"
         integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
@@ -13,16 +13,18 @@
 </head>
 
 <body class="p-2">
+    <div id="header">
     <h1>Assinatura de recibo</h1>
-    <p>
     <div class="btn-group">
         <a class="ml-1 rounded btn btn-primary btn-sm" onclick="window.print()" href="#">imprimir Recibo<i
                 class="fas fa-print fa-fw"></i></a>
-        <button class="btn btn-info ml-1" onclick="signatureCanvas()">Assinatura Digital<i class="fa fa-pencil ml-1"
-                aria-hidden="true"></i> </button>
+        @if (!$receipt->signature->signature_image)
+            <button class="btn btn-info ml-1" onclick="signatureCanvas()">Assinatura Digital<i class="fa fa-pencil ml-1"
+                    aria-hidden="true"></i> </button>
+        @endif
     </div>
-    </p>
     <hr>
+</div>
     <style>
         * {
             padding: 0;
@@ -33,11 +35,18 @@
         html {
             font-size: 1.4rem;
         }
-
+        @media print {
+            #header {
+                display: none;
+            }
+        }
         #sig-canvas {
             border: 2px dotted #CCCCCC;
             border-radius: 15px;
             cursor: crosshair;
+        }
+        #img-signature{
+            width: 10cm;
         }
     </style>
     <div class="m-2">
@@ -53,7 +62,7 @@
                         id="zerofill"></span>{{ str_repeat('0', strlen($receipt->id) < 5 ? 4 - strlen($receipt->id) : 0) }}{{ $receipt->id }}</span>
             </div>
             <div class=" mb-1 text-uppercase text-center font-weight-bold align-self-center border border-dark">
-                {{ $receipt->branch->nome }} / {{$receipt->branch->cidade}}-{{$receipt->branch->uf}} - 
+                {{ $receipt->branch->nome }} / {{ $receipt->branch->cidade }}-{{ $receipt->branch->uf }} -
                 CNPJ N.º<span>{{ $receipt->branch->cnpj }}</span></div>
             <div class="border border-dark mb-1 p-1">
                 <div class="border border-bottom">Eu,<span class="my-1">{{ $receipt->favored }}</span></div>
@@ -76,7 +85,11 @@
             <div class="d-flex align-items-center flex-column mb-1">
                 <p class="border-bottom border-dark p-0 mb-3 mt-2">{{ $receipt->local }}, <span id="emited"
                         data-created="{{ $receipt->created_at }}"></span></p>
-                <p class=" mt-2 mb-2 mt-5 p-0"></p>
+                <p class=" mt-2 mb-2 mt-5 p-0">
+                    @if ($receipt->signature->signature_image)
+                        <img src="{{ $receipt->signature->signature_image }}" id="img_signature" alt="assinatura digital">
+                    @endif
+                </p>
                 <p class="border-top border-dark p-0 mt-0 text-center" style="width: 15cm;">Assinatura</p>
             </div>
             <div class="d-flex justify-content-center">
@@ -175,6 +188,10 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous">
     </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <!-- SweetAlert2 -->
+    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.5.1/sweetalert2.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.5.1/sweetalert2.all.min.js"></script> --}}
     <script>
         window.signatureHtml = () => {
             return `<div class="container bg-light">
@@ -211,7 +228,7 @@
                 showCancelButton: false,
                 showConfirmButton: false
             })
-            
+
             $("#sig-send").hide();
             $("#image").hide();
             window.requestAnimFrame = (function(callback) {
@@ -350,12 +367,9 @@
             submitBtn.addEventListener("click", function(e) {
                 var dataUrl = canvas.toDataURL();
                 // sigText.innerHTML = dataUrl;
-                    console.log(dataUrl.length)
                 if (dataUrl.length < 5000) {
                     console.log("Falha ao assinar");
-                }else{
-
-                    // console.log( dataUrl());
+                } else {
                     $("#sig-send").show();
                     $("#sig-submitBtn").hide();
                     $("#canvas").hide();
@@ -363,16 +377,63 @@
                     sigImage.setAttribute("src", dataUrl);
                 }
             }, false);
-            sendBtn.addEventListener("click", function(e){
-                $("#sig-submitBtn").show();
-                $("#canvas").show();
-                $("#image").hide();
-                $("#sig-send").hide();
+            sendBtn.addEventListener("click", function(e) {
+                // var dataUrl = canvas.toDataURL();
+                // $("#sig-submitBtn").show();
+                // $("#image").hide();
+                // $("#sig-send").hide();
+                $(".swal2-modal").hide();
+                Swal.close();
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                var url = window.location.href
+                Swal.fire({
+                    title: 'Confirmação',
+                    icon: 'question',
+                    html: `<h3>Enviar assinatura digital? `,
+                    confirmButtonText: 'Confirmar',
+                    showLoaderOnConfirm: true,
+                    preConfirm: (pass) => {
+                        Swal.showLoading()
+                        dataUrl = canvas.toDataURL();
+                        if (!dataUrl) {
+                            Swal.showValidationMessage("A assinatura é obrigatória!")
+                        }
+                        // requisição
+                        return $.ajax({
+                            method: "POST",
+                            url: `${url.substr(0,url.indexOf("assinatura"))}assign`,
+                            data: {
+                                dataUrl: dataUrl,
+                            }
+                        }).done(function(response) {
+                            return response
+                        }).fail(function(jqXHR, textStatus) {
+                            Swal.showValidationMessage(
+                                `Request failed: ${textStatus}`
+                            )
+                            Swal.close()
+                        });
+                        // fim requisição
+                    },
+                    allowOutsideClick: () => !Swal.isLoading()
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Swal.DismissReason.timer
+                        Swal.fire({
+                            icon: "success",
+                            title: "Documento Assinado com sucesso!",
+                        })
+                        window.location.reload()
 
-                console.log( canvas.toDataURL());
-            })
+                    }
+                })
 
-        };
+            }) // end send event
+        }
     </script>
 </body>
 

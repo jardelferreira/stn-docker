@@ -64,12 +64,17 @@ class ReceiptController extends Controller
      */
     public function show(Receipt $receipt)
     {
+        // dd($receipt);
+        // $receipt->temporary_link = "";
+        // $receipt->save();
+
         if (!$receipt->user->hasSignature()) {
             //redireciona o usuário que não tem assinatura
             return redirect()->route('dashboard.users.show', [
                 'user' => $receipt->user
             ])->with(['message' => "O usuário ainda não possui senha para assinar, favor gerar senha, favor Gerar senhar"]);
         }
+
         return view('dashboard.financeiro.receipts.show', ['receipt' => $receipt]);
     }
 
@@ -117,7 +122,7 @@ class ReceiptController extends Controller
 
     public function storeList(Receipt $receipt, Request $request)
     {
-        $data = [];
+       $data = [];
         for ($i = 0; $i < count($request->qtd); $i++) {
             array_push($data, new ReceiptList(['qtd' => $request->qtd[$i], 'description' => $request->description[$i], 'receipt_id' => $receipt->id]));
         }
@@ -130,22 +135,32 @@ class ReceiptController extends Controller
     public function externAssignShow(Receipt $receipt, Request $request)
     {
         if (!$request->hasValidSignature()) {
-            abort(401,['message' => "Documento expirado"]);
+            $receipt->temporary_link = "";
+            $receipt->save();
+            abort(401, ['message' => "Documento expirado"]);
         }
-        return view('extern.assign.receipt',[
+        return view('extern.assign.receipt', [
             'receipt' => $receipt
         ]);
     }
 
-    public function externAssign(Receipt $receipt,Request $request)
+    public function externAssign(Receipt $receipt, Request $request)
     {
+       
+        $signature = $receipt->signature()->create([
+            'uuid' => Str::uuid(),
+            'user_id' => $receipt->user->id,
+            'signature' => $receipt->user->signature()->signature,
+            'event' => $receipt->saveEventString(),
+            'signature_image' => $request->dataUrl,
+        ]);
+        $receipt->signature_id = $signature->id;
         
+        return response()->json(['receipt' => $receipt]);
     }
 
     public function assignWithDocument(Receipt $receipt, Request $request)
     {
-
-
         $signature = $receipt->signature()->create([
             'uuid' => Str::uuid(),
             'user_id' => Auth::user()->id,
@@ -158,13 +173,13 @@ class ReceiptController extends Controller
     {
     }
 
-    public function externShow(Receipt $receipt, Request $request)
+    public function externReceiptShow(Receipt $receipt, Request $request)
     {
         if (!$request->hasValidSignature()) {
             abort(401);
         }
         // dd(URL::signedRoute('extern.externShow',['receipt' => $receipt->id]));
-        return view('externo.assign.receipt', ['receipt' => $receipt]);
+        return view('extern.receipt', ['receipt' => $receipt]);
     }
 
     public function genTemporaryLink(Receipt $receipt, Request $request)
@@ -172,15 +187,23 @@ class ReceiptController extends Controller
         $to_time = strtotime($request->datetime);
         $now_time = strtotime(now());
         $gap = $to_time - $now_time;
-        $time = round(strtotime($request->datetime) - strtotime(now()))/60;
+        $time = round(strtotime($request->datetime) - strtotime(now())) / 60;
         if (round(($time)) < 60 || $to_time < $now_time) {
-            return response()->json(['minutos' => round(($time)),'tempo menor que o esperado']);
+            return response()->json(['minutos' => round(($time)), 'tempo menor que o esperado']);
         }
 
-        $receipt->temporary_link = URL::temporarySignedRoute('extern.externAssignShow',now()->addMinutes($time),['receipt' => $receipt->id]);
+        $receipt->temporary_link = URL::temporarySignedRoute('extern.externAssignShow', now()->addMinutes($time), ['receipt' => $receipt->id]);
 
         $receipt->save();
 
         return response()->json(['receipt' => $receipt]);
+    }
+
+    public function genPublicLink(Receipt $receipt)
+    {
+        $receipt->link = URL::signedRoute('extern.receiptShow', ['receipt' => $receipt->id]);
+        $receipt->save();
+
+        return redirect()->back();
     }
 }

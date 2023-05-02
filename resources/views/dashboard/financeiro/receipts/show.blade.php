@@ -39,9 +39,13 @@
     <div>
         <div class="btn-group">
             @if ($receipt->link)
-            <a class="mx-1 btn btn-primary" href="{{ $receipt->link }}" target="_blank">Acessar link público</a>
+            <a class="mx-1 btn btn-primary" href="{{$receipt->link}}" target="_blank">Acessar link público</a>
             @else
-            <a href="#" class="mx-1 btn btn-secondary">Atualizar link público</a>
+            <form action="{{route('dashboard.financeiro.receipts.genLink',$receipt)}}" method="post">
+            @csrf
+            @method('PUT')
+            <button class="mx-1 btn btn-secondary" type="submit">Atualizar link público</button>
+            </form>
             @endif
             @if (!$receipt->temporary_link)
             <button type="button" class="btn btn-primary btn-sm" id="genLink">
@@ -50,8 +54,8 @@
             @else
             <input type="text" id="clipboardExample1" class="d-none" value="{{ $receipt->temporary_link }}">
             <button type="button" id="clipboard" class="btn btn-info btn-clipboard" data-clipboard-action="copy"
-                data-clipboard-target="#clipboardExample1">Copiar link público</button>
-
+                data-clipboard-target="#clipboardExample1">Copiar link para assinatura</button>
+                <a class="btn btn-secondary ml-1" target="_blank" href="{{$receipt->temporary_link}}">Link para ssinatura</a>
             @endif
         </div>
         <div class="border border-dark">
@@ -117,7 +121,11 @@
             <div class="d-flex align-items-center flex-column mb-1">
                 <p class="border-bottom border-dark p-0 mb-3 mt-2">{{ $receipt->local }}, <span id="emited"
                         data-created="{{ $receipt->created_at }}"></span></p>
-                <p class=" mt-2 mb-2 mt-5 p-0"></p>
+                <p class=" mt-2 mb-2 mt-5 p-0">
+                    @if ($receipt->signature->signature_image)
+                    <img src="{{ $receipt->signature->signature_image }}" alt="assinatura digital">
+                    @endif
+                </p>
                 <p class="border-top border-dark p-0 mt-0 text-center" style="width: 15cm;">Assinatura</p>
             </div>
             <div class="d-flex justify-content-center">
@@ -212,23 +220,11 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     Swal.DismissReason.timer
-                    console.log(result)
                         Swal.fire({
                             icon: "success",
                             title: "Url Gerada com sucesso!",
-                            html: `<div class="input-group">
-                                        <span class="input-group-addon hidden-xs linkname">
-                                        <strong>Url publica</strong>
-                                        </span>
-                                        <span id="copyButton" class="input-group-addon btn" title="Clique para copiar">
-                                        <i class="fa fa-clipboard" aria-hidden="true"></i>
-                                        </span>
-                                        <input type="text" id="copyTarget" class="form-control" value="${result.value.receipt.temporary_link}">
-                                        <span class="copied">Copied !</span>
-                                    </div>
-                                    </div>`
-                        })
-
+                      })
+                      window.location.reload()
                     // Swal.fire({
                     //     icon: result.value.type,
                     //     title: result.value.message,

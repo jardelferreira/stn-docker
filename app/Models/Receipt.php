@@ -30,7 +30,7 @@ class Receipt extends Model
     {
         return $this->morphOne(Signature::class, 'signaturable');
     }
-
+    
     public function saveEventString()
     {
         $date = date_create(now())->format("d-m-Y H:i:s");

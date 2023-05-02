@@ -605,9 +605,6 @@
 
         };
     </script>
-
-
-
 @endsection
 
 @section('css')

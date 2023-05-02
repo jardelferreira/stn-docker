@@ -17,8 +17,9 @@ Route::prefix('publico')->group(function () {
 
 });
 Route::prefix('externo')->group(function () {
-    Route::get('recibos/{receipt}/show', [ReceiptController::class, 'externShow'])->name('extern.receiptShow');
+    Route::get('recibos/{receipt}/show', [ReceiptController::class, 'externReceiptShow'])->name('extern.receiptShow');
     Route::get('recibos/{receipt}/assinatura', [ReceiptController::class, 'externAssignShow'])->name('extern.externAssignShow');
+    Route::post('recibos/{receipt}/assign', [ReceiptController::class, 'externAssign'])->name('extern.externAssign');
 });
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
@@ -339,6 +340,7 @@ Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard'])->group(
             Route::get('/{receipt}/show', [ReceiptController::class, 'show'])->name('dashboard.financeiro.receipts.show');
 
             Route::put('/{receipt}', [ReceiptController::class, 'update'])->name('dashboard.financeiro.receipts.update');
+            Route::put('/{receipt}/genLink', [ReceiptController::class, 'genPublicLink'])->name('dashboard.financeiro.receipts.genLink');
             Route::delete('/{receipt}', [ReceiptController::class, 'destroy'])->name('dashboard.financeiro.receipts.destroy');
             Route::post('', [ReceiptController::class, 'store'])->name('dashboard.financeiro.receipts.store');
             Route::post('/{receipt}/storeList', [ReceiptController::class, 'storeList'])->name('dashboard.financeiro.receipts.storeList');
