@@ -12,7 +12,6 @@ use App\Http\Requests\StoreReceiptRequest;
 use App\Http\Requests\UpdateReceiptRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\URL;
-use Svg\Tag\Rect;
 
 class ReceiptController extends Controller
 {
@@ -134,6 +133,7 @@ class ReceiptController extends Controller
 
     public function externAssignShow(Receipt $receipt, Request $request)
     {
+        dd($request->hasValidSignature(),$request->hasValidRelativeSignature());
         if (!$request->hasValidSignature()) {
             $receipt->temporary_link = "";
             $receipt->save();
@@ -192,7 +192,7 @@ class ReceiptController extends Controller
             return response()->json(['minutos' => round(($time)), 'tempo menor que o esperado']);
         }
 
-        $receipt->temporary_link = URL::temporarySignedRoute('extern.externAssignShow', now()->addMinutes($time), ['receipt' => $receipt->id]);
+        $receipt->temporary_link = URL::temporarySignedRoute('extern.externAssignShow', now()->addMinutes($time), ['receipt' => $receipt->id],);
 
         $receipt->save();
 
