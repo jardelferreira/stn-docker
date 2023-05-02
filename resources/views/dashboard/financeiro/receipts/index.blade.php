@@ -26,7 +26,7 @@
                     @foreach ($receipts as $item)
                         <tr>
                             <td scope="row">{{ $item->id }}</td>
-                            <td scope="row">{{ $item->branch->name }}</td>
+                            <td scope="row">{{ $item->branch->nome }}</td>
                             <td scope="row">{{ $item->favored }}</td>
                             <td scope="row">R$ {{number_format($item->value,2,",",".") }}</td>
                             <td scope="row">{{ $item->register }}</td>

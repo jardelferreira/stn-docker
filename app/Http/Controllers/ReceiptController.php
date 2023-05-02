@@ -137,7 +137,7 @@ class ReceiptController extends Controller
         if (!$request->hasValidSignature()) {
             $receipt->temporary_link = "";
             $receipt->save();
-            abort(401, ['message' => "Documento expirado"]);
+            abort(401);
         }
         return view('extern.assign.receipt', [
             'receipt' => $receipt
