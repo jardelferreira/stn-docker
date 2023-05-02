@@ -133,8 +133,8 @@ class ReceiptController extends Controller
 
     public function externAssignShow(Receipt $receipt, Request $request)
     {
-        dd($request->hasValidSignature(),$request->hasValidRelativeSignature());
-        if (!$request->hasValidSignature()) {
+    
+        if (!$request->hasValidSignature(false)) {
             $receipt->temporary_link = "";
             $receipt->save();
             abort(401);
@@ -175,7 +175,7 @@ class ReceiptController extends Controller
 
     public function externReceiptShow(Receipt $receipt, Request $request)
     {
-        if (!$request->hasValidSignature()) {
+        if (!$request->hasValidSignature(false)) {
             abort(401);
         }
         // dd(URL::signedRoute('extern.externShow',['receipt' => $receipt->id]));
