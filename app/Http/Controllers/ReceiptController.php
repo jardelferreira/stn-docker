@@ -61,12 +61,8 @@ class ReceiptController extends Controller
      * @param  \App\Models\Receipt  $receipt
      * @return \Illuminate\Http\Response
      */
-    public function show(Receipt $receipt)
+    public function show(Receipt $receipt, Request $request)
     {
-        // dd($receipt);
-        // $receipt->temporary_link = "";
-        // $receipt->save();
-
         if (!$receipt->user->hasSignature()) {
             //redireciona o usuário que não tem assinatura
             return redirect()->route('dashboard.users.show', [
@@ -176,6 +172,8 @@ class ReceiptController extends Controller
     public function externReceiptShow(Receipt $receipt, Request $request)
     {
         if (!$request->hasValidSignature(false)) {
+            $receipt->link = "";
+            $receipt->save();
             abort(401);
         }
         // dd(URL::signedRoute('extern.externShow',['receipt' => $receipt->id]));

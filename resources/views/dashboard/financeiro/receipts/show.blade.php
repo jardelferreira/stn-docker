@@ -33,17 +33,23 @@
             width: 90%;
             padding: 5px 10px 5px 26px;
         }
+
         #img_signature {
             width: 7cm;
+        }
+        @media print {
+            .no-print{
+                display: none;
+            }
         }
     </style>
 @endsection
 @section('content')
     <div>
         @if ($receipt->list()->exists())
-            <div class="btn-group">
+            <div class="btn-group no-print">
                 @if ($receipt->link)
-                    <a class="mx-1 btn btn-primary" href="{{ $receipt->link }}" target="_blank">Acessar link público</a>
+                    <a class="mx-1 btn btn-primary" href="{{$receipt->link}}" target="_blank">Acessar link público</a>
                 @else
                     <form action="{{ route('dashboard.financeiro.receipts.genLink', $receipt) }}" method="post">
                         @csrf
@@ -56,9 +62,8 @@
                         <small>Gerar link de assinatura</small>
                     </button>
                 @else
-                    <input type="text" id="clipboardExample1" class="d-none" value="{{ $receipt->temporary_link }}">
-                    <button type="button" id="clipboard" class="btn btn-info btn-clipboard" data-clipboard-action="copy"
-                        data-clipboard-target="#clipboardExample1">Copiar link para assinatura</button>
+                    <button type="button" class="btn btn-info btn-clipboard" data-clipboard-action="copy"
+                        data-clipboard-text="{{route('welcome')}}{{ $receipt->temporary_link }}">Copiar link para assinatura</button>
                     <a class="btn btn-secondary ml-1" target="_blank" href="{{ $receipt->temporary_link }}">Link para
                         ssinatura</a>
                 @endif
@@ -129,7 +134,8 @@
                         data-created="{{ $receipt->created_at }}"></span></p>
                 <p class=" mt-2 mb-2 mt-5 p-0">
                     @if ($receipt->signature()->exists())
-                        <img src="{{ $receipt->signature->signature_image ?? '' }}" alt="assinatura digital" id="img_signature">
+                        <img src="{{ $receipt->signature->signature_image ?? '' }}" alt="assinatura digital"
+                            id="img_signature">
                     @endif
                 </p>
                 <p class="border-top border-dark p-0 mt-0 text-center" style="width: 15cm;">Assinatura</p>
@@ -148,8 +154,34 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
     <script>
         $(document).ready(function() {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
 
-            new ClipboardJS('.btn-clipboard');
+            
+
+            var clipboard = new ClipboardJS('.btn-clipboard');
+            clipboard.on('success', function(e) {
+                Toast.fire({
+                icon: 'success',
+                title: 'Link copiado com sucesso!'
+            })   
+            });
+
+            clipboard.on('error', function(e) {
+                Toast.fire({
+                icon: 'error',
+                title: 'Não foi possível copiar!'
+            })   
+            });
 
         });
         $.ajaxSetup({

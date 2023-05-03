@@ -10,24 +10,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"
         integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <title>Assinatura de recibos</title>
+    <link rel="stylesheet" href="{{ asset('css/lib/font-awesome.min.css') }}">
 </head>
 
 <body class="p-2">
-    @if ($receipt->list()->exists())
 
-        <div id="header">
-            <h1>Assinatura de recibo</h1>
-            <div class="btn-group">
-                <a class="ml-1 rounded btn btn-primary btn-sm" onclick="window.print()" href="#">imprimir Recibo<i
-                        class="fas fa-print fa-fw"></i></a>
-                @if (!$receipt->signature()->exists())
-                    <button class="btn btn-info ml-1" onclick="signatureCanvas()">Assinatura Digital<i
-                            class="fa fa-pencil ml-1" aria-hidden="true"></i> </button>
-                @endif
-            </div>
-            <hr>
-        </div>
-    @endif
     <style>
         * {
             padding: 0;
@@ -40,7 +27,7 @@
         }
 
         @media print {
-            #header {
+            .not-print {
                 display: none;
             }
         }
@@ -58,6 +45,8 @@
         }
     </style>
     <div class="m-2">
+        <a class="ml-1 rounded btn btn-primary no-print" onclick="window.print()" href="#">imprimir Recibo - <i
+                class="fa fa-print ml-1 no-print"></i></a>
         <div class="border border-dark">
             <div class="logo d-flex justify-content-center m-2">
                 <img src="{{ asset('images/stnlogo.png') }}" height="100px" width="200px"
@@ -97,6 +86,9 @@
                     @if ($receipt->signature()->exists())
                         <img src="{{ $receipt->signature->signature_image ?? '' }}" id="img_signature" width="7cm"
                             alt="assinatura digital">
+                    @else
+                        <button class="btn btn-info ml-1 not-print" onclick="signatureCanvas()">Assinatura Digital<i
+                                class="fa fa-pencil ml-1" aria-hidden="true"></i> </button>
                     @endif
                 </p>
                 <p class="border-top border-dark p-0 mt-0 text-center" style="width: 15cm;">Assinatura</p>
@@ -214,6 +206,7 @@
         }
     </script>
 
+    {{-- <button class="btn btn-success btn-lg mx-2 mt-0 mb-0" id="sig-send"><small>Assinar</small></button> --}}
     {{-- canvas --}}
     <script>
         function signatureCanvas() {
@@ -221,10 +214,9 @@
                 title: "<small>Assine o documento no campo abaixo</small>",
                 html: signatureHtml(),
                 footer: `<div class="row">
-				<button class="btn btn-primary btn-sm mt-0 mb-0" id="sig-submitBtn"><small>Visualizar</small></button>
-				<button class="btn btn-success btn-sm mt-0 mb-0" id="sig-send"><small>Assinar</small></button>
-				<button class="btn btn-secondary btn-sm ml-1 mt-0 mb-0" id="sig-clearBtn"><small>Apagar</small></button>
-				<button class="btn btn-danger ml-1 btn-sm p-0" id="close">fechar</button>
+				<button class="btn btn-primary btn-lg mx-2 mt-0 mb-0" id="sig-submitBtn"><small>Assinar</small></button>
+				<button class="btn btn-secondary btn-lg mx-2 mt-0 mb-0" id="sig-clearBtn"><small>Apagar</small></button>
+				<button class="btn btn-danger btn-lg mx-2 p-0" id="close">fechar</button>
 		        </div>`,
                 background: "linear-gradient( 95.2deg, rgba(173,252,234,1) 26.8%, rgba(192,229,246,1) 64% )",
                 showCancelButton: false,
@@ -233,7 +225,7 @@
 
             })
 
-            $("#sig-send").hide();
+            // $("#sig-send").hide();
             $("#image").hide();
             window.requestAnimFrame = (function(callback) {
                 return window.requestAnimationFrame ||
@@ -366,18 +358,18 @@
                 clearCanvas();
                 sigImage.setAttribute("src", "");
                 $("#sig-submitBtn").show();
-                $("#image").show();
-                $("#canvas").show();
-                $("#sig-send").hide();
+                // $("#image").show();
+                // $("#canvas").show();
+                // $("#sig-send").hide();
                 Swal.close()
             })
             clearBtn.addEventListener("click", function(e) {
                 clearCanvas();
                 sigImage.setAttribute("src", "");
-                $("#sig-submitBtn").show();
-                $("#image").show();
-                $("#canvas").show();
-                $("#sig-send").hide();
+                // $("#sig-submitBtn").show();
+                // $("#image").show();
+                // $("#canvas").show();
+                // $("#sig-send").hide();
             }, false);
             submitBtn.addEventListener("click", function(e) {
                 var dataUrl = canvas.toDataURL();
@@ -385,11 +377,63 @@
                 if (dataUrl.length < 5000) {
                     console.log("Falha ao assinar");
                 } else {
-                    $("#sig-send").show();
-                    $("#sig-submitBtn").hide();
-                    $("#canvas").hide();
-                    $("#image").show();
+                    // $("#sig-send").show();
+                    // $("#sig-submitBtn").hide();
+                    // $("#canvas").hide();
+                    // $("#image").show();
                     sigImage.setAttribute("src", dataUrl);
+                    $(".swal2-modal").hide();
+                    Swal.close();
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+                    var url = window.location.href
+                    Swal.fire({
+                        title: 'Confirme o envio da assinatura.',
+                        html: `<div id="image" width="660" height="340">
+				                    <img id="sig-image" src="${dataUrl}"/>
+		                        </div>`,
+                        confirmButtonText: 'Confirmar',
+                        cancelButtonText: 'desistir',
+                        showLoaderOnConfirm: true,
+                        showCancelButton: true,
+                        preConfirm: (pass) => {
+                            Swal.showLoading()
+                            dataUrl = canvas.toDataURL();
+                            if (!dataUrl) {
+                                Swal.showValidationMessage("A assinatura é obrigatória!")
+                            }
+                            // requisição
+                            return $.ajax({
+                                method: "POST",
+                                url: `${url.substr(0,url.indexOf("assinatura"))}assign`,
+                                data: {
+                                    dataUrl: dataUrl,
+                                }
+                            }).done(function(response) {
+                                return response
+                            }).fail(function(jqXHR, textStatus) {
+                                Swal.showValidationMessage(
+                                    `Request failed: ${textStatus}`
+                                )
+                                Swal.close()
+                            });
+                            // fim requisição
+                        },
+                        allowOutsideClick: () => !Swal.isLoading()
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            Swal.DismissReason.timer
+                            Swal.fire({
+                                icon: "success",
+                                title: "Documento Assinado com sucesso!",
+                            })
+                            window.location.reload()
+
+                        }
+                    })
                 }
             }, false);
             sendBtn.addEventListener("click", function(e) {
@@ -397,57 +441,7 @@
                 // $("#sig-submitBtn").show();
                 // $("#image").hide();
                 // $("#sig-send").hide();
-                $(".swal2-modal").hide();
-                Swal.close();
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-                var url = window.location.href
-                Swal.fire({
-                    title: 'Confirmação',
-                    icon: 'question',
-                    html: `<h3>Enviar assinatura digital? `,
-                    confirmButtonText: 'Confirmar',
-                    cancelButtonText: 'desistir',
-                    showLoaderOnConfirm: true,
-                    showCancelButton: true,
-                    preConfirm: (pass) => {
-                        Swal.showLoading()
-                        dataUrl = canvas.toDataURL();
-                        if (!dataUrl) {
-                            Swal.showValidationMessage("A assinatura é obrigatória!")
-                        }
-                        // requisição
-                        return $.ajax({
-                            method: "POST",
-                            url: `${url.substr(0,url.indexOf("assinatura"))}assign`,
-                            data: {
-                                dataUrl: dataUrl,
-                            }
-                        }).done(function(response) {
-                            return response
-                        }).fail(function(jqXHR, textStatus) {
-                            Swal.showValidationMessage(
-                                `Request failed: ${textStatus}`
-                            )
-                            Swal.close()
-                        });
-                        // fim requisição
-                    },
-                    allowOutsideClick: () => !Swal.isLoading()
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        Swal.DismissReason.timer
-                        Swal.fire({
-                            icon: "success",
-                            title: "Documento Assinado com sucesso!",
-                        })
-                        window.location.reload()
 
-                    }
-                })
 
             }) // end send event
         }

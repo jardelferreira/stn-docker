@@ -9,18 +9,11 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"
         integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <title>Assinatura de recibos</title>
+        <link rel="stylesheet" href="{{asset('css/lib/font-awesome.min.css')}}">
+    <title>Recibos-{{ str_repeat('0', strlen($receipt->id) < 5 ? 4 - strlen($receipt->id) : 0) }}{{ $receipt->id }}</title>
 </head>
 
 <body class="p-2">
-    <div id="header">
-        <h1>Assinatura de recibo</h1>
-        <div class="btn-group">
-            <a class="ml-1 rounded btn btn-primary btn-sm" onclick="window.print()" href="#">imprimir Recibo<i
-                    class="fas fa-print fa-fw"></i></a>
-        </div>
-        <hr>
-    </div>
     <style>
         * {
             padding: 0;
@@ -38,6 +31,7 @@
         }
     </style>
     <div class="m-2" id="receipt">
+        <a class="ml-1 rounded btn btn-primary no-print" onclick="window.print()" href="#">imprimir Recibo - <i class="fa fa-print ml-1" aria-hidden="true"></i></a>
         <div class="border border-dark">
             <div class="logo d-flex justify-content-center m-2">
                 <img src="{{ asset('images/stnlogo.png') }}" height="100px" width="200px"
