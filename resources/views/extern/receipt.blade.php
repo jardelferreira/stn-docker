@@ -25,7 +25,7 @@
             width: 7cm;
         }
         @media print {
-            #header {
+            .no-print {
                 display: none;
             }
         }
