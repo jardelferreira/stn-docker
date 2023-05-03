@@ -20,7 +20,9 @@
             margin: 0;
             border: 0;
         }
-
+        html{
+            font-size: 1.4rem;
+        }
         #img_signature {
             width: 7cm;
         }
