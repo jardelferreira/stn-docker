@@ -130,6 +130,7 @@ class ReceiptController extends Controller
     public function externAssignShow(Receipt $receipt, Request $request)
     {
     
+        // dd($receipt->signature()->first());
         if (!$request->hasValidSignature(false)) {
             $receipt->temporary_link = "";
             $receipt->save();
@@ -150,9 +151,11 @@ class ReceiptController extends Controller
             'event' => $receipt->saveEventString(),
             'signature_image' => $request->dataUrl,
         ]);
+    
         $receipt->signature_id = $signature->id;
+        $receipt->save();
         
-        return response()->json(['receipt' => $receipt]);
+        return response()->json(['receipt' => $receipt,'signature' => $signature]);
     }
 
     public function assignWithDocument(Receipt $receipt, Request $request)

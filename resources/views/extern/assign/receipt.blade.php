@@ -27,7 +27,7 @@
         }
 
         @media print {
-            .not-print {
+            .no-print {
                 display: none;
             }
         }
@@ -40,21 +40,39 @@
 
         }
 
-        #img_signature {
+        #image, #img_signature {
+            background-image: linear-gradient(rgba(255, 255, 255, .7) 0%, rgba(255, 255, 255, .7) 100%), url("https://www.jfwebsystem.com.br/images/stnlogo.png");
+            background-repeat: no-repeat;
+            background-size:contain;
+            background-position: center;
+            width: 100%;
+            height: 100%;
+        }
+        #back {
+
+            background-image: linear-gradient(rgba(255, 255, 255, .9) 0%, rgba(255, 255, 255, .9) 100%), url("https://www.jfwebsystem.com.br/images/stnlogo.png");
+            background-repeat: repeat space;
+            background-size:25%;
+        }
+        #image{
+            width: 10cm;
+        }
+        #img_signature{
             width: 7cm;
         }
+
     </style>
     <div class="m-2">
         <a class="ml-1 rounded btn btn-primary no-print" onclick="window.print()" href="#">imprimir Recibo - <i
                 class="fa fa-print ml-1 no-print"></i></a>
-        <div class="border border-dark">
+        <div class="border border-dark" id="back">
             <div class="logo d-flex justify-content-center m-2">
                 <img src="{{ asset('images/stnlogo.png') }}" height="100px" width="200px"
                     class="img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}"
                     alt="logo da STN">
                 <div class="ml-5" id="qrcode"></div>
             </div>
-            <div class="alert alert-secondary text-center font-weight-bold text-uppercase h-5">Recibo - <span
+            <div class="alert alert-dark text-center font-weight-bold text-uppercase h-5">Recibo - <span
                     id="number"><span
                         id="zerofill"></span>{{ str_repeat('0', strlen($receipt->id) < 5 ? 4 - strlen($receipt->id) : 0) }}{{ $receipt->id }}</span>
             </div>
@@ -80,14 +98,15 @@
                 </ul>
             </div>
             <div class="d-flex align-items-center flex-column mb-1">
-                <p class="border-bottom border-dark p-0 mb-3 mt-2">{{ $receipt->local }}, <span id="emited"
+                <p class="border-bottom border-dark p-0 mb-2 mt-2">{{ $receipt->local }}, <span id="emited"
                         data-created="{{ $receipt->created_at }}"></span></p>
-                <p class=" mt-2 mb-2 mt-5 p-0">
-                    @if ($receipt->signature()->exists())
-                        <img src="{{ $receipt->signature->signature_image ?? '' }}" id="img_signature" width="7cm"
+                        @if ($receipt->signature()->exists())
+                        <p class=" mt-1 mb-2 p-0">
+                        <img src="{{ $receipt->signature->signature_image ?? '' }}" id="img_signature" style="width:10cm;"
                             alt="assinatura digital">
                     @else
-                        <button class="btn btn-info ml-1 not-print" onclick="signatureCanvas()">Assinatura Digital<i
+                    <p class=" mb-2 mt-5 p-0">
+                        <button class="btn btn-info ml-1 no-print" onclick="signatureCanvas()">Assinatura Digital<i
                                 class="fa fa-pencil ml-1" aria-hidden="true"></i> </button>
                     @endif
                 </p>
@@ -216,7 +235,7 @@
                 footer: `<div class="row">
 				<button class="btn btn-primary btn-lg mx-2 mt-0 mb-0" id="sig-submitBtn"><small>Assinar</small></button>
 				<button class="btn btn-secondary btn-lg mx-2 mt-0 mb-0" id="sig-clearBtn"><small>Apagar</small></button>
-				<button class="btn btn-danger btn-lg mx-2 p-0" id="close">fechar</button>
+				<button class="btn btn-danger btn-lg mx-2 p-0" id="close">Fechar</button>
 		        </div>`,
                 background: "linear-gradient( 95.2deg, rgba(173,252,234,1) 26.8%, rgba(192,229,246,1) 64% )",
                 showCancelButton: false,
@@ -436,14 +455,7 @@
                     })
                 }
             }, false);
-            sendBtn.addEventListener("click", function(e) {
-                // var dataUrl = canvas.toDataURL();
-                // $("#sig-submitBtn").show();
-                // $("#image").hide();
-                // $("#sig-send").hide();
 
-
-            }) // end send event
         }
     </script>
 </body>

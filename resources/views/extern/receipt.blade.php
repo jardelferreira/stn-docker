@@ -23,25 +23,44 @@
         html{
             font-size: 1.4rem;
         }
-        #img_signature {
-            width: 7cm;
-        }
+
         @media print {
             .no-print {
                 display: none;
             }
         }
+        
+        #image, #img_signature {
+            background-image: linear-gradient(rgba(255, 255, 255, .7) 0%, rgba(255, 255, 255, .7) 100%), url("https://www.jfwebsystem.com.br/images/stnlogo.png");
+            background-repeat: no-repeat;
+            background-size:contain;
+            background-position: center;
+            width: 100%;
+            height: 100%;
+        }
+        #back {
+
+            background-image: linear-gradient(rgba(255, 255, 255, .9) 0%, rgba(255, 255, 255, .9) 100%), url("https://www.jfwebsystem.com.br/images/stnlogo.png");
+            background-repeat: repeat space;
+            background-size:25%;
+        }
+        #image{
+            width: 10cm;
+        }
+        #img_signature{
+            width: 7cm;
+        }
     </style>
     <div class="m-2" id="receipt">
         <a class="ml-1 rounded btn btn-primary no-print" onclick="window.print()" href="#">imprimir Recibo - <i class="fa fa-print ml-1" aria-hidden="true"></i></a>
-        <div class="border border-dark">
+        <div class="border border-dark" id="back">
             <div class="logo d-flex justify-content-center m-2">
                 <img src="{{ asset('images/stnlogo.png') }}" height="100px" width="200px"
                     class="img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}"
                     alt="logo da STN">
                 <div class="ml-5" id="qrcode"></div>
             </div>
-            <div class="alert alert-secondary text-center font-weight-bold text-uppercase h-5">Recibo - <span
+            <div class="alert alert-dark text-center font-weight-bold text-uppercase h-5">Recibo - <span
                     id="number"><span
                         id="zerofill"></span>{{ str_repeat('0', strlen($receipt->id) < 5 ? 4 - strlen($receipt->id) : 0) }}{{ $receipt->id }}</span>
             </div>
@@ -67,12 +86,15 @@
                 </ul>
             </div>
             <div class="d-flex align-items-center flex-column mb-1">
-                <p class="border-bottom border-dark p-0 mb-3 mt-2">{{ $receipt->local }}, <span id="emited"
+                <p class="border-bottom border-dark p-0 mb-1 mt-2">{{ $receipt->local }}, <span id="emited"
                         data-created="{{ $receipt->created_at }}"></span></p>
-                <p class=" mt-2 mb-2 mt-5 p-0">
-                    @if ($receipt->signature()->exists())
+                        @if ($receipt->signature()->exists())
+                        <p class="mb-2 mt-2 p-0">
                     <img src="{{ $receipt->signature->signature_image ?? "" }}" alt="assinatura digital" id="img_signature">
-                    @endif</p>
+                   @else
+                   <p class="mb-2 mt-4 p-0">
+                    @endif
+                </p>
                 <p class="border-top border-dark p-0 mt-0 text-center" style="width: 15cm;">Assinatura</p>
             </div>
             <div class="d-flex justify-content-center">

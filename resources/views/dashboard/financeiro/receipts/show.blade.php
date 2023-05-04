@@ -42,6 +42,23 @@
                 display: none;
             }
         }
+        #image{
+            width: 10cm;
+        }
+        #image, #img_signature {
+            background-image: linear-gradient(rgba(255, 255, 255, .7) 0%, rgba(255, 255, 255, .7) 100%), url("https://www.jfwebsystem.com.br/images/stnlogo.png");
+            background-repeat: no-repeat;
+            background-size:contain;
+            background-position: center;
+            width: 100%;
+            height: 100%;
+        }
+        #back {
+
+            background-image: linear-gradient(rgba(255, 255, 255, .9) 0%, rgba(255, 255, 255, .9) 100%), url("https://www.jfwebsystem.com.br/images/stnlogo.png");
+            background-repeat: repeat space;
+            background-size:25%;
+        }
     </style>
 @endsection
 @section('content')
@@ -65,11 +82,11 @@
                     <button type="button" class="btn btn-info btn-clipboard" data-clipboard-action="copy"
                         data-clipboard-text="{{route('welcome')}}{{ $receipt->temporary_link }}">Copiar link para assinatura</button>
                     <a class="btn btn-secondary ml-1" target="_blank" href="{{ $receipt->temporary_link }}">Link para
-                        ssinatura</a>
+                        assinatura</a>
                 @endif
             </div>
         @endif
-        <div class="border border-dark">
+        <div class="border border-dark" id="back">
             <div class="logo d-flex justify-content-center m-2">
                 <img src="{{ asset('images/stnlogo.png') }}" height="100px" width="200px"
                     class="img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}"
@@ -130,14 +147,14 @@
                 @endif
             </div>
             <div class="d-flex align-items-center flex-column mb-1">
-                <p class="border-bottom border-dark p-0 mb-3 mt-2">{{ $receipt->local }}, <span id="emited"
+                <p class="border-bottom border-dark p-0 mb-2 mt-2">{{ $receipt->local }}, <span id="emited"
                         data-created="{{ $receipt->created_at }}"></span></p>
-                <p class=" mt-2 mb-2 mt-5 p-0">
-                    @if ($receipt->signature()->exists())
+                        @if ($receipt->signature()->exists())
+                        <p class="mb-2 mt-1 p-0">
                         <img src="{{ $receipt->signature->signature_image ?? '' }}" alt="assinatura digital"
                             id="img_signature">
+                        </p>
                     @endif
-                </p>
                 <p class="border-top border-dark p-0 mt-0 text-center" style="width: 15cm;">Assinatura</p>
             </div>
             <div class="d-flex justify-content-center">
