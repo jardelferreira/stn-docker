@@ -42,7 +42,7 @@
 
             background-image: linear-gradient(rgba(255, 255, 255, .7) 0%, rgba(255, 255, 255, .7) 100%), url("https://www.jfwebsystem.com.br/images/stnlogo.png");
             background-repeat: repeat space;
-            background-size:25%;
+            background-size:5%;
         }
         #image{
             width: 10cm;
