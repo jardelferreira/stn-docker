@@ -161,7 +161,7 @@
                             id="img_signature">
                     </p>
                 @else
-                    <p class="mb-2 mt-5 p-0"></p>
+                    <p class="mb-2 mt-5 p-0" style="min-height: 5cm"></p>
                 @endif
                 <p class="border-top border-dark p-0 mt-0 text-center" style="width: 15cm;">Assinatura</p>
             </div>
