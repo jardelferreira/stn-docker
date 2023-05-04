@@ -40,7 +40,7 @@
         }
         #back {
 
-            background-image: linear-gradient(rgba(255, 255, 255, .9) 0%, rgba(255, 255, 255, .9) 100%), url("https://www.jfwebsystem.com.br/images/stnlogo.png");
+            background-image: linear-gradient(rgba(255, 255, 255, .7) 0%, rgba(255, 255, 255, .7) 100%), url("https://www.jfwebsystem.com.br/images/stnlogo.png");
             background-repeat: repeat space;
             background-size:25%;
         }
