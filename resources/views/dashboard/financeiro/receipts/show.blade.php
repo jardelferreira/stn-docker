@@ -34,30 +34,35 @@
             padding: 5px 10px 5px 26px;
         }
 
-        #img_signature {
-            width: 7cm;
-        }
         @media print {
-            .no-print{
+            .no-print {
                 display: none;
             }
         }
-        #image{
-            width: 10cm;
-        }
-        #image, #img_signature {
+
+        #image,
+        #img_signature {
             background-image: linear-gradient(rgba(255, 255, 255, .7) 0%, rgba(255, 255, 255, .7) 100%), url("https://www.jfwebsystem.com.br/images/stnlogo.png");
             background-repeat: no-repeat;
-            background-size:contain;
+            background-size: contain;
             background-position: center;
             width: 100%;
             height: 100%;
         }
+
         #back {
 
             background-image: linear-gradient(rgba(255, 255, 255, .9) 0%, rgba(255, 255, 255, .9) 100%), url("https://www.jfwebsystem.com.br/images/stnlogo.png");
             background-repeat: repeat space;
-            background-size:25%;
+            background-size: 25%;
+        }
+
+        #img_signature {
+            width: 7cm;
+        }
+
+        #image {
+            width: 10cm;
         }
     </style>
 @endsection
@@ -66,7 +71,7 @@
         @if ($receipt->list()->exists())
             <div class="btn-group no-print">
                 @if ($receipt->link)
-                    <a class="mx-1 btn btn-primary" href="{{$receipt->link}}" target="_blank">Acessar link público</a>
+                    <a class="mx-1 btn btn-primary" href="{{ $receipt->link }}" target="_blank">Acessar link público</a>
                 @else
                     <form action="{{ route('dashboard.financeiro.receipts.genLink', $receipt) }}" method="post">
                         @csrf
@@ -80,7 +85,8 @@
                     </button>
                 @else
                     <button type="button" class="btn btn-info btn-clipboard" data-clipboard-action="copy"
-                        data-clipboard-text="{{route('welcome')}}{{ $receipt->temporary_link }}">Copiar link para assinatura</button>
+                        data-clipboard-text="{{ route('welcome') }}{{ $receipt->temporary_link }}">Copiar link para
+                        assinatura</button>
                     <a class="btn btn-secondary ml-1" target="_blank" href="{{ $receipt->temporary_link }}">Link para
                         assinatura</a>
                 @endif
@@ -149,12 +155,12 @@
             <div class="d-flex align-items-center flex-column mb-1">
                 <p class="border-bottom border-dark p-0 mb-2 mt-2">{{ $receipt->local }}, <span id="emited"
                         data-created="{{ $receipt->created_at }}"></span></p>
-                        @if ($receipt->signature()->exists())
-                        <p class="mb-2 mt-1 p-0">
+                @if ($receipt->signature()->exists())
+                    <p class="mb-2 mt-1 p-0">
                         <img src="{{ $receipt->signature->signature_image ?? '' }}" alt="assinatura digital"
                             id="img_signature">
-                        </p>
-                    @endif
+                    </p>
+                @endif
                 <p class="border-top border-dark p-0 mt-0 text-center" style="width: 15cm;">Assinatura</p>
             </div>
             <div class="d-flex justify-content-center">
@@ -183,21 +189,21 @@
                 }
             })
 
-            
+
 
             var clipboard = new ClipboardJS('.btn-clipboard');
             clipboard.on('success', function(e) {
                 Toast.fire({
-                icon: 'success',
-                title: 'Link copiado com sucesso!'
-            })   
+                    icon: 'success',
+                    title: 'Link copiado com sucesso!'
+                })
             });
 
             clipboard.on('error', function(e) {
                 Toast.fire({
-                icon: 'error',
-                title: 'Não foi possível copiar!'
-            })   
+                    icon: 'error',
+                    title: 'Não foi possível copiar!'
+                })
             });
 
         });
