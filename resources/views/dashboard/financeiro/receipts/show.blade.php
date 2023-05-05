@@ -160,9 +160,9 @@
                         id="img_signature">
                         <p class="border-top border-dark p-0 mt-0 text-center" style="width: 15cm;">Assinatura</p>
                 @else
-                    <p class="border-bottom border-dark p-0 mb-2 mt-5">{{ $receipt->local }}, <span id="emited"
+                    <p class="border-bottom border-dark mb-5 mt-5">{{ $receipt->local }}, <span id="emited"
                             data-created="{{ $receipt->created_at }}"></span></p>
-                    <p class="border-top border-dark p-0 mt-5 text-center" style="width: 15cm;">Assinatura</p>
+                    <p class="border-top border-dark mt-5 mb-5 text-center" style="width: 15cm;">Assinatura</p>
                 @endif
             </div>
             <div class="d-flex justify-content-center">
