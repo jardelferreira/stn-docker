@@ -154,15 +154,16 @@
             </div>
             <div class="d-flex align-items-center flex-column mb-1">
                 @if ($receipt->signature()->exists())
-                <p class="border-bottom border-dark p-0 mb-2 mt-2">{{ $receipt->local }}, <span id="emited"
-                        data-created="{{ $receipt->created_at }}"></span></p>
-                        <img src="{{ $receipt->signature->signature_image ?? '' }}" alt="assinatura digital"
-                            id="img_signature">
+                    <p class="border-bottom border-dark p-0 mb-2 mt-2">{{ $receipt->local }}, <span id="emited"
+                            data-created="{{ $receipt->created_at }}"></span></p>
+                    <img src="{{ $receipt->signature->signature_image ?? '' }}" alt="assinatura digital"
+                        id="img_signature">
+                        <p class="border-top border-dark p-0 mt-0 text-center" style="width: 15cm;">Assinatura</p>
                 @else
                     <p class="border-bottom border-dark p-0 mb-2 mt-5">{{ $receipt->local }}, <span id="emited"
-                        data-created="{{ $receipt->created_at }}"></span></p>
+                            data-created="{{ $receipt->created_at }}"></span></p>
+                    <p class="border-top border-dark p-0 mt-5 text-center" style="width: 15cm;">Assinatura</p>
                 @endif
-                <p class="border-top border-dark p-0 mt-0 text-center" style="width: 15cm;">Assinatura</p>
             </div>
             <div class="d-flex justify-content-center">
                 <small>gerado em jfwebsystem.com.br <span id="genered">
