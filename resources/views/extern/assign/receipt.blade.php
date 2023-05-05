@@ -53,8 +53,6 @@
             background-repeat: no-repeat;
             background-size: contain;
             background-position: center;
-            width: 100%;
-            height: 100%;
         }
 
         #back {
