@@ -153,15 +153,14 @@
                 @endif
             </div>
             <div class="d-flex align-items-center flex-column mb-1">
+                @if ($receipt->signature()->exists())
                 <p class="border-bottom border-dark p-0 mb-2 mt-2">{{ $receipt->local }}, <span id="emited"
                         data-created="{{ $receipt->created_at }}"></span></p>
-                @if ($receipt->signature()->exists())
-                    <p class="mb-2 mt-1 p-0">
                         <img src="{{ $receipt->signature->signature_image ?? '' }}" alt="assinatura digital"
                             id="img_signature">
-                    </p>
                 @else
-                    <p class="mb-2 mt-5 p-0" style="min-height: 2cm"></p>
+                    <p class="border-bottom border-dark p-0 mb-2 mt-5">{{ $receipt->local }}, <span id="emited"
+                        data-created="{{ $receipt->created_at }}"></span></p>
                 @endif
                 <p class="border-top border-dark p-0 mt-0 text-center" style="width: 15cm;">Assinatura</p>
             </div>

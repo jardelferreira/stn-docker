@@ -98,18 +98,18 @@
                 </ul>
             </div>
             <div class="d-flex align-items-center flex-column mb-1">
+                @if ($receipt->signature()->exists())
                 <p class="border-bottom border-dark p-0 mb-2 mt-2">{{ $receipt->local }}, <span id="emited"
                         data-created="{{ $receipt->created_at }}"></span></p>
-                        @if ($receipt->signature()->exists())
                         <p class=" mt-1 mb-2 p-0">
                         <img src="{{ $receipt->signature->signature_image ?? '' }}" id="img_signature" style="width:10cm;"
                             alt="assinatura digital">
                     @else
-                    <p class=" mb-2 mt-5 p-0">
+                    <p class="border-bottom border-dark p-0 mb-2 mt-5">{{ $receipt->local }}, <span id="emited"
+                        data-created="{{ $receipt->created_at }}"></span></p>
                         <button class="btn btn-info ml-1 no-print" onclick="signatureCanvas()">Assinatura Digital<i
                                 class="fa fa-pencil ml-1" aria-hidden="true"></i> </button>
                     @endif
-                </p>
                 <p class="border-top border-dark p-0 mt-0 text-center" style="width: 15cm;">Assinatura</p>
             </div>
             <div class="d-flex justify-content-center">
