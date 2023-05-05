@@ -161,7 +161,7 @@
                         <p class="border-top border-dark p-0 mt-0 text-center" style="width: 15cm;">Assinatura</p>
                 @else
                     <p class="border-bottom border-dark mb-5 mt-5">{{ $receipt->local }}, <span id="emited"
-                            data-created="{{ $receipt->created_at }}"></span></p>
+                            data-created="{{ $receipt->created_at }}" style="height: 7cm;"></span></p>
                     <p class="border-top border-dark mt-5 mb-5 text-center" style="width: 15cm;">Assinatura</p>
                 @endif
             </div>
