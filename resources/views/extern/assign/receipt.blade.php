@@ -113,14 +113,14 @@
                     <p class=" mt-1 mb-2 p-0">
                         <img src="{{ $receipt->signature->signature_image ?? '' }}" id="img_signature"
                             style="width:10cm;" alt="assinatura digital">
+                            <p class="border-top border-dark p-0 mt-0 text-center" style="width: 15cm;">Assinatura</p>
                     @else
                     <p class="border-bottom border-dark mb-5 mt-5">{{ $receipt->local }}, <span id="emited"
                             data-created="{{ $receipt->created_at }}"></span></p>
                     <button class="btn btn-info ml-1 no-print" onclick="signatureCanvas()">Assinatura Digital<i
                             class="fa fa-pencil ml-1" aria-hidden="true"></i> </button>
-                    <p class="border-top border-dark p-0 mt-0 text-center" style="width: 15cm;">Assinatura</p>
+                            <p class="border-top border-dark p-0 mt-4 text-center" style="width: 15cm;">Assinatura</p>
                 @endif
-                <p class="border-top border-dark p-0 mt-4 text-center" style="width: 15cm;">Assinatura</p>
 
             </div>
             <div class="d-flex justify-content-center">
