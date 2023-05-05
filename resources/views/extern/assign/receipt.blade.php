@@ -30,11 +30,13 @@
             .no-print {
                 display: none;
             }
-               #back {
-            background-image: linear-gradient(rgba(255, 255, 255, .7) 0%, rgba(255, 255, 255, .7) 100%), url("https://www.jfwebsystem.com.br/images/stnlogo.png");
-            background-repeat: repeat space;
-            background-size:5%;
-        }
+
+            #back {
+                background-image: linear-gradient(rgba(255, 255, 255, .7) 0%, rgba(255, 255, 255, .7) 100%), url("https://www.jfwebsystem.com.br/images/stnlogo.png");
+                background-repeat: repeat space;
+                background-size: 5%;
+            }
+
         }
 
         #sig-canvas {
@@ -45,26 +47,29 @@
 
         }
 
-        #image, #img_signature {
+        #image,
+        #img_signature {
             background-image: linear-gradient(rgba(255, 255, 255, .7) 0%, rgba(255, 255, 255, .7) 100%), url("https://www.jfwebsystem.com.br/images/stnlogo.png");
             background-repeat: no-repeat;
-            background-size:contain;
+            background-size: contain;
             background-position: center;
             width: 100%;
             height: 100%;
         }
+
         #back {
             background-image: linear-gradient(rgba(255, 255, 255, .7) 0%, rgba(255, 255, 255, .7) 100%), url("https://www.jfwebsystem.com.br/images/stnlogo.png");
             background-repeat: repeat space;
-            background-size:5%;
-        }
-        #image{
-            width: 10cm;
-        }
-        #img_signature{
-            width: 7cm;
+            background-size: 5%;
         }
 
+        #image {
+            width: 10cm;
+        }
+
+        #img_signature {
+            width: 7cm;
+        }
     </style>
     <div class="m-2">
         <a class="ml-1 rounded btn btn-primary no-print" onclick="window.print()" href="#">imprimir Recibo - <i
@@ -103,18 +108,20 @@
             </div>
             <div class="d-flex align-items-center flex-column mb-1">
                 @if ($receipt->signature()->exists())
-                <p class="border-bottom border-dark p-0 mb-2 mt-2">{{ $receipt->local }}, <span id="emited"
-                        data-created="{{ $receipt->created_at }}"></span></p>
-                        <p class=" mt-1 mb-2 p-0">
-                        <img src="{{ $receipt->signature->signature_image ?? '' }}" id="img_signature" style="width:10cm;"
-                            alt="assinatura digital">
+                    <p class="border-bottom border-dark p-0 mb-5 mt-2">{{ $receipt->local }}, <span id="emited"
+                            data-created="{{ $receipt->created_at }}"></span></p>
+                    <p class=" mt-1 mb-2 p-0">
+                        <img src="{{ $receipt->signature->signature_image ?? '' }}" id="img_signature"
+                            style="width:10cm;" alt="assinatura digital">
                     @else
                     <p class="border-bottom border-dark mb-5 mt-5">{{ $receipt->local }}, <span id="emited"
-                        data-created="{{ $receipt->created_at }}"></span></p>
-                        <button class="btn btn-info ml-1 no-print" onclick="signatureCanvas()">Assinatura Digital<i
-                                class="fa fa-pencil ml-1" aria-hidden="true"></i> </button>
-                    @endif
-                <p class="border-top border-dark p-0 mt-0 text-center" style="width: 15cm;">Assinatura</p>
+                            data-created="{{ $receipt->created_at }}"></span></p>
+                    <button class="btn btn-info ml-1 no-print" onclick="signatureCanvas()">Assinatura Digital<i
+                            class="fa fa-pencil ml-1" aria-hidden="true"></i> </button>
+                    <p class="border-top border-dark p-0 mt-0 text-center" style="width: 15cm;">Assinatura</p>
+                @endif
+                <p class="border-top border-dark p-0 mt-4 text-center" style="width: 15cm;">Assinatura</p>
+
             </div>
             <div class="d-flex justify-content-center">
                 <small>gerado em jfwebsystem.com.br <span id="genered">
