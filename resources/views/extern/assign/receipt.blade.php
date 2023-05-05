@@ -30,6 +30,11 @@
             .no-print {
                 display: none;
             }
+               #back {
+            background-image: linear-gradient(rgba(255, 255, 255, .7) 0%, rgba(255, 255, 255, .7) 100%), url("https://www.jfwebsystem.com.br/images/stnlogo.png");
+            background-repeat: repeat space;
+            background-size:5%;
+        }
         }
 
         #sig-canvas {
@@ -49,7 +54,6 @@
             height: 100%;
         }
         #back {
-
             background-image: linear-gradient(rgba(255, 255, 255, .7) 0%, rgba(255, 255, 255, .7) 100%), url("https://www.jfwebsystem.com.br/images/stnlogo.png");
             background-repeat: repeat space;
             background-size:5%;
@@ -105,7 +109,7 @@
                         <img src="{{ $receipt->signature->signature_image ?? '' }}" id="img_signature" style="width:10cm;"
                             alt="assinatura digital">
                     @else
-                    <p class="border-bottom border-dark p-0 mb-2 mt-5">{{ $receipt->local }}, <span id="emited"
+                    <p class="border-bottom border-dark mb-5 mt-5">{{ $receipt->local }}, <span id="emited"
                         data-created="{{ $receipt->created_at }}"></span></p>
                         <button class="btn btn-info ml-1 no-print" onclick="signatureCanvas()">Assinatura Digital<i
                                 class="fa fa-pencil ml-1" aria-hidden="true"></i> </button>
