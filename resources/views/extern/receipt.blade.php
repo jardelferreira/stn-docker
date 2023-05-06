@@ -58,7 +58,7 @@
                 <img src="{{ asset('images/stnlogo.png') }}" height="100px" width="200px"
                     class="img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}"
                     alt="logo da STN">
-                <div class="ml-5" id="qrcode"></div>
+                <div class="ml-5" pathname="{{$receipt->shortcut->shortcut}}" id="qrcode"></div>
             </div>
             <div class="alert alert-dark text-center font-weight-bold text-uppercase h-5">Recibo - <span
                     id="number"><span
@@ -170,7 +170,7 @@
 
 
             const qrcode = new QRCode(document.getElementById('qrcode'), {
-                text: window.location.href,
+                text: `${window.location.host}/s/${document.getElementById("qrcode").getAttribute("pathname")}`,
                 width: 100,
                 height: 100,
                 colorDark: '#000',

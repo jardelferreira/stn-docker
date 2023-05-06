@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Shortcut extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['shortcut','route_name','atributes','name','url','active'];
+
+    public function shortcutable()
+    {
+        return $this->morphTo();
+    }
+    
 }

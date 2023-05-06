@@ -15,9 +15,12 @@ class CreateShortcutsTable extends Migration
     {
         Schema::create('shortcuts', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid');
-            $table->string('route_name');
+            $table->string('shortcut',10)->unique();
+            $table->string('route_name')->nullable();
+            $table->string('name');
+            $table->json('atributes')->nullable();
             $table->string('url');
+            $table->string('secure_url')->nullable();
             $table->boolean('active')->default(true);
             $table->morphs('shortcutable');
             $table->timestamps();

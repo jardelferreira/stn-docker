@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreReceiptRequest;
 use App\Http\Requests\UpdateReceiptRequest;
+use App\Models\Shortcut;
 use App\Models\User;
 use Illuminate\Support\Facades\URL;
 
@@ -63,6 +64,7 @@ class ReceiptController extends Controller
      */
     public function show(Receipt $receipt, Request $request)
     {
+        
         if (!$receipt->user->hasSignature()) {
             //redireciona o usuário que não tem assinatura
             return redirect()->route('dashboard.users.show', [
@@ -117,7 +119,7 @@ class ReceiptController extends Controller
 
     public function storeList(Receipt $receipt, Request $request)
     {
-       $data = [];
+        $data = [];
         for ($i = 0; $i < count($request->qtd); $i++) {
             array_push($data, new ReceiptList(['qtd' => $request->qtd[$i], 'description' => $request->description[$i], 'receipt_id' => $receipt->id]));
         }
@@ -129,13 +131,13 @@ class ReceiptController extends Controller
 
     public function externAssignShow(Receipt $receipt, Request $request)
     {
-    
         // dd($receipt->signature()->first());
         if (!$request->hasValidSignature(false)) {
             $receipt->temporary_link = "";
             $receipt->save();
             abort(401);
         }
+        // dd($receipt->shortcut());
         return view('extern.assign.receipt', [
             'receipt' => $receipt
         ]);
@@ -143,7 +145,7 @@ class ReceiptController extends Controller
 
     public function externAssign(Receipt $receipt, Request $request)
     {
-       
+
         $signature = $receipt->signature()->create([
             'uuid' => Str::uuid(),
             'user_id' => $receipt->user->id,
@@ -151,11 +153,11 @@ class ReceiptController extends Controller
             'event' => $receipt->saveEventString(),
             'signature_image' => $request->dataUrl,
         ]);
-    
+
         $receipt->signature_id = $signature->id;
         $receipt->save();
-        
-        return response()->json(['receipt' => $receipt,'signature' => $signature]);
+
+        return response()->json(['receipt' => $receipt, 'signature' => $signature]);
     }
 
     public function assignWithDocument(Receipt $receipt, Request $request)
@@ -179,6 +181,15 @@ class ReceiptController extends Controller
             $receipt->save();
             abort(401);
         }
+        if (!$receipt->shortcut()->exists()) {
+            $receipt->shortcut()->create([
+                'name' => "Recibo-{$receipt->id}",
+                'url' => $receipt->link,
+                'shortcut' => Str::random(10)
+            ]);
+        }
+        // dd($receipt->shortcut()->first());
+
         // dd(URL::signedRoute('extern.externShow',['receipt' => $receipt->id]));
         return view('extern.receipt', ['receipt' => $receipt]);
     }
@@ -193,17 +204,26 @@ class ReceiptController extends Controller
             return response()->json(['minutos' => round(($time)), 'tempo menor que o esperado']);
         }
 
-        $receipt->temporary_link = URL::temporarySignedRoute('extern.externAssignShow', now()->addMinutes($time), ['receipt' => $receipt->id],false);
+        $receipt->temporary_link = URL::temporarySignedRoute('extern.externAssignShow', now()->addMinutes($time), ['receipt' => $receipt->id], false);
 
         $receipt->save();
+        if ($shortcut = $receipt->shortcut()->exists()) {
+            $shortcut->secure_url = $receipt->temporary_link;
+            $shortcut->save();
+        }
 
         return response()->json(['receipt' => $receipt]);
     }
 
     public function genPublicLink(Receipt $receipt)
     {
-        $receipt->link = URL::signedRoute('extern.receiptShow', ['receipt' => $receipt->id],null,false);
+        $receipt->link = URL::signedRoute('extern.receiptShow', ['receipt' => $receipt->id], null, false);
         $receipt->save();
+
+        if ($shortcut = $receipt->shortcut()->exists()) {
+            $shortcut->url = $receipt->link;
+            $shortcut->save();
+        }
 
         return redirect()->back();
     }

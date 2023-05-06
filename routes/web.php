@@ -1,7 +1,7 @@
 <?php
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{BaseController,BranchController,CategoryController,CostController,DepartamentCostController,EmployeeController,FieldController,FormlistController,GanttController,HomeController,InvoiceController,InvoiceProductsController,RoleController,UserController,PermissionController,ProductController,ProfessionController,ProjectController,ProviderController,PublicController,ReceiptController,SectorController,SectorsCostsController,StoksController
+use App\Http\Controllers\{BaseController,BranchController,CategoryController,CostController,DepartamentCostController,EmployeeController,FieldController,FormlistController,GanttController,HomeController,InvoiceController,InvoiceProductsController,RoleController,UserController,PermissionController,ProductController,ProfessionController,ProjectController,ProviderController,PublicController,ReceiptController,SectorController,SectorsCostsController, ShortcutController, StoksController
 };
 use App\Models\Task;
 use Illuminate\Support\Facades\Date;
@@ -11,6 +11,11 @@ Route::get('/', function () {
 })->name('welcome');
 
 Auth::routes();
+
+Route::prefix('s')->group(function(){
+    Route::get('{shortcut}',[ShortcutController::class,'redirectToUrl'])->name('shortcut.url');
+    Route::get('s/{shortcut}',[ShortcutController::class,'redirectToSecure'])->name('shortcut.secure');
+});
 
 Route::prefix('publico')->group(function () {
     // Route::get('projetos',[PublicController::class,'projects'])->name('public.projects');

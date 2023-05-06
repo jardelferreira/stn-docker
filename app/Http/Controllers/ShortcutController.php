@@ -7,13 +7,27 @@ use Illuminate\Http\Request;
 
 class ShortcutController extends Controller
 {
-    public function redirectWithUrl($url)
+
+    public function redirectWithUrl(Shortcut $shortcut)
     {
-        return redirect($url);
+        return redirect($shortcut->url);
     }
-    
-    public function redirectWithUuid($uuid)
+
+    public function redirectToUrl($shortcut)
     {
-        # code...
+        $shortcut = Shortcut::where("shortcut", $shortcut)->first();
+        if (!$shortcut) {
+            abort(404);
+        }
+        return redirect($shortcut->url);
+    }
+
+    public function redirectToSecure($shortcut)
+    {
+        $shortcut = Shortcut::where("shortcut", $shortcut)->first();
+        if (!$shortcut) {
+            abort(404);
+        }
+        return redirect($shortcut->secure_url);
     }
 }

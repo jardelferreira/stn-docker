@@ -275,7 +275,7 @@
                         Swal.showValidationMessage(
                             `Request failed: ${textStatus}`
                         )
-                        Swal.close()
+                        // Swal.close()
                     });
                     // fim requisição
                 },
