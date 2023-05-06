@@ -208,6 +208,7 @@ class ReceiptController extends Controller
 
         $receipt->save();
         if ($shortcut = $receipt->shortcut()->exists()) {
+            $shortcut = $receipt->shortcut()->first();
             $shortcut->secure_url = $receipt->temporary_link;
             $shortcut->save();
         }
