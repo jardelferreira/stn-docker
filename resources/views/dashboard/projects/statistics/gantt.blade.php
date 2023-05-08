@@ -158,6 +158,13 @@
             }
         });
         dp.attachEvent("onAfterUpdate", function(id, action, tid, response) {
+            console.log(`
+            id => ${id},
+            action => ${action},
+            tid => ${tid},
+            response => ${response},
+
+            `)
             if (action == "error") {
                 alert("erro ao executar a tarefa!");
                 gantt.clearAll();

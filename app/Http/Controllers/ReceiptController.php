@@ -211,6 +211,12 @@ class ReceiptController extends Controller
             $shortcut = $receipt->shortcut()->first();
             $shortcut->secure_url = $receipt->temporary_link;
             $shortcut->save();
+        }else{
+            $receipt->shortcut()->create([
+                'name' => "Recibo-{$receipt->id}",
+                'url' => $receipt->link,
+                'shortcut' => Str::random(10)
+            ]);
         }
 
         return response()->json(['receipt' => $receipt]);
