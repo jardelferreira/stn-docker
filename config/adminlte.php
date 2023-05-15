@@ -247,7 +247,7 @@ return [
             'icon' => 'fa fa-dashcube',
             'icon_color'  => 'primary',
             'classes' => "bg-light",
-            'can' => "permission:public_projects"
+            'role' => ["public_projects"]
         ],
         [
             'text' => 'DP',
