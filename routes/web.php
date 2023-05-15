@@ -17,10 +17,7 @@ Route::prefix('s')->group(function(){
     Route::get('s/{shortcut}',[ShortcutController::class,'redirectToSecure'])->name('shortcut.secure');
 });
 
-Route::prefix('publico')->group(function () {
-    // Route::get('projetos',[PublicController::class,'projects'])->name('public.projects');
 
-});
 Route::prefix('externo')->group(function () {
     Route::get('recibos/{receipt}/show', [ReceiptController::class, 'externReceiptShow'])->name('extern.receiptShow');
     Route::get('recibos/{receipt}/assinatura', [ReceiptController::class, 'externAssignShow'])->name('extern.externAssignShow');
