@@ -118,7 +118,10 @@ class ProviderController extends Controller
     }
 
     function get(Request $request) {
-        $providers = Provider::where("name","LIKE","%$request->q%")->orWhere("cnpj","LIKE","%$request->q%")->get();
+        $providers = Provider::where("corporate_name","LIKE","%$request->q%")
+        ->orWhere("cnpj","LIKE","%$request->q%")
+        ->orWhere("fantasy_name","LIKE","%$request->q%")
+        ->get();
 
         return response()->json($providers);
     }
