@@ -116,4 +116,10 @@ class ProviderController extends Controller
        
         return redirect()->route('dashboard.providers.projects',$provider);
     }
+
+    function get(Request $request) {
+        $providers = Provider::where("name","LIKE","%$request->q%")->orWhere("cnpj","LIKE","%$request->q%")->get();
+
+        return response()->json($providers);
+    }
 }

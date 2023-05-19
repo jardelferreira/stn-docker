@@ -127,6 +127,7 @@ class InvoiceController extends Controller
             return \redirect()->route('dashboard.invoices.index');
         }
         
-
     }
+
+    
 }

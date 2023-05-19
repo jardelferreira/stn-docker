@@ -58,9 +58,9 @@
                     <label for="provider">Fornecedor: </label>
                     <select id="provider" class="form-control" name="provider_id">
                         <option value="">Selecione um fornecedor</option>
-                        @foreach ($providers as $item)
+                        {{-- @foreach ($providers as $item)
                             <option value="{{ $item->id }}"><small>{{ $item->corporate_name }}</small></option>
-                        @endforeach
+                        @endforeach --}}
                     </select>
                     <small id="helpProvider" class="form-text text-muted">Lista de Fornecedores</small>
                 </div>
@@ -107,6 +107,8 @@
 
 @section('js')
     <script src="{{ asset('vendor/inputmask/dist/jquery.inputmask.min.js') }}"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
         $(document).ready(function() {
             $("#value, #value_departament").inputmask('currency', {
@@ -127,5 +129,32 @@
             $("#value,#value_departament").inputmask('remove');
             e.currentTarget.submit()
         })
+
+        $("#provider_id").select2({
+                    ajax: {
+                        url: `https://www.jfwebsystem.com.br/api/providers`,
+                        type: "GET",
+                        dataType: 'json',
+                        delay: 250,
+                        data: function(params) {
+                            return {
+                                q: params.term, // search term
+                            };
+                        },
+                        processResults: function(response) {
+
+                            let providers = response.map(function(e) {
+                                return {
+                                    "id": e.id,
+                                    "text": e.name
+                                }
+                            })
+                            return {
+                                results: providers
+                            };
+                        },
+                        cache: true
+                    }
+                });
     </script>
 @stop
