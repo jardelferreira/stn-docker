@@ -27,5 +27,5 @@ Route::get('/data',[GanttController::class,'get'])->name('api.gantt.data');
 Route::resource('task',TaskController::class);
 Route::resource('link', LinkController::class);
 
-Route::get('products',[ProductController::class,'get'])->name('api.products');
-Route::get('providers',[ProviderController::class,'get'])->name('api.providers');
+Route::get('products',[ProductController::class,'get'])->name('api.products.get');
+Route::get('providers',[ProviderController::class,'get'])->name('api.providers.get');
