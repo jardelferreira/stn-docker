@@ -16,7 +16,9 @@ Route::prefix('s')->group(function(){
     Route::get('{shortcut}',[ShortcutController::class,'redirectToUrl'])->name('shortcut.url');
     Route::get('s/{shortcut}',[ShortcutController::class,'redirectToSecure'])->name('shortcut.secure');
 });
-
+// Route::get('xml',function() {
+//     return view('')
+// })
 
 Route::prefix('externo')->group(function () {
     Route::get('recibos/{receipt}/show', [ReceiptController::class, 'externReceiptShow'])->name('extern.receiptShow');

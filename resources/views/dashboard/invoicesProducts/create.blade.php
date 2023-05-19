@@ -66,11 +66,11 @@
                         <label for="product_id">Identifique a categoria</label>
                         <select class="form-control" name="product_id[]" id="product_id">
                           <option>Selecione</option>
-                          @foreach ($products as $item)
+                          {{-- @foreach ($products as $item)
                           <option value="{{$item->id}}" @if (old() && old('product_id') == $item->id)
                               selected
                           @endif>{{$item->description}}</option>
-                          @endforeach
+                          @endforeach --}}
                         </select>
                       </div>
                     <div class="form-group col-12">
@@ -159,6 +159,8 @@
 @stop
 
 @section('js')
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
         classes = ["primary", "secondary", "success", "info", "warning", "danger", "light", "dark"]
         form = document.getElementById("myform")
@@ -209,5 +211,32 @@
                 document.querySelector("#total > span").innerText = ` ${qtd.length} `
             })
         });
+
+        $("#product_id").select2({
+                    ajax: {
+                        url: `api/products`,
+                        type: "GET",
+                        dataType: 'json',
+                        delay: 250,
+                        data: function(params) {
+                            return {
+                                q: params.term, // search term
+                            };
+                        },
+                        processResults: function(response) {
+
+                            let products = response.map(function(e) {
+                                return {
+                                    "id": e.id,
+                                    "text": e.name
+                                }
+                            })
+                            return {
+                                results: products
+                            };
+                        },
+                        cache: true
+                    }
+                });
     </script>
 @stop

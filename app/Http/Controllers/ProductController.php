@@ -6,6 +6,7 @@ use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Category;
 use App\Models\Product;
+use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
@@ -92,5 +93,11 @@ class ProductController extends Controller
 
         return redirect()->route('dashboard.financeiro.products');
         
+    }
+
+    function get(Request $request) {
+        $products = Product::where("name","LIKE","%$request->q%")->orWhere("name","LIKE","%$request->q%")->get();
+
+        return response()->json($products);
     }
 }
