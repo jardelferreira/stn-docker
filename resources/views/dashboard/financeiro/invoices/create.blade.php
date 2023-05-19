@@ -146,7 +146,7 @@
                             let providers = response.map(function(e) {
                                 return {
                                     "id": e.id,
-                                    "text": e.company_name
+                                    "text": e.corporate_name
                                 }
                             })
                             return {
