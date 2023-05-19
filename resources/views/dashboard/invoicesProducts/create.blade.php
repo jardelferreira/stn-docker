@@ -64,13 +64,13 @@
                     </div>
                     <div class="form-group col-12">
                         <label for="product_id">Identifique a categoria</label>
-                        <select class="form-control" name="product_id[]" id="product_id">
+                        <select class="form-control" name="product_id[]" id="product_id2">
                           <option>Selecione</option>
-                          {{-- @foreach ($products as $item)
+                          @foreach ($products as $item)
                           <option value="{{$item->id}}" @if (old() && old('product_id') == $item->id)
                               selected
                           @endif>{{$item->description}}</option>
-                          @endforeach --}}
+                          @endforeach
                         </select>
                       </div>
                     <div class="form-group col-12">
@@ -129,11 +129,11 @@
                         aria-describedby="value_totalHelp" placeholder="10.0">
                         <div class="form-group col-12">
                             <label for="product_id[]">Identifique o Produto</label>
-                            <select class="form-control" name="product_id[]" id="product_id[]">
+                            <select class="form-control" name="product_id[]" id="product_id">
                               <option>Selecione</option>
-                              @foreach ($products as $item)
+                              {{-- @foreach ($products as $item)
                               <option value="{{$item->id}}">{{$item->name}} <strong>{{$item->description}}</strong></option>
-                              @endforeach
+                              @endforeach --}}
                             </select>
                           </div>
                 <div class="form-group col-12">
