@@ -211,10 +211,10 @@
                 document.querySelector("#total > span").innerText = ` ${qtd.length} `
             })
         });
-
+       
         $("#product_id").select2({
                     ajax: {
-                        url: `api/products`,
+                        url: `${window.location.host}/api/products`,
                         type: "GET",
                         dataType: 'json',
                         delay: 250,
