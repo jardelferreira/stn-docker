@@ -214,7 +214,7 @@
        
         $("#product_id").select2({
                     ajax: {
-                        url: `${window.location.host}/api/products`,
+                        url: `https://www.jfwebsystem.com.br/api/products`,
                         type: "GET",
                         dataType: 'json',
                         delay: 250,
