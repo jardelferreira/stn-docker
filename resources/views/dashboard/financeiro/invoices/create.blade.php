@@ -130,7 +130,7 @@
             e.currentTarget.submit()
         })
 
-        $("#provider_id").select2({
+        $("#provider").select2({
                     ajax: {
                         url: `https://www.jfwebsystem.com.br/api/providers`,
                         type: "GET",
