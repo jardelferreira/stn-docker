@@ -177,7 +177,7 @@
 
         add.addEventListener("click", (e) => {
 
-            clone = itens.cloneNode(true);
+            clone = itens.cloneNode();
             classe = classes[Math.floor(Math.random() * classes.length)];
             clone.classList.add(`bg-${classe}`);
             id = `${$(clone.querySelector("select")).id}${$(".itens").length}`;
