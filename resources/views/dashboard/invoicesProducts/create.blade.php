@@ -186,7 +186,7 @@
 
             $(clone.querySelector("select")).select2({data: global_products})
             $(clone.querySelector("select")).select2({data: global_products})
-            
+            $("#myform > div.itens.bg-dark > div > div:nth-child(7) > span:nth-child(4) > span.selection > span").remove()
             qtd = document.getElementsByClassName("itens");
             document.getElementById("cont").value = qtd.length;
             document.querySelector("#total > span").innerText = ` ${qtd.length} `
