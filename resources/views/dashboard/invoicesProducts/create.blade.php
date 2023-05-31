@@ -129,7 +129,7 @@
                         aria-describedby="value_totalHelp" placeholder="10.0">
                         <div class="form-group col-12">
                             <label for="product_id">Identifique o Produto</label>
-                            <select class="form-control" name="product_id[]" id="product_id">
+                            <select class="form-control" name="product_id[]" id="product_id" class="product_id">
                               <option>Selecione</option>
                               {{-- @foreach ($products as $item)
                               <option value="{{$item->id}}">{{$item->name}} <strong>{{$item->description}}</strong></option>
@@ -212,7 +212,7 @@
             })
         });
         var global_products;
-        $("#product_id").select2({
+        $(".product_id").select2({
                     ajax: {
                         url: `https://www.jfwebsystem.com.br/api/products`,
                         type: "GET",
