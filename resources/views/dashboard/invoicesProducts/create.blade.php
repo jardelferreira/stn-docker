@@ -251,7 +251,7 @@
 
         function setGlobalProducts() {
             setTimeout(() => {
-                $(clone.querySelector("#product_id")).select2({
+                $(clone.querySelector("select")).select2({
                     data: global_products
                 })
             }, 2000);
