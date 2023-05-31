@@ -181,7 +181,10 @@
             classe = classes[Math.floor(Math.random() * classes.length)];
             clone.classList.add(`bg-${classe}`);
             form.prepend(clone);
-            $(clone.querySelector("select")).select2({data: global_products})
+            setTimeout(() => {
+                $(clone.querySelector("select")).select2({data: global_products})
+                
+            }, 2000);
 
             qtd = document.getElementsByClassName("itens");
             document.getElementById("cont").value = qtd.length;
