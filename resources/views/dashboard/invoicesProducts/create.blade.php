@@ -177,13 +177,13 @@
             clone = itens.cloneNode(true);
             classe = classes[Math.floor(Math.random() * classes.length)];
             clone.classList.add(`bg-${classe}`);
+            $(clone.querySelector("select")).select2({data: global_products})
             form.prepend(clone);
             qtd = document.getElementsByClassName("itens");
             document.getElementById("cont").value = qtd.length;
             document.querySelector("#total > span").innerText = ` ${qtd.length} `
             rm = document.getElementById("rmv");
             
-            $(clone.querySelector("select")).select2({data: global_products})
 
             rm.addEventListener("click", (e, i) => {
                 e.preventDefault()
