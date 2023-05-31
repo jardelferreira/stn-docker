@@ -146,6 +146,7 @@
                         <small id="descriptionHelp" class="form-text text-muted">Descreva o produto</small>
                     </div>
                 </div>
+            </div>
         </form>
     @endif
 
@@ -177,14 +178,16 @@
 
         add.addEventListener("click", (e) => {
 
-            clone = itens.cloneNode();
+            clone = itens.cloneNode(true);
             classe = classes[Math.floor(Math.random() * classes.length)];
             clone.classList.add(`bg-${classe}`);
             id = `${$(clone.querySelector("select")).id}${$(".itens").length}`;
 
             $(clone.querySelector("select")).id = id
             form.prepend(clone);
-            $(clone.querySelector(`#${id}`)).select2({data: global_products})
+            $(clone.querySelector(`#${id}`)).select2({
+                data: global_products
+            })
 
             qtd = document.getElementsByClassName("itens");
             document.getElementById("cont").value = qtd.length;
@@ -252,7 +255,7 @@
             }
         });
 
-        function  setGlobalProducts() {
+        function setGlobalProducts() {
             setTimeout(() => {
                 $(clone.querySelector("#product_id")).select2({
                     data: global_products
