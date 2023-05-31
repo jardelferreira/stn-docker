@@ -201,7 +201,7 @@
                 document.getElementById("cont").value = qtd.length;
                 document.querySelector("#total > span").innerText = ` ${qtd.length} `
             })
-            setGlobalProducts()
+            setGlobalProducts(clone)
         })
         document.addEventListener("DOMContentLoaded", function(event) {
             rm = document.getElementById("rmv");
@@ -249,7 +249,7 @@
             }
         });
 
-        function setGlobalProducts() {
+        function setGlobalProducts(clone) {
             setTimeout(() => {
                 $(clone.querySelector("select")).select2({
                     data: global_products
