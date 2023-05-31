@@ -167,7 +167,7 @@
     <script>
         classes = ["primary", "secondary", "success", "info", "warning", "danger", "light", "dark"]
         form = document.getElementById("myform")
-        itens = document.querySelector(".itens");
+        $itens = $(".itens");
         add = document.getElementById("add");
         btnSubmit = document.getElementById("btn-submit")
         btnSubmit.addEventListener("click", (e) => {
@@ -177,9 +177,9 @@
 
         add.addEventListener("click", (e) => {
 
-            clone = itens.cloneNode(true);
-            classe = classes[Math.floor(Math.random() * classes.length)];
-            clone.classList.add(`bg-${classe}`);
+            $clone = $itens.clone(true);
+            // classe = classes[Math.floor(Math.random() * classes.length)];
+            // clone.classList.add(`bg-${classe}`);
             form.prepend(clone);
 
             qtd = document.getElementsByClassName("itens");
@@ -201,7 +201,7 @@
                 document.getElementById("cont").value = qtd.length;
                 document.querySelector("#total > span").innerText = ` ${qtd.length} `
             })
-            setGlobalProducts(clone)
+            $clone.select2({data: global_products});
         })
         document.addEventListener("DOMContentLoaded", function(event) {
             rm = document.getElementById("rmv");
@@ -249,12 +249,12 @@
             }
         });
 
-        function setGlobalProducts(clone) {
-            setTimeout(() => {
-                $(clone.querySelector("select")).select2({
-                    data: global_products
-                })
-            }, 2000);
-        }
+        // function setGlobalProducts(clone) {
+        //     setTimeout(() => {
+        //         $(clone.querySelector("select")).select2({
+        //             data: global_products
+        //         })
+        //     }, 2000);
+        // }
     </script>
 @stop
