@@ -180,7 +180,7 @@
             $clone = $itens.clone(true);
             // classe = classes[Math.floor(Math.random() * classes.length)];
             // clone.classList.add(`bg-${classe}`);
-            form.prepend(clone);
+            form.prepend($clone);
 
             qtd = document.getElementsByClassName("itens");
             document.getElementById("cont").value = qtd.length;
