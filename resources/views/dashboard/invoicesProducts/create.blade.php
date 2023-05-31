@@ -170,6 +170,7 @@
         form = document.getElementById("myform")
         itens = document.querySelector(".itens");
         add = document.getElementById("add");
+        first = true;
         btnSubmit = document.getElementById("btn-submit")
         btnSubmit.addEventListener("click", (e) => {
             e.preventDefault();
@@ -177,14 +178,19 @@
         })
 
         add.addEventListener("click", (e) => {
-
+            
             clone = itens.cloneNode(true);
             classe = classes[Math.floor(Math.random() * classes.length)];
             clone.classList.add(`bg-${classe}`);
 
             form.prepend(clone);
-
+            if(first){
+                first = false;
+                clone.remove()
+                add.click()
+            }
             $(clone.querySelector("select")).select2({data: global_products})
+
             $(clone.querySelector("select")).select2({data: global_products})
             $("#myform > div.itens.bg-dark > div > div:nth-child(7) > span:nth-child(4) > span.selection > span").remove()
             qtd = document.getElementsByClassName("itens");
