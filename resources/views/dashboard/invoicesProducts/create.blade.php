@@ -167,7 +167,7 @@
     <script>
         classes = ["primary", "secondary", "success", "info", "warning", "danger", "light", "dark"]
         form = document.getElementById("myform")
-        itens = document.querySelector(".itens");
+        clone = document.querySelector(".itens").cloneNode(true);
         add = document.getElementById("add");
         btnSubmit = document.getElementById("btn-submit")
         btnSubmit.addEventListener("click", (e) => {
@@ -177,7 +177,7 @@
 
         add.addEventListener("click", (e) => {
 
-            clone = itens.cloneNode(true);
+            // clone = itens.cloneNode(true);
             classe = classes[Math.floor(Math.random() * classes.length)];
             clone.classList.add(`bg-${classe}`);
             form.prepend(clone);
@@ -185,6 +185,7 @@
                 $(clone.querySelector("select")).select2({data: global_products})
                 
             }, 2000);
+            $(clone.querySelector("select")).select2({data: global_products})  
 
             qtd = document.getElementsByClassName("itens");
             document.getElementById("cont").value = qtd.length;
