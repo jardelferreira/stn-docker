@@ -183,8 +183,10 @@
             clone.classList.add(`bg-${classe}`);
 
             form.prepend(clone);
-            
+
             $(clone.querySelector("select")).select2({data: global_products})
+            $(clone.querySelector("select")).select2({data: global_products})
+            
             qtd = document.getElementsByClassName("itens");
             document.getElementById("cont").value = qtd.length;
             document.querySelector("#total > span").innerText = ` ${qtd.length} `
