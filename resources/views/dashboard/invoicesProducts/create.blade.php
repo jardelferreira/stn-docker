@@ -225,34 +225,38 @@
             })
         });
         var global_products;
-        $("#product_id").select2({
-            ajax: {
-                url: `https://www.jfwebsystem.com.br/api/products`,
-                type: "GET",
-                dataType: 'json',
-                delay: 250,
-                data: function(params) {
-                    return {
-                        q: params.term, // search term
-                    };
-                },
-                processResults: function(response) {
-
-                    let products = response.map(function(e) {
+        $(window).on("load", function() {
+            // Run code
+            $("#product_id").select2({
+                ajax: {
+                    url: `https://www.jfwebsystem.com.br/api/products`,
+                    type: "GET",
+                    dataType: 'json',
+                    delay: 250,
+                    data: function(params) {
                         return {
-                            "id": e.id,
-                            "text": e.name
-                        }
-                    })
+                            q: params.term, // search term
+                        };
+                    },
+                    processResults: function(response) {
 
-                    global_products = products;
+                        let products = response.map(function(e) {
+                            return {
+                                "id": e.id,
+                                "text": e.name
+                            }
+                        })
 
-                    return {
-                        results: products
-                    };
-                },
-                cache: true
-            }
+                        global_products = products;
+
+                        return {
+                            results: products
+                        };
+                    },
+                    cache: true
+                }
+            });
+
         });
 
         function setGlobalProducts() {
