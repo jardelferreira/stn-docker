@@ -180,6 +180,7 @@
             clone = itens.cloneNode(true);
             classe = classes[Math.floor(Math.random() * classes.length)];
             clone.classList.add(`bg-${classe}`);
+            $(clone.querySelector("select")).select2({data: global_products})
             form.prepend(clone);
 
             qtd = document.getElementsByClassName("itens");
