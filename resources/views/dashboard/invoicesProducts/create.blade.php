@@ -128,8 +128,8 @@
                     <input type="hidden" class="form-control value_total" name="value_total[]" id="value_total[]"
                         aria-describedby="value_totalHelp" placeholder="10.0">
                         <div class="form-group col-12">
-                            <label for="product_id[]">Identifique o Produto</label>
-                            <select class="form-control" name="product_id[]" id="product_id">
+                            <label for="product_id">Identifique o Produto</label>
+                            <select class="form-control" name="product_id[]" id="product_id1">
                               <option>Selecione</option>
                               {{-- @foreach ($products as $item)
                               <option value="{{$item->id}}">{{$item->name}} <strong>{{$item->description}}</strong></option>
@@ -211,7 +211,7 @@
                 document.querySelector("#total > span").innerText = ` ${qtd.length} `
             })
         });
-       
+        var global_products;
         $("#product_id").select2({
                     ajax: {
                         url: `https://www.jfwebsystem.com.br/api/products`,
@@ -232,8 +232,8 @@
                                 }
                             })
 
-                            var global_products = products;
-                            
+                             global_products = products;
+
                             return {
                                 results: products
                             };
