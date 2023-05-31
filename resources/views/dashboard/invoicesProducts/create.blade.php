@@ -249,7 +249,7 @@
             }
         });
 
-        setGlobalProducts() {
+        function setGlobalProducts() {
             setTimeout(() => {
                 $(clone.querySelector("#product_id")).select2({
                     data: global_products
