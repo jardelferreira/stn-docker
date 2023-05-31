@@ -181,11 +181,9 @@
             clone = itens.cloneNode(true);
             classe = classes[Math.floor(Math.random() * classes.length)];
             clone.classList.add(`bg-${classe}`);
-            id = `${$(clone.querySelector("select")).id}${$(".itens").length}`;
 
-            $(clone.querySelector("select")).id = id
             form.prepend(clone);
-            $(clone.querySelector(`#${id}`)).select2({
+            $(clone.querySelector(`select`)).select2({
                 data: global_products
             })
 
