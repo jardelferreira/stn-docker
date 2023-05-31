@@ -231,6 +231,9 @@
                                     "text": e.name
                                 }
                             })
+
+                            var global_products = products;
+                            
                             return {
                                 results: products
                             };
