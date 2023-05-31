@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Invoice;
-use App\Models\Product;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
-use App\Models\InvoiceProducts;
 use App\Http\Requests\StoreInvoiceProductsRequest;
 use App\Http\Requests\UpdateInvoiceProductsRequest;
+use App\Models\Invoice;
+use App\Models\InvoiceProducts;
+use App\Models\Product;
+use Illuminate\Support\Str;
 
 class InvoiceProductsController extends Controller
 {
@@ -43,9 +42,8 @@ class InvoiceProductsController extends Controller
      * @param  \App\Http\Requests\StoreInvoiceProductsRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Invoice $invoice)
+    public function store(StoreInvoiceProductsRequest $request, Invoice $invoice)
     {
-        dd($request->all());
         for ($i = 0; $i < $request->cont; $i++) {
             InvoiceProducts::create([
                 'uuid' => $this->getNewUuid(),
