@@ -203,7 +203,6 @@ class StoksController extends Controller
             'footer' => "Retirada de estoque."
         ]);
 
-
     }
     
 }

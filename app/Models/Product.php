@@ -21,4 +21,7 @@ class Product extends Model
         return $this->belongsToMany(Project::class);
     }
 
+    public function stoks() {
+        return $this->hasMany(Stoks::class);
+    }
 }

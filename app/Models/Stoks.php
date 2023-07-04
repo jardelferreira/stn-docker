@@ -21,4 +21,8 @@ class Stoks extends Model
     {
         return $this->hasOne(Sector::class);
     }
+
+    public function parentOfProduct() {
+        return $this->belongsTo(Product::class,'product_id');
+    }
 }

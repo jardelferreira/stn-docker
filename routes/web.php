@@ -3,7 +3,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{BaseController,BranchController,CategoryController,CostController,DepartamentCostController,EmployeeController,FieldController,FormlistController,GanttController,HomeController,InvoiceController,InvoiceProductsController,RoleController,UserController,PermissionController,ProductController,ProfessionController,ProjectController,ProviderController,PublicController,ReceiptController,SectorController,SectorsCostsController, ShortcutController, StoksController
 };
+use App\Models\Stoks;
 use App\Models\Task;
+use App\Models\User;
 use Illuminate\Support\Facades\Date;
 
 Route::get('/', function () {
@@ -35,14 +37,24 @@ Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard'])->group(
     Route::get('gantt', [GanttController::class, 'index'])->name('dashboard.projects.statistics.gantt');
 
     Route::get('teste', function () {
-        $task = Task::find(2);
-        $parent = $task->parentTask()->first();
-        $lastDate = "";
-        foreach ($task->subTasks()->get() as $subtask) {
-            $newDate = date_create($subtask->start_date)->modify("+ {$subtask->duration} day");
-            $lastDate =  $lastDate > $newDate ? $lastDate : $newDate;
-        }
-        dd($lastDate);
+        function showUrl(){
+            return sprintf(
+              "%s://%s%s",
+              isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http',
+              $_SERVER['SERVER_NAME'],
+              $_SERVER['REQUEST_URI']
+            );
+          }
+          echo showUrl();
+          
+        // $task = Task::find(2);
+        // $parent = $task->parentTask()->first();
+        // $lastDate = "";
+        // foreach ($task->subTasks()->get() as $subtask) {
+        //     $newDate = date_create($subtask->start_date)->modify("+ {$subtask->duration} day");
+        //     $lastDate =  $lastDate > $newDate ? $lastDate : $newDate;
+        // }
+        // dd($lastDate);
     });
     Route::get('formulario/{formlist_employee}', [BaseController::class, 'formlistPdf'])->name('formlistPdf');
     Route::prefix('api')->group(function () {
@@ -217,6 +229,8 @@ Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard'])->group(
                         Route::get('/', [BaseController::class, 'fieldsFormlistByEmployee'])->name('dashboard.bases.employees.formlists.fields');
                         Route::post('/remove', [BaseController::class, 'removeFieldFormlistByEmployee'])->name('dashboard.bases.employees.formlists.fields.remove');
                         Route::post('/devolver', [FieldController::class, 'devolutionField'])->name('dashboard.bases.employees.formlists.fields.devolution');
+                        Route::get('/similar/{stoks}', [BaseController::class, 'getSimilar'])->name('dashboard.bases.employees.formlists.fields.getSimilar');
+                        Route::post('/baixa', [FieldController::class, 'lowering'])->name('dashboard.bases.employees.formlists.fields.lowering');
                         // Route::get('/adicionar',[FieldController::class,'create'])->name('dashboard.bases.employees.formlists.fields.create');
                     });
                 });
@@ -299,6 +313,7 @@ Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard'])->group(
         Route::post('save', [FieldController::class, 'salveField'])->name('dashboard.fields.salveField');
         Route::post('signatureField', [FieldController::class, 'signatureField'])->name('dashboard.fields.signatureField');
         Route::post('salveFieldAfterAssign', [FieldController::class, 'salveFieldAfterAssign'])->name('dashboard.fields.salveFieldAfterAssign');
+        Route::post('ajaxSalveFieldAfterAssign', [FieldController::class, 'ajaxSalveFieldAfterAssign'])->name('dashboard.fields.ajaxSalveFieldAfterAssign');
     });
 
     Route::prefix('suprimentos')->group(function () {

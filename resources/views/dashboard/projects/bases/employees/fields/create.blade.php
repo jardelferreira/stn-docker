@@ -195,7 +195,7 @@
                             Swal.close()
                         });
                         // fim requisição
-                    },
+                    }, 
                     allowOutsideClick: () => !Swal.isLoading()
                 }).then((result) => {
                     if (result.isConfirmed) {

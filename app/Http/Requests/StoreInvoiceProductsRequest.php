@@ -31,7 +31,8 @@ class StoreInvoiceProductsRequest extends FormRequest
             'und.*' => "required|max:10",
             'value_unid.*' => "required|numeric",
             'image_path.*' => "nullable",
-            'ca_number.*' => "nullable"
+            'ca_number.*' => "nullable",
+            'product_id.*' => "required|exists:products,id",
         ];
     }
 
@@ -45,6 +46,8 @@ class StoreInvoiceProductsRequest extends FormRequest
             "und.*.max" => "O campo und deve ter no máximo 10 caracteres",
             "value_unid.*.required" => "O campo valor unitário é obrigatório",
             "value_unid.*.numeric" => "O campo valor unitário deve conter um valor numérico",
+            'product_id.*.required' => "O campo Produto é obrigatório",
+            'product_id.*.exists' => "Produto não encontrado",
         ];
     }
 

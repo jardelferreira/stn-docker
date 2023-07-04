@@ -4,16 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Models\Base;
 use App\Models\User;
+use App\Models\Field;
+use App\Models\Stoks;
+// use Barryvdh\DomPDF\PDF;
 use App\Models\Project;
 use App\Models\Employee;
 use App\Models\Formlist;
-// use Barryvdh\DomPDF\PDF;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\FormlistBaseEmployee;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreBaseRequest;
 use App\Http\Requests\UpdateBaseRequest;
-use App\Models\Field;
-use PDF;
 
 class BaseController extends Controller
 {
@@ -300,4 +303,67 @@ class BaseController extends Controller
         ]);
 
     }
+
+    public function getSimilar(
+        Base $base, Employee $employee, FormlistBaseEmployee $formlist_employee,Stoks $stoks
+    )
+    {
+        return response()->json($stoks->parentOfProduct->stoks()->where("qtd",">",0)->where("sector_id",$stoks->sector_id)->get());
+    }
+
+    public function lowering(
+        Base $base, Employee $employee, FormlistBaseEmployee $formlist_employee,Request $request
+    )
+    {
+        $user  = User::where('id',Auth()->user()->id)->first();
+
+        if (!$user->hasSignature()) {
+            return response()->json([
+                'success' => false,
+                'type' => 'info',
+                'message' => 'É necessário cadastrar uma assinatura.',
+                'footer' => "Erro de Senha."
+            ]);
+        }
+
+        $check = $user->checkSignature($request->pass);
+        if (!$check['success']) {
+            return response()->json($check);
+        }
+
+        $field = Field::where("id", $request->id)->first();
+        $stok = Stoks::where('id', $field->stok_id)->first();
+        $event = $formlist_employee->saveEventString($stok->invoiceProduct, $field->qtd_delivered, 1);
+
+
+        $signature_returned = $employee->signature()->create([
+            'uuid' => Str::uuid(),
+            'user_id' => intVal(Auth::user()->id),
+            'signature' => $employee->user->signature()->signature,
+            'event' => $event
+        ]);
+
+        if ($signature_returned) {
+            $field->update([
+                'date_returned' => date("Y-m-d H:i:s"),
+                'signature_returned' => $signature_returned->id,
+            ]);
+            
+            return response()->json([
+                'success' => true,
+                'type'    => 'success',
+                'message' => "Devolução realizada com sucesso.",
+                'footer'  => "Devolução de material"
+            ]);
+
+        }
+        return response()->json([
+            'success' => false,
+            'type' => 'erro',
+            'message' => "Não foi possível executar a requisição.",
+            'footer' => "Erro interno."
+        ]);
+
+    }
+
 }

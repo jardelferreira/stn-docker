@@ -38,7 +38,7 @@ class FormlistBaseEmployee extends Model
 
     public function saveEventString($product, $qtd, $type = 0)
     {
-        $direction = ['adiciona', 'devolve'];
+        $direction = ['adiciona', 'devolve','baixa'];
         $user = Auth::user();
         $formlist = $this->formlist()->first();
         return "{$user->name} {$direction[$type]} em {$formlist->name} de {$this->employee->user()->first()->name}, {$qtd} {$product->und} de {$product->name}";
