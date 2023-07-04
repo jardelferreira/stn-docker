@@ -606,17 +606,8 @@
                                     parag.innerText = "Gerando assinatura..."
                                     panel.append(parag)
 
-                                } else {
-
-                                    Swal.fire({
-                                        icon: response1.type,
-                                        title: response1.message,
-                                        text: response1.event,
-                                        footer: response1.footer
-                                    })
-                                }
-                                $.ajax({
-                                    url: `http://localhost/dashboard/ficheiros/${data_replacements.formlist_employee}/signatureField`,
+                                    $.ajax({
+                                    url: `${window.location.href.substring(0,window.location.href.indexOf('base'))}ficheiros/${data_replacements.formlist_employee}/signatureField`,
                                     method: 'POST',
                                     data: data_replacements,
                                     success: function(response2) {
@@ -631,7 +622,7 @@
                                                 response2.signature_id
 
                                             $.ajax({
-                                                url: `http://localhost/dashboard/ficheiros/${data_replacements.formlist_employee}/ajaxSalveFieldAfterAssign`,
+                                                url: `${window.location.href.substring(0,window.location.href.indexOf('base'))}ficheiros/${data_replacements.formlist_employee}/ajaxSalveFieldAfterAssign`,
                                                 method: 'POST',
                                                 data: data_replacements,
                                                 success: function(
@@ -663,6 +654,17 @@
                                         console.error(erro);
                                     }
                                 });
+
+                                } else {
+
+                                    Swal.fire({
+                                        icon: response1.type,
+                                        title: response1.message,
+                                        text: response1.event,
+                                        footer: response1.footer
+                                    })
+                                }
+                                
                             },
                             error: function(erro) {
                                 console.error(erro);
