@@ -20,17 +20,17 @@
     <div class="d-flex justify-content-center mt-5">
         <img src="{{ asset('images/stnlogo.png') }}" alt="Logo" class="img-fluid">
     </div>
-    <div class="d-flex justify-content-center align-items-center mt-3">
+    <div class="d-flex justify-content-center align-items-center mt-5">
         <form method="POST" action="{{ route('stn.redirectUserByCpf') }}" enctype="multipart/form-data"
-            class="col-lg-4 col-md-6 col-sm-8">
+            class="col-lg-4 col-md-6 col-sm-12">
             @csrf
-            <div class="form-group">
-                <label for="">CPF:</label>
+            <div class="form-group mt-2">
+                <label for="cpf">CPF:</label>
                 <input type="text" class="form-control" name="cpf" id="cpf" aria-describedby="helpCpf"
                     placeholder="Digite seu CPF">
                 <small id="helpCpf" class="form-text text-muted">Informe seu CPF</small>
             </div>
-            <button type="submit" class="btn btn-primary">Consultar fichas</button>
+            <button type="submit" class="btn btn-primary mt-2">Consultar fichas</button>
 
             @if ($errors->any())
                 <div class="alert alert-danger mt-3">
