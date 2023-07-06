@@ -9,7 +9,7 @@ class Formlist extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['uuid','name','revision','area','description','base_id'];
+    protected $fillable = ['id','uuid','name','revision','area','description','base_id'];
     protected $hidden = ['pivot'];
 
     public function bases()

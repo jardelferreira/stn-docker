@@ -20,6 +20,7 @@ class CreateFieldsTable extends Migration
         Schema::create('fields', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid');
+            $table->boolean('visible');
             $table->string('qtd_delivered');
             $table->string('qtd_required')->nullable();
             $table->string('observation')->nullable();

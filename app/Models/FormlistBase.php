@@ -11,7 +11,7 @@ class FormlistBase extends Model
 
     protected $table = 'formlist_base';
 
-    protected $fillable = ['formlist_id','base_id'];
+    protected $fillable = ['id','formlist_id','base_id'];
     protected $hidden = ['pivot'];
 
 }

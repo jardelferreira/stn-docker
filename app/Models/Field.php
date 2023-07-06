@@ -10,7 +10,7 @@ class Field extends Model
     use HasFactory;
 
     protected $fillable = [
-        'uuid', 'qtd_required', 'qtd_delivered',
+        'uuid', 'qtd_required', 'qtd_delivered','visible',
         'date_delivered', 'date_returned',
         'signature_delivered', 'signature_returned', 'employee_id',
         'stok_id', 'ca_first', 'ca_second', 'formlist_base_employee_id', 'observation', 'user_id'

@@ -14,6 +14,11 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::prefix('stn')->group(function(){
+    Route::get('fichas/funcionario/{user}',[PublicController::class,'showFormlists'])->name('showFormlists');
+    Route::get('fichas/{formlist_employee}',[PublicController::class,'formlistPdf'])->name('stn.formlistPdf');
+});
+
 Route::prefix('s')->group(function(){
     Route::get('{shortcut}',[ShortcutController::class,'redirectToUrl'])->name('shortcut.url');
     Route::get('s/{shortcut}',[ShortcutController::class,'redirectToSecure'])->name('shortcut.secure');

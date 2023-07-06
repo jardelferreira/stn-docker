@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Project;
 use App\Models\Employee;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\FormlistBaseEmployee;
 use Illuminate\Support\Facades\Auth;
 
@@ -121,5 +122,31 @@ class PublicController extends Controller
         $request->session()->regenerateToken();
 
         return redirect()->route('welcome');
+    }
+
+    public function showFormlists(User $user) {
+        $employee = $user->employee()->first();
+        // dd($user->employee->formlists()->with('ownerBase')->get());
+        // dd($base_formlists =  $user->employee->bases($employee->id)->with(['formlistsByEmlpoyee' => function($q) use($employee){
+        //     $q->where('employee_id',$employee->id);
+        // }])->get());
+        $base_formlists =  $user->employee->bases($employee->id)->with(['formlistsByEmlpoyee' => function($q) use($employee){
+            $q->where('employee_id',$employee->id);
+        }])->get();
+
+        return view('publico.showFormlists',[
+            'user' => $user,
+            'employee' => $user->employee()->first(),
+            'base_formlists' => $base_formlists
+        ]);
+    }
+
+    public function formlistPdf(FormlistBaseEmployee $formlist_employee)
+    {
+        $html = view('formlistPdf',[
+            'formlist' => $formlist_employee
+        ]);
+        $pdf = Pdf::loadHTML($html);
+        return $pdf->download("{$formlist_employee->formlist->name}-{$formlist_employee->employee->user->name}.pdf");
     }
 }
