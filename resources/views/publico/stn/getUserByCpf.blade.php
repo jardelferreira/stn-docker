@@ -4,7 +4,7 @@
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=0.5">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -15,9 +15,9 @@
     <title>Consulta Fichas</title>
 </head>
 
-<body>
+<body class="d-block align-items-center mb-5">
 
-    <div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-center mt-5">
         <img src="{{ asset('images/stnlogo.png') }}" alt="Logo" class="img-fluid">
     </div>
     <div class="d-flex justify-content-center align-items-center mt-3">
