@@ -17,6 +17,8 @@ Auth::routes();
 Route::prefix('stn')->group(function(){
     Route::get('fichas/funcionario/{user}',[PublicController::class,'showFormlists'])->name('showFormlists');
     Route::get('fichas/{formlist_employee}',[PublicController::class,'formlistPdf'])->name('stn.formlistPdf');
+    Route::get('fichas',[PublicController::class,'getUserByCpf'])->name('stn.getUserByCpf');
+    Route::post('fichas',[PublicController::class,'redirectUserByCpf'])->name('stn.redirectUserByCpf');
 });
 
 Route::prefix('s')->group(function(){

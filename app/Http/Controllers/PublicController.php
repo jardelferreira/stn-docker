@@ -149,4 +149,18 @@ class PublicController extends Controller
         $pdf = Pdf::loadHTML($html);
         return $pdf->download("{$formlist_employee->formlist->name}-{$formlist_employee->employee->user->name}.pdf");
     }
+
+    public function getUserByCPF(){
+        return view('publico.stn.getUserByCpf');
+    }
+    
+    public function redirectUserByCPF(Request $request){
+        
+        if($employee = Employee::where('cpf',$request->cpf)->first()){
+            // dd($employee);
+            return redirect()->route('showFormlists',$employee->user->id);
+        }
+        return redirect()->back()->withErrors(['message' => 'CPF Não encontrado']);
+    }
+
 }

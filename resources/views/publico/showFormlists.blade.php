@@ -4,7 +4,7 @@
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=0.5">
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -50,8 +50,8 @@
                                                 onclick="DownloadFile('{{ $formlist->name }}-{{ $user->name }}.pdf','{{ route('stn.formlistPdf', $formlist->pivot->formlist_id) }}')">
                                                 Salvar PDF - <i class="fa fa-file-pdf " aria-hidden="true"></i>
                                             </a>
-                                            <a class="ml-1 rounded btn btn-primary btn-sm" onclick="window.print()"
-                                                href="#">imprimir ficha<i class="fas fa-print fa-fw"></i></a>
+                                            {{-- <a class="ml-1 rounded btn btn-primary btn-sm" onclick="window.print()"
+                                                href="#">imprimir ficha<i class="fas fa-print fa-fw"></i></a> --}}
                                         </td>
                                     </tr>
                                 @endforeach
