@@ -255,12 +255,14 @@ class BaseController extends Controller
 
         return redirect()->route('dashboard.bases.formlists.show', $base);
     }
+
     public function formlistPdf(FormlistBaseEmployee $formlist_employee)
     {
-        $html = view('formlistPdf',[
-            'formlist' => $formlist_employee
-        ]);
-        $pdf = Pdf::loadHTML($html);
+        // $html = view('formlistPdf',[
+        //     'formlist' => $formlist_employee
+        // ]);
+        // $pdf = Pdf::loadHTML($html);
+        $pdf = Pdf::loadView('formlistPdf',$formlist_employee);
         return $pdf->download("{$formlist_employee->formlist->name}-{$formlist_employee->employee->user->name}.pdf");
     }
 

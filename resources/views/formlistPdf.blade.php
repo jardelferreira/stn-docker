@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
     <meta charset="utf-8">
@@ -8,6 +8,12 @@
         integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
 
     <title>{{ $formlist->formlist->description }}-{{ $formlist->employee->user->name }}</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+        }
+    </style>
 </head>
 
 <body>
