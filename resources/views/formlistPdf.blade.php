@@ -15,10 +15,10 @@
         <table class="table table-sm table-bordered">
             <thead class="">
                 <tr>
-                    <th class="border border-dark" colspan="3" id="img_logo">
+                    <th class="border border-dark" colspan="4" id="img_logo">
                              <img src="{{ asset('images/stnlogo.png') }}" alt="logo-stn">
                     </th>
-                    <th class="border border-dark text-center text-uppercase" colspan="4">
+                    <th class="border border-dark text-center text-uppercase" colspan="3">
                         {{ $formlist->formlist->description }}</th>
                     <th class="border border-dark" colspan="2">
                         <p>FORM. Nº-0{{ $formlist->formlist->id }}</p>
