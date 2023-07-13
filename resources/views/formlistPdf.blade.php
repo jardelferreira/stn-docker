@@ -42,7 +42,7 @@
                     <td style="font-size: 0.8em" class="border border-dark" colspan="5"><span>Responsável:</span>
                         Marcos Athie Trevisan</td>
                     <td style="font-size: 0.8em" class="border border-dark" colspan="4"><span>Unidade(Obra):</span>
-                        {{ $formlist->base->name }}({{ $formlist->base->project->name }})</td>
+                       <small> {{ $formlist->base->name }}({{ $formlist->base->project->name }})</small></td>
                 </tr>
                 <tr>
                     <td class="border border-dark" style="font-size: 0.8em" colspan="6"><span>Área:</span>
