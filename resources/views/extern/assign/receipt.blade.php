@@ -226,7 +226,7 @@
     <script>
         window.signatureHtml = () => {
             return `<div class="container bg-light">
-		<div m-0 p-0" id="canvas">
+		<div class="m-0 p-0" id="canvas">
 		 		<canvas id="sig-canvas" width="660" height="340" class="bg-light">
 		 		</canvas>
 		</div>

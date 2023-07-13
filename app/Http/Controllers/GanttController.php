@@ -11,8 +11,8 @@ class GanttController extends Controller
 
     public function index()
     {
-// 1        return view('dashboard.projects.statistics.gantt');
-        return view('extern.temporario');
+       return view('dashboard.projects.statistics.gantt');
+        // return view('extern.temporario');
     }
 
     public function get()

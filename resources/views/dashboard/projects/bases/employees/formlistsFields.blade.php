@@ -549,7 +549,7 @@
             } = await Swal.fire({
                 title: "informe as senhas para prosseguir!",
                 showCancelButton: true,
-                html: `<div class="rou">
+                html: `<div class="row">
                             <div class="form-group col-12">
                             <label for="user_pass">Sua senha:</label>
                             <input type="password"
