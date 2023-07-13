@@ -262,7 +262,7 @@ class BaseController extends Controller
         //     'formlist' => $formlist_employee
         // ]);
         // $pdf = Pdf::loadHTML($html);
-        $pdf = Pdf::loadView('formlistPdf',$formlist_employee);
+        $pdf = Pdf::loadView('formlistPdf',['formlist' => $formlist_employee]);
         return $pdf->download("{$formlist_employee->formlist->name}-{$formlist_employee->employee->user->name}.pdf");
     }
 
