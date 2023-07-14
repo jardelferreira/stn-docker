@@ -550,13 +550,13 @@
                 title: "informe as senhas para prosseguir!",
                 showCancelButton: true,
                 html: `<div class="row container">
-                            <div class="form-group col-10">
+                            <div class="form-group col-12">
                             <label for="user_pass">Sua senha:</label>
                             <input type="password"
                                 class="form-control" name="user_pass" id="user_pass" aria-describedby="userId" placeholder="Senha do Usuário">
                             <small id="userId" class="form-text text-muted">informe sua senha</small>
                             </div>
-                            <div class="form-group col-10">
+                            <div class="form-group col-12">
                             <label for="employee_pass">Senha do Funcionário</label>
                             <input type="password"
                                 class="form-control" name="employee_pass" id="employee_pass" aria-describedby="employeeId" placeholder="senha do funcionário">
