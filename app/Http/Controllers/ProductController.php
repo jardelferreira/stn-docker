@@ -96,7 +96,7 @@ class ProductController extends Controller
     }
 
     function get(Request $request) {
-        $products = Product::where("name","LIKE","%$request->q%")->orWhere("name","LIKE","%$request->q%")->get();
+        $products = Product::where("name","LIKE","%$request->q%")->orWhere("description","LIKE","%$request->q%")->get();
 
         return response()->json($products);
     }

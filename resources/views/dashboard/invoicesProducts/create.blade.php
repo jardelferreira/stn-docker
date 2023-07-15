@@ -7,233 +7,255 @@
     <div class="row">
         <button id="add" class="btn btn-success">Adicionar Item</button>
         <button type="button" id="btn-submit" class="btn btn-primary ml-2">Finalizar e Cadastrar</button>
-        <p class="mr-2 my-auto" id="total">Total de <span> {{ old() ? old('cont') : 0 }} </span>itens para serem
+        <p class="mr-2 my-2">Total de <span id="total"> {{ old() ? old('cont') : 0 }} </span> itens para serem
             cadastrados</p>
     </div>
 @stop
 
 @section('content')
-    @if (old())
-        <form action="{{ route('dashboard.invoices.popular.store', ['invoice' => $invoice->id]) }}" method="post"
-            autocomplete="off" enctype="multipart/form-data" id="myform">
-            @csrf
-            @method('POST')
+    <form id="myform">
+        @csrf
+        @method('POST')
 
-            <input type="hidden" name="cont" id="cont" value="{{ old('cont') }}">
-            @for ($i = 0; $i < old('cont'); $i++)
-                <div class="itens">
-                    <hr>
-                    <button id="rmv" type="button" class="btn btn-danger mr-0"><i class="fa fa-trash"
-                            aria-hidden="true" disable></i></button>
-                    <div class="row">
-                        <div class="form-group col-2">
-                            <label for="qtd[]">Qtd.</label>
-                            <input type="number" required="required" class="form-control" name="qtd[]" id="qtd[]"
-                                aria-describedby="qtdHelp" value="{{ old('qtd')[$i] }}" placeholder="10.0">
-                            <small id="qtdHelp" class="form-text text-muted">Informe uma quantidade</small>
-                        </div>
-                        <div class="form-group col-2">
-                            <label for="und[]">Und.</label>
-                            <input type="text" required class="form-control" name="und[]" id="und[]"
-                                aria-describedby="undHelp" placeholder="Ex: PÇ" value="{{ old('und')[$i] }}">
-                            <small id="undHelp" class="form-text text-muted">EX: PÇ,M. Ton, M²</small>
-                        </div>
-                        <div class="form-group col-4">
-                            <label for="name[]">Item</label>
-                            <input type="text" required class="form-control" name="name[]" id="name[]"
-                                value="{{ old('name')[$i] }}" aria-describedby="nameHelp"
-                                placeholder=" nome do meu produto aqui">
-                            <small id="nameHelp" class="form-text text-muted">Informe o nome do produto</small>
-                        </div>
-                        <div class="form-group col-2">
-                            <label for="value_unid[]">Valor Unitário</label>
-                            <input type="number" required class="form-control" name="value_unid[]" id="value_unid[]"
-                                value="{{ old('value_unid')[$i] }}" aria-describedby="value_unidHelp" placeholder="10.0">
-                            <small id="value_unidHelp" class="form-text text-muted">Valor unitário</small>
-                        </div>
-                        <div class="form-group col-2">
-                            <label for="ca_number[]">Certificado</label>
-                            <input type="number" required class="form-control" name="ca_number[]" id="ca_number[]"
-                                value="{{ old('ca_number')[$i] }}" aria-describedby="ca_numberHelp" placeholder="CA-10245">
-                            <small id="ca_numberHelp" class="form-text text-muted">Identificação do certificado</small>
-                        </div>
-                        <div class="form-group col-2">
-                            <label for="value_total[]">Valor Total</label>
-                            <input type="hidden" class="form-control value_total" name="value_total[]" id="value_total[]"
-                                aria-describedby="value_totalHelp" placeholder="10.0"
-                                value="{{ old() ?? floatVal(old('value_unid')) * floatVal(old('qtd')) }}">
-                            <small id="value_totalHelp" class="form-text text-muted">Valor total</small>
-                        </div>
-                    </div>
-                    <div class="form-group col-12">
-                        <label for="product_id">Identifique a categoria</label>
-                        <select class="form-control" name="product_id[]" id="product_id2">
-                            <option>Selecione</option>
-                            @foreach ($products as $item)
-                                <option value="{{ $item->id }}" @if (old() && old('product_id') == $item->id) selected @endif>
-                                    {{ $item->description }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group col-12">
-                        <label for="description[]">Descrição do Item</label>
-                        <input type="text" class="form-control" name="description[]" id="description[]"
-                            value="{{ old('description')[$i] ?? '' }}" aria-describedby="descriptionHelp"
-                            placeholder="Detalhe o produto aqui">
-                        <small id="descriptionHelp" class="form-text text-muted">Descreva o produto</small>
-                    </div>
-                </div>
-            @endfor
-        </form>
-    @else
-        <form action="{{ route('dashboard.invoices.popular.store', ['invoice' => $invoice->id]) }}" method="post"
-            autocomplete="off" enctype="multipart/form-data" id="myform">
-            @csrf
-            @method('POST')
+        <input type="hidden" name="cont" id="cont" value="1">
 
-            <input type="hidden" name="cont" id="cont" value="1">
-
-            <div class="itens">
-                <button id="rmv" type="button" class="btn btn-danger mr-0"><i class="fa fa-trash"
-                        aria-hidden="true" disable></i></button>
-                <hr>
-                <div class="row">
-                    <div class="form-group col-2">
-                        <label for="qtd[]">Qtd.</label>
-                        <input type="number" required="required" class="form-control" name="qtd[]" id="qtd[]"
-                            aria-describedby="qtdHelp" placeholder="10.0">
-                        <small id="qtdHelp" class="form-text text-muted">Informe uma quantidade</small>
-                    </div>
-                    <div class="form-group col-2">
-                        <label for="und[]">Und.</label>
-                        <input type="text" required class="form-control" name="und[]" id="und[]"
-                            aria-describedby="undHelp" placeholder="Ex: PÇ">
-                        <small id="undHelp" class="form-text text-muted">EX: PÇ,M. Ton, M²</small>
-                    </div>
-                    <div class="form-group col-4">
-                        <label for="name[]">Item</label>
-                        <input type="text" required class="form-control" name="name[]" id="name[]"
-                            aria-describedby="nameHelp" placeholder=" nome do meu produto aqui">
-                        <small id="nameHelp" class="form-text text-muted">Informe o nome do produto</small>
-                    </div>
-                    <div class="form-group col-2">
-                        <label for="value_unid[]">Valor Unitário</label>
-                        <input type="number" required class="form-control" name="value_unid[]" id="value_unid[]"
-                            aria-describedby="value_unidHelp" placeholder="10.0">
-                        <small id="value_unidHelp" class="form-text text-muted">Valor unitário</small>
-                    </div>
-                    <div class="form-group col-2">
-                        <label for="ca_number[]">Certificado</label>
-                        <input type="text" required class="form-control" name="ca_number[]" id="ca_number[]"
-                            aria-describedby="ca_numberHelp" placeholder="CA-10321">
-                        <small id="ca_numberHelp" class="form-text text-muted">Identificação do certificado</small>
-                    </div>
-                    <input type="hidden" class="form-control value_total" name="value_total[]" id="value_total[]"
-                        aria-describedby="value_totalHelp" placeholder="10.0">
-                    <div class="form-group col-12">
-                        <label for="product_id">Identifique o Produto</label>
-                        <select class="form-control" name="product_id[]" id="product_id">
-                            <option>Selecione</option>
-                            {{-- @foreach ($products as $item)
-                              <option value="{{$item->id}}">{{$item->name}} <strong>{{$item->description}}</strong></option>
-                              @endforeach --}}
-                        </select>
-                    </div>
-                    <div class="form-group col-12">
-                        <label for="description[]">Descrição do Item</label>
-                        <input type="text" class="form-control" name="description[]" id="description[]"
-                            aria-describedby="descriptionHelp" placeholder="Detalhe o produto aqui">
-                        <small id="descriptionHelp" class="form-text text-muted">Descreva o produto</small>
-                    </div>
+        <div class="itens border border-dark p-1 rounded">
+            <div class="row">
+                <div class="form-group col-12">
+                    <label for="product_id">Identifique o Produto</label>
+                    <select class="form-control" name="product_id" id="product_id">
+                        <option>Selecione...</option>
+                    </select>
                 </div>
             </div>
-        </form>
-    @endif
-
-
-
+            <div class="row p-0">
+                <div class="form-group col-lg-1 col-md-2 col-sm 6">
+                    <label for="qtd">Qtd.</label>
+                    <input type="number" class="form-control" name="qtd" id="qtd"
+                        aria-describedby="qtdHelp" placeholder="10.0">
+                    <small id="qtdHelp" class="form-text text-muted">Quantidade</small>
+                </div>
+                <div class="form-group">
+                  <label for="und">Und.:</label>
+                  <select  class="form-control" name="und" id="und">
+                    <option value="UND">UND.</option>
+                    <option value="CJT">CJT.</option>
+                    <option value="PAR">PAR</option>
+                    <option value="CX.">CX.</option>
+                    <option value="PÇ">PÇ</option>
+                    <option value="KG">KG</option>
+                    <option value="TON">TON</option>
+                    <option value="LITRO">LITRO</option>
+                    <option value="METRO">METRO</option>
+                    <option value="METRO²">METRO²</option>
+                    <option value="METRO³">METRO³</option>
+                  </select>
+                </div>
+                <div class="form-group col-lg-5 col-md-8 col-sm-12">
+                    <label for="name">Item</label>
+                    <input type="text"  class="form-control" name="name" id="name"
+                        aria-describedby="nameHelp" placeholder=" nome do meu produto aqui">
+                    <small id="nameHelp" class="form-text text-muted">Informe o nome do produto</small>
+                </div>
+                <div class="form-group col-lg-2 col-md-6 col-sm-6">
+                    <label for="value_unid">Valor Unitário</label>
+                    <input type="text"  class="form-control" name="value_unid" id="value_unid"
+                        aria-describedby="value_unidHelp" placeholder="10.0">
+                    <small id="value_unidHelp" class="form-text text-muted">Valor unitário</small>
+                </div>
+                <div class="form-group col-lg-2 col-md-6 col-sm-6">
+                    <label for="ca_number">Certificado</label>
+                    <input type="text"  class="form-control" name="ca_number" id="ca_number"
+                        aria-describedby="ca_numberHelp" placeholder="CA-10321">
+                    <small id="ca_numberHelp" class="form-text text-muted">Identificação do certificado</small>
+                </div>
+                <input type="hidden" class="form-control value_total" name="value_total" id="value_total"
+                    aria-describedby="value_totalHelp" placeholder="10.0">
+                <div class="form-group col-12">
+                    <label for="description">Descrição do Item</label>
+                    <input type="text" class="form-control" name="description" id="description"
+                        aria-describedby="descriptionHelp" placeholder="Detalhe o produto aqui">
+                    <small id="descriptionHelp" class="form-text text-muted">Descreva o produto</small>
+                </div>
+            </div>
+        </div>
+    </form>
+    <hr>
+    <table class="table table-striped" id="mytable">
+        <thead class="bg-warning">
+            <tr>
+                <th>#</th>
+                <th>Action</th>
+                <th>Qtd.</th>
+                <th>Unidade</th>
+                <th>Item</th>
+                <th>Valor Unitário</th>
+                <th>Certificado</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
 @stop
 
 @section('css')
     <style>
-        #cont>span {
+        #total {
             z-index: 0;
+            color: red;
+        }
+        span{
+            font-weight: bold;
+        }
+        .fa-trash:hover{
+            cursor: pointer;
         }
     </style>
 @stop
 
 @section('js')
+
+    {{-- <script src="{{ asset('vendor/inputmask/dist/jquery.inputmask.min.js') }}"></script> --}}
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
-        classes = ["primary", "secondary", "success", "info", "warning", "danger", "light", "dark"]
-        form = document.getElementById("myform")
-        itens = document.querySelector(".itens");
-        add = document.getElementById("add");
-        first = true;
+        var data_form = [];
+        var table_products = document.getElementById("mytable");
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $("#add").on("click", () => {
+
+            new_product = $('#myform').serializeArray();
+
+            data_form.push(new_product);
+            row = table_products.insertRow()
+            cell = row.insertCell()
+            cell.innerText = data_form.length
+            cell = row.insertCell()
+            icon = document.createElement('i')
+            icon.classList.add("fa")
+            icon.classList.add("fa-trash")
+            icon.classList.add("text-danger")
+            icon.setAttribute('aria-hidden', true)
+            icon.setAttribute('product', data_form.length - 1)
+            icon.addEventListener("click", (e) => {
+                clearTable()
+                data_form.splice(e.target.getAttribute("product"), 1)
+                loadTable()
+            })
+            cell.append(icon)
+
+            for (let index = 4; index < 9; index++) {
+                cell = row.insertCell()
+                cell.innerText = new_product[index].value;
+
+            }
+            document.querySelector('span[id="total"]').innerText = data_form.length;
+        })
+
+        function removeItem(index_p) {
+            console.log(data_form[index_p])
+            console.log(data_form[index_p].name)
+            clearTable()
+            data_form.splice(index_p, 1)
+            loadTable()
+            document.querySelector('span[id="total"]').innerText = data_form.length;
+        }
+
+        function clearTable() {
+            while (table_products.rows.length > 1) {
+                table_products.deleteRow(1)
+            }
+            document.querySelector('span[id="total"]').innerText = data_form.length;
+        }
+
+        function loadTable() {
+            data_form.forEach((element, i2) => {
+                row = table_products.insertRow()
+                cell = row.insertCell()
+                cell.innerText = i2 + 1
+                cell = row.insertCell()
+                icon = document.createElement('i')
+                icon.classList.add("fa")
+                icon.classList.add("fa-trash")
+                icon.classList.add("text-danger")
+                icon.setAttribute('aria-hidden', true)
+                icon.setAttribute('product', i2)
+                icon.addEventListener("click", () => {
+                    removeItem(icon.getAttribute('product'), 1)
+                })
+                cell.append(icon)
+                for (let i3 = 4; i3 < 9; i3++) {
+                    cell = row.insertCell()
+                    cell.innerText = element[i3].value;
+
+                }
+            });
+            document.querySelector('span[id="total"]').innerText = data_form.length;
+        }
+
         btnSubmit = document.getElementById("btn-submit")
         btnSubmit.addEventListener("click", (e) => {
             e.preventDefault();
-            form.submit();
-        })
-
-        add.addEventListener("click", (e) => {
             
-            clone = itens.cloneNode(true);
-            classe = classes[Math.floor(Math.random() * classes.length)];
-            clone.classList.add(`bg-${classe}`);
+            request = data_form.map((data) => data.map(({name,value}) => ({[name]: value})));
+            produtos = {}
+            request.forEach((elemento1,index1) => {
+                    produtos[index1] = {};
+                        elemento1.forEach((elemento2,index2) => {
+                            for (const [key, value] of Object.entries(elemento2)) {
+                                produtos[index1][key] = value;
+                            }
+                        })
+                    })
 
-            form.prepend(clone);
-            if(first){
-                first = false;
-                clone.remove()
-                add.click()
-            }
-            $(clone.querySelector("select")).select2({data: global_products})
-
-            $(clone.querySelector("select")).select2({data: global_products})
-            $("#myform > div.itens.bg-dark > div > div:nth-child(7) > span:nth-child(4) > span.selection > span").remove()
-            qtd = document.getElementsByClassName("itens");
-            document.getElementById("cont").value = qtd.length;
-            document.querySelector("#total > span").innerText = ` ${qtd.length} `
-            rm = document.getElementById("rmv");
-
-
-            rm.addEventListener("click", (e, i) => {
-                e.preventDefault()
-                if (e.target.parentNode.tagName == "DIV") {
-                    console.log(`Clicou na ${e.target.parentNode.tagName}`)
-                    e.target.parentNode.remove()
-                } else {
-                    e.target.parentNode.parentNode.remove()
-                    console.log(`Clicou na ${e.target.parentNode.tagName}`)
+            Swal.fire({
+                title: "enviando produtos",
+                html: `<div id='response'>Aguarde...</div>`,
+                didOpen: () => {
+                    Swal.showLoading()
+                    $.ajax({
+                        method: "POST",
+                        data: {
+                            data: produtos
+                        },
+                        url: window.location.href,
+                        success: (response) => {
+                            console.log(response)
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: response.type,
+                                    title: response.message,
+                                    text: response.event,
+                                    footer: response.footer
+                                })
+                            } else {
+                                Swal.fire({
+                                    icon: response.type,
+                                    title: response.message,
+                                    text: response.event,
+                                    footer: response.footer
+                                })
+                            }
+                        }
+                    })
                 }
-                qtd = document.getElementsByClassName("itens");
-                document.getElementById("cont").value = qtd.length;
-                document.querySelector("#total > span").innerText = ` ${qtd.length} `
+
             })
+            // form.submit();
         })
-        document.addEventListener("DOMContentLoaded", function(event) {
-            rm = document.getElementById("rmv");
-            rm.addEventListener("click", (e, i) => {
-                if (e.target.parentNode.tagName == "DIV") {
-                    console.log(`Clicou na ${e.target.parentNode.tagName}`)
-                    e.target.parentNode.remove()
-                } else {
-                    e.target.parentNode.parentNode.remove()
-                    console.log(`Clicou na ${e.target.parentNode.tagName}`)
-                }
-                qtd = document.getElementsByClassName("itens");
-                document.getElementById("cont").value = qtd.length;
-                document.querySelector("#total > span").innerText = ` ${qtd.length} `
-            })
-        });
+
         var global_products;
         $(window).on("load", function() {
             // Run code
             $("#product_id").select2({
                 ajax: {
-                    url: `https://www.jfwebsystem.com.br/api/products`,
+                    url: `${window.location.href.substring('dashboad',window.location.href.indexOf('/dashboard'))}/api/products`,
                     type: "GET",
                     dataType: 'json',
                     delay: 250,
@@ -247,7 +269,7 @@
                         let products = response.map(function(e) {
                             return {
                                 "id": e.id,
-                                "text": e.name
+                                "text": e.description
                             }
                         })
 
@@ -261,14 +283,40 @@
                 }
             });
 
-        });
+            $("#myform").validate({
+                rules: {
+                    product_id: {
+                        required: true,
+                        digits: true
+                    },
+                    qtd: {
+                        required: true,
+                        digits: true
+                    },
+                    und: {
+                        required: true,
+                        digits: true
+                    },
+                    // u_email: {
+                    //     required: true,
+                    //     email: true,//add an email rule that will ensure the value entered is valid email id.
+                    //     maxlength: 255,
+                    // },
+                }
+            });
 
-        function setGlobalProducts() {
-            setTimeout(() => {
-                $(clone.querySelector("#product_id")).select2({
-                    data: global_products
-                })
-            }, 2000);
-        }
+        });
+        $('#value_unid').mask('#.##0,00', { reverse: true });
+        // $("#value_unid").inputmask('currency', {
+        //         "autoUnmask": true,
+        //         radixPoint: ",",
+        //         groupSeparator: ".",
+        //         allowMinus: false,
+        //         prefix: 'R$ ',
+        //         digits: 2,
+        //         digitsOptional: false,
+        //         rightAlign: true,
+        //         unmaskAsNumber: true
+        //     });
     </script>
 @stop

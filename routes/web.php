@@ -66,9 +66,13 @@ Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard'])->group(
     Route::get('formulario/{formlist_employee}', [BaseController::class, 'formlistPdf'])->name('formlistPdf');
     Route::prefix('api')->group(function () {
         Route::get('invoice/{invoice}/products', [StoksController::class, 'getProductsByInvoiceId'])->name('api.invoice.products');
+        Route::post('invoice/popular/{invoice}', [InvoiceProductsController::class, 'store'])->name('api.invoices.popular.store');
+
         Route::get('providers/invoices/{sector}', [StoksController::class, 'getAllInvoicesFromProviderByProject'])->name('api.providers.invoices');
         Route::get('providers/{sector}', [StoksController::class, 'filterProviders'])->name('api.providers');
         Route::post('/products/store', [StoksController::class, 'store'])->name('api.stoks.store');
+
+
     });
 
     Route::prefix('usuarios')->group(function () {
@@ -195,7 +199,7 @@ Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard'])->group(
         Route::get('/produtos/{invoice}', [InvoiceProductsController::class, 'index'])->name('dashboard.invoicesProducts.index');
         Route::get('/produtos/{invoice}/show', [InvoiceProductsController::class, 'show'])->name('dashboard.invoicesProducts.show');
         Route::get('/popular/{invoice}', [InvoiceProductsController::class, 'create'])->name('dashboard.invoices.popular.create');
-        Route::post('/popupar/{invoice}', [InvoiceProductsController::class, 'store'])->name('dashboard.invoices.popular.store');
+        Route::post('/popular/{invoice}', [InvoiceProductsController::class, 'store'])->name('dashboard.invoices.popular.store');
     });
     Route::prefix('bases')->group(function () {
         Route::get('/', [BaseController::class, 'index'])->name('dashboard.bases.index');

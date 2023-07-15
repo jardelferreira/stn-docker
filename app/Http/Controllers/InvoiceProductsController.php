@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreInvoiceProductsRequest;
-use App\Http\Requests\UpdateInvoiceProductsRequest;
 use App\Models\Invoice;
-use App\Models\InvoiceProducts;
 use App\Models\Product;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Models\InvoiceProducts;
+use App\Http\Requests\StoreInvoiceProductsRequest;
+use App\Http\Requests\UpdateInvoiceProductsRequest;
 
 class InvoiceProductsController extends Controller
 {
@@ -42,28 +43,57 @@ class InvoiceProductsController extends Controller
      * @param  \App\Http\Requests\StoreInvoiceProductsRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreInvoiceProductsRequest $request, Invoice $invoice)
+    public function store(Request $request, Invoice $invoice)
     {
-        for ($i = 0; $i < $request->cont; $i++) {
+        $data = $request->data;
+        foreach ($data as $product) {
+            $product['value_unid'] = str_replace(".","",$product['value_unid']);
+            $product['value_unid'] = str_replace(",",".",$product['value_unid']);
             InvoiceProducts::create([
                 'uuid' => $this->getNewUuid(),
-                'slug' => Str::slug($request->name[$i]),
+                'slug' => Str::slug($product['name']),
                 'owner' => 1,
                 'image_path' => "image",
                 'invoice_id' => $invoice->id,
-                "qtd" => floatVal($request->qtd[$i]),
-                "qtd_available" => floatVal($request->qtd[$i]),
-                "und" => $request->und[$i],
-                "name" => $request->name[$i],
-                "value_und" => floatVal($request->value_unid[$i]),
-                "value_total" => floatval($request->value_unid[$i]) * floatVal($request->qtd[$i]),
-                "description" => $request->description[$i],
-                "ca_number" => $request->ca_number[$i],
-                "product_id" => $request->product_id[$i],
+                "qtd" => floatVal($product['qtd']),
+                "qtd_available" => floatVal($product['qtd']),
+                "und" => $product['und'],
+                "name" => $product['name'],
+                "value_und" => floatVal($product['value_unid']),
+                "value_total" => floatval($product['value_unid']) * floatVal($product['qtd']),
+                "description" => $product['description'],
+                "ca_number" => $product['ca_number'],
+                "product_id" => $product['product_id'],
             ]);
         }
 
-        return redirect()->route('dashboard.invoicesProducts.index',['invoice' => $invoice->id]);
+        return response()->json([
+            'success' => true,
+            'type' => 'success',
+            'message' => 'Produtos cadastrados com sucesso.',
+            'footer' => "Cadastro de produdo em nota."
+        ]);
+        // return response()->json($request->all());
+        // for ($i = 0; $i < $request->cont; $i++) {
+        //     InvoiceProducts::create([
+        //         'uuid' => $this->getNewUuid(),
+        //         'slug' => Str::slug($request->name[$i]),
+        //         'owner' => 1,
+        //         'image_path' => "image",
+        //         'invoice_id' => $invoice->id,
+        //         "qtd" => floatVal($request->qtd[$i]),
+        //         "qtd_available" => floatVal($request->qtd[$i]),
+        //         "und" => $request->und[$i],
+        //         "name" => $request->name[$i],
+        //         "value_und" => floatVal($request->value_unid[$i]),
+        //         "value_total" => floatval($request->value_unid[$i]) * floatVal($request->qtd[$i]),
+        //         "description" => $request->description[$i],
+        //         "ca_number" => $request->ca_number[$i],
+        //         "product_id" => $request->product_id[$i],
+        //     ]);
+        // }
+
+        // return redirect()->route('dashboard.invoicesProducts.index',['invoice' => $invoice->id]);
     }
 
     public function getNewUuid()
