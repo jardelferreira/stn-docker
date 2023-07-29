@@ -312,7 +312,7 @@ class BaseController extends Controller
     {
         $product = Product::where("id",$stoks->invoiceProduct->product_id)->first(); 
         // dd($product->stoks()->get()->toArray());
-        return response()->json($product->stoks()->get());
+        return response()->json($product->stoks()->where("sector_id",$stoks->sector_id)->get());
     }
 
     public function lowering(
