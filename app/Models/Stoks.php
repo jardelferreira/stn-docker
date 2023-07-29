@@ -23,6 +23,7 @@ class Stoks extends Model
     }
 
     public function parentOfProduct() {
-        return $this->belongsTo(Product::class,'product_id');
+        return $this->hasOneThrough(Product::class,invoiceProducts::class);
+        // return $this->belongsTo(Product::class,'product_id');
     }
 }

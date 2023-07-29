@@ -17,6 +17,7 @@ use App\Models\FormlistBaseEmployee;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreBaseRequest;
 use App\Http\Requests\UpdateBaseRequest;
+use App\Models\Product;
 
 class BaseController extends Controller
 {
@@ -309,7 +310,9 @@ class BaseController extends Controller
         Base $base, Employee $employee, FormlistBaseEmployee $formlist_employee,Stoks $stoks
     )
     {
-        return response()->json($stoks->parentOfProduct->stoks()->where("qtd",">",0)->where("sector_id",$stoks->sector_id)->get());
+        $product = Product::where("id",$stoks->invoiceProduct->product_id)->first(); 
+        // dd($product->stoks()->get()->toArray());
+        return response()->json($product->stoks()->get());
     }
 
     public function lowering(
