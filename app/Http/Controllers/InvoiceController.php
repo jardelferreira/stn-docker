@@ -45,7 +45,7 @@ class InvoiceController extends Controller
      * @param  \App\Http\Requests\StoreInvoiceRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreInvoiceRequest $request)
     {
 
         Invoice::create($request->all());

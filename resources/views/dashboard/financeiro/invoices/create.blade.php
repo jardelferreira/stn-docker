@@ -15,6 +15,9 @@
 @stop
 
 @section('content')
+    @if ($errors->any())
+        {{ implode('', $errors->all('<div>:message</div>')) }}
+    @endif
     <div class="form">
         <form action="{{ route('dashboard.invoices.store') }}" method="post" autocomplete="off"
             enctype="multipart/form-data">
@@ -106,10 +109,10 @@
 @stop --}}
 
 @section('js')
-<script src="{{ asset('vendor/inputmask/dist/jquery.inputmask.min.js') }}"></script>
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-<script>
+    <script src="{{ asset('vendor/inputmask/dist/jquery.inputmask.min.js') }}"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
         $(document).ready(function() {
             $("#value, #value_departament").inputmask('currency', {
                 "autoUnmask": true,
@@ -131,30 +134,30 @@
         })
 
         $("#provider").select2({
-                    ajax: {
-                        url: `https://www.jfwebsystem.com.br/api/providers`,
-                        type: "GET",
-                        dataType: 'json',
-                        delay: 250,
-                        data: function(params) {
-                            return {
-                                q: params.term, // search term
-                            };
-                        },
-                        processResults: function(response) {
+            ajax: {
+                url: `https://www.jfwebsystem.com.br/api/providers`,
+                type: "GET",
+                dataType: 'json',
+                delay: 250,
+                data: function(params) {
+                    return {
+                        q: params.term, // search term
+                    };
+                },
+                processResults: function(response) {
 
-                            let providers = response.map(function(e) {
-                                return {
-                                    "id": e.id,
-                                    "text": e.corporate_name
-                                }
-                            })
-                            return {
-                                results: providers
-                            };
-                        },
-                        cache: true
-                    }
-                });
+                    let providers = response.map(function(e) {
+                        return {
+                            "id": e.id,
+                            "text": e.corporate_name
+                        }
+                    })
+                    return {
+                        results: providers
+                    };
+                },
+                cache: true
+            }
+        });
     </script>
 @stop

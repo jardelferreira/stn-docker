@@ -163,4 +163,8 @@ class PublicController extends Controller
         return redirect()->back()->withErrors(['message' => 'CPF Não encontrado']);
     }
 
+    public function apica() {
+        return view('extern.apica');
+    }
+
 }
