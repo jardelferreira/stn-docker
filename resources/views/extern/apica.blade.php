@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Consulta CA</title>
     <!-- Adicione o link do CSS do Bootstrap -->
@@ -65,6 +66,11 @@
     <!-- Script para fazer a requisição AJAX -->
     <script>
         $(document).ready(function () {
+            $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
             $("#btnBuscarCA").click(function () {
                 // Obter o valor do input
                 var caNumber = $("#caNumber").val();
