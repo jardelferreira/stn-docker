@@ -105,7 +105,7 @@
         //     source.crossorigin="anonymous"
         // }
 
-        document.body.append(source)
+        // document.body.append(source)
 
         $("#btnBuscarCA").on('click', () => {
             var caNumber = $("#caNumber").val();
