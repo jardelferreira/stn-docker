@@ -173,18 +173,16 @@ class PublicController extends Controller
 
     function getCA($ca)
     {
-        $endpoint = "https://apica.jfwebsystem.com.br/CA/{$ca}";
-        $client = new \GuzzleHttp\Client();
+        $url = "https://apica.jfwebsystem.com.br/CA/{$ca}";
 
-        $response = $client->request('GET', $endpoint);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-        // url will be: http://my.domain.com/test.php?key1=5&key2=ABC;
-
-        $statusCode = $response->getStatusCode();
-        $content = $response->getBody();
-
-        // or when your server returns json
-        // $content = json_decode($response->getBody(), true);
-        return response()->json(['ca' => $ca]);
+        $response = curl_exec($ch);
+        $err = curl_error($ch);  //if you need
+        curl_close($ch);
+        return $response;;
     }
 }
