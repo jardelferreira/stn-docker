@@ -7,7 +7,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Consulta CA</title>
     <!-- Adicione o link do CSS do Bootstrap -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 </head>
 
 <body>
@@ -15,11 +17,11 @@
         <h4>Informações do Certificado de Aprovação</h4>
         <div class="row">
             <!-- Input para receber o número do CA -->
-            <div class="form-group col-lg-9 col-sm-4">
+            <div class="form-group col-8">
                 <label for="caNumber">Número do CA:</label>
                 <input type="number" class="form-control" id="caNumber" placeholder="Digite o número do CA">
             </div>
-            <button style="height: 50%; position: relative; top: 30px;" type="button" class="col-lg-3 col-sm-4 btn btn-primary" id="btnBuscarCA">Buscar CA</button>
+            <button style="height: 50%; position: relative; top: 30px;" type="button" class="col-2 btn btn-primary" id="btnBuscarCA">Buscar CA</button>
             <!-- Botão para enviar a requisição -->
         </div>
         <div class="row mt-4">
@@ -50,9 +52,16 @@
         </div>
     </div>
     <!-- Adicione o link do JavaScript do Bootstrap e do jQuery (opcional) -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+</script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js"
+    integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous">
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
+    integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous">
+</script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <!-- Script para fazer a requisição AJAX -->
     <script>
         $(document).ready(function () {
@@ -62,7 +71,7 @@
 
                 // Fazer a requisição AJAX
                 $.ajax({
-                    method: "GET",
+                    type: "GET",
                     url: `https://apica.jfwebsystem.com.br/CA/${caNumber}`, // Substitua pela URL da sua API
                     success: function (data) {
                         // Preencher os campos com os valores recebidos
