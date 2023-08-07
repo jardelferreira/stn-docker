@@ -117,7 +117,11 @@
                     $("#razaoSocialLaboratorio").text(data.RazaoSocialLaboratorio);
                     $("#nrLaudo").text(data.NRLaudo || "Nulo");
                     $("#norma").text(data.Norma || "Nulo");
-                }
+                }, 
+                error: function(error) {
+                        // Lidar com o erro, se necessário
+                        alert(`Error, url = ${window.location.href}, error = ${error}`);
+                    }
             });
         });
     </script>
