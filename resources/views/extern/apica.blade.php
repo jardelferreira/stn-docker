@@ -23,7 +23,7 @@
                 <label for="caNumber">Número do CA:</label>
                 <input type="number" class="form-control" id="caNumber" placeholder="Digite o número do CA">
             </div>
-            <button style="height: 50%; position: relative; top: 30px;" type="button"
+            <button style="height: 50%; position: relative; top: 20px;" type="button"
                 class="col-4 btn btn-primary" id="btnBuscarCA">Buscar CA</button>
             <!-- Botão para enviar a requisição -->
         </div>
@@ -121,6 +121,7 @@
             $.ajax({
                 url: `https://www.jfwebsystem.com.br/stn/apica/${caNumber}`,
                 method: "GET",
+                dataType: 'json'
                 cache: false,
                 crossDomain: true,
 
@@ -148,6 +149,7 @@
                 },
                 error: function(error) {
                     // Lidar com o erro, se necessário
+                    alert(JSON.stringify(error));
                     $("#error").append(`<p>${error}</p>`)
                     $("#error").append(`<p>${error.Message}</p>`)
                     $("#error").append(`<p>${error.messge}</p>`)
