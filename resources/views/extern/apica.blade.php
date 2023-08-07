@@ -93,21 +93,7 @@
         $("#btnBuscarCA").on('click', () => {
             var caNumber = $("#caNumber").val();
             $.ajax({
-                type: 'GET',
-                dataType: "json",
-                crossDomain: true,
-                url: `https://apica.jfwebsystem.com.br/CA/${caNumber}`,
-                success: function(responseData, textStatus, jqXHR) {
-                    console.log("in");
-                    var data = JSON.parse(responseData['AuthenticateUserResult']);
-                    console.log(data);
-                },
-                error: function(responseData, textStatus, errorThrown) {
-                    alert(`GET failed. | response = ${textStatus} | data = ${responseData}`);
-                }
-            });
-            $.ajax({
-                url: `https://apica.jfwebsystem.com.br/CA/${caNumber}`,
+                url: `https://www.jfwebsystem.com.br/CA/${caNumber}`,
                 method: "GET",
                 cache: false,
                 success: function(data) {
