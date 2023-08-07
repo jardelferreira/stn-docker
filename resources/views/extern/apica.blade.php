@@ -95,7 +95,6 @@
             $.ajax({
                 type: 'GET',
                 dataType: "json",
-                processData: false,
                 crossDomain: true,
                 url: `https://apica.jfwebsystem.com.br/CA/${caNumber}`,
                 success: function(responseData, textStatus, jqXHR) {
