@@ -3,8 +3,10 @@
 
 <head>
     <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -80,30 +82,30 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-        $(document).ready(() => {
-            $.getJSON("https://apica.jfwebsystem.com.br/CA/42049").done((data) => {
-                $("#registroCA").text(data.RegistroCA);
-                    $("#dataValidade").text(data.DataValidade);
-                    $("#situacao").text(data.Situacao);
-                    $("#nrProcesso").text(data.NRProcesso);
-                    $("#cnpj").text(data.CNPJ);
-                    $("#razaoSocial").text(data.RazaoSocial);
-                    $("#natureza").text(data.Natureza);
-                    $("#nomeEquipamento").text(data.NomeEquipamento);
-                    $("#descricaoEquipamento").text(data.DescricaoEquipamento);
-                    $("#marcaCA").text(data.MarcaCA);
-                    $("#referencia").text(data.Referencia);
-                    $("#cor").text(data.Cor || "Nulo");
-                    $("#aprovadoParaLaudo").text(data.AprovadoParaLaudo);
-                    $("#restricaoLaudo").text(data.RestricaoLaudo || "Nulo");
-                    $("#observacaoAnaliseLaudo").text(data.ObservacaoAnaliseLaudo);
-                    $("#cnpjLaboratorio").text(data.CNPJLaboratorio);
-                    $("#razaoSocialLaboratorio").text(data.RazaoSocialLaboratorio);
-                    $("#nrLaudo").text(data.NRLaudo || "Nulo");
-                    $("#norma").text(data.Norma || "Nulo");
-            });
+        // $(document).ready(() => {
+        //     $.getJSON("https://apica.jfwebsystem.com.br/CA/42049").done((data) => {
+        //         $("#registroCA").text(data.RegistroCA);
+        //             $("#dataValidade").text(data.DataValidade);
+        //             $("#situacao").text(data.Situacao);
+        //             $("#nrProcesso").text(data.NRProcesso);
+        //             $("#cnpj").text(data.CNPJ);
+        //             $("#razaoSocial").text(data.RazaoSocial);
+        //             $("#natureza").text(data.Natureza);
+        //             $("#nomeEquipamento").text(data.NomeEquipamento);
+        //             $("#descricaoEquipamento").text(data.DescricaoEquipamento);
+        //             $("#marcaCA").text(data.MarcaCA);
+        //             $("#referencia").text(data.Referencia);
+        //             $("#cor").text(data.Cor || "Nulo");
+        //             $("#aprovadoParaLaudo").text(data.AprovadoParaLaudo);
+        //             $("#restricaoLaudo").text(data.RestricaoLaudo || "Nulo");
+        //             $("#observacaoAnaliseLaudo").text(data.ObservacaoAnaliseLaudo);
+        //             $("#cnpjLaboratorio").text(data.CNPJLaboratorio);
+        //             $("#razaoSocialLaboratorio").text(data.RazaoSocialLaboratorio);
+        //             $("#nrLaudo").text(data.NRLaudo || "Nulo");
+        //             $("#norma").text(data.Norma || "Nulo");
+        //     });
 
-        })
+        // })
         window.mobileAndTabletCheck = function() {
             let check = false;
             (function(a) {
@@ -121,7 +123,7 @@
             $.ajax({
                 url: `https://www.jfwebsystem.com.br/stn/apica/${caNumber}`,
                 method: "GET",
-                dataType: 'json'
+                dataType: 'json',
                 cache: false,
                 crossDomain: true,
 
