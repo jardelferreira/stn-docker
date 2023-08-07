@@ -88,8 +88,10 @@
                     },
                     error: function () {
                         // Lidar com o erro, se necessário
-                        alert("Erro ao buscar o CA.");
-                    }
+                        function (xhr, ajaxOptions, thrownError) {
+                            alert(xhr.status);
+                            alert(thrownError);
+                        }                    }
                 });
             });
         });
