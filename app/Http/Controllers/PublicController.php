@@ -183,6 +183,6 @@ class PublicController extends Controller
         $response = curl_exec($ch);
         $err = curl_error($ch);  //if you need
         curl_close($ch);
-        return response()->json($response);
+        return response()->json(json_decode($response));
     }
 }
