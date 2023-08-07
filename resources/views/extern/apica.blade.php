@@ -25,7 +25,7 @@
                 <label for="caNumber">Número do CA:</label>
                 <input type="number" class="form-control" id="caNumber" placeholder="Digite o número do CA">
             </div>
-            <button style="height: 50%; position: relative; top: 20px;" type="button"
+            <button style="height: 50%; position: relative; top: 25px;" type="button"
                 class="col-4 btn btn-primary" id="btnBuscarCA">Buscar CA</button>
             <!-- Botão para enviar a requisição -->
         </div>
@@ -151,7 +151,9 @@
                 },
                 error: function(error) {
                     // Lidar com o erro, se necessário
+
                     alert(JSON.stringify(error));
+                    $("#error").append(`<p>https://www.jfwebsystem.com.br/stn/apica/${caNumber}</p>`)
                     $("#error").append(`<p>${error}</p>`)
                     $("#error").append(`<p>${error.Message}</p>`)
                     $("#error").append(`<p>${error.messge}</p>`)
