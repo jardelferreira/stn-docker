@@ -90,9 +90,7 @@
             })(navigator.userAgent || navigator.vendor || window.opera);
             return check;
         };
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mobile/1.4.5/jquery.mobile.min.js" 
-        integrity="sha512-FbnNPigZZCDhMM22ezvan3xN2/E/oBd9GxqtpiBcK1VZuzBAt0V1EmTtteoYuYxWrqwqBA6zb1OTB887QSjAsw==" 
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
         if (window.mobileAndTabletCheck()) {
             source = document.createElement('script');
             source.src = "https://cdnjs.cloudflare.com/ajax/libs/jquery-mobile/1.4.5/jquery.mobile.min.js"
