@@ -80,7 +80,7 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-        $(document).ready = () => {
+        $(document).ready(() => {
             $.getJSON("http://apica.jfwebsystem.com.br/CA/42049").done((data) => {
                 $("#registroCA").text(data.RegistroCA);
                     $("#dataValidade").text(data.DataValidade);
@@ -103,7 +103,7 @@
                     $("#norma").text(data.Norma || "Nulo");
             });
 
-        }
+        })
         window.mobileAndTabletCheck = function() {
             let check = false;
             (function(a) {
