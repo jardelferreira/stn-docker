@@ -23,8 +23,8 @@
                 <label for="caNumber">Número do CA:</label>
                 <input type="number" class="form-control" id="caNumber" placeholder="Digite o número do CA">
             </div>
-            <button style="height: 50%; position: relative; top: 30px;" type="button" class="col-4 btn btn-primary"
-                id="btnBuscarCA">Buscar CA</button>
+            <button style="height: 50%; position: relative; top: 30px;" type="button"
+                class="col-4 btn btn-primary" id="btnBuscarCA">Buscar CA</button>
             <!-- Botão para enviar a requisição -->
         </div>
         <div id="error"></div>
@@ -119,11 +119,12 @@
                     $("#nrLaudo").text(data.NRLaudo || "Nulo");
                     $("#norma").text(data.Norma || "Nulo");
                 },
-                error: function(xhr, status, error) {
-                    var err = eval("(" + xhr.responseText + ")");
-                    alert(err.Message);
+                error: function(error) {
+                    // Lidar com o erro, se necessário
+                    $("#error").append(`<p>${error}</p>`)
+                    $("#error").append(`<p>${JSON.parse(error)}</p>`)
+                    $("#error").append(`<p>${JSON.stringfy(error)}</p>`)
                 }
-
             });
         });
     </script>
