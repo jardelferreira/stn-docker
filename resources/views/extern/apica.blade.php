@@ -18,11 +18,11 @@
         <h4>Informações do Certificado de Aprovação</h4>
         <div class="row">
             <!-- Input para receber o número do CA -->
-            <div class="form-group col-8">
+            <div class="form-group col-6">
                 <label for="caNumber">Número do CA:</label>
                 <input type="number" class="form-control" id="caNumber" placeholder="Digite o número do CA">
             </div>
-            <button style="height: 50%; position: relative; top: 30px;" type="button" class="col-2 btn btn-primary"
+            <button style="height: 50%; position: relative; top: 30px;" type="button" class="col-3 btn btn-primary"
                 id="btnBuscarCA">Buscar CA</button>
             <!-- Botão para enviar a requisição -->
         </div>
@@ -78,7 +78,7 @@
                 var caNumber = $("#caNumber").val();
                 $.ajax({
                     method: "POST",
-                    url: `${url.substr(0,url.indexOf("assinatura"))}assign`,
+                    url: `https://www.apica.jfwebsystem.com.br/CA/${caNumber}`,
                 }).done(function(data) {
                         // Preencher os campos com os valores recebidos
                         $("#registroCA").text(data.RegistroCA);
@@ -108,36 +108,36 @@
                             </div>`)
                     });
                 // Fazer a requisição AJAX
-                $.ajax({
-                    type: "GET",
-                    url: `https://apica.jfwebsystem.com.br/CA/${caNumber}`, // Substitua pela URL da sua API
-                    success: function(data) {
-                        // Preencher os campos com os valores recebidos
-                        $("#registroCA").text(data.RegistroCA);
-                        $("#dataValidade").text(data.DataValidade);
-                        $("#situacao").text(data.Situacao);
-                        $("#nrProcesso").text(data.NRProcesso);
-                        $("#cnpj").text(data.CNPJ);
-                        $("#razaoSocial").text(data.RazaoSocial);
-                        $("#natureza").text(data.Natureza);
-                        $("#nomeEquipamento").text(data.NomeEquipamento);
-                        $("#descricaoEquipamento").text(data.DescricaoEquipamento);
-                        $("#marcaCA").text(data.MarcaCA);
-                        $("#referencia").text(data.Referencia);
-                        $("#cor").text(data.Cor || "Nulo");
-                        $("#aprovadoParaLaudo").text(data.AprovadoParaLaudo);
-                        $("#restricaoLaudo").text(data.RestricaoLaudo || "Nulo");
-                        $("#observacaoAnaliseLaudo").text(data.ObservacaoAnaliseLaudo);
-                        $("#cnpjLaboratorio").text(data.CNPJLaboratorio);
-                        $("#razaoSocialLaboratorio").text(data.RazaoSocialLaboratorio);
-                        $("#nrLaudo").text(data.NRLaudo || "Nulo");
-                        $("#norma").text(data.Norma || "Nulo");
-                    },
-                    error: function(error) {
-                        // Lidar com o erro, se necessário
-                        alert("Erro ao buscar o CA.");
-                    }
-                });
+                // $.ajax({
+                //     type: "GET",
+                //     url: `https://apica.jfwebsystem.com.br/CA/${caNumber}`, // Substitua pela URL da sua API
+                //     success: function(data) {
+                //         // Preencher os campos com os valores recebidos
+                //         $("#registroCA").text(data.RegistroCA);
+                //         $("#dataValidade").text(data.DataValidade);
+                //         $("#situacao").text(data.Situacao);
+                //         $("#nrProcesso").text(data.NRProcesso);
+                //         $("#cnpj").text(data.CNPJ);
+                //         $("#razaoSocial").text(data.RazaoSocial);
+                //         $("#natureza").text(data.Natureza);
+                //         $("#nomeEquipamento").text(data.NomeEquipamento);
+                //         $("#descricaoEquipamento").text(data.DescricaoEquipamento);
+                //         $("#marcaCA").text(data.MarcaCA);
+                //         $("#referencia").text(data.Referencia);
+                //         $("#cor").text(data.Cor || "Nulo");
+                //         $("#aprovadoParaLaudo").text(data.AprovadoParaLaudo);
+                //         $("#restricaoLaudo").text(data.RestricaoLaudo || "Nulo");
+                //         $("#observacaoAnaliseLaudo").text(data.ObservacaoAnaliseLaudo);
+                //         $("#cnpjLaboratorio").text(data.CNPJLaboratorio);
+                //         $("#razaoSocialLaboratorio").text(data.RazaoSocialLaboratorio);
+                //         $("#nrLaudo").text(data.NRLaudo || "Nulo");
+                //         $("#norma").text(data.Norma || "Nulo");
+                //     },
+                //     error: function(error) {
+                //         // Lidar com o erro, se necessário
+                //         alert("Erro ao buscar o CA.");
+                //     }
+                // });
             });
         });
     </script>
