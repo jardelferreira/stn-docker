@@ -16,7 +16,7 @@ class PublicController extends Controller
 
     public function login()
     {
-        if(Auth::check()) return redirect()->route('public.index');
+        if (Auth::check()) return redirect()->route('public.index');
         return view('publico.login');
     }
 
@@ -62,19 +62,19 @@ class PublicController extends Controller
             abort(403);
         }
         $employee = $user->employee()->first();
-        return view('publico.employees.formlists',[
+        return view('publico.employees.formlists', [
             'employee' => $employee
         ]);
     }
 
     public function fieldsFormlistByEmployee(FormlistBaseEmployee $formlist)
     {
-        $user = User::where("id",Auth::id())->first();
-        if($user->employee->id != $formlist->employee->id){
+        $user = User::where("id", Auth::id())->first();
+        if ($user->employee->id != $formlist->employee->id) {
             abort(403);
         }
-      
-        return view('publico.employees.formlistsFields',[
+
+        return view('publico.employees.formlistsFields', [
             'employee' => $formlist->employee,
             'base' => $formlist->base,
             'formlist' => $formlist->formlist,
@@ -124,17 +124,18 @@ class PublicController extends Controller
         return redirect()->route('welcome');
     }
 
-    public function showFormlists(User $user) {
+    public function showFormlists(User $user)
+    {
         $employee = $user->employee()->first();
         // dd($user->employee->formlists()->with('ownerBase')->get());
         // dd($base_formlists =  $user->employee->bases($employee->id)->with(['formlistsByEmlpoyee' => function($q) use($employee){
         //     $q->where('employee_id',$employee->id);
         // }])->get());
-        $base_formlists =  $user->employee->bases($employee->id)->with(['formlistsByEmlpoyee' => function($q) use($employee){
-            $q->where('employee_id',$employee->id);
+        $base_formlists =  $user->employee->bases($employee->id)->with(['formlistsByEmlpoyee' => function ($q) use ($employee) {
+            $q->where('employee_id', $employee->id);
         }])->get();
 
-        return view('publico.showFormlists',[
+        return view('publico.showFormlists', [
             'user' => $user,
             'employee' => $user->employee()->first(),
             'base_formlists' => $base_formlists
@@ -143,28 +144,47 @@ class PublicController extends Controller
 
     public function formlistPdf(FormlistBaseEmployee $formlist_employee)
     {
-        $html = view('formlistPdf',[
+        $html = view('formlistPdf', [
             'formlist' => $formlist_employee
         ]);
         $pdf = Pdf::loadHTML($html);
         return $pdf->download("{$formlist_employee->formlist->name}-{$formlist_employee->employee->user->name}.pdf");
     }
 
-    public function getUserByCPF(){
+    public function getUserByCPF()
+    {
         return view('publico.stn.getUserByCpf');
     }
-    
-    public function redirectUserByCPF(Request $request){
-        
-        if($employee = Employee::where('cpf',$request->cpf)->first()){
+
+    public function redirectUserByCPF(Request $request)
+    {
+
+        if ($employee = Employee::where('cpf', $request->cpf)->first()) {
             // dd($employee);
-            return redirect()->route('showFormlists',$employee->user->id);
+            return redirect()->route('showFormlists', $employee->user->id);
         }
         return redirect()->back()->withErrors(['message' => 'CPF Não encontrado']);
     }
 
-    public function apica() {
+    public function apica()
+    {
         return view('extern.apica');
     }
 
+    function getCA($ca)
+    {
+        $endpoint = "https://apica.jfwebsystem.com.br/CA/{$ca}";
+        $client = new \GuzzleHttp\Client();
+
+        $response = $client->request('GET', $endpoint);
+
+        // url will be: http://my.domain.com/test.php?key1=5&key2=ABC;
+
+        $statusCode = $response->getStatusCode();
+        $content = $response->getBody();
+
+        // or when your server returns json
+        // $content = json_decode($response->getBody(), true);
+        return response()->json($content);
+    }
 }

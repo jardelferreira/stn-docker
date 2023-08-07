@@ -19,6 +19,7 @@ Route::prefix('stn')->group(function(){
     Route::get('fichas/{formlist_employee}',[PublicController::class,'formlistPdf'])->name('stn.formlistPdf');
     Route::get('fichas',[PublicController::class,'getUserByCpf'])->name('stn.getUserByCpf');
     Route::get('apica',[PublicController::class,'apica'])->name('stn.apica');
+    Route::get('apica/{ca}',[PublicController::class,'getCA'])->name('stn.getCA');
     Route::post('fichas',[PublicController::class,'redirectUserByCpf'])->name('stn.redirectUserByCpf');
 });
 
