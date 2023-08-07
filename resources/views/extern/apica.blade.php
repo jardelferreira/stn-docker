@@ -94,9 +94,9 @@
             };
         });
 
-        var popupTextElement = "";
+        var caNumber = $("#caNumber").val();
         $.ajax({
-            url: url,
+            url: `https://apica.jfwebsystem.com.br/CA/${caNumber}`,
             cache: false,
             xhr: function() {
                 var xhr = new XMLHttpRequest();
