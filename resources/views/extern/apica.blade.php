@@ -93,7 +93,7 @@
         $("#btnBuscarCA").on('click', () => {
             var caNumber = $("#caNumber").val();
             $.ajax({
-                url: `https://www.jfwebsystem.com.br/CA/${caNumber}`,
+                url: `${window.location.href}/${caNumber}`,
                 method: "GET",
                 cache: false,
                 success: function(data) {
