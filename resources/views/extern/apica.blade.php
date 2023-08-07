@@ -123,10 +123,6 @@
             $.ajax({
                 url: `https://www.jfwebsystem.com.br/stn/apica/${caNumber}`,
                 method: "GET",
-                dataType: 'json',
-                cache: false,
-                crossDomain: true,
-
                 success: function(data) {
                     //Convert the Byte Data to BLOB object.
                     $("#registroCA").text(data.RegistroCA);
@@ -151,8 +147,13 @@
                 },
                 error: function(error) {
                     // Lidar com o erro, se necessário
-
                     alert(JSON.stringify(error));
+                    $("#error").append(`<p>${error}</p>`)
+                    $("#error").append(`<p>${error.Message}</p>`)
+                    $("#error").append(`<p>${error.messge}</p>`)
+                    $("#error").append(`<p>${error.status}</p>`)
+                    $("#error").append(`<p>${JSON.parse(error)}</p>`)
+                    $("#error").append(`<p>${JSON.stringfy(error)}</p>`)
                 }
             });
         });
