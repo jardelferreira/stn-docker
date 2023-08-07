@@ -78,7 +78,7 @@
                 var caNumber = $("#caNumber").val();
                 $.ajax({
                     method: "GET",
-                    url: `https://www.apica.jfwebsystem.com.br/CA/${caNumber}`,
+                    url: `https://apica.jfwebsystem.com.br/CA/${caNumber}`,
                 }).done(function(data) {
                         // Preencher os campos com os valores recebidos
                         $("#registroCA").text(data.RegistroCA);
