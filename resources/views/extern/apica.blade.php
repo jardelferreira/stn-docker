@@ -120,7 +120,8 @@
                     $("#norma").text(data.Norma || "Nulo");
                 },
                 error: function(xhr, status, error) {
-                    alert(xhr.responseText);
+                    var err = eval("(" + xhr.responseText + ")");
+                    alert(err.Message);
                 }
 
             });
