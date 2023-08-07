@@ -121,7 +121,7 @@
                 },
                 error: function(error) {
                     // Lidar com o erro, se necessário
-                    alert(`Error, url = ${window.location.href}, error = ${error}`);
+                    alert(`Error = ${error.message}`);
                 }
             });
         });
