@@ -73,6 +73,7 @@
     -->
     <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
         crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mobile/1.4.5/jquery.mobile.min.js" integrity="sha512-FbnNPigZZCDhMM22ezvan3xN2/E/oBd9GxqtpiBcK1VZuzBAt0V1EmTtteoYuYxWrqwqBA6zb1OTB887QSjAsw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         $.ajaxSetup({
@@ -91,18 +92,18 @@
             return check;
         };
 
-        if (window.mobileAndTabletCheck()) {
-            source = document.createElement('script');
-            source.src = "https://cdnjs.cloudflare.com/ajax/libs/jquery-mobile/1.4.5/jquery.mobile.min.js"
-            source.integrity="sha512-FbnNPigZZCDhMM22ezvan3xN2/E/oBd9GxqtpiBcK1VZuzBAt0V1EmTtteoYuYxWrqwqBA6zb1OTB887QSjAsw=="
-            source.crossorigin="anonymous"
-            source.referrerpolicy="no-referrer"
-        }else{
-            source = document.createElement('script');
-            source.src="https://code.jquery.com/jquery-3.7.0.js"
-            source.integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
-            source.crossorigin="anonymous"
-        }
+        // if (window.mobileAndTabletCheck()) {
+        //     source = document.createElement('script');
+        //     source.src = "https://cdnjs.cloudflare.com/ajax/libs/jquery-mobile/1.4.5/jquery.mobile.min.js"
+        //     source.integrity="sha512-FbnNPigZZCDhMM22ezvan3xN2/E/oBd9GxqtpiBcK1VZuzBAt0V1EmTtteoYuYxWrqwqBA6zb1OTB887QSjAsw=="
+        //     source.crossorigin="anonymous"
+        //     source.referrerpolicy="no-referrer"
+        // }else{
+        //     source = document.createElement('script');
+        //     source.src="https://code.jquery.com/jquery-3.7.0.js"
+        //     source.integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
+        //     source.crossorigin="anonymous"
+        // }
 
         document.body.append(source)
 
