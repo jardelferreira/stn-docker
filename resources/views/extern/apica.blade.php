@@ -77,7 +77,7 @@
                 // Obter o valor do input
                 var caNumber = $("#caNumber").val();
                 $.ajax({
-                    method: "POST",
+                    method: "GET",
                     url: `https://www.apica.jfwebsystem.com.br/CA/${caNumber}`,
                 }).done(function(data) {
                         // Preencher os campos com os valores recebidos
@@ -101,9 +101,9 @@
                         $("#nrLaudo").text(data.NRLaudo || "Nulo");
                         $("#norma").text(data.Norma || "Nulo");
                     }).fail(function(jqXHR, textStatus) {
-                        $('#error').append(` <div class="alert alert-success" role="alert">
+                        $('#error').append(` <div class="alert alert-danger" role="alert">
                             <h4 class="alert-heading">Erro!</h4>
-                            <p>Descrição</p>
+                            <p>${textStatus}</p>
                             <p class="mb-0">desculfa-pulse</p>
                             </div>`)
                     });
