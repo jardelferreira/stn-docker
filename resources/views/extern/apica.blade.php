@@ -153,13 +153,6 @@
                     // Lidar com o erro, se necessário
 
                     alert(JSON.stringify(error));
-                    $("#error").append(`<p>https://www.jfwebsystem.com.br/stn/apica/${caNumber}</p>`)
-                    $("#error").append(`<p>${error}</p>`)
-                    $("#error").append(`<p>${error.Message}</p>`)
-                    $("#error").append(`<p>${error.messge}</p>`)
-                    $("#error").append(`<p>${error.status}</p>`)
-                    $("#error").append(`<p>${JSON.parse(error)}</p>`)
-                    $("#error").append(`<p>${JSON.stringfy(error)}</p>`)
                 }
             });
         });
