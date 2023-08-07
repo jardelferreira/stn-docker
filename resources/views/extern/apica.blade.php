@@ -19,8 +19,7 @@
                 <label for="caNumber">Número do CA:</label>
                 <input type="number" class="form-control" id="caNumber" placeholder="Digite o número do CA">
             </div>
-            <button style="height: 50%; position: relative; top: 30px;" type="button"
-                class="col-lg-3 col-sm-6 btn btn-primary" id="btnBuscarCA">Buscar CA</button>
+            <button style="height: 50%; position: relative; top: 30px;" type="button" class="col-lg-3 col-sm-4 btn btn-primary" id="btnBuscarCA">Buscar CA</button>
             <!-- Botão para enviar a requisição -->
         </div>
         <div class="row mt-4">
@@ -53,11 +52,11 @@
     <!-- Adicione o link do JavaScript do Bootstrap e do jQuery (opcional) -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script> --}}
     <!-- Script para fazer a requisição AJAX -->
     <script>
-        $(document).ready(function() {
-            $("#btnBuscarCA").click(function() {
+        $(document).ready(function () {
+            $("#btnBuscarCA").click(function () {
                 // Obter o valor do input
                 var caNumber = $("#caNumber").val();
 
@@ -65,7 +64,7 @@
                 $.ajax({
                     type: "GET",
                     url: `https://apica.jfwebsystem.com.br/CA/${caNumber}`, // Substitua pela URL da sua API
-                    success: function(data) {
+                    success: function (data) {
                         // Preencher os campos com os valores recebidos
                         $("#registroCA").text(data.RegistroCA);
                         $("#dataValidade").text(data.DataValidade);
@@ -87,9 +86,9 @@
                         $("#nrLaudo").text(data.NRLaudo || "Nulo");
                         $("#norma").text(data.Norma || "Nulo");
                     },
-                    error: function(xhr, ajaxOptions, thrownError) {
-                        alert(xhr.status);
-                        alert(thrownError);
+                    error: function () {
+                        // Lidar com o erro, se necessário
+                        alert("Erro ao buscar o CA.");
                     }
                 });
             });
