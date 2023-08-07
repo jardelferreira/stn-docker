@@ -185,6 +185,6 @@ class PublicController extends Controller
 
         // or when your server returns json
         // $content = json_decode($response->getBody(), true);
-        return response()->json($content);
+        return response()->json(['ca' => $ca]);
     }
 }
