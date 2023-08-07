@@ -81,7 +81,7 @@
             }
         });
         $(document).ready(() => {
-            $.getJSON("http://apica.jfwebsystem.com.br/CA/42049").done((data) => {
+            $.getJSON("https://apica.jfwebsystem.com.br/CA/42049").done((data) => {
                 $("#registroCA").text(data.RegistroCA);
                     $("#dataValidade").text(data.DataValidade);
                     $("#situacao").text(data.Situacao);
