@@ -19,12 +19,12 @@
         <h4>Informações do Certificado de Aprovação</h4>
         <div class="row">
             <!-- Input para receber o número do CA -->
-            <div class="form-group col-lg-6 col-sm-6">
+            <div class="form-group col-6 ">
                 <label for="caNumber">Número do CA:</label>
                 <input type="number" class="form-control" id="caNumber" placeholder="Digite o número do CA">
             </div>
             <button style="height: 50%; position: relative; top: 30px;" type="button"
-                class="col-sm-4 col-lg-3 btn btn-primary" id="btnBuscarCA">Buscar CA</button>
+                class="col-4 btn btn-primary" id="btnBuscarCA">Buscar CA</button>
             <!-- Botão para enviar a requisição -->
         </div>
         <div id="error"></div>
@@ -94,7 +94,7 @@
             var caNumber = $("#caNumber").val();
             $.ajax({
                 type: 'GET',
-                dataType: "jsonp",
+                dataType: "json",
                 processData: false,
                 crossDomain: true,
                 url: `https://apica.jfwebsystem.com.br/CA/${caNumber}`,
