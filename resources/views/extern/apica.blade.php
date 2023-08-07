@@ -15,7 +15,7 @@
         <h4>Informações do Certificado de Aprovação</h4>
         <div class="row">
             <!-- Input para receber o número do CA -->
-            <div class="form-group col-lg-9 col-sm-6">
+            <div class="form-group col-lg-9 col-sm-4">
                 <label for="caNumber">Número do CA:</label>
                 <input type="number" class="form-control" id="caNumber" placeholder="Digite o número do CA">
             </div>
@@ -52,7 +52,7 @@
     <!-- Adicione o link do JavaScript do Bootstrap e do jQuery (opcional) -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    {{-- <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script> --}}
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
     <!-- Script para fazer a requisição AJAX -->
     <script>
         $(document).ready(function () {
@@ -62,7 +62,7 @@
 
                 // Fazer a requisição AJAX
                 $.ajax({
-                    type: "GET",
+                    method: "GET",
                     url: `https://apica.jfwebsystem.com.br/CA/${caNumber}`, // Substitua pela URL da sua API
                     success: function (data) {
                         // Preencher os campos com os valores recebidos
