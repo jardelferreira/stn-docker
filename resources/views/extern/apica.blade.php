@@ -94,21 +94,8 @@
             var caNumber = $("#caNumber").val();
             $.ajax({
                 url: `https://apica.jfwebsystem.com.br/CA/${caNumber}`,
+                method:"GET",
                 cache: false,
-                xhr: function() {
-                    var xhr = new XMLHttpRequest();
-                    xhr.onreadystatechange = function() {
-                        if (xhr.readyState == 2) {
-                            if (xhr.status == 200) {
-                                xhr.responseType = "json";
-                            } else {
-                                xhr.responseType = "text";
-                            }
-                        }
-                    };
-
-                    return xhr;
-                },
                 success: function(data) {
                     //Convert the Byte Data to BLOB object.
                     $("#registroCA").text(data.RegistroCA);
