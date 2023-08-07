@@ -2,8 +2,9 @@
 <html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Consulta CA</title>
     <!-- Adicione o link do CSS do Bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -14,11 +15,11 @@
         <h4>Informações do Certificado de Aprovação</h4>
         <div class="row">
             <!-- Input para receber o número do CA -->
-            <div class="form-group col-9">
+            <div class="form-group col-lg-9 col-sm-6">
                 <label for="caNumber">Número do CA:</label>
-                <input type="text" class="form-control" id="caNumber" placeholder="Digite o número do CA">
+                <input type="number" class="form-control" id="caNumber" placeholder="Digite o número do CA">
             </div>
-            <button style="height: 50%; position: relative; top: 30px;" type="button" class="col-3 btn btn-primary" id="btnBuscarCA">Buscar CA</button>
+            <button style="height: 50%; position: relative; top: 30px;" type="button" class="col-lg-3 col-sm-6 btn btn-primary" id="btnBuscarCA">Buscar CA</button>
             <!-- Botão para enviar a requisição -->
         </div>
         <div class="row mt-4">
