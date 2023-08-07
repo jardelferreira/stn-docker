@@ -91,38 +91,40 @@
             return check;
         };
         $("#btnBuscarCA").on('click', () => {
-                    var caNumber = $("#caNumber").val();
+            var caNumber = $("#caNumber").val();
 
-                    $.ajax({
-                        url: `https://apica.jfwebsystem.com.br/CA/${caNumber}`,
-                        method: "GET",
-                        cache: false,
-                        success: function(data) {
-                            //Convert the Byte Data to BLOB object.
-                            $("#registroCA").text(data.RegistroCA);
-                            $("#dataValidade").text(data.DataValidade);
-                            $("#situacao").text(data.Situacao);
-                            $("#nrProcesso").text(data.NRProcesso);
-                            $("#cnpj").text(data.CNPJ);
-                            $("#razaoSocial").text(data.RazaoSocial);
-                            $("#natureza").text(data.Natureza);
-                            $("#nomeEquipamento").text(data.NomeEquipamento);
-                            $("#descricaoEquipamento").text(data.DescricaoEquipamento);
-                            $("#marcaCA").text(data.MarcaCA);
-                            $("#referencia").text(data.Referencia);
-                            $("#cor").text(data.Cor || "Nulo");
-                            $("#aprovadoParaLaudo").text(data.AprovadoParaLaudo);
-                            $("#restricaoLaudo").text(data.RestricaoLaudo || "Nulo");
-                            $("#observacaoAnaliseLaudo").text(data.ObservacaoAnaliseLaudo);
-                            $("#cnpjLaboratorio").text(data.CNPJLaboratorio);
-                            $("#razaoSocialLaboratorio").text(data.RazaoSocialLaboratorio);
-                            $("#nrLaudo").text(data.NRLaudo || "Nulo");
-                            $("#norma").text(data.Norma || "Nulo");
-                        },
-                        error: function(xhr, status, error) {
-                            alert(xhr.responseText);
-                        }
-                    });
+            $.ajax({
+                url: `https://apica.jfwebsystem.com.br/CA/${caNumber}`,
+                method: "GET",
+                cache: false,
+                success: function(data) {
+                    //Convert the Byte Data to BLOB object.
+                    $("#registroCA").text(data.RegistroCA);
+                    $("#dataValidade").text(data.DataValidade);
+                    $("#situacao").text(data.Situacao);
+                    $("#nrProcesso").text(data.NRProcesso);
+                    $("#cnpj").text(data.CNPJ);
+                    $("#razaoSocial").text(data.RazaoSocial);
+                    $("#natureza").text(data.Natureza);
+                    $("#nomeEquipamento").text(data.NomeEquipamento);
+                    $("#descricaoEquipamento").text(data.DescricaoEquipamento);
+                    $("#marcaCA").text(data.MarcaCA);
+                    $("#referencia").text(data.Referencia);
+                    $("#cor").text(data.Cor || "Nulo");
+                    $("#aprovadoParaLaudo").text(data.AprovadoParaLaudo);
+                    $("#restricaoLaudo").text(data.RestricaoLaudo || "Nulo");
+                    $("#observacaoAnaliseLaudo").text(data.ObservacaoAnaliseLaudo);
+                    $("#cnpjLaboratorio").text(data.CNPJLaboratorio);
+                    $("#razaoSocialLaboratorio").text(data.RazaoSocialLaboratorio);
+                    $("#nrLaudo").text(data.NRLaudo || "Nulo");
+                    $("#norma").text(data.Norma || "Nulo");
+                },
+                error: function(xhr, status, error) {
+                    alert(xhr.responseText);
+                }
+
+            });
+        });
     </script>
 </body>
 
