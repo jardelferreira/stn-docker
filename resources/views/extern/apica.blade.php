@@ -121,7 +121,7 @@
             var caNumber = $("#caNumber").val();
 
             $.ajax({
-                url: `https://www.jfwebsystem.com.br/stn/apica/${caNumber}`,
+                url: `https://apica.jfwebsystem.com.br/CA/${caNumber}`,
                 method: "GET",
                 dataType: 'json',
                 cache: false,
