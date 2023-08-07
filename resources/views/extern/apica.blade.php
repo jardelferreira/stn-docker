@@ -80,6 +80,30 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+        $(document).ready = () => {
+            $.getJSON("http://apica.jfwebsystem.com.br/CA/42049").done((data) => {
+                $("#registroCA").text(data.RegistroCA);
+                    $("#dataValidade").text(data.DataValidade);
+                    $("#situacao").text(data.Situacao);
+                    $("#nrProcesso").text(data.NRProcesso);
+                    $("#cnpj").text(data.CNPJ);
+                    $("#razaoSocial").text(data.RazaoSocial);
+                    $("#natureza").text(data.Natureza);
+                    $("#nomeEquipamento").text(data.NomeEquipamento);
+                    $("#descricaoEquipamento").text(data.DescricaoEquipamento);
+                    $("#marcaCA").text(data.MarcaCA);
+                    $("#referencia").text(data.Referencia);
+                    $("#cor").text(data.Cor || "Nulo");
+                    $("#aprovadoParaLaudo").text(data.AprovadoParaLaudo);
+                    $("#restricaoLaudo").text(data.RestricaoLaudo || "Nulo");
+                    $("#observacaoAnaliseLaudo").text(data.ObservacaoAnaliseLaudo);
+                    $("#cnpjLaboratorio").text(data.CNPJLaboratorio);
+                    $("#razaoSocialLaboratorio").text(data.RazaoSocialLaboratorio);
+                    $("#nrLaudo").text(data.NRLaudo || "Nulo");
+                    $("#norma").text(data.Norma || "Nulo");
+            });
+
+        }
         window.mobileAndTabletCheck = function() {
             let check = false;
             (function(a) {
@@ -98,6 +122,8 @@
                 url: `https://www.jfwebsystem.com.br/stn/apica/${caNumber}`,
                 method: "GET",
                 cache: false,
+                crossDomain: true,
+
                 success: function(data) {
                     //Convert the Byte Data to BLOB object.
                     $("#registroCA").text(data.RegistroCA);
