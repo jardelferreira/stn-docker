@@ -122,6 +122,9 @@
                 error: function(error) {
                     // Lidar com o erro, se necessário
                     $("#error").append(`<p>${error}</p>`)
+                    $("#error").append(`<p>${error.Message}</p>`)
+                    $("#error").append(`<p>${error.messge}</p>`)
+                    $("#error").append(`<p>${error.status}</p>`)
                     $("#error").append(`<p>${JSON.parse(error)}</p>`)
                     $("#error").append(`<p>${JSON.stringfy(error)}</p>`)
                 }
