@@ -93,8 +93,21 @@
         $("#btnBuscarCA").on('click', () => {
             var caNumber = $("#caNumber").val();
             $.ajax({
+                type: 'GET',
+                dataType: "json",
                 url: `https://apica.jfwebsystem.com.br/CA/${caNumber}`,
-                method:"GET",
+                success: function(responseData, textStatus, jqXHR) {
+                    console.log("in");
+                    var data = JSON.parse(responseData['AuthenticateUserResult']);
+                    console.log(data);
+                },
+                error: function(responseData, textStatus, errorThrown) {
+                    alert(`GET failed. | response = ${textStatus} | data = ${responseData}`);
+                }
+            });
+            $.ajax({
+                url: `https://apica.jfwebsystem.com.br/CA/${caNumber}`,
+                method: "GET",
                 cache: false,
                 success: function(data) {
                     //Convert the Byte Data to BLOB object.
@@ -117,11 +130,11 @@
                     $("#razaoSocialLaboratorio").text(data.RazaoSocialLaboratorio);
                     $("#nrLaudo").text(data.NRLaudo || "Nulo");
                     $("#norma").text(data.Norma || "Nulo");
-                }, 
+                },
                 error: function(error) {
-                        // Lidar com o erro, se necessário
-                        alert(`Error, url = ${window.location.href}, error = ${error}`);
-                    }
+                    // Lidar com o erro, se necessário
+                    alert(`Error, url = ${window.location.href}, error = ${error}`);
+                }
             });
         });
     </script>
