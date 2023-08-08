@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 // use App\Models\Provider;
 
+use App\Models\Invoice;
 use App\Models\Provider;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Str;
@@ -27,8 +28,15 @@ class StoreInvoiceRequest extends FormRequest
      */
     public function rules() 
     {       
+        $cost_id = $this->departament_cost_id;
         return [
-            'name' => "required|unique:invoices,name,{$this->departament_cost_id},departament_cost_id",
+            'name' => ["required",function($attribute,$value,$fail) use ($cost_id){
+                if(!(Invoice::where($attribute,$value)
+                ->where('departament_cost_id',$cost_id)
+                ->count() > 0)){
+                    $fail("A nota já está cadastrada para este departamento de custo");
+                }
+            }],
             'slug' => "required|unique:invoices,slug,{$this->slug}",
             'invoice_type' => "required",
             'provider_id' => "required|exists:providers,id",
