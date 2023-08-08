@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 // use App\Models\Provider;
+
+use App\Models\Provider;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Str;
 
@@ -24,8 +26,9 @@ class StoreInvoiceRequest extends FormRequest
      * @return array
      */
     public function rules() 
-    {
+    {       
         return [
+            'name' => "required|unique:invoices,name,{$this->departament_cost_id},departament_cost_id",
             'slug' => "required|unique:invoices,slug,{$this->slug}",
             'invoice_type' => "required",
             'provider_id' => "required|exists:providers,id",
@@ -39,8 +42,11 @@ class StoreInvoiceRequest extends FormRequest
     // Form request class...
     protected function prepareForValidation(): void
     {
+        $provider = Provider::where("id",$this->provider_id)->first();
+        $name = "{$this->invoice_type}-{$this->number}-{$provider->fantasy_name}";
         $this->merge([
             'slug' => Str::random(30),
+            'name' => Str::upper($name),
             // 'value' => floatval($this->value),
             // 'value_departament' => floatval($this->value_departament),
         ]);

@@ -35,7 +35,7 @@ class InvoiceObserver
         $invoice->cost_center_id = $this->departament->cost_center_id;
         $invoice->project_id     = $this->departament->project_id;
 
-        $invoice->name = "{$invoice->invoice_type}-{$invoice->number}-{$this->provider->fantasy_name}";
+        // $invoice->name = "{$invoice->invoice_type}-{$invoice->number}-{$this->provider->fantasy_name}";
 
         $this->cascade_path = "project/{$this->departament->sectorCost->cost->project->slug}/cost/{$this->departament->sectorCost->cost->slug}/sector/{$this->departament->sectorCost->slug}/departament/{$this->departament->slug}/";
 

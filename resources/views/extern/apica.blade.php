@@ -4,9 +4,7 @@
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">s    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -77,11 +75,6 @@
         crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
         // $(document).ready(() => {
         //     $.getJSON("https://apica.jfwebsystem.com.br/CA/42049").done((data) => {
         //         $("#registroCA").text(data.RegistroCA);
@@ -148,12 +141,6 @@
                 error: function(error) {
                     // Lidar com o erro, se necessário
                     alert(JSON.stringify(error));
-                    $("#error").append(`<p>${error}</p>`)
-                    $("#error").append(`<p>${error.Message}</p>`)
-                    $("#error").append(`<p>${error.messge}</p>`)
-                    $("#error").append(`<p>${error.status}</p>`)
-                    $("#error").append(`<p>${JSON.parse(error)}</p>`)
-                    $("#error").append(`<p>${JSON.stringfy(error)}</p>`)
                 }
             });
         });
