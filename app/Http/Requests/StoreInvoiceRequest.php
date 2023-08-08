@@ -29,9 +29,11 @@ class StoreInvoiceRequest extends FormRequest
     public function rules() 
     {       
         $cost_id = $this->departament_cost_id;
+        $invoice_type = $this->invoice_type;
+        $invoice_number = $this->number;
         return [
-            'name' => ["required",function($attribute,$value,$fail) use ($cost_id){
-                if(!(Invoice::where($attribute,$value)
+            'name' => ["min:5",function($attribute,$value,$fail) use ($cost_id){
+                if((Invoice::where($attribute,$value)
                 ->where('departament_cost_id',$cost_id)
                 ->count() > 0)){
                     $fail("A nota já está cadastrada para este departamento de custo");
@@ -40,9 +42,12 @@ class StoreInvoiceRequest extends FormRequest
             'slug' => "required|unique:invoices,slug,{$this->slug}",
             'invoice_type' => "required",
             'provider_id' => "required|exists:providers,id",
+            'issue' => 'required|date|before_or_equal:due_date',
+            'due_date' => 'required|date',
             'departament_cost_id' => "required|exists:departament_costs,id",
             'number' => "required",
             'value_departament' => "required|numeric",
+            'value' => "required|numeric",
             'file_invoice' => "mimes:pdf|required",
         ];
     }
@@ -50,11 +55,10 @@ class StoreInvoiceRequest extends FormRequest
     // Form request class...
     protected function prepareForValidation(): void
     {
-        $provider = Provider::where("id",$this->provider_id)->first();
-        $name = "{$this->invoice_type}-{$this->number}-{$provider->fantasy_name}";
+
         $this->merge([
             'slug' => Str::random(30),
-            'name' => Str::upper($name),
+            'name' => $this->setName($this->provider_id,$this->invoice_type,$this->number),
             // 'value' => floatval($this->value),
             // 'value_departament' => floatval($this->value_departament),
         ]);
@@ -75,6 +79,25 @@ class StoreInvoiceRequest extends FormRequest
             "value.required" => "O campo valor total é Obrigatório" ,
             "value_departament.numeric" => "O valor para departamento não é um decimal válido",
             "value_departament.required" => "O campo valor para departamento é Obrigatório",
+            "invoice_type.required" => "O campo tipo é obrigatório",
+            "file_invoice.required" => "É necessário enviar a nota no formato PDF" ,
+            "file_invoice.mimes" => "Tipo de arquivo não suportado",
+            "issue.date" => "Data de emissão tem um formato inválido.",
+            "issue.required" => "O campo emissão é obrigatório",
+            "due_date.date" => "Data de emissão tem um formato inválido.",
+            "due_date.required" => "O campo emissão é obrigatório",
+            "issue.before_or_equal" => "A data de emissão não pode ser maior que o vencimento",
         ];
+    }
+
+    public function setName($id,$type,$number){
+        if($id != "" && $type != "" && $number != ""){
+
+            $provider = Provider::where("id",$id)->first();
+            $name = "{$type}-{$this->number}-{$provider->fantasy_name}";
+
+            return Str::upper($name);
+        }
+        return "";
     }
 }

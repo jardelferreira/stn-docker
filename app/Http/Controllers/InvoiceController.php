@@ -33,6 +33,7 @@ class InvoiceController extends Controller
      */
     public function create()
     {
+        // dd(!(Invoice::where("name","NF-0548-COMERCIAL COELHO")->where('departament_cost_id',6)->count() > 0));
         return \view('dashboard.financeiro.invoices.create',[
             'providers' => Provider::all(),
             'departament_costs' => DepartamentCost::all()
