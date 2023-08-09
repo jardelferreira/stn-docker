@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title','Funcionários')
+@section('title','Colaboradores')
 
 @section('content_header')
-    <h1> Funcionários da base - {{$base->name}} <a class="btn btn-success" href="{{route('dashboard.employees.create')}}" role="button">Criar novo - <i class="fa fa-plus" aria-hidden="true"></i></a></h1>
+    <h1> Colaboradores da base - {{$base->name}} <a class="btn btn-success" href="{{route('dashboard.employees.create')}}" role="button">Criar novo - <i class="fa fa-plus" aria-hidden="true"></i></a></h1>
 @stop
 
 @section('content')
@@ -11,7 +11,7 @@
     <table class="table table-striped table-inverse table-responsive">
         <thead class="thead-inverse">
             <tr>
-                <th>Funcionários</th>
+                <th>Colaboradores</th>
                 <th>Profissão</th> 
                 <th>CPF</th> 
                 <th>Ações</th> 
@@ -29,6 +29,6 @@
             </tbody>
     </table>
                @else
-                   <p>Não há Funcionários para listagem</p>
+                   <p>Não há Colaboradores para listagem</p>
                @endif
 @endsection

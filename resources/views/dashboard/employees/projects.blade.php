@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title','Projetos do Funcionário')
+@section('title','Projetos do Colaborador')
 
 @section('content_header')
     <h4>Vincular projeto para - <small class="text-primary">{{$employee->user->name}}</small> - <a name="" id="" class="btn btn-success btn-sm" href="{{route('dashboard.employees.create')}}" employee="button">Criar nova projeto- <i class="fa fa-plus" aria-hidden="true"></i></a></h4>
@@ -13,14 +13,14 @@
         <thead class="thead-inverse">
             <tr>
                 <th>#</th>
-                <th>Marque os projetos que deseja vincular a este Funcionário</th>
+                <th>Marque os projetos que deseja vincular a este Colaborador</th>
             </tr>
             </thead>
             <tbody>
                 <form action="{{route('dashboard.employees.sync',$employee)}}" method="post">
                     @csrf
                     @method('PUT')
-                    <button type="submit" class="btn btn-primary">Atualizar projetos vinculadas ao Funcionário</button>
+                    <button type="submit" class="btn btn-primary">Atualizar projetos vinculadas ao Colaborador</button>
                @foreach ($projects as $item)
                <tr>
                    <td>

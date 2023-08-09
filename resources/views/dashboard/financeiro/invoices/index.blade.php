@@ -116,7 +116,7 @@
             buttonsStyling: false
         })
         swalWithBootstrapButtons.fire({
-            title: `Deseja deletar <p>${name}</p>?`,
+            title: `Deseja deletar <p>${name} ?</p>`,
             text: "Essa ação é irreversível, tenha ciência que ao deletar esta nota todos os itens pertencentes a ela também serão excluídos!",
             icon: 'warning',
             input: 'text',

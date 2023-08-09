@@ -260,7 +260,7 @@ return [
                     'route' => 'dashboard.professions'
                 ],
                 [
-                    'text'  => 'Empregados',
+                    'text'  => 'Colaboradores',
                     'route' => 'dashboard.employees'
                 ],
             ]

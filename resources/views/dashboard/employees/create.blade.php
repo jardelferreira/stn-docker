@@ -1,13 +1,13 @@
 @extends('adminlte::page')
 
-@section('title', 'Cadastro de Empregados')
+@section('title', 'Cadastro de Colaboradores')
 
 @section('content_header')
-    <h1>Cadastro de Empregados</h1>
+    <h1>Cadastro de Colaboradores</h1>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('home') }}">Dashboard</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('dashboard.employees') }}">Empregados</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('dashboard.employees') }}">Colaboradores</a></li>
             <li class="breadcrumb-item active" aria-current="page">Cadastrar</li>
         </ol>
     </nav>

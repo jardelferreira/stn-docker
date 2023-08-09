@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title','Vincular Funcionários')
+@section('title','Vincular Colaboradores')
 
 @section('content_header')
-    <h4>Vincular funcionários para - <small class="text-primary">{{$base->name}}</small> - <a class="btn btn-success btn-sm" href="{{route('dashboard.employees.create')}}" role="button">Criar novo Funcionário- <i class="fa fa-plus" aria-hidden="true"></i></a></h4>
+    <h4>Vincular Colaboradores para - <small class="text-primary">{{$base->name}}</small> - <a class="btn btn-success btn-sm" href="{{route('dashboard.employees.create')}}" role="button">Criar novo Funcionário- <i class="fa fa-plus" aria-hidden="true"></i></a></h4>
 @stop
 
 @section('content')
@@ -13,14 +13,14 @@
         <thead class="thead-inverse">
             <tr>
                 <th>#</th>
-                <th colspan="2">Marque os funcionários que deseja vincular a esta base</th>
+                <th colspan="2">Marque os Colaboradores que deseja vincular a esta base</th>
             </tr>
             </thead>
             <tbody>
                 <form action="{{route('dashboard.bases.employees.sync',$base )}}" method="post">
                     @csrf
                     @method('PUT')
-                    <button type="submit" class="btn btn-primary">Atualizar funcionários vinculadas ao Base</button>
+                    <button type="submit" class="btn btn-primary">Atualizar Colaboradores vinculadas ao Base</button>
                @foreach ($employees as $item)
                <tr>
                    <td>
@@ -39,7 +39,7 @@
         </form>
     </table>
                @else
-                   <p>Não há funcionários para listagem</p>
+                   <p>Não há Colaboradores para listagem</p>
                @endif
 @endsection
 @section('js')

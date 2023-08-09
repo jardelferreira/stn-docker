@@ -1,13 +1,13 @@
 @extends('adminlte::page')
 
-@section('title', 'Alteração de Empregado')
+@section('title', 'Alteração de Colaborador')
 
 @section('content_header')
-    <h1>Alteração de Empregado / {{ $employee->user->name }}</h1>
+    <h1>Alteração de Colaborador / {{ $employee->user->name }}</h1>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('home') }}">Dashboard</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('dashboard.employees') }}">Empregados</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('dashboard.employees') }}">Colaboradors</a></li>
             <li class="breadcrumb-item active" aria-current="page">Editar</li>
         </ol>
     </nav>

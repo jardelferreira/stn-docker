@@ -1,10 +1,10 @@
 @extends('adminlte::page')
 
-@section('title', 'Funcionários vinculados')
+@section('title', 'Colaborador vinculados')
 
 @section('content_header')
-    <h1>Listagem de Funcionários - {{$base->name }} - <a class="btn btn-primary"
-        href="{{route('dashboard.bases.employees',$base)}}" role="button">Vincular funcionários - <i class="fa fa-plus"
+    <h1>Listagem de Colaborador - {{$base->name }} - <a class="btn btn-primary"
+        href="{{route('dashboard.bases.employees',$base)}}" role="button">Vincular Colaborador - <i class="fa fa-plus"
                 aria-hidden="true"></i></a></h1>
 @stop
 
@@ -13,7 +13,7 @@
         <table class="table table-striped table-inverse table-responsive">
             <thead class="thead-inverse">
                 <tr>
-                    <th>Empregado</th>
+                    <th>Colaborador</th>
                     <th>Profissão</th>
                     <th>CPF</th>
                     <th>Matrícula</th>
@@ -42,7 +42,7 @@
             </tbody>
         </table>
     @else
-        <p>Não há Funcionários para listagem</p>
+        <p>Não há Colaborador para listagem</p>
     @endif
 @endsection
 

@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'Empregados')
+@section('title', 'Colaboradores')
 
 @section('content_header')
-    <h1>Listagem de Empregados - <a name="" id="" class="btn btn-success"
+    <h1>Listagem de Colaboradores - <a name="" id="" class="btn btn-success"
             href="{{ route('dashboard.employees.create') }}" role="button">Criar novo - <i class="fa fa-plus"
                 aria-hidden="true"></i></a></h1>
 @stop
@@ -72,7 +72,7 @@
             </tbody>
         </table>
     @else
-        <p>Não há Empregados para listagem</p>
+        <p>Não há Colaboradores para listagem</p>
     @endif
 @endsection
 @section('js')
