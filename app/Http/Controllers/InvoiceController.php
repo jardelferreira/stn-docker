@@ -10,7 +10,9 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreInvoiceRequest;
 use App\Http\Requests\UpdateInvoiceRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class InvoiceController extends Controller
 {
@@ -21,8 +23,8 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        return \view('dashboard.financeiro.invoices.index',[
-            'invoicers' => Invoice::all()->sortBy('id',SORT_DESC,true)
+        return \view('dashboard.financeiro.invoices.index', [
+            'invoicers' => Invoice::all()->sortBy('id', SORT_DESC, true)
         ]);
     }
 
@@ -34,7 +36,7 @@ class InvoiceController extends Controller
     public function create()
     {
         // dd(!(Invoice::where("name","NF-0548-COMERCIAL COELHO")->where('departament_cost_id',6)->count() > 0));
-        return \view('dashboard.financeiro.invoices.create',[
+        return \view('dashboard.financeiro.invoices.create', [
             'providers' => Provider::all(),
             'departament_costs' => DepartamentCost::all()
         ]);
@@ -52,7 +54,6 @@ class InvoiceController extends Controller
         Invoice::create($request->all());
 
         return \redirect()->route('dashboard.invoices.index');
-
     }
 
     /**
@@ -66,10 +67,10 @@ class InvoiceController extends Controller
         $header = [
             'Content-Type' => 'application/pdf',
             'Content-Disposition' => 'inline; filename="' . $invoice->name . '"'
-          ];
-        $path = \str_replace('public','storage',$invoice->file_path);
+        ];
+        $path = \str_replace('public', 'storage', $invoice->file_path);
 
-          return \response()->file($path,$header);
+        return \response()->file($path, $header);
     }
 
     /**
@@ -80,12 +81,12 @@ class InvoiceController extends Controller
      */
     public function edit(Invoice $invoice)
     {
-        
-        return  \view('dashboard.financeiro.invoices.edit',[
+
+        return  \view('dashboard.financeiro.invoices.edit', [
             'invoice' => $invoice,
             'providers' => Provider::all(),
             'departament_costs' => DepartamentCost::all()
-            
+
         ]);
     }
 
@@ -98,17 +99,17 @@ class InvoiceController extends Controller
      */
     public function update(UpdateInvoiceRequest $request)
     {
-        $invoice = Invoice::where("uuid",$request->uuid)->first();
+        $invoice = Invoice::where("uuid", $request->uuid)->first();
 
         // dd($invoice->departament->slug);
         $invoice->name = "{$request->invoice_type}-{$request->number}-{$invoice->provider->fantasy_name}";
-        if($request->hasFile('file_invoice')){
+        if ($request->hasFile('file_invoice')) {
             Storage::delete($invoice->file_path);
             $path = "project/{$invoice->project->slug}/cost/{$invoice->cost->slug}/sector/{$invoice->sectorCost->slug}/departament/{$invoice->departament->slug}";
-            $path = $request->file('file_invoice')->storeAs("public/files/{$path}","{$invoice->name}.pdf");
+            $path = $request->file('file_invoice')->storeAs("public/files/{$path}", "{$invoice->name}.pdf");
             $invoice->file_path = $path;
         }
-        
+
         $invoice->update($request->all());
 
         return \redirect()->route('dashboard.invoices.index');
@@ -120,15 +121,21 @@ class InvoiceController extends Controller
      * @param  \App\Models\Invoice  $invoice
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Invoice $invoice)
+    public function destroy(Request $request, Invoice $invoice)
     {
+        
         if ($invoice) {
             $invoice->delete();
             Storage::delete($invoice->file_path);
+
+            Session::flash('message', "NF deletada com successo!");
+            Session::flash('type', "success");
+
             return \redirect()->route('dashboard.invoices.index');
         }
-        
-    }
+        Session::flash('message', "Não foi possível deletar a NF!");
+        Session::flash('type', "danger");
 
-    
+        return \redirect()->route('dashboard.invoices.index');
+    }
 }

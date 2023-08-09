@@ -29,8 +29,6 @@ class StoreInvoiceRequest extends FormRequest
     public function rules() 
     {       
         $cost_id = $this->departament_cost_id;
-        $invoice_type = $this->invoice_type;
-        $invoice_number = $this->number;
         return [
             'name' => ["min:5",function($attribute,$value,$fail) use ($cost_id){
                 if((Invoice::where($attribute,$value)

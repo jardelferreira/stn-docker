@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UserRequest;
-use App\Models\Signature;
 use App\Models\User;
+use App\Models\Signature;
 use Yajra\Acl\Models\Role;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use Yajra\Acl\Models\Permission;
+use App\Http\Requests\UserRequest;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -169,5 +170,11 @@ class UserController extends Controller
         $user->generateSignature($request->pass);
 
         return redirect()->route('dashboard.users.show',$user);
+    }
+
+    function checkSignature(Request $request) {
+        
+        $user = User::where('id',Auth::user()->id)->first();
+        return $user->checkSignature($request->pass);
     }
 }

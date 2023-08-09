@@ -79,6 +79,7 @@ Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard'])->group(
 
     Route::prefix('usuarios')->group(function () {
         Route::get('/', [UserController::class, 'index'])->name('dashboard.users');
+        Route::post('/check', [UserController::class, 'checkSignature'])->name('dashboard.users.checkSignature');
         Route::get('/cadastro', [UserController::class, 'create'])->name('dashboard.users.create');
         Route::get('/{user}', [UserController::class, 'show'])->name('dashboard.users.show');
         Route::get('/{user}/editar', [UserController::class, 'edit'])->name('dashboard.users.edit');
