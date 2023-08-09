@@ -60,8 +60,8 @@
                                 <form action="{{ route('dashboard.invoices.destroy', ['invoice' => $item->id]) }}"
                                     method="POST" id="form{{ $item->id }}">
                                     @csrf
-                                    @method('DELETE')
-                                    <button class="btn btn-danger btn-sm" onclick="confirmDelete({{ $item->id }})"
+                                    @method("DELETE")
+                                    <button class="btn btn-danger btn-sm" onclick="confirmDelete({{ $item->id }},'{{ $item->name }}')"
                                         type="button">Deletar</button>
                                 </form>
                             </td>
@@ -107,7 +107,7 @@
 
     });
 
-    function confirmDelete(id) {
+    function confirmDelete(id,name) {
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
                 confirmButton: 'btn btn-danger',
@@ -116,7 +116,7 @@
             buttonsStyling: false
         })
         swalWithBootstrapButtons.fire({
-            title: 'Deseja deletar essa NF?',
+            title: `Deseja deletar <p>${name}</p>?`,
             text: "Essa ação é irreversível, tenha ciência que ao deletar esta nota todos os itens pertencentes a ela também serão excluídos!",
             icon: 'warning',
             input: 'text',
