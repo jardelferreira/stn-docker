@@ -25,33 +25,42 @@
     <!-- Content -->
 
     <div class="table-responsive text-nowrap">
-
+        {{asset('images/stnlogo.jpg')}} - 
         <table class="table table-sm table-bordered">
             <thead class="">
                 <tr>
-                    <th class="border border-dark" colspan="4" id="img_logo">
-                        <img src="{{ asset('images/stnlogo.png') }}" alt="">
+                    <th class="border border-dark text-center" colspan="3" id="img_logo" style="width: 130px;">
+                        <img src="{{ asset('images/stnlogo.png') }}" alt="Logo da empresa">
                     </th>
-                    <th class="border border-dark text-center text-uppercase" colspan="3">
-                        {{ $formlist->description }}</th>
-                    <th class="border border-dark" colspan="2">
-                        <p>FORM. Nº-0{{ $formlist->id }}</p>
-                        Rev: {{ $formlist->revision }}
+                    <th class="border border-dark text-center text-uppercase" colspan="3">{{ $formlist->description }}</th>
+                    <th class="border border-dark text-center" colspan="2" rowspan="2">
+                        <img class="image-fuid mx-auto rounded" src="https://img.freepik.com/premium-vector/white-man-icon-app-web-isolated-white-background-color-icon_599062-393.jpg?w=740" height="120px;" alt="">
                     </th>
+                </tr>
+                <tr>
+                    <th class="border border-dark" colspan="6"><span>Unidade (Obra):</span><span style="font-weight: normal">
+                        {{ $base->name }}({{$base->project->name}})</span> </th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td class="border border-dark" colspan="5"><span>Nome:</span> {{ $employee->user->name }}</td>
-                    <td class="border border-dark" colspan="4"><span>Matricula:</span> {{ $employee->registration }}
+                    <td class="border border-dark" colspan="3"><span>Matricula:</span> {{ $employee->registration }}
                     </td>
+                    <td class="border border-dark" colspan="2"><span>Nome:</span> {{ $employee->user->name }}</td>
+                    <td class="border border-dark" colspan="2">
+                        <span>Admissão:</span> {{ date('d/m/Y', strtotime($employee->admission)) }}
+                    </td>
+                    <td class="border border-dark">
+                        <span>Status: </span> Ativo</td>
+                    
                 </tr>
                 <tr>
-                    <td class="border border-dark" colspan="5"><span>Responsável:</span> Marcos Athie Trevisan</td>
-                    <td class="border border-dark" colspan="4"><span>Unidade (Obra):</span>{{ $base->name }}(
-                        {{ $base->project->name }})</td>
+                    <td class="border border-dark" colspan="4"><span>Responsável Técnico:</span> Marcos Athie Trevisan</td>
+                    <td class="border border-dark" colspan="2"><span>Form Nº </span>{{ str_repeat('0', strlen($formlist->id) < 5 ? 4 - strlen($formlist->id) : 0) }}{{ $formlist->id }}</td>
+                    <td class="border border-dark" colspan="2"><span>Rev: </span>{{ $formlist->revision }}</td>
                 </tr>
-                <tr>
+                {{-- <tr>
+                    <td class="border border-dark" colspan="8"><span>Unidade (Obra):</span>{{ $base->name }} </td>
                     <td class="border border-dark" colspan="7"><span>Área:</span>
                         <div class="form-check d-inline ml-2">
                             <label class="form-check-label">
@@ -87,9 +96,9 @@
                     <td class="border border-dark" colspan="2">
                         <span>Admissão:</span> {{ date('d/m/Y', strtotime($employee->admission)) }}
                     </td>
-                </tr>
+                </tr> --}}
                 <tr>
-                    <td class="border border-dark text-center font-weight-bold" colspan="5">Fornecimento</td>
+                    <td class="border border-dark text-center font-weight-bold" colspan="4">Fornecimento</td>
                     <td class="border border-dark text-center font-weight-bold" colspan="2">Entrega</td>
                     <td class="border border-dark text-center font-weight-bold" colspan="2">Devolução</td>
                 </tr>
@@ -97,8 +106,8 @@
             <tfoot class="table table-bordered table-sm table-striped">
                 <thead class="thead-dark text-center">
                     <th class="border border-dark text-center" width="25px">#</th>
-                    <th class="border border-dark text-center">Qtd.</th>
-                    <th class="border border-dark text-center">Cód</th>
+                    <th class="border border-dark text-center" width="20px">Qtd.</th>
+                    {{-- <th class="border border-dark text-center">Cód</th> --}}
                     <th class="border border-dark text-center">C.A.</th>
                     <th class="border border-dark text-center">Descrição</th>
                     <th class="border border-dark text-center">Data</th>
@@ -110,7 +119,7 @@
                     @foreach ($fields as $key => $field)
                         <tr>
                             <td class="border text-center border-dark p-0 m-0">
-                                <p id="index" style="font-size: 0.8em;">{{ $key }}</p>
+                                <p id="index" style="font-size: 0.8em;">{{ $key +1 }}</p>
                                 <div class="dropdown" id="dropdownMenu" with="5px" style="max-height: 10px;"
                                     padding="0" margin="0">
                                     <button class="btn btn-warning btn-sm dropdown-toggle" style="height: 25px"
@@ -138,20 +147,25 @@
                             <td class="border border-dark text-center">
                                 <p style="padding: 0; margin: 0; font-size: 0.8em;">{{ $field->qtd_delivered }}</p>
                             </td>
-                            <td class="border border-dark text-center">
+                            {{-- <td class="border border-dark text-center">
                                 <p style="padding: 0; margin: 0; font-size: 0.8em;">{{ $field->stoks->id }}</p>
+                            </td> --}}
+                            <td class="border border-dark text-center p-0">
+                                <p style=" margin: 0; font-size: 1em;">
+                                    <i class="fa fa-certificate text-success ml-1 mr-1" aria-hidden="true"></i>
+                                    {{ $field->ca_first ?? $field->ca_second }}
+                                {{-- <i class="fa fa-id-card fa-lg text-danger" aria-hidden="true"></i> --}}
+                                {{-- <i class="fa fa-newspaper-o fa-lg text-danger ml-2" aria-hidden="true"></i> --}}
+                                <a href="#"><i class="fa fa-book fa-lg text-danger fa-lg ml-2 mt-1" aria-hidden="true"></i></a>
+                                </p>
                             </td>
                             <td class="border border-dark text-center">
-                                <p style="padding: 0; margin: 0; font-size: 0.8em;">
-                                    {{ $field->ca_first ?? $field->ca_second }}</p>
-                            </td>
-                            <td class="border border-dark text-center">
-                                <p style="padding: 0; margin: 0; font-size: 0.8em;">
+                                <p style="padding: 0; margin: 0; font-size: 0.8em;" colspan="2">
                                     {{ $field->stoks->invoiceProduct->description }}</p>
                             </td>
                             <td class="border border-dark text-center">
                                 <p style="padding: 0; margin: 0; font-size: 0.8em;">
-                                    {{ date('d/m/Y', strtotime($field->date_delivered)) }}</p>
+                                    {{ date('d/m/y', strtotime($field->date_delivered)) }}</p>
                             </td>
                             <td class="border border-dark text-center">
                                 <p style="padding: 0; margin: 0; font-size: 0.8em;">
@@ -165,7 +179,7 @@
                             <td class="border border-dark text-center">
                                 <p style="padding: 0; margin: 0; font-size: 0.8em;">
                                     @if ($field->date_returned)
-                                        {{ date('d/m/Y', strtotime($field->date_returned)) }}
+                                        {{ date('d/m/y', strtotime($field->date_returned)) }}
                                 </p>
                     @endif
                     </td>
@@ -929,7 +943,7 @@
         #img_logo {}
 
         #img_logo img {
-            max-width: 175px;
+            max-width: 150px;
         }
 
         #sig-canvas {
