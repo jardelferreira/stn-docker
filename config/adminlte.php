@@ -250,6 +250,14 @@ return [
             'can' => "public"
         ],
         [
+            'text' => 'Documentos',
+            'route' => 'dashboard.documents',
+            'icon' => 'fa fa-file-o',
+            'icon_color'  => 'primary',
+            'classes' => "bg-light",
+            'can' => "dashboard"
+        ],
+        [
             'text' => 'DP',
             'icon' => 'fa fa-users',
             'icon_color'  => 'primary',

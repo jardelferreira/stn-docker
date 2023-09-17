@@ -1,7 +1,7 @@
 <?php
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{BaseController,BranchController,CategoryController,CostController,DepartamentCostController,EmployeeController,FieldController,FormlistController,GanttController,HomeController,InvoiceController,InvoiceProductsController,RoleController,UserController,PermissionController,ProductController,ProfessionController,ProjectController,ProviderController,PublicController,ReceiptController,SectorController,SectorsCostsController, ShortcutController, StoksController
+use App\Http\Controllers\{BaseController,BranchController,CategoryController,CostController,DepartamentCostController, DocumentController, EmployeeController,FieldController,FormlistController,GanttController,HomeController,InvoiceController,InvoiceProductsController,RoleController,UserController,PermissionController,ProductController,ProfessionController,ProjectController,ProviderController,PublicController,ReceiptController,SectorController,SectorsCostsController, ShortcutController, StoksController
 };
 use App\Models\Stoks;
 use App\Models\Task;
@@ -74,7 +74,12 @@ Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard'])->group(
         Route::get('providers/{sector}', [StoksController::class, 'filterProviders'])->name('api.providers');
         Route::post('/products/store', [StoksController::class, 'store'])->name('api.stoks.store');
 
+    });
 
+    Route::prefix('documentos')->group(function (){
+        Route::get('/',[DocumentController::class,'index'])->name('dashboard.documents');
+        Route::get('/cadastro',[DocumentController::class,'create'])->name('dashboard.documents.create');
+        Route::post('/cadastro',[DocumentController::class,'store'])->name('dashboard.documents.store');
     });
 
     Route::prefix('usuarios')->group(function () {

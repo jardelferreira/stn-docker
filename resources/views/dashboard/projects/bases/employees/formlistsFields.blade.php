@@ -25,7 +25,6 @@
     <!-- Content -->
 
     <div class="table-responsive text-nowrap">
-        {{asset('images/stnlogo.jpg')}} - 
         <table class="table table-sm table-bordered">
             <thead class="">
                 <tr>
