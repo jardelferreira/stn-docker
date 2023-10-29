@@ -31,6 +31,7 @@
                         {{-- <td scope="row">{{ $item->invoiceProduct->ca_number }}</td> --}}
                         <td scope="row">{{ $item->invoiceProduct->invoice->name }}</td>
                         <td>
+                            <a href="#" type="button" class="btn btn-danger"><i class="fa fa-file-pdf" aria-hidden="true"></i></a>
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#rmModal"
                                 data-id="{{ $item->id }}" data-name="{{ $item->invoiceProduct->name }}"
                                 data-qtd="{{ $item->qtd }}">Retirar</button>
