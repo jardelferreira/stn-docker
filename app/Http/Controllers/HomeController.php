@@ -60,4 +60,5 @@ class HomeController extends Controller
         // dd($this->getModels($path));
         dd($names);
     }
+
 }

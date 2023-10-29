@@ -185,4 +185,8 @@ class PublicController extends Controller
         curl_close($ch);
         return response()->json(json_decode($response));
     }
+
+    public function hkmHome() {
+        return view('hkm.index');
+    }
 }

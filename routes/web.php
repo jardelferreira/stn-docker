@@ -14,6 +14,10 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::prefix('hkm')->group(function(){
+    Route::get('/home',[PublicController::class,'hkmHome'])->name('hkm.home');
+});
+
 Route::prefix('stn')->group(function(){
     Route::get('fichas/funcionario/{user}',[PublicController::class,'showFormlists'])->name('showFormlists');
     Route::get('fichas/{formlist_employee}',[PublicController::class,'formlistPdf'])->name('stn.formlistPdf');
@@ -21,6 +25,7 @@ Route::prefix('stn')->group(function(){
     Route::get('apica',[PublicController::class,'apica'])->name('stn.apica');
     Route::get('apica/{ca}',[PublicController::class,'getCA'])->name('stn.getCA');
     Route::post('fichas',[PublicController::class,'redirectUserByCpf'])->name('stn.redirectUserByCpf');
+    Route::get('hkm',[PublicController::class,'hkmHome'])->name('stn.hkm');
 });
 
 Route::prefix('s')->group(function(){
