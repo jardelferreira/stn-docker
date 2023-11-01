@@ -26,13 +26,13 @@
                 @foreach ($stoks as $item)
                     <tr>
                         <td scope="row">{{ $item->invoiceProduct->name }}</td>
-                        <td scope="row">{{ $item->invoiceProduct->description }}</td>
+                        <td scope="row">{{ $item->invoiceProduct->description }} - CA: {{$item->invoiceProduct->ca_number}}</td>
                         <td scope="row">{{ $item->qtd }}</td>
                         {{-- <td scope="row">{{ $item->invoiceProduct->ca_number }}</td> --}}
                         <td scope="row">{{ $item->invoiceProduct->invoice->name }}</td>
-                        <td>
-                            <a href="#" type="button" class="btn btn-danger"><i class="fa fa-file-pdf" aria-hidden="true"></i></a>
-                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#rmModal"
+                        <td scope="row" class="btn-group" >
+                            <a href="#" type="button" class="btn btn-danger ml-1"><i class="fa fa-file-pdf" aria-hidden="true"></i></a>
+                            <button type="button" class="btn btn-danger btn-sm ml-1" data-toggle="modal" data-target="#rmModal"
                                 data-id="{{ $item->id }}" data-name="{{ $item->invoiceProduct->name }}"
                                 data-qtd="{{ $item->qtd }}">Retirar</button>
                         </td>
