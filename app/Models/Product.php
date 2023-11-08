@@ -24,4 +24,8 @@ class Product extends Model
     public function stoks() {
         return $this->hasMany(Stoks::class);
     }
+
+    public function stoksWithDetails() {
+        return $this->hasManyThrough(Stoks::class,InvoiceProducts::class)->with('invoiceProduct');
+    }
 }

@@ -24,13 +24,13 @@
         <input type="hidden" name="signature_delivered" value="{{ old('signature_delivered') ?? '' }}"
             id="signature_delivered">
         <div class="form-row">
-            <div class="form-group col-lg-6 ">
+            <div class="form-group col-lg-4 col-md-4">
                 <label for="setor_id">Selecione um Setor</label>
                 <select class="form-control" name="setor_id" id="setor_id">
                 </select>
                 <small id="sector_id" class="form-text text-muted">Lista de Setores</small>
             </div>
-            <div class="form-group col-lg-6 ">
+            <div class="form-group col-lg-8 col-md-8">
                 <label for="stok_id">Selecione um Produto</label>
                 <select class="form-control" name="stok_id" id="stok_id">
                 </select>
@@ -114,8 +114,8 @@
                             let stoks = response.map(function(e) {
                                 return {
                                     "id": e.id,
-                                    "text": e.name,
-                                    "qtd": e.qtd
+                                    "text": `${e.name} - CA: ${e.ca}`,
+                                    "qtd": e.qtd,
                                 }
                             })
                             return {

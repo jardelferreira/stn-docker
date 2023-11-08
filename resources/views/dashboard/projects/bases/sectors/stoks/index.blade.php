@@ -26,7 +26,10 @@
                 @foreach ($stoks as $item)
                     <tr>
                         <td scope="row">{{ $item->invoiceProduct->name }}</td>
-                        <td scope="row">{{ $item->invoiceProduct->description }} - CA: {{$item->invoiceProduct->ca_number}}</td>
+                        <td scope="row">{{ $item->invoiceProduct->description }} @isset($item->invoiceProduct->ca_number)
+                            - CA: {{$item->invoiceProduct->ca_number}}
+                        @endisset 
+                    </td>
                         <td scope="row">{{ $item->qtd }}</td>
                         {{-- <td scope="row">{{ $item->invoiceProduct->ca_number }}</td> --}}
                         <td scope="row">{{ $item->invoiceProduct->invoice->name }}</td>

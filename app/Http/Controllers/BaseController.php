@@ -305,14 +305,14 @@ class BaseController extends Controller
         ]);
 
     }
-
+ 
     public function getSimilar(
         Base $base, Employee $employee, FormlistBaseEmployee $formlist_employee,Stoks $stoks
     )
     {
         $product = Product::where("id",$stoks->invoiceProduct->product_id)->first(); 
-        // dd($product->stoks()->get()->toArray());
-        return response()->json($product->stoks()->where("sector_id",$stoks->sector_id)->get());
+        // dd($product->stoksWithDetails()->where("sector_id",$stoks->sector_id)->get());
+        return response()->json($product->stoksWithDetails()->where("sector_id",$stoks->sector_id)->get());
     }
 
     public function lowering(

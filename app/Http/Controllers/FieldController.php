@@ -120,7 +120,7 @@ class FieldController extends Controller
 
         $array = [];
         foreach ($stoks as $key => $value) {
-            $array[$key] = ['id' => $value->id, 'name' => $value->invoiceProduct->name, "qtd" => $value->qtd,  'req' => $request->all()];
+            $array[$key] = ['id' => $value->id, 'name' => $value->invoiceProduct->name, "qtd" => $value->qtd,  'ca' => $value->invoiceProduct->ca_number];
         }
 
         return response()->json($array);
