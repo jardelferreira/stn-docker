@@ -10,7 +10,7 @@
 
 @section('content')
     @if (count($employees))
-        <table class="table table-striped table-inverse table-responsive">
+        <table class="table table-striped table-inverse table-responsive" id="employees">
             <thead class="thead-inverse">
                 <tr>
                     <th>Empregado</th>
@@ -48,4 +48,22 @@
     @else
         <p>Não há Empregados para listagem</p>
     @endif
+@endsection
+@section('js')
+    <script>
+         $.ajax({
+            url: "//cdn.datatables.net/plug-ins/1.13.1/i18n/pt-BR.json",
+            success: function(result) {
+                $('#employees').DataTable({
+                    responsive: true,
+                    order: [0, 'desc'],
+                    "language": result,
+                    lengthMenu: [
+                        [10, 25, 50, -1],
+                        [10, 25, 50, 'Tudo'],
+                    ],
+                });
+            }
+        });
+    </script>
 @endsection
