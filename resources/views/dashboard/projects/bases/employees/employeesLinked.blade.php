@@ -10,7 +10,7 @@
 
 @section('content')
     @if (count($employees))
-        <table class="table table-striped table-inverse table-responsive">
+        <table class="table table-striped table-inverse table-responsive" id="employees">
             <thead class="thead-inverse">
                 <tr>
                     <th>Colaborador</th>
@@ -45,5 +45,22 @@
         <p>Não há Colaborador para listagem</p>
     @endif
 @endsection
-
+@section('js')
+    <script>
+         $.ajax({
+            url: "//cdn.datatables.net/plug-ins/1.13.1/i18n/pt-BR.json",
+            success: function(result) {
+                $('#employees').DataTable({
+                    responsive: true,
+                    order: [0, 'desc'],
+                    "language": result,
+                    lengthMenu: [
+                        [10, 25, 50, -1],
+                        [10, 25, 50, 'Tudo'],
+                    ],
+                });
+            }
+        });
+    </script>
+@endsection
 {{-- select users.`name`, professions.`name` from employees join users on employees.`user_id` = users.`id` join professions on professions.`id` = employees.`profession_id` join employee_base where employees.id = employee_base.`employee_id`;  --}}
