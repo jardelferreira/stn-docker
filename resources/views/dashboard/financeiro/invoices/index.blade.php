@@ -19,10 +19,9 @@
             </div>
         @endif
         <div class="table ">
-            <table class="text-nowrap table-sm table-striped table-responsive" id="nfs">
+            <table class="text-nowrap table-sm table-striped" id="nfs" style="width: 100%">
                 <thead>
                     <tr>
-                        <th>#</th>
                         <th>Nota</th>
                         <th>Valor departamento</th>
                         <th>Valor total</th>
@@ -36,8 +35,7 @@
                 <tbody>
                     @foreach ($invoicers as $item)
                         <tr>
-                            <td scope="row">{{ $item->id }}</td>
-                            <td scope="row">{{ $item->name }}</td>
+                            <td scope="row"> {{ $item->name }}</td>
                             <td scope="row">R$ {{ number_format($item->value_departament, 2, ',', '.') }}</td>
                             <td scope="row">R$ {{ number_format($item->value, 2, ',', '.') }}</td>
                             <td scope="row"><a href="{{ route('dashboard.invoices.show', $item) }}" target="_blank"
@@ -65,7 +63,7 @@
                                         type="button">Deletar</button>
                                 </form>
                             </td>
-                            <td scope="row">{{ $item->user->name }}</td>
+                            <td scope="row" class="dtr-hidden">{{ $item->user->name }}</td>
 
                         </tr>
                     @endforeach
@@ -75,10 +73,11 @@
     @else
         <p>Não há Notas para listagem</p>
     @endif
+    
 @endsection
+
 @section('js')
 
-@section('plugins.Datatables', true)
 <script>
     var lang = "";
     $(document).ready(function() {

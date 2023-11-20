@@ -83,6 +83,7 @@ Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard'])->group(
 
     Route::prefix('documentos')->group(function (){
         Route::get('/',[DocumentController::class,'index'])->name('dashboard.documents');
+        Route::get('/json',[DocumentController::class,'documentsJson'])->name('dashboard.documents.json');
         Route::get('/cadastro',[DocumentController::class,'create'])->name('dashboard.documents.create');
         Route::post('/cadastro',[DocumentController::class,'store'])->name('dashboard.documents.store');
     });

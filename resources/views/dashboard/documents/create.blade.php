@@ -7,8 +7,8 @@
 @stop
 @section('content')
     <div>
-        <form action="{{ route('dashboard.documents.store') }}" method="POST" enctype="multipart/form-data" id="myform" name="myform"
-            class="form border mb-1">
+        <form action="{{ route('dashboard.documents.store') }}" method="POST" enctype="multipart/form-data" id="myform"
+            name="myform" class="form border mb-1">
             @csrf
             @method('post')
             <div class="row">
@@ -73,41 +73,48 @@
                     @enderror
                 </div>
                 <div class="form-group col-lg-6">
-                    <label for="arquive">Arquivo</label>
-                    <input type="file" class="form-control-file @error('arquive') is-invalid @enderror" id="arquive"
-                        name="arquive" required>
-                    @error('arquive')
+                    <label for="file">Arquivo</label>
+                    <input type="file" class="form-control-file @error('file') is-invalid @enderror" id="file"
+                        name="file" required>
+                    <a href="#" id="link-file" target="_blank" class="btn btn-primary form-control d-none">Clique aqui
+                        para baixar o documento</a>
+                    @error('file')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
             </div>
-            <input type="hidden" name="complements" value="[]" id="complements">
+            <input type="hidden" name="complements" value="{{ old('complements') }}" id="complements">
             <div class="row mt-2">
-                <div class="form-group mb-2 col-3">
+                <div class="form-group mb-2 col-lg-3 col-md-3">
                     <label for="parameter">Parametro</label>
                     <input type="text" class="form-control" id="parameter" placeholder="Registro Técnico">
                 </div>
-                <div class="form-group mx-sm-3 mb-2 col-5">
-                    <label for="value">Valor</label>
+                <div class="form-group mx-sm-3 mb-2 col-lg-3 col-md-3">
+                    <label for="value">Atributo</label>
                     <input type="text" class="form-control" id="value" placeholder="XXX-548316-BR">
                 </div>
-                <div class="form-group col-3">
-                    <label for="add"><small>Adicione vários (parametros: valores)</small></label>
+                <div class="form-group col-lg-3 col-md-3">
+                    <label for="add"><small>Adicione vários (parametros: Atributos)</small></label>
                     <button type="button" class="btn btn-success mb-0 form-control" id="add">Adicionar
                         Complemento</button>
-                </div>
+                    </div>
+                    <div class="form-group col-lg3 col-md-2">
+                        <label for="add"><small>Limpar complementos</small></label>
+
+                        <button type="button" onclick="clearTable()" class="ml-2 btn btn-info ml-1" id="clear">Limpar
+                            Comlementos</button>
+                        </div>
                 <hr>
             </div>
-            <input type="hidden" name="complements" value="" id="complements">
-            <button type="submit" class="btn btn-primary ml-1" id="submit">Cadastrar</button>
-            <button type="button" onclick="clearTable()" class="ml-2 btn btn-info ml-1" id="clear">Limpar Comlementos</button>
+            <button type="submit" class="btn btn-primary ml-1" id="submit">Finalizar cadastro de documento</button>
         </form>
-        <table class="table table-striped table-light mt-1 border border-dark" id="table-complements">
+        <hr>
+        <table class="table table-striped table-light mt-2 border border-dark" id="table-complements">
             <thead class="">
                 <tr>
                     <th>#</th>
                     <th>Parametros</th>
-                    <th>valores</th>
+                    <th>Atributos</th>
                     <th>Ação</th>
                 </tr>
             </thead>
@@ -118,6 +125,11 @@
     </div>
 @section('js')
     <script>
+        var local = "http://localhost:8000"
+        if (window.location.host != "localhost") {
+            local = "https://apica.jfwebsystem.com.br"
+        }
+
         function isEmpty(obj) {
             for (const prop in obj) {
                 if (Object.hasOwn(obj, prop)) {
@@ -159,22 +171,25 @@
             didOpen: (toast) => {
                 toast.addEventListener('mouseenter', Swal.stopTimer)
                 toast.addEventListener('mouseleave', Swal.resumeTimer)
-            }
+            },
         })
 
         type = document.getElementById("type");
 
-        type.addEventListener("change", (e) => {
-            if (e.target.value == 'caepi') {
+        $('#type').on('change', function() {
+            var selectedValue = $(this).val();
+
+            if (selectedValue === 'caepi') {
+                document.getElementById("myform").reset()
+                $(this).val(selectedValue)
+                clearTable()
+                data_complements = []
                 Swal.fire({
-                    title: 'Deseja consultar a API de CA do MTE?',
+                    title: 'Informe o código de CA do EPI',
                     input: 'text',
-                    inputLabel: "Informe o número do CA:",
-                    inputPlaceholder: "42049",
                     inputAttributes: {
-                        autocapitalize: 'off',
+                        autocapitalize: 'off'
                     },
-                    showCancelButton: true,
                     confirmButtonText: 'Consultar',
                     showLoaderOnConfirm: true,
                     inputValidator: (value) => {
@@ -182,44 +197,102 @@
                             return 'Informe o número do CA!'
                         }
                     },
-                    preConfirm: (ca) => {
-                        local = "http://localhost:8000"
-                        if (window.location.host != "localhost") {
-                            local = "https://apica.jfwebsystem.com.br"
-                        }
-                        $.get(`${local}/consulta/${ca}`)
-                            .then(response => {
-                                if (!isEmpty(response)) {
-                                    Toast.fire({
-                                        icon: 'success',
-                                        title: 'CA localizado com sucesso!'
-                                    })
-                                    response = "RegistroCA" in response ? response : response.data
-                                    insertFormValues(response)
-                                    for (key in response) {
-                                        insertComplements({
-                                            "parameter": key,
-                                            "value": response[key]
-                                        })
-                                    }
-                                    $.get(`${local}/`)
-                                } else {
-                                    throw new Error(response.statusText)
-                                }
-                            }).catch(error => {
-                                Swal.showValidationMessage(
-                                    `Request failed: ${error}`
-                                )
-                            })
+                    preConfirm: (caCode) => {
+                        // Aqui você fará a chamada AJAX para a API
+                        return $.ajax({
+                            url: `${local}/consulta/${caCode}`,
+                            method: 'GET',
+                            data: {
+                                caCode: caCode
+                            },
+                            dataType: 'json'
+                        });
                     },
                     allowOutsideClick: () => !Swal.isLoading()
                 }).then((result) => {
-                    if (result.isConfirmed) {
+                    if (result.value && result.value.success) {
                         console.log(result)
+                        Swal.fire(
+                            'CA encontrado com sucesso,', '', 'success');
+                        response = "RegistroCA" in result.value ? result.value : result.value.data
+                        insertFormValues(response)
+                        for (key in response) {
+                            insertComplements({
+                                "parameter": key,
+                                "value": response[key]
+                            })
+                        }
+                        lk = document.getElementById("link-file")
+                        lk.href = `${local}/certificado/${result.value.data.numero_ca}`
+                        lk.click()
+
+                    } else {
+                        Swal.fire('Erro ao buscar o CA', result.value.message, 'error');
                     }
-                })
+                }).catch((error) => {
+                    console.error(error);
+                    Swal.fire('Erro ao buscar o CA', 'Erro interno na requisição', 'error');
+                });
             }
-        })
+        });
+        // type.addEventListener("change", (e) => {
+        //     if (e.target.value == 'caepi') {
+        //         Swal.fire({
+        //             title: 'Deseja consultar a API de CA do MTE?',
+        //             input: 'text',
+        //             inputLabel: "Informe o número do CA:",
+        //             inputPlaceholder: "42049",
+        //             inputAttributes: {
+        //                 autocapitalize: 'off',
+        //             },
+        //             showCancelButton: true,
+        //             confirmButtonText: 'Consultar',
+        //             showLoaderOnConfirm: true,
+        //             inputValidator: (value) => {
+        //                 if (!value) {
+        //                     return 'Informe o número do CA!'
+        //                 }
+        //             },
+        //             preConfirm: (ca) => {
+
+        //             },
+        //             allowOutsideClick: () => !Swal.isLoading()
+        //         }).then((result) => {
+        //             if (result.isConfirmed) {
+        //                 console.log(result.value)
+        //                 $.get(`${local}/consulta/${result.value}`)
+        //                     .then(response => {
+        //                         if (!isEmpty(response)) {
+        //                             Toast.fire({
+        //                                 icon: 'success',
+        //                                 title: 'CA localizado com sucesso!',
+        //                                 didDestroy: () => {
+
+        //                                 }
+        //                             })
+        //                             response = "RegistroCA" in response ? response : response.data
+        //                             insertFormValues(response)
+        //                             for (key in response) {
+        //                                 insertComplements({
+        //                                     "parameter": key,
+        //                                     "value": response[key]
+        //                                 })
+        //                             }
+        //                             setTimeout(() => {
+        //                                 // Swal.fire("Solicitando arquivo, aguarde o download iniciar.")
+        //                             }, 2000);
+        //                         } else {
+        //                             throw new Error(response.statusText)
+        //                         }
+        //                     }).catch(error => {
+        //                         Swal.showValidationMessage(
+        //                             `Request failed: ${error}`
+        //                         )
+        //                     })
+        //             }
+        //         })
+        //     }
+        // })
 
         const table = document.getElementById('table-complements')
 

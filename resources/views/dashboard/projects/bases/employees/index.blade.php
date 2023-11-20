@@ -3,7 +3,10 @@
 @section('title','Vincular Colaboradores')
 
 @section('content_header')
-    <h4>Vincular Colaboradores para - <small class="text-primary">{{$base->name}}</small> - <a class="btn btn-success btn-sm" href="{{route('dashboard.employees.create')}}" role="button">Criar novo Funcionário- <i class="fa fa-plus" aria-hidden="true"></i></a></h4>
+    <h4>Vincular Colaboradores para - <small class="text-primary">{{$base->name}}</small> -
+         <a class="btn btn-success btn-sm" href="{{route('dashboard.employees.create')}}" role="button">Criar novo Funcionário- <i class="fa fa-plus" aria-hidden="true"></i></a>
+        <a class="btn btn-primary" href="{{route('dashboard.bases.show',$base)}}">Retornar à Base</a>
+        </h4>
 @stop
 
 @section('content')
@@ -20,7 +23,7 @@
                 <form action="{{route('dashboard.bases.employees.sync',$base )}}" method="post">
                     @csrf
                     @method('PUT')
-                    <button type="submit" class="btn btn-primary">Atualizar Colaboradores vinculadas ao Base</button>
+                    <button type="submit" class="btn btn-primary">Vincular Colaboradores vinculadas ao Base</button>
                @foreach ($employees as $item)
                <tr>
                    <td>

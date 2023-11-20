@@ -146,8 +146,8 @@ return [
     */
 
     'sidebar_mini' => 'lg',
-    'sidebar_collapse' => false,
-    'sidebar_collapse_auto_size' => false,
+    'sidebar_collapse' => true,
+    'sidebar_collapse_auto_size' => true,
     'sidebar_collapse_remember' => false,
     'sidebar_collapse_remember_no_transition' => true,
     'sidebar_scrollbar_theme' => 'os-theme-light',
@@ -347,25 +347,25 @@ return [
             'icon' => 'fas fa-users-cog ',
             'icon_color'  => 'primary',
             'classes' => "bg-light",
-            'role' => ['sys-admin','sys-manager'],
+            'can' => ['sys-admin','sys-manager'],
             'submenu' => [
                 [
                     'text' => 'Usuários',
                     'route'  => 'dashboard.users',
                     'icon' => 'fas fa-fw fa-user',
-                    'canAtLeast'  => ['manager-users','sys-admin']
+                    'can'  => ['manager-users','sys-admin']
                 ],
                 [
                     'text' => 'Permissões',
                     'route'  => 'dashboard.permissions',
                     'icon' => 'fas fa-fw fa-user',
-                    'canAtLeast'  => ['manager-permissions','sys-admin']
+                    'can'  => ['manager-permissions','sys-admin']
                 ],
                 [
                     'text' => 'Funções',
                     'route'  => 'dashboard.roles',
                     'icon' => 'fas fa-fw fa-user',
-                    'canAtLeast'  => [
+                    'can'  => [
                         'manager-roles','sys-admin'
                     ]
                 ],
@@ -378,7 +378,7 @@ return [
             'icon_color'  => 'primary',
             'classes' => "bg-light",
             'icon' => 'fas fa-project-diagram ',
-            'canAtLeast'  => ['manager-projects','sys-admin'],
+            'can'  => ['manager-projects','sys-admin'],
             'submenu' => [
                 [
                     'text' => 'Todos Projetos',

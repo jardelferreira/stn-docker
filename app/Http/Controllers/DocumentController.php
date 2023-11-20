@@ -39,9 +39,13 @@ class DocumentController extends Controller
      * @param  \App\Http\Requests\StoreDocumentRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreDocumentRequest $request)
+    public function store(Document $document, StoreDocumentRequest $request)
     {
-        dd($request->all());
+        // dd($request->all());
+        $request['arquive'] = $request->file('file')->storeAs('public/files',"documents/{$request->serie}.pdf");
+        $document->create($request->all());
+        return redirect()->route('dashboard.documents');
+
     }
 
     /**
@@ -87,5 +91,10 @@ class DocumentController extends Controller
     public function destroy(Document $document)
     {
         //
+    }
+
+    public function documentsJson() {
+
+        return response()->json(['data' => Document::all()]);
     }
 }

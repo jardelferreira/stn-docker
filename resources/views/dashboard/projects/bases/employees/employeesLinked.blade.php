@@ -3,9 +3,10 @@
 @section('title', 'Colaborador vinculados')
 
 @section('content_header')
-    <h1>Listagem de Colaborador - {{$base->name }} - <a class="btn btn-primary"
-        href="{{route('dashboard.bases.employees',$base)}}" role="button">Vincular Colaborador - <i class="fa fa-plus"
-                aria-hidden="true"></i></a></h1>
+    <h1>Listagem de Colaborador - {{$base->name }} - 
+        <a class="btn btn-primary" href="{{route('dashboard.bases.employees',$base)}}" role="button">Vincular Colaborador - <i class="fa fa-plus" aria-hidden="true"></i></a>
+        <a class="btn btn-primary" href="{{route('dashboard.bases.show',$base)}}">Retornar à Base</a>
+    </h1>
 @stop
 
 @section('content')

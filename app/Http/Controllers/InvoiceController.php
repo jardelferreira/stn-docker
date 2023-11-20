@@ -96,7 +96,7 @@ class InvoiceController extends Controller
      * @param  \App\Http\Requests\UpdateInvoiceRequest  $request
      * @param  \App\Models\Invoice  $invoice
      * @return \Illuminate\Http\Response
-     */
+     */ 
     public function update(UpdateInvoiceRequest $request)
     {
         $invoice = Invoice::where("uuid", $request->uuid)->first();

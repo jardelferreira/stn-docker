@@ -156,11 +156,11 @@ class BaseController extends Controller
             'employees' => $base->employees
         ]);
     }
-
+ 
     public function employees(Base $base)
     {
         return view('dashboard.projects.bases.employees.index', [
-            'employees' => $base->project()->first()->employees()->with('user')->get(),
+            'employees' => $base->employeesForLink()->get(),
             'base' => $base,
             'base_employees' => $base->employees()->pluck('employee_id')->toArray(),
 
@@ -169,9 +169,18 @@ class BaseController extends Controller
 
     public function syncEmployeesById(Base $base, Request $request)
     {
-        $base->employees()->sync($request->employees);
+        foreach ($request->employees as $employee) {
+            $base->employees()->attach($employee);
+        }
 
         return redirect()->route('dashboard.bases.show', $base);
+    }
+
+    public function attachEmployee(Base $base, Employee $employee)
+    {
+        $base->employees()->attach($employee->id);
+
+        return redirect()->route('dashboard.bases.show',$base);
     }
 
     public function showEmployees(Base $base)

@@ -127,6 +127,8 @@ class EmployeeController extends Controller
         return redirect()->route('dashboard.employees');
     }
 
+    
+
     public function getProfessions(Project $project)
     {
         $professions = $project->professions()->get();

@@ -31,6 +31,11 @@ class Base extends Model
         return $this->belongsToMany(Employee::class,'employee_base','base_id','employee_id');
     }
 
+    public function employeesForLink()
+    {
+        return Employee::whereNotIn('id',$this->employees()->get()->pluck('id')->toArray());
+    }
+
     public function formlistsByEmlpoyee() {
         return $this->belongsToMany(Formlist::class,'formlist_base_employee')
         ->withPivot(['formlist_base_employee.id as pivot_formlist_id', 'formlist_base_employee.employee_id as employee_id' ]);
