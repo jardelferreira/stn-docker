@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\FormlistBaseEmployee;
 use Illuminate\Support\Facades\Auth;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use SimpleSoftwareIO\QrCode\Generator;
 
 class PublicController extends Controller
 {
@@ -188,5 +190,11 @@ class PublicController extends Controller
 
     public function hkmHome() {
         return view('hkm.index');
+    }
+    
+    public function qrcode(Generator $qrCode) {
+        return view('publico.teste',[
+            "qrcode" => $qrCode
+        ]);
     }
 }

@@ -11,6 +11,7 @@ class ReceiptObserver
     public function creating(Receipt $receipt)
     {
         $receipt->local = $receipt->local ?? "{$receipt->branch->cidade}-{$receipt->branch->uf}";
+        $receipt->link = "";
     }
     /**
      * Handle the Receipt "created" event.

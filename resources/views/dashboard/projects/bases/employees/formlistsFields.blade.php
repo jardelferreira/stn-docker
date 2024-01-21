@@ -178,7 +178,7 @@
                             <td class="border border-dark text-center">
                                 <p style="padding: 0; margin: 0; font-size: 0.8em;">
                                     @if ($field->signature_delivered)
-                                        Assinado
+                                        Assinado digitalmente
                                     @else
                                         Falha na assinatura
                                     @endif

@@ -127,7 +127,7 @@
     <script>
         var local = "http://localhost:8000"
         if (window.location.host != "localhost") {
-            local = "https://apica.jfwebsystem.com.br"
+            local = "https://caepionline.com.br"
         }
 
         function isEmpty(obj) {

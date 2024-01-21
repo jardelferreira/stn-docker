@@ -9,7 +9,7 @@ class Receipt extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id','branch_id','signature_id','favored','value','local','register'];
+    protected $fillable = ['user_id','branch_id','signature_id','favored','value','local','register',"link"];
 
     public function branch()
     {

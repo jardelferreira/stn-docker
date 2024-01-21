@@ -19,7 +19,7 @@ class CreateReceiptsTable extends Migration
             $table->foreignId('branch_id')->references('id')->on('branches');
             $table->integer('signature_id',false,true)->default(0);
             $table->string('favored');
-            $table->string('link');
+            $table->string('link')->nullable();
             $table->string('temporary_link')->nullable();
             $table->string('register');
             $table->decimal('value',8,2,true);

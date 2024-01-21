@@ -14,6 +14,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::get('/teste',[PublicController::class,'qrcode'])->name('home.teste');
 Route::prefix('hkm')->group(function(){
     Route::get('/home',[PublicController::class,'hkmHome'])->name('hkm.home');
 });

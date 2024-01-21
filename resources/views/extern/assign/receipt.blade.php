@@ -26,6 +26,8 @@
             font-size: 1.4rem;
         }
 
+
+
         @media print {
             .no-print {
                 display: none;
@@ -79,7 +81,7 @@
                 <img src="{{ asset('images/stnlogo.png') }}" height="100px" width="200px"
                     class="img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}"
                     alt="logo da STN">
-                <div class="ml-5" pathname="{{$receipt->shortcut->shortcut}}" id="qrcode"></div>
+                <div class="ml-5" pathname="{{ $receipt->shortcut->shortcut }}" id="qrcode"></div>
             </div>
             <div class="alert alert-dark text-center font-weight-bold text-uppercase h-5">Recibo - <span
                     id="number"><span
@@ -113,13 +115,13 @@
                     <p class=" mt-1 mb-2 p-0">
                         <img src="{{ $receipt->signature->signature_image ?? '' }}" id="img_signature"
                             style="width:10cm;" alt="assinatura digital">
-                            <p class="border-top border-dark p-0 mt-0 text-center" style="width: 15cm;">Assinatura</p>
-                    @else
+                    <p class="border-top border-dark p-0 mt-0 text-center" style="width: 15cm;">Assinatura</p>
+                @else
                     <p class="border-bottom border-dark mb-5 mt-5">{{ $receipt->local }}, <span id="emited"
                             data-created="{{ $receipt->created_at }}"></span></p>
                     <button class="btn btn-info ml-1 no-print" onclick="signatureCanvas()">Assinatura Digital<i
                             class="fa fa-pencil ml-1" aria-hidden="true"></i> </button>
-                            <p class="border-top border-dark p-0 mt-4 text-center" style="width: 15cm;">Assinatura</p>
+                    <p class="border-top border-dark p-0 mt-4 text-center" style="width: 15cm;">Assinatura</p>
                 @endif
 
             </div>
@@ -204,7 +206,16 @@
                 colorLight: '#fff',
                 correctLevel: QRCode.CorrectLevel.H
             });
-
+            document.addEventListener("orientationchange", function(event) {
+                switch (window.orientation) {
+                    case -90:
+                    case 90:
+                        alert('landscape')
+                        break;
+                    default:
+                        alert("portrait")
+                }
+            });
         }
     </script>
 
@@ -225,11 +236,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.5.1/sweetalert2.all.min.js"></script> --}}
     <script>
         window.signatureHtml = () => {
-            return `<div class="container bg-light">
-		<div class="m-0 p-0" id="canvas">
-		 		<canvas id="sig-canvas" width="660" height="340" class="bg-light">
+            return `<div class="bg-light">
+		 		<canvas id="sig-canvas" width="640" height="340" class="bg-light">
 		 		</canvas>
-		</div>
 		<div id="image" width="660" height="340">
 				<img id="sig-image" src=""/>
 		</div>`
