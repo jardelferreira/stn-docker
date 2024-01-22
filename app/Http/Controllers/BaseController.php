@@ -234,8 +234,8 @@ class BaseController extends Controller
 
     public function fieldsFormlistByEmployee(Base $base, Employee $employee, FormlistBaseEmployee $formlist_employee)
     {
-        dd(User::find(1)->signatures()->get());
-        dd(Signature::find($formlist_employee->fields()->first()->signature_delivered))->first();
+        // dd(User::find(1)->signatures()->get());
+        // dd(Signature::find($formlist_employee->fields()->first()->signature_delivered))->first();
         return view('dashboard.projects.bases.employees.formlistsFields', [
             'employee' => $formlist_employee->employee,
             'base' => $formlist_employee->base,
