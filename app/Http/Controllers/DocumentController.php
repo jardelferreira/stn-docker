@@ -110,7 +110,7 @@ class DocumentController extends Controller
     }
 
     function documentsAvaliable(Stoks $stok) {
-        $documents = Document::whereNotIn('id',$stok->documents()->pluck('stok_id'))->get();
+        $documents = Document::whereNotIn('id',$stok->documents()->pluck('document_id'))->get();
         
         return view('dashboard.documents.attachStok',[
             'stok' => $stok,
