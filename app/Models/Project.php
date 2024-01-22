@@ -94,6 +94,6 @@ class Project extends Model
 
     public function products()
     {
-        return $this->belongsToMany(ProductProject::class);
+        return $this->belongsToMany(Product::class);
     }
 }

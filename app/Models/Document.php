@@ -15,7 +15,7 @@ class Document extends Model
         return collect([
             'caepi' => ['name' => 'CA-EPI'],
             'nbr' => ['name' => 'NBR'],
-            'report' => ['name' => 'Laudo'],
+            'report' => ['name' => 'Relatórios ou Laudo'],
             'art' => ['name' => 'ART'],
             'cconform' => ['name' => 'Certificado de Conformidade'],
             'corigin' => ['name' => 'Certificado de Origem'],

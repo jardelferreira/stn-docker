@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreBaseRequest;
 use App\Http\Requests\UpdateBaseRequest;
 use App\Models\Product;
+use App\Models\Signature;
 
 class BaseController extends Controller
 {
@@ -233,8 +234,8 @@ class BaseController extends Controller
 
     public function fieldsFormlistByEmployee(Base $base, Employee $employee, FormlistBaseEmployee $formlist_employee)
     {
-        // dd($formlist_employee->fields()->toSql());
-        // dd( $formlist_employee->fields()->get());
+        dd(User::find(1)->signatures()->get());
+        dd(Signature::find($formlist_employee->fields()->first()->signature_delivered))->first();
         return view('dashboard.projects.bases.employees.formlistsFields', [
             'employee' => $formlist_employee->employee,
             'base' => $formlist_employee->base,

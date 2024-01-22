@@ -9,9 +9,8 @@
 @stop
 
 @section('content')
-    <div id="teste">Teste</div>
-    <div class="table">
-        @if (count($documents))
+    @if (count($documents))
+        <div class="table">
             <table class="display" id="documents" style="width: 100%">
                 <thead class="thead-dark">
                     <tr>
@@ -45,8 +44,7 @@
             <div class="alert alert-primary" role="alert">
                 <strong>Não há documentos cadastrados</strong>
             </div>
-        @endif
-    </div>
+    @endif
 @endsection
 @section('js')
     <script>

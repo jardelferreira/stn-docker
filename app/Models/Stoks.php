@@ -26,4 +26,8 @@ class Stoks extends Model
         // return $this->hasOneThrough(Product::class,invoiceProducts::class);
         // return $this->belongsTo(Product::class,'product_id');
     }
+
+    function documents() {
+        return $this->belongsToMany(Document::class,"stok_documents","stok_id");
+    } 
 }

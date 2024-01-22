@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Stoks;
+use App\Models\Document;
+use Illuminate\Support\Str;
 use App\Http\Requests\StoreDocumentRequest;
 use App\Http\Requests\UpdateDocumentRequest;
-use App\Models\Document;
 
 class DocumentController extends Controller
 {
@@ -41,8 +43,11 @@ class DocumentController extends Controller
      */
     public function store(Document $document, StoreDocumentRequest $request)
     {
-        // dd($request->all());
-        $request['arquive'] = $request->file('file')->storeAs('public/files',"documents/{$request->serie}.pdf");
+        if(!$request->hasFile('file')){
+            $request['arquive'] = "";
+        }
+        $rand = Str::random(10);
+        $request['arquive'] = $request->file('file')->storeAs('public/files',"documents/{$rand}-{$request->type}-{$request->serie}.pdf");
         $document->create($request->all());
         return redirect()->route('dashboard.documents');
 
@@ -96,5 +101,30 @@ class DocumentController extends Controller
     public function documentsJson() {
 
         return response()->json(['data' => Document::all()]);
+    }
+
+    function attachDocument(Document $document, Stoks $stok) {
+        // dd($stok->documents()->get());
+        $stok->documents()->attach($document->id);
+        return redirect()->back();
+    }
+
+    function documentsAvaliable(Stoks $stok) {
+        $documents = Document::whereNotIn('id',$stok->documents()->pluck('stok_id'))->get();
+        
+        return view('dashboard.documents.attachStok',[
+            'stok' => $stok,
+            'documents' => $documents
+        ]);
+    }
+
+    function showFile(Document $document){
+        $header = [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="' . $document->name . '"'
+        ];
+        $path = \str_replace('public', 'storage', $document->arquive);
+        
+        return \response()->file($path, $header);
     }
 }

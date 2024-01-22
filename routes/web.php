@@ -86,7 +86,14 @@ Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard'])->group(
         Route::get('/',[DocumentController::class,'index'])->name('dashboard.documents');
         Route::get('/json',[DocumentController::class,'documentsJson'])->name('dashboard.documents.json');
         Route::get('/cadastro',[DocumentController::class,'create'])->name('dashboard.documents.create');
+        Route::get('{document}/arquivo',[DocumentController::class,'showFile'])->name('dashboard.documents.showFile');
+        
         Route::post('/cadastro',[DocumentController::class,'store'])->name('dashboard.documents.store');
+
+
+        Route::get('stok/{stok}',[DocumentController::class,"documentsAvaliable"])->name('dashboard.documents.documentsAvaliable');
+        Route::post('vincular/{document}/stok/{stok}',[DocumentController::class,'attachDocument'])->name('dashboard.documents.attachDocument');
+
     });
 
     Route::prefix('usuarios')->group(function () {
@@ -284,6 +291,7 @@ Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard'])->group(
             Route::post('cadastrar/products/store', [StoksController::class, 'store'])->name('dashboard.sectors.stoks.store');
 
             Route::post('/retirar', [StoksController::class, 'removeFromStock'])->name('dashboard.sectors.stoks.removeFromStock');
+            Route::get('{stok}/documentos',[StoksController::class,'documents'])->name('dashboard.sectors.stoks.documents');
         });
     });
 
