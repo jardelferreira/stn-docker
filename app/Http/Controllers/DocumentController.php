@@ -106,7 +106,9 @@ class DocumentController extends Controller
     function attachDocument(Document $document, Stoks $stok) {
         // dd($stok->documents()->get());
         $stok->documents()->attach($document->id);
-        return redirect()->back();
+        // dd($stok);
+        return redirect()->route('dashboard.sectors.stoks.documents',[$stok->sector_id,$stok->id])
+        ->with("success","O documento {$document->name}, foi vinculado ao produto.");
     }
 
     function documentsAvaliable(Stoks $stok) {

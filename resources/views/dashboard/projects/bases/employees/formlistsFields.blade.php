@@ -159,12 +159,14 @@
                             </td> --}}
                             <td class="border border-dark text-center p-0">
                                 <p style=" margin: 0; font-size: 1em;">
-                                    {{ $field->ca_first ?? $field->ca_second }}
-                                    <i class="fa fa-certificate text-success ml-1 mr-1" aria-hidden="true"></i>
+                                    {{ $field->ca_first ?? $field->ca_second ?? "N/A"}}
+                                    {{-- <i class="fa fa-certificate text-success ml-1 mr-1" aria-hidden="true"></i> --}}
                                     {{-- <i class="fa fa-id-card fa-lg text-danger" aria-hidden="true"></i> --}}
                                     {{-- <i class="fa fa-newspaper-o fa-lg text-danger ml-2" aria-hidden="true"></i> --}}
-                                    <a href="#"><i class="fa fa-book fa-lg text-danger fa-lg ml-2 mt-1"
-                                            aria-hidden="true"></i></a>
+                                    @if ($field->stoks->documents()->exists())
+                                        
+                                    <a href="{{route('dashboard.bases.employees.formlists.documents',[$base,$employee,$formlist_employee,$field->stoks])}}" target="_blank"><i class="fa fa-book fa-lg text-danger fa-lg ml-2 mt-1" aria-hidden="true"></i></a>
+                                    @endif
                                 </p>
                             </td>
                             <td class="border border-dark text-center">
@@ -203,6 +205,7 @@
                 </tbody>
             </tfoot>
         </table>
+        
         <div class=" mt-1">
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalCA">
                 CA-42049
@@ -347,6 +350,7 @@
         </script>
 
     </div>
+    
 @endsection
 
 @section('js')

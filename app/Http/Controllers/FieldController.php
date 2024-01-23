@@ -428,4 +428,16 @@ class FieldController extends Controller
             return response()->json($check);
         }
     }
+
+    function documents(Base $base,Employee $employee, FormlistBaseEmployee $formlist_employee,Stoks $stok){
+        return view('dashboard.projects.bases.employees.fields.documents',[
+            "stok" => $stok,
+            "employee" => $employee,
+            "formlist_employee" => $formlist_employee
+        ]);
+    }
+
+    function documentsFromStokIdJson(Base $base,Employee $employee, FormlistBaseEmployee $formlist_employee,Stoks $stok) {
+        return response()->json(['data' => $stok->documents()->get()]);
+    }
 }

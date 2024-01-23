@@ -1,14 +1,24 @@
 @extends('adminlte::page')
 
-@section('title', 'Estoque')
+@section('title', 'Vinculo de documento')
 
 @section('content_header')
     <h1>Documentação vinculada - <strong>{{ $stok->invoiceProduct->name }}</strong></h1>
-    <a name="addnew" id="addnew" class="btn btn-success" href="{{route('dashboard.documents.documentsAvaliable',$stok)}}" role="button">Vincular Documentos</a>
+    <a name="addnew" id="addnew" class="btn btn-success" href="{{ route('dashboard.documents.documentsAvaliable', $stok) }}"
+        role="button">Vincular Documentos</a>
 @stop
 
 @section('content')
-    @if (count($stok->documents))
+    @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <button type="button" class="close bg-dark" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <strong>Documento vinculado com sucesso!</strong> {{ session('success') }}
+        </div>
+    @endif
+
+    @if (count($documents))
         <div class="table">
             <table class="display" id="documents" style="width: 100%">
                 <thead class="thead-dark">
@@ -22,14 +32,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($stok->documents as $document)
+                    @foreach ($documents as $document)
                         <tr>
                             <td>{{ $document->id }}</td>
                             <td>{{ $document->description }}</td>
                             <td>{{ $document->type }}</td>
                             <td>{{ $document->expiration }}</td>
                             <td>{{ $document->serie }}</td>
-                            <td><a href="{{route('dashboard.documents.showFile',$document)}}" target="_blank">Ver Arquivo</a></td>
+                            <td><a href="{{ route('dashboard.documents.showFile', $document) }}" target="_blank">Ver
+                                    Arquivo</a></td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -39,5 +50,13 @@
                 <strong>Não há documentos cadastrados</strong>
             </div>
     @endif
-
+@section('js')
+    <script>
+        $(".alert").ready(function() {
+            setTimeout(() => {
+                $(".alert-success").fadeOut(1000)
+            }, 3000);
+        })
+    </script>
+@endsection
 @endsection

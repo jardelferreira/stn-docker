@@ -258,6 +258,10 @@ Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard'])->group(
                     Route::get('/', [BaseController::class, 'formlistsByEmployee'])->name('dashboard.bases.employees.formlists');
                     Route::get('/list', [BaseController::class, 'listFormlistsForEmployee'])->name('dashboard.bases.employees.list.formlists');
                     Route::put('/sync', [BaseController::class, 'syncFormlistsByEmployee'])->name('dashboard.bases.employees.formlists.sync');
+
+                    Route::get('{formlist_employee}/estoque/{stok}/documents',[FieldController::class,'documents'])->name('dashboard.bases.employees.formlists.documents');
+                    Route::get('{formlist_employee}/estoque/{stok}/documents/json',[FieldController::class,'documentsFromStokIdJson'])->name('dashboard.bases.employees.formlists.documentsFromStokIdJson');
+
                     Route::prefix('{formlist_employee}/ficha')->group(function () {
                         Route::get('/', [BaseController::class, 'fieldsFormlistByEmployee'])->name('dashboard.bases.employees.formlists.fields');
                         Route::post('/remove', [BaseController::class, 'removeFieldFormlistByEmployee'])->name('dashboard.bases.employees.formlists.fields.remove');

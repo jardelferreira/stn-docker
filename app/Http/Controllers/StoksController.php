@@ -206,8 +206,10 @@ class StoksController extends Controller
     }
 
     function documents(Sector $sector, Stoks $stok) {
+
         return view('dashboard.projects.bases.sectors.stoks.documents',[
-            "stok" => $stok
+            "stok" => $stok,
+            "documents" => $stok->documents()->get()
         ]);
     }
     

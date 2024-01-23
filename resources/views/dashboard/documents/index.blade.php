@@ -21,6 +21,7 @@
                         <th>Tipo</th>
                         <th>Expiração</th>
                         <th>Série</th>
+                        <th>Arquivo</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -47,6 +48,27 @@
     @endif
 @endsection
 @section('js')
+    <script>
+        function getDateNow() {
+            // Cria um objeto Date representando o momento atual
+            let dataAtual = new Date();
+
+            // Obtém os componentes da data
+            let dia = dataAtual.getDate();
+            let mes = dataAtual.getMonth() + 1; // Os meses começam do zero
+            let ano = dataAtual.getFullYear();
+
+            // Formata a data como "DD/MM/AAAA"
+            return Date(`${ano}-${mes.toString().padStart(2, '0')}-${dia.toString().padStart(2, '0')}`);
+
+        }
+
+        function checkValid(expiration) {
+            return new Date().getTime() < new Date(expiration).getTime() ?
+                `<span class="bg-success  mx-1 p-1">Válido</span>` : `<span class="bg-danger  mx-1 p-1">Inválido</span>`
+        }
+    </script>
+
     <script>
         function format(d) {
             // `d` is the original data object for the row
@@ -100,15 +122,28 @@
                             data: 'description'
                         },
                         {
-                            data: 'status'
+                            className: "text-center",
+                            data: 'expiration',
+                            render: function(data, type) {
+                                return checkValid(data)
+                            }
                         },
                         {
                             data: 'type'
                         }, {
-                            data: "expiration"
+                            data: "expiration",
+                            render: function(data, type) {
+                                return new Date(data).toLocaleDateString("pt-BR")
+                            }
                         }, {
                             data: "serie"
-                        },
+                        }, {
+                            data: "id",
+                            render: function(data, type) {
+                                return `<a href="http://localhost/dashboard/documentos/${data}/arquivo" class="font-weight-bold btn btn-outline-danger btn-sm"
+                                target="_blank">Ver Arquivo</a>`
+                            }
+                        }
                     ],
                     rowId: 'id',
                     stateSave: true
@@ -132,22 +167,22 @@
                     }
                 });
 
-                setTimeout(() => {
+                // setTimeout(() => {
 
-                    tds = document.querySelectorAll("tbody tr td:nth-child(4)")
-                    tds.forEach(td => {
-                        switch (td.innerText) {
-                            case "valid":
-                                td.innerText = "Válido"
-                                td.classList.add("bg-success")
-                                td.classList.add("text-center")
-                                break;
+                //     tds = document.querySelectorAll("tbody tr td:nth-child(4)")
+                //     tds.forEach(td => {
+                //         switch (td.innerText) {
+                //             case "valid":
+                //                 td.innerText = "Válido"
+                //                 td.classList.add("bg-success")
+                //                 td.classList.add("text-center")
+                //                 break;
 
-                            default:
-                                break;
-                        }
-                    })
-                }, 2000);
+                //             default:
+                //                 break;
+                //         }
+                //     })
+                // }, 2000);
             }
         });
     </script>

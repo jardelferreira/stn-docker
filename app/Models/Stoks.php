@@ -28,6 +28,10 @@ class Stoks extends Model
     }
 
     function documents() {
-        return $this->belongsToMany(Document::class,"stok_documents","stok_id");
+        return $this->belongsToMany(Document::class,"stok_documents","stok_id")->orderBy("stok_documents.id","desc");
     } 
+
+    function documentsById($id) {
+        return;
+    }
 }
