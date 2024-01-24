@@ -9,6 +9,14 @@
 @stop
 
 @section('content')
+    @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <button type="button" class="close bg-dark" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <strong>Sucesso!</strong> {{ session('success') }}
+        </div>
+    @endif
     @if (count($documents))
         <div class="table">
             <table class="display" id="documents" style="width: 100%">
@@ -22,6 +30,7 @@
                         <th>Expiração</th>
                         <th>Série</th>
                         <th>Arquivo</th>
+                        <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -47,6 +56,43 @@
             </div>
     @endif
 @endsection
+<div class="modal fade exampleModal-lg" id="exampleModal" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('dashboard.documents.stoksAvailable') }}" method="POST">
+                    @csrf
+                    @method('POST')
+                    <input type="hidden" name="document_id" class="form-control" id="document_id">
+                    <div class="form-group">
+                        <label for="sector_id">Selecione o setor do estoque</label>
+                        <select class="custom-select" name="sector_id" id="sector_id">
+                            @foreach ($projects as $project)
+                                @foreach ($project->bases as $base)
+                                    @foreach ($base->sectors as $sector)
+                                        <option value="{{ $sector->id }}">{{ $project->name }} => {{ $base->name }}
+                                            => {{ $sector->name }}</option>
+                                    @endforeach
+                                @endforeach
+                            @endforeach
+                        </select>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+                <button type="submit" class="btn btn-primary">Ir para estoque</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
 @section('js')
     <script>
         function getDateNow() {
@@ -140,8 +186,13 @@
                         }, {
                             data: "id",
                             render: function(data, type) {
-                                return `<a href="http://localhost/dashboard/documentos/${data}/arquivo" class="font-weight-bold btn btn-outline-danger btn-sm"
-                                target="_blank">Ver Arquivo</a>`
+                                return `<a href="http://localhost/dashboard/documentos/${data}/arquivo" class="font-weight-bold btn text-danger my-0 mx-1 px-1 py-0"
+                                target="_blank"><i class="fa fa-file-pdf fa-xl" aria-hidden="true"></i></a>`
+                            }
+                        }, {
+                            data: "id",
+                            render: function(data, type) {
+                                return `<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#exampleModal" data-whatever="${data}">Vincular</button>`
                             }
                         }
                     ],
@@ -166,24 +217,22 @@
                         row.child(format(row.data())).show();
                     }
                 });
-
-                // setTimeout(() => {
-
-                //     tds = document.querySelectorAll("tbody tr td:nth-child(4)")
-                //     tds.forEach(td => {
-                //         switch (td.innerText) {
-                //             case "valid":
-                //                 td.innerText = "Válido"
-                //                 td.classList.add("bg-success")
-                //                 td.classList.add("text-center")
-                //                 break;
-
-                //             default:
-                //                 break;
-                //         }
-                //     })
-                // }, 2000);
             }
         });
+        $('#exampleModal').on('show.bs.modal', function(e) {
+
+            //get data-id attribute of the clicked element
+            var document_id = $(e.relatedTarget).data('whatever');
+
+            $("#document_id").val(document_id)
+
+        });
+    </script>
+    <script>
+        $(".alert").ready(function() {
+            setTimeout(() => {
+                $(".alert-success").fadeOut(1000)
+            }, 3000);
+        })
     </script>
 @endsection

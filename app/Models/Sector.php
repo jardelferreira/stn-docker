@@ -25,5 +25,10 @@ class Sector extends Model
     {
         return $this->hasMany(Stoks::class,'sector_id','id');
     }
+
+    function stoksWithoutDocument($document_id){
+        $document = Document::find($document_id);
+        return $this->stoks()->whereNotIn('id',$document->stoks()->pluck('document_id'));
+    }
     
 }

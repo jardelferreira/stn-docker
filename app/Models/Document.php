@@ -47,4 +47,8 @@ class Document extends Model
             'other' => ['name' => "Outros"],
         ]);
     }
+
+    function stoks() {
+        return $this->belongsToMany(Stoks::class,"stok_documents","document_id","stok_id")->orderBy("stok_documents.id","desc");
+    }
 }

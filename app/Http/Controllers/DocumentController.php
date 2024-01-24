@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Stoks;
+use App\Models\Project;
 use App\Models\Document;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use App\Http\Requests\StoreDocumentRequest;
 use App\Http\Requests\UpdateDocumentRequest;
+use App\Models\Sector;
 
 class DocumentController extends Controller
 {
@@ -17,8 +20,9 @@ class DocumentController extends Controller
      */
     public function index()
     {
-        return view('dashboard.documents.index',[
-            'documents' => Document::all()
+        return view('dashboard.documents.index', [
+            'documents' => Document::all(),
+            'projects' => Project::all()
         ]);
     }
 
@@ -29,7 +33,7 @@ class DocumentController extends Controller
      */
     public function create()
     {
-        return view('dashboard.documents.create',[
+        return view('dashboard.documents.create', [
             'types' => Document::enumTypes(),
             'statuses' => Document::enumStatus()
         ]);
@@ -43,14 +47,13 @@ class DocumentController extends Controller
      */
     public function store(Document $document, StoreDocumentRequest $request)
     {
-        if(!$request->hasFile('file')){
+        if (!$request->hasFile('file')) {
             $request['arquive'] = "";
         }
         $rand = Str::random(10);
-        $request['arquive'] = $request->file('file')->storeAs('public/files',"documents/{$rand}-{$request->type}-{$request->serie}.pdf");
+        $request['arquive'] = $request->file('file')->storeAs('public/files', "documents/{$rand}-{$request->type}-{$request->serie}.pdf");
         $document->create($request->all());
         return redirect()->route('dashboard.documents');
-
     }
 
     /**
@@ -98,35 +101,58 @@ class DocumentController extends Controller
         //
     }
 
-    public function documentsJson() {
+    public function documentsJson()
+    {
 
         return response()->json(['data' => Document::all()]);
     }
 
-    function attachDocument(Document $document, Stoks $stok) {
+    public function attachDocument(Document $document, Stoks $stok)
+    {
         // dd($stok->documents()->get());
         $stok->documents()->attach($document->id);
         // dd($stok);
-        return redirect()->route('dashboard.sectors.stoks.documents',[$stok->sector_id,$stok->id])
-        ->with("success","O documento {$document->name}, foi vinculado ao produto.");
+        return redirect()->route('dashboard.sectors.stoks.documents', [$stok->sector_id, $stok->id])
+            ->with("success", "O documento {$document->name}, foi vinculado ao produto.");
     }
 
-    function documentsAvaliable(Stoks $stok) {
-        $documents = Document::whereNotIn('id',$stok->documents()->pluck('document_id'))->get();
-        
-        return view('dashboard.documents.attachStok',[
+    public function documentsAvaliable(Stoks $stok)
+    {
+        $documents = Document::whereNotIn('id', $stok->documents()->pluck('document_id'))->get();
+
+        return view('dashboard.documents.attachStok', [
             'stok' => $stok,
             'documents' => $documents
         ]);
     }
 
-    function showFile(Document $document){
+    public function showFile(Document $document)
+    {
         $header = [
             'Content-Type' => 'application/pdf',
             'Content-Disposition' => 'inline; filename="' . $document->name . '"'
         ];
         $path = \str_replace('public', 'storage', $document->arquive);
-        
+
         return \response()->file($path, $header);
+    }
+
+    public function stoksAvailable(Request $request)
+    {
+        $sector = Sector::find($request->sector_id);
+
+        // dd($sector->stoksWithoutDocument($request->document_id)->get());
+        return view('dashboard.documents.stoksAvailables', [
+            'sector' => $sector,
+            'stoks' => $sector->stoksWithoutDocument($request->document_id)->get(),
+            'document' => Document::find($request->document_id)
+        ]);
+    }
+
+    public function attachDocumentToStoks(Document $document, Request $request)
+    {
+        // dd($document);
+        $document->stoks()->attach($request->stok_id);
+        return redirect()->route('dashboard.documents')->with('success',"Documento vinculado itens de estoque com sucesso!");
     }
 }

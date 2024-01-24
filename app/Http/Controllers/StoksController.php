@@ -13,6 +13,7 @@ use App\Models\InvoiceProducts;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreStoksRequest;
 use App\Http\Requests\UpdateStoksRequest;
+use App\Models\Document;
 
 class StoksController extends Controller
 {
@@ -205,7 +206,7 @@ class StoksController extends Controller
 
     }
 
-    function documents(Sector $sector, Stoks $stok) {
+    public function documents(Sector $sector, Stoks $stok) {
 
         return view('dashboard.projects.bases.sectors.stoks.documents',[
             "stok" => $stok,

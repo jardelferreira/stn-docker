@@ -146,6 +146,7 @@
                                                 onclick="replacementField({{ $field->stok_id }},{{ $field->id }},{{ $formlist_employee }})"
                                                 type="button">Troca</button>
                                         @endif
+                                        <a name="addDoc" id="addDoc" target="_blank" class="btn bg-primary dropdown-item" href="{{ route('dashboard.documents.documentsAvaliable', $field->stok_id) }}" role="button"> + Documento</a>
                                         <button class="dropdown-item bg-danger"
                                             onclick="removeField({{ $field->id }})" type="button">Excluir</button>
                                     </div>

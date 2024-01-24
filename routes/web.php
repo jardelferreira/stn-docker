@@ -89,6 +89,8 @@ Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard'])->group(
         Route::get('{document}/arquivo',[DocumentController::class,'showFile'])->name('dashboard.documents.showFile');
         
         Route::post('/cadastro',[DocumentController::class,'store'])->name('dashboard.documents.store');
+        Route::post('/vincular-estoque',[DocumentController::class,'stoksAvailable'])->name('dashboard.documents.stoksAvailable');
+        Route::post('{document}/vincular-estoque',[DocumentController::class,'attachDocumentToStoks'])->name('dashboard.documents.attachDocumentToStoks');
 
 
         Route::get('stok/{stok}',[DocumentController::class,"documentsAvaliable"])->name('dashboard.documents.documentsAvaliable');
