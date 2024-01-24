@@ -21,7 +21,7 @@ class DocumentController extends Controller
     public function index()
     {
         return view('dashboard.documents.index', [
-            'documents' => Document::all(),
+            'documents' => Document::orderBy("id","DESC")->get(),
             'projects' => Project::all()
         ]);
     }

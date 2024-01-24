@@ -97,13 +97,13 @@
                     <label for="add"><small>Adicione vários (parametros: Atributos)</small></label>
                     <button type="button" class="btn btn-success mb-0 form-control" id="add">Adicionar
                         Complemento</button>
-                    </div>
-                    <div class="form-group col-lg3 col-md-2">
-                        <label for="add"><small>Limpar complementos</small></label>
+                </div>
+                <div class="form-group col-lg3 col-md-2">
+                    <label for="add"><small>Limpar complementos</small></label>
 
-                        <button type="button" onclick="clearTable()" class="ml-2 btn btn-info ml-1" id="clear">Limpar
-                            Comlementos</button>
-                        </div>
+                    <button type="button" onclick="clearTable()" class="ml-2 btn btn-info ml-1" id="clear">Limpar
+                        Comlementos</button>
+                </div>
                 <hr>
             </div>
             <button type="submit" class="btn btn-primary ml-1" id="submit">Finalizar cadastro de documento</button>
@@ -192,6 +192,7 @@
                     },
                     confirmButtonText: 'Consultar',
                     showLoaderOnConfirm: true,
+                    showCancelButton: true,
                     inputValidator: (value) => {
                         if (!value) {
                             return 'Informe o número do CA!'
@@ -199,6 +200,7 @@
                     },
                     preConfirm: (caCode) => {
                         // Aqui você fará a chamada AJAX para a API
+
                         return $.ajax({
                             url: `${local}/consulta/${caCode}`,
                             method: 'GET',
@@ -211,7 +213,6 @@
                     allowOutsideClick: () => !Swal.isLoading()
                 }).then((result) => {
                     if (result.value && result.value.success) {
-                        console.log(result)
                         Swal.fire(
                             'CA encontrado com sucesso,', '', 'success');
                         response = "RegistroCA" in result.value ? result.value : result.value.data
@@ -222,9 +223,8 @@
                                 "value": response[key]
                             })
                         }
-                        lk = document.getElementById("link-file")
-                        lk.href = `${local}/certificado/${result.value.data.numero_ca}`
-                        lk.click()
+                        loadURLToInputFiled(`${local}/certificado/${result.value.data.numero_ca}`,
+                            `${result.value.data.numero_ca}`)
 
                     } else {
                         Swal.fire('Erro ao buscar o CA', result.value.message, 'error');
@@ -235,64 +235,6 @@
                 });
             }
         });
-        // type.addEventListener("change", (e) => {
-        //     if (e.target.value == 'caepi') {
-        //         Swal.fire({
-        //             title: 'Deseja consultar a API de CA do MTE?',
-        //             input: 'text',
-        //             inputLabel: "Informe o número do CA:",
-        //             inputPlaceholder: "42049",
-        //             inputAttributes: {
-        //                 autocapitalize: 'off',
-        //             },
-        //             showCancelButton: true,
-        //             confirmButtonText: 'Consultar',
-        //             showLoaderOnConfirm: true,
-        //             inputValidator: (value) => {
-        //                 if (!value) {
-        //                     return 'Informe o número do CA!'
-        //                 }
-        //             },
-        //             preConfirm: (ca) => {
-
-        //             },
-        //             allowOutsideClick: () => !Swal.isLoading()
-        //         }).then((result) => {
-        //             if (result.isConfirmed) {
-        //                 console.log(result.value)
-        //                 $.get(`${local}/consulta/${result.value}`)
-        //                     .then(response => {
-        //                         if (!isEmpty(response)) {
-        //                             Toast.fire({
-        //                                 icon: 'success',
-        //                                 title: 'CA localizado com sucesso!',
-        //                                 didDestroy: () => {
-
-        //                                 }
-        //                             })
-        //                             response = "RegistroCA" in response ? response : response.data
-        //                             insertFormValues(response)
-        //                             for (key in response) {
-        //                                 insertComplements({
-        //                                     "parameter": key,
-        //                                     "value": response[key]
-        //                                 })
-        //                             }
-        //                             setTimeout(() => {
-        //                                 // Swal.fire("Solicitando arquivo, aguarde o download iniciar.")
-        //                             }, 2000);
-        //                         } else {
-        //                             throw new Error(response.statusText)
-        //                         }
-        //                     }).catch(error => {
-        //                         Swal.showValidationMessage(
-        //                             `Request failed: ${error}`
-        //                         )
-        //                     })
-        //             }
-        //         })
-        //     }
-        // })
 
         const table = document.getElementById('table-complements')
 
@@ -391,6 +333,73 @@
                 $("#expiration").val(`${dta[2]}-${dta[1]}-${dta[0]}`);
                 data.situacao == 'VÁLIDO' ? $("#status").val('valid') : $("#status").val('invalid');
                 $("#serie").val(data.numero_ca)
+            }
+        }
+
+        function loadURLToInputFiled(url, ca) {
+            getImgURL(url, ca, (imgBlob) => {
+
+                let file = new File([imgBlob], `CA-${ca}.pdf`, {
+                    type: 'application/pdf',
+                    lastModified: new Date().getTime()
+                }, 'utf-8');
+                let container = new DataTransfer();
+                container.items.add(file);
+                document.querySelector('#file').files = container.files;
+            });
+        }
+
+        // xmlHTTP return blob respond
+        function getImgURL(url, ca, callback) {
+            var xhr = new XMLHttpRequest();
+
+            xhr.onload = function() {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    // Código de status 2xx indica sucesso
+                    callback(xhr.response);
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "Arquivo localizado com sucesso",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                } else if (xhr.status == 303) {
+                    Swal.fire({
+                        icon: "info",
+                        title: "Arguarde um pouco enquando atualizo minha base de dados.",
+                        showConfirmButton: false,
+                        didOpen: () => {
+                            Swal.showLoading()
+                            $.ajax({
+                                url: `${local}/consulta/${ca}?param=true`,
+                                method: 'GET',
+                                dataType: 'json'
+                            }).then((data) => {
+                                if(data.success){
+                                    loadURLToInputFiled(`${local}/certificado/${ca}`,ca)
+                                }
+                            });
+                        }
+                    });
+                } else {
+                    console.error('Erro na requisição. Código de status:', xhr.status);
+                }
+            };
+
+            xhr.onerror = function() {
+                // Lidar com erros de rede
+                Swal.fire('Erro de rede ao fazer a solicitação.');
+            };
+
+            xhr.open('GET', url);
+            xhr.responseType = 'blob';
+
+            try {
+                xhr.send();
+            } catch (error) {
+                // Lidar com exceções durante o envio da solicitação
+                Swal.fire('Erro ao enviar a solicitação:', error);
             }
         }
     </script>

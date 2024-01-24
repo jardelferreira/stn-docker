@@ -149,7 +149,7 @@
                 let table = new DataTable('#documents', {
                     ajax: `${window.location.href}/json`,
                     responsive: true,
-                    order: [0, 'desc'],
+                    order: [0, 'asc'],
                     "language": result,
                     lengthMenu: [
                         [10, 25, 50, -1],
@@ -157,7 +157,7 @@
                     ],
                     columns: [{
                             className: 'dt-control',
-                            orderable: false,
+                            orderable: true,
                             data: null,
                             defaultContent: ''
                         },
