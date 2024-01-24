@@ -25,10 +25,10 @@
                     </div>
                     <div class="card-body mt-0">
                         <h5 class="card-title font-weight-bold">Dados Fiscais do Produto</h5>
-                        <p class="card-text"><strong>NOTA: </strong>NF-104587 - <a href="{{ route('dashboard.invoices.show', $stok->invoiceProduct->invoice) }}" target="_blank" class="text-danger"
+                        <p class="card-text"><strong>NOTA: </strong>{{$stok->invoiceProduct->invoice->name}} - <a href="{{ route('dashboard.invoices.show', $stok->invoiceProduct->invoice) }}" target="_blank" class="text-danger"
                                 rel="noopener noreferrer">Acessar nota <i class="fa fa-file-pdf fa-xl" aria-hidden="true"></i></a></p>
-                        <p class="card-text"><strong>FORNECEDOR: </strong> Nome da Razão Social</p>
-                        <p class="card-text"><strong>CNPJ: </strong> 12.345.678/0001-90</p>
+                        <p class="card-text"><strong>FORNECEDOR: </strong> {{$stok->invoiceProduct->invoice->provider->corporate_name}}</p>
+                        <p class="card-text"><strong>CNPJ: </strong> {{$stok->invoiceProduct->invoice->provider->cnpj}}</p>
                     </div>
                 </div>
             </div>
