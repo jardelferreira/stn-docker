@@ -138,7 +138,7 @@
                             }, {
                                 data: "id",
                                 render: function(data, type) {
-                                    return `<a href="http://localhost/dashboard/documentos/${data}/arquivo" class="font-weight-bold btn btn-outline-danger btn-sm"
+                                    return `<a href="https://${window.location.host}/dashboard/documentos/${data}/arquivo" class="font-weight-bold btn btn-outline-danger btn-sm"
                                 target="_blank">Ver Arquivo</a>`
                                 }
                             }
