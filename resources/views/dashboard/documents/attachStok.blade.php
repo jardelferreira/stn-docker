@@ -3,7 +3,9 @@
 @section('title', 'Vincular documento')
 
 @section('content_header')
-   <h1>Vincular documentos para - <strong>{{$stok->invoiceProduct->name}}</strong></h1>
+    <h1>Vincular documentos para - <strong>{{ $stok->invoiceProduct->name }}</strong> - <a name="" id=""
+            class="btn btn-success" href="{{ route('dashboard.documents.create') }}" role="button">Criar novo documento- <i
+                class="fa fa-plus" aria-hidden="true"></i></a></h1>
 @stop
 
 @section('content')
@@ -24,11 +26,14 @@
                             <td>{{ $document->name }}</td>
                             <td>{{ $document->description }}</td>
                             <td>{{ $document->serie }}</td>
-                            <td><form action="{{route('dashboard.documents.attachDocument',[$document,$stok])}}" method="POST">
-                                @csrf
-                                @method('POST')
-                            <button class="btn btn-info btn-sm" type="submit">Vincular</button>
-                            </form></td>
+                            <td>
+                                <form action="{{ route('dashboard.documents.attachDocument', [$document, $stok]) }}"
+                                    method="POST">
+                                    @csrf
+                                    @method('POST')
+                                    <button class="btn btn-info btn-sm" type="submit">Vincular</button>
+                                </form>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
