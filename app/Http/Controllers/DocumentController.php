@@ -149,10 +149,30 @@ class DocumentController extends Controller
         ]);
     }
 
+    public function stoksAttached(Request $request)
+    {
+        $sector = Sector::find($request->sector_id);
+        $document = Document::find($request->document_id);
+        // dd($document->stoks()->get());
+        // dd($sector->stoksWithoutDocument($request->document_id)->get());
+        return view('dashboard.documents.stoksAttacheds', [
+            'sector' => $sector,
+            'stoks' => $document->stoks()->get(),
+            'document' => $document
+        ]);
+    }
+
     public function attachDocumentToStoks(Document $document, Request $request)
     {
         // dd($document);
         $document->stoks()->attach($request->stok_id);
         return redirect()->route('dashboard.documents')->with('success',"Documento vinculado itens de estoque com sucesso!");
+    }
+
+    public function detachDocumentToStoks(Document $document, Request $request)
+    {
+        // dd($document);
+        $document->stoks()->detach($request->stok_id);
+        return redirect()->route('dashboard.documents')->with('success',"Documento desvinculado itens de estoque com sucesso!");
     }
 }

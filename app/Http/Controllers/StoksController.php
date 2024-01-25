@@ -213,5 +213,9 @@ class StoksController extends Controller
             "documents" => $stok->documents()->get()
         ]);
     }
-    
+    public function detachDocument(Sector $sector,Stoks $stok,Document $document)
+    {
+        $stok->documents()->detach($document->id);
+        return redirect()->back()->with('detach',"O Documento foi desvinculado com sucesso!");
+    }
 }

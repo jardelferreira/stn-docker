@@ -207,11 +207,11 @@
             </tfoot>
         </table>
         
-        <div class=" mt-1">
+        {{-- <div class=" mt-1">
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalCA">
                 CA-42049
             </button>
-        </div>
+        </div> --}}
 
         <div class="modal fade" id="modalCA" tabindex="-1" role="dialog" aria-labelledby="modalTitle"
             aria-hidden="true">

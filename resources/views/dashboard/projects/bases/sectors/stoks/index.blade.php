@@ -34,7 +34,7 @@
                         {{-- <td scope="row">{{ $item->invoiceProduct->ca_number }}</td> --}}
                         <td scope="row"><a href="{{ route('dashboard.invoices.show', $item->invoiceProduct->invoice->id)}}" target="_blank" rel="noopener noreferrer" class="text-bold">{{ $item->invoiceProduct->invoice->name }}</a></td>
                         <td scope="row" class="btn-group" >
-                            <a name="document-{{$item->id}}" id="document-{{$item->id}}" class="btn btn-sm mx-1 btn-info" href="{{route("dashboard.sectors.stoks.documents",[$sector->id,$item->id])}}" role="button">Documentos</a>
+                            <a target="_blank" name="document-{{$item->id}}" id="document-{{$item->id}}" class="btn btn-sm mx-1 btn-info" href="{{route("dashboard.sectors.stoks.documents",[$sector->id,$item->id])}}" role="button" >Documentos</a>
                             {{-- <a name="view-{{$item->id}}" id="view-{{$item->id}}" class="btn btn-info mx-1 rounded" href="#" role="button">Ver</a> --}}
                             {{-- <a href="{{ route('dashboard.invoices.show', $item->invoiceProduct->invoice->id)}}" target="_blank" type="button" class="btn btn-danger ml-1 btn-sm"><i class="fa fa-file-pdf fa-xl" aria-hidden="true"></i></a> --}}
                             <button type="button" class="btn btn-danger btn-sm ml-1" data-toggle="modal" data-target="#rmModal"

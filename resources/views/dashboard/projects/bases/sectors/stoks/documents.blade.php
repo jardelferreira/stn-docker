@@ -17,6 +17,14 @@
             <strong>Documento vinculado com sucesso!</strong> {{ session('success') }}
         </div>
     @endif
+    @if (session('detach'))
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <button type="button" class="close bg-dark" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <strong>Desviculo! </strong> {{ session('detach') }}
+        </div>
+    @endif
 
     @if (count($documents))
         <div class="table">
@@ -28,7 +36,7 @@
                         <th>Tipo</th>
                         <th>Expiração</th>
                         <th>Série</th>
-                        <th>Arquivo</th>
+                        <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -39,8 +47,10 @@
                             <td>{{ $document->type }}</td>
                             <td>{{ $document->expiration }}</td>
                             <td>{{ $document->serie }}</td>
-                            <td><a href="{{ route('dashboard.documents.showFile', $document) }}" target="_blank">Ver
-                                    Arquivo</a></td>
+                            <td>
+                                <a class="btn btn-primary btn-sm" href="{{ route('dashboard.documents.showFile', $document) }}" target="_blank">Ver Arquivo</a>
+                                <a class="btn btn-sm btn-danger mx-1" href="{{ route('dashboard.sectors.stoks.detachDocument',[$stok->sector_id,$stok->id, $document]) }}" target="_blank">Desvincular</a>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -54,7 +64,7 @@
     <script>
         $(".alert").ready(function() {
             setTimeout(() => {
-                $(".alert-success").fadeOut(1000)
+                $(".alert").fadeOut(1000)
             }, 3000);
         })
     </script>

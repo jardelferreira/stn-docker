@@ -90,7 +90,9 @@ Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard'])->group(
         
         Route::post('/cadastro',[DocumentController::class,'store'])->name('dashboard.documents.store');
         Route::post('/vincular-estoque',[DocumentController::class,'stoksAvailable'])->name('dashboard.documents.stoksAvailable');
+        Route::post('/desvincular-estoque',[DocumentController::class,'stoksAttached'])->name('dashboard.documents.stoksAttached');
         Route::post('{document}/vincular-estoque',[DocumentController::class,'attachDocumentToStoks'])->name('dashboard.documents.attachDocumentToStoks');
+        Route::post('{document}/desvincular-estoque',[DocumentController::class,'detachDocumentToStoks'])->name('dashboard.documents.detachDocumentToStoks');
 
 
         Route::get('stok/{stok}',[DocumentController::class,"documentsAvaliable"])->name('dashboard.documents.documentsAvaliable');
@@ -298,6 +300,8 @@ Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard'])->group(
 
             Route::post('/retirar', [StoksController::class, 'removeFromStock'])->name('dashboard.sectors.stoks.removeFromStock');
             Route::get('{stok}/documentos',[StoksController::class,'documents'])->name('dashboard.sectors.stoks.documents');
+            Route::get('{stok}/documentos/{document}',[StoksController::class,'detachDocument'])->name('dashboard.sectors.stoks.detachDocument');
+
         });
     });
 

@@ -22,15 +22,15 @@
             <table class="display" id="documents" style="width: 100%">
                 <thead class="thead-dark">
                     <tr>
-                        <th>#</th>
-                        <th>Nome</th>
-                        <th>Descrição</th>
-                        <th>Status</th>
-                        <th>Tipo</th>
-                        <th>Expiração</th>
-                        <th>Série</th>
-                        <th>Arquivo</th>
-                        <th>Ações</th>
+                        <th class="text-center">#</th>
+                        <th class="text-center">Nome</th>
+                        <th class="text-center">Descrição</th>
+                        <th class="text-center">Status</th>
+                        <th class="text-center">Tipo</th>
+                        <th class="text-center">Expiração</th>
+                        <th class="text-center">Série</th>
+                        <th class="text-center mx-0 px-0">Arquivo</th>
+                        <th class="text-center">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -55,19 +55,55 @@
                 <strong>Não há documentos cadastrados</strong>
             </div>
     @endif
-@endsection
-<div class="modal fade exampleModal-lg" id="exampleModal" tabindex="-1" role="dialog"
-    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade exampleModal-lg" id="exampleModal" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Vincular documentos</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('dashboard.documents.stoksAvailable') }}" method="POST">
+                        @csrf
+                        @method('POST')
+                        <input type="hidden" name="document_id" class="form-control" id="document_id">
+                        <div class="form-group">
+                            <label for="sector_id">Selecione o setor do estoque</label>
+                            <select class="custom-select" name="sector_id" id="sector_id">
+                                @foreach ($projects as $project)
+                                    @foreach ($project->bases as $base)
+                                        @foreach ($base->sectors as $sector)
+                                            <option value="{{ $sector->id }}">{{ $project->name }} => {{ $base->name }}
+                                                => {{ $sector->name }}</option>
+                                        @endforeach
+                                    @endforeach
+                                @endforeach
+                            </select>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-primary">Ir para estoque</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade exampleModal-lg" id="desvincularModal" tabindex="-1" role="dialog"
+    aria-labelledby="desvincularModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                <h5 class="modal-title" id="desvincularModalLabel">Desvincular Documento</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('dashboard.documents.stoksAvailable') }}" method="POST">
+                <form action="{{ route('dashboard.documents.stoksAttached') }}" method="POST">
                     @csrf
                     @method('POST')
                     <input type="hidden" name="document_id" class="form-control" id="document_id">
@@ -93,6 +129,7 @@
         </div>
     </div>
 </div>
+@endsection
 @section('js')
     <script>
         function getDateNow() {
@@ -184,6 +221,7 @@
                         }, {
                             data: "serie"
                         }, {
+                            className: "text-center",
                             data: "id",
                             render: function(data, type) {
                                 return `<a href="http://localhost/dashboard/documentos/${data}/arquivo" class="font-weight-bold btn text-danger my-0 mx-1 px-1 py-0"
@@ -192,7 +230,8 @@
                         }, {
                             data: "id",
                             render: function(data, type) {
-                                return `<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#exampleModal" data-whatever="${data}">Vincular</button>`
+                                return `<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#exampleModal" data-whatever="${data}">Vincular</button>
+                                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#desvincularModal" data-whatever="${data}">Desvincular</button>`
                             }
                         }
                     ],
@@ -219,12 +258,11 @@
                 });
             }
         });
-        $('#exampleModal').on('show.bs.modal', function(e) {
-
+        $('.modal').on('show.bs.modal', function(e) {
             //get data-id attribute of the clicked element
             var document_id = $(e.relatedTarget).data('whatever');
 
-            $("#document_id").val(document_id)
+            document.querySelectorAll("input[name='document_id']").forEach((e) => e.value = document_id)
 
         });
     </script>
