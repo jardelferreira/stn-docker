@@ -224,7 +224,7 @@
                             className: "text-center",
                             data: "id",
                             render: function(data, type) {
-                                return `<a href="http://localhost/dashboard/documentos/${data}/arquivo" class="font-weight-bold btn text-danger my-0 mx-1 px-1 py-0"
+                                return `<a href="${window.location.origin}/dashboard/documentos/${data}/arquivo" class="font-weight-bold btn text-danger my-0 mx-1 px-1 py-0"
                                 target="_blank"><i class="fa fa-file-pdf fa-xl" aria-hidden="true"></i></a>`
                             }
                         }, {
