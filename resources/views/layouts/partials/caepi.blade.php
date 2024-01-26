@@ -1,7 +1,7 @@
 <div class="card page-break" style="width: 100%; position: absolute; left:0; top:0;">
     <div class="card-header d-flex">
         <h5 class="mb-0">Número CA: <span data-item="numero_ca">{{ $caepi->serie }}</span></h5>
-        <div class="ml-3" style="float: right"> <a href="{{URL::signedRoute('extern.documents.showFile', $document, null, false)}}" target="_blank"
+        <div class="ml-3" style="float: right"> <a href="{{URL::signedRoute('extern.documents.showFile', $document, null, true)}}" target="_blank"
                 class="h6 text-light font-weight-bold btn" rel="noopener noreferrer">CLIQUE AQUI ACESSAR PDF DO
                 CERTIFICADO</a></div>
     </div>
