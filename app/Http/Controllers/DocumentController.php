@@ -20,6 +20,7 @@ class DocumentController extends Controller
      */
     public function index()
     {
+        // dd($_SERVER['APP_HOST']);
         return view('dashboard.documents.index', [
             'documents' => Document::orderBy("id","DESC")->get(),
             'projects' => Project::all()
@@ -126,7 +127,7 @@ class DocumentController extends Controller
         ]);
     }
 
-    public function showFile(Request $request, Document $document)
+    public function showFile(Document $document,Request $request)
     {
         if ($request->has("signature")) {
             if (!$request->hasValidSignature(false)) {
