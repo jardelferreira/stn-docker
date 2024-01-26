@@ -8,7 +8,7 @@
                 CERTIFICADO</a></div>
             @else
                 
-            <a href="https://www.jfwebsystem.com.br/{{URL::signedRoute('extern.documents.showFile',['document' => $caepi->id], null, false)}}" target="_blank"
+            <a href="https://www.jfwebsystem.com.br{{URL::signedRoute('extern.documents.showFile',['document' => $caepi->id], null, false)}}" target="_blank"
                 class="h6 text-light font-weight-bold btn" rel="noopener noreferrer">CLIQUE AQUI ACESSAR PDF DO
                 CERTIFICADO</a></div>
                 @endif
