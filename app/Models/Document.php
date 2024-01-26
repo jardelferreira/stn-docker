@@ -9,9 +9,10 @@ class Document extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name','description','status','type','arquive','expiration','serie','complements'];
+    protected $fillable = ['name', 'description', 'status', 'type', 'arquive', 'expiration', 'serie', 'complements'];
 
-    static function enumTypes(){
+    static function enumTypes()
+    {
         return collect([
             'caepi' => ['name' => 'CA-EPI'],
             'nbr' => ['name' => 'NBR'],
@@ -31,7 +32,8 @@ class Document extends Model
         ]);
     }
 
-    static function enumStatus() {
+    static function enumStatus()
+    {
         return collect([
             'active' => ['name' => 'Ativo'],
             'inactive' => ['name' => 'Inativo'],
@@ -48,7 +50,24 @@ class Document extends Model
         ]);
     }
 
-    function stoks() {
-        return $this->belongsToMany(Stoks::class,"stok_documents","document_id","stok_id")->orderBy("stok_documents.id","desc");
+    public function stoks()
+    {
+        return $this->belongsToMany(Stoks::class, "stok_documents", "document_id", "stok_id")->orderBy("stok_documents.id", "desc");
+    }
+
+    public function parseComplementToJson()
+    {
+        $json = json_decode($this->complements);
+        $array = [];
+        foreach ($json as $key => $atribute) {
+            if ($atribute->parameter == "historico_alteracoes") {
+                $atribute->value = json_encode(explode("\n", $atribute->value));
+                $array = array_merge($array, [$atribute->parameter => json_decode($atribute->value)]);
+            } else {
+                $array = array_merge($array, [$atribute->parameter => $atribute->value]);
+            }
+        }
+        $json = json_encode($array);
+        return json_decode($json);
     }
 }

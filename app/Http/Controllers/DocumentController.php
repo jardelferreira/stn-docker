@@ -126,8 +126,13 @@ class DocumentController extends Controller
         ]);
     }
 
-    public function showFile(Document $document)
+    public function showFile(Request $request, Document $document)
     {
+        if ($request->has("signature")) {
+            if (!$request->hasValidSignature(false)) {
+                abort(401);
+            }
+        }
         $header = [
             'Content-Type' => 'application/pdf',
             'Content-Disposition' => 'inline; filename="' . $document->name . '"'

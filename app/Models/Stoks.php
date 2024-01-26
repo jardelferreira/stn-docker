@@ -28,7 +28,7 @@ class Stoks extends Model
     }
 
     function documents() {
-        return $this->belongsToMany(Document::class,"stok_documents","stok_id")->orderBy("stok_documents.id","desc");
+        return $this->belongsToMany(Document::class,"stok_documents","stok_id")->distinct("stok_documents.document_id");
     } 
 
     function documentsById($id) {

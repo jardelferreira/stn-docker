@@ -145,7 +145,15 @@ class PublicController extends Controller
     }
 
     public function formlistPdf(FormlistBaseEmployee $formlist_employee)
-    {
+    { 
+        return view('dashboard.projects.bases.employees.formlistsFields', [
+            'employee' => $formlist_employee->employee,
+            'base' => $formlist_employee->base,
+            'formlist' => $formlist_employee->formlist,
+            'formlist_employee' => $formlist_employee->id,
+            'fields' => $formlist_employee->fields()->get()
+        ]);
+        
         $html = view('formlistPdf', [
             'formlist' => $formlist_employee
         ]);
@@ -197,4 +205,6 @@ class PublicController extends Controller
             "qrcode" => $qrCode
         ]);
     }
+
+    
 }

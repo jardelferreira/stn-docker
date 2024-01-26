@@ -269,8 +269,15 @@ class BaseController extends Controller
     
     public function formlistPdf(FormlistBaseEmployee $formlist_employee)
     {
+        
+        // return $html = view('formlistPdf',[
+        //     'formlist' => $formlist_employee,
+        //     'document' => $formlist_employee->fields()->first()->stoks()->first()->documents()->first()
+        // ]);
+        
         $html = view('formlistPdf',[
-            'formlist' => $formlist_employee
+            'formlist' => $formlist_employee,
+            'fields' => $formlist_employee->fields()->with("stoks.documents")->get(),
         ]);
         $pdf = Pdf::loadHTML($html)->setPaper('a4', 'landscape')->setWarnings(false);
         return $pdf->download("{$formlist_employee->formlist->name}-{$formlist_employee->employee->user->name}.pdf");

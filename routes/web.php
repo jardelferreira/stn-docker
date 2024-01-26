@@ -15,6 +15,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/teste',[PublicController::class,'qrcode'])->name('home.teste');
+
 Route::prefix('hkm')->group(function(){
     Route::get('/home',[PublicController::class,'hkmHome'])->name('hkm.home');
 });
@@ -41,6 +42,8 @@ Route::prefix('externo')->group(function () {
     Route::get('recibos/{receipt}/show', [ReceiptController::class, 'externReceiptShow'])->name('extern.receiptShow');
     Route::get('recibos/{receipt}/assinatura', [ReceiptController::class, 'externAssignShow'])->name('extern.externAssignShow');
     Route::post('recibos/{receipt}/assign', [ReceiptController::class, 'externAssign'])->name('extern.externAssign');
+
+    Route::get('documentos/{document}/arquivo',[DocumentController::class,'showFile'])->name('extern.documents.showFile');
 });
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
