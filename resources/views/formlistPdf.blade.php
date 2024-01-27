@@ -31,7 +31,6 @@
             height: 21cm;
             margin: 30mm 45mm 30mm 45mm;
         }
-
     </style>
     <title>{{ $formlist->formlist->description }}-{{ $formlist->employee->user->name }}</title>
 </head>
@@ -280,12 +279,13 @@
             </div>
         </div>
     </div> --}}
-    @foreach ($fields as $field)
-        @foreach ($field->stoks->documents as $document)
-            @if ($document['type'] == 'caepi')
-            @include('layouts.partials.caepi',['caepi' => $document, 'complements' => $document->parseComplementToJson()])      
-            @endif
-        @endforeach
+    @foreach ($documents as $document)
+        @if ($document['type'] == 'caepi')
+            @include('layouts.partials.caepi', [
+                'caepi' => $document,
+                'complements' => $document->parseComplementToJson(),
+            ])
+        @endif
     @endforeach
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
@@ -354,6 +354,7 @@
             width: 100%;
             margin-bottom: 0px;
             height: auto;
+            max-height: 150mm;
             padding-bottom: 0;
             border-color: #007bff;
             font-size: 0.7em;
@@ -399,7 +400,7 @@
 
         .bdg-label {
             position: relative;
-            top: -10px;
+            top: -20px;
             z-index: 1;
             left: 2em;
             background-color: white;

@@ -1,6 +1,6 @@
 <div class="card page-break" style="width: 100%; position: absolute; left:0; top:0;">
     <div class="card-header d-flex">
-        <h5 class="mb-0">Número CA: <span data-item="numero_ca">{{ $caepi->serie }}</span></h5>
+        <h5 class="mb-0 mt-0">Número CA: <span data-item="numero_ca">{{ $caepi->serie }}</span></h5>
         <div class="ml-3" style="float: right">
             @if ($_SERVER['HTTP_HOST'] == 'localhost')
             <a href="http://localhost{{URL::signedRoute('extern.documents.showFile',['document' => $caepi->id], null, false)}}" target="_blank"
@@ -14,9 +14,9 @@
                 @endif
     </div>
     <div class="card-body">
-        <div class="row mb-1 p-1" style="display:flex">
+        <div class="row mb-0 p-1" style="display:flex">
             <label class="bdg-label" for="Sua Etiqueta">Sobre o CA</label>
-            <div class="ctn bdg">
+            <div class="ctn bdg my-0">
                 <div class="item mx-1 font-weight-bold">Data de Validade: <span
                         data-item="data_validade">{{ $complements->data_validade }}</span>
                 </div>
@@ -36,9 +36,9 @@
                 </div>
             </div>
         </div>
-        <div class="row mb-1 p-1">
+        <div class="row mb-0 mt-0 p-1">
             <label class="bdg-label" for="Sua Etiqueta">Sobre o Equipamento</label>
-            <div class="ctn bdg">
+            <div class="ctn bdg mt-0 mb-0">
                 <div class="item mx-1 font-weight-bold">Equipamento: <span
                         data-item="equipamento">{{ $complements->equipamento }}</span>
                 </div>
@@ -56,8 +56,8 @@
                 </div>
             </div>
         </div>
-        <div class="row mb-1 p-1">
-            <label class="bdg-label" for="Sua Etiqueta">Sobre o Laudo</label>
+        <div class="row mb-0 p-1">
+            <label class="bdg-label mt-0 mb-0" for="Sua Etiqueta">Sobre o Laudo</label>
             <div class="bdg ctn">
                 <div class="item mx-1 font-weight-bold">Número do Laudo: <span
                         data-item="numero_laudo">{{ $complements->numero_laudo }}</span>
@@ -69,9 +69,9 @@
                 </div>
             </div>
         </div>
-        <div class="row mb-1 p-1">
+        <div class="row mb-0 p-1">
             <label class="bdg-label" for="Sua Etiqueta">Sobre o Laboratório</label>
-            <div class="bdg ctn">
+            <div class="bdg ctn mt-0 mb-0">
                 <div class="item  mx-1 font-weight-bold">Razão Social:
                     <span data-item="razao_social_laboratorio">{{ $complements->razao_social_laboratorio }}</span>
                 </div>
@@ -83,8 +83,8 @@
                     <span data-item="norma_tecnica">{{ $complements->norma_tecnica }}</span>
                 </div>
                 <div class=" mx-1 ">
-                    <strong data-item="historico_alteracoes">{{ $complements->historico_alteracoes[0] }}</strong>
-                    @for ($i = 1; $i < count($complements->historico_alteracoes); $i++)
+                    <strong data-item="historico_alteracoes">{{ str_replace("Crescente","Decrescente",$complements->historico_alteracoes[0]) }}</strong>
+                    @for ($i = count($complements->historico_alteracoes) -1; $i >0 ; $i--)
                         <li style="margin-left: 10px">{{ $complements->historico_alteracoes[$i] }}</li>
                     @endfor
 

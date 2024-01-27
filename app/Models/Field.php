@@ -21,4 +21,20 @@ class Field extends Model
     {
         return $this->belongsTo(Stoks::class,'stok_id','id');
     }
+
+public function parseComplementToJson()
+    {
+        $json = json_decode($this->complements);
+        $array = [];
+        foreach ($json as $key => $atribute) {
+            if ($atribute->parameter == "historico_alteracoes") {
+                $atribute->value = json_encode(explode("\n", $atribute->value));
+                $array = array_merge($array, [$atribute->parameter => json_decode($atribute->value)]);
+            } else {
+                $array = array_merge($array, [$atribute->parameter => $atribute->value]);
+            }
+        }
+        $json = json_encode($array);
+        return json_decode($json);
+    }
 }

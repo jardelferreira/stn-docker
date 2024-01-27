@@ -244,7 +244,7 @@
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     </div>
-    {{-- <div class="card page-break">
+    <div class="card page-break">
         <div class="card-header d-flex">
             <h5 class="mb-0">Número CA: <span data-item="numero_ca"></span></h5>
             <div class="ml-3"> <a href="#" target="_blank" class="text-light font-weight-bold"
@@ -312,7 +312,7 @@
                 </div>
             </div>
         </div>
-    </div> --}}
+    </div>
 @endsection
 
 @section('js')
@@ -1081,12 +1081,15 @@
             height: 900px;
             padding-bottom: 0;
             border-color: #007bff;
-            font-size: 0.8em;
+            font-size: 0.7em;
+            border-radius: 20px;
         }
 
         .card-header {
             background-color: #007bff;
             color: white;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
         }
 
         .card-body {
@@ -1130,6 +1133,7 @@
             padding: 5px;
             position: relative;
             top: -40px;
+            overflow: hidden;
         }
 
         .item {

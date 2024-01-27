@@ -44,4 +44,11 @@ class FormlistBaseEmployee extends Model
         return "{$user->name} {$direction[$type]} em {$formlist->name} de {$this->employee->user()->first()->name}, {$qtd} {$product->und} de {$product->name}";
     }
     
+    public function documentsFromFormlist()
+    {
+        return $this->fields()->join("stok_documents","stok_documents.stok_id","=","fields.stok_id")
+        ->join("documents","documents.id","=","stok_documents.document_id")
+        ->select("documents.*");
+        
+    }
 }

@@ -274,13 +274,14 @@ class BaseController extends Controller
         //     'formlist' => $formlist_employee,
         //     'document' => $formlist_employee->fields()->first()->stoks()->first()->documents()->first()
         // ]);
-        
+        // dd(array_reverse($formlist_employee->documentsFromFormlist()->get()[0]->parseComplementToJson()->historico_alteracoes,true)[0]);
         $html = view('formlistPdf',[
             'formlist' => $formlist_employee,
-            'fields' => $formlist_employee->fields()->with("stoks.documents")->get(),
+            'fields' => $formlist_employee->fields()->get(),
+            'documents' => $formlist_employee->documentsFromFormlist()->get()
         ]);
         $pdf = Pdf::loadHTML($html)->setPaper('a4', 'landscape')->setWarnings(false);
-        return $pdf->download("{$formlist_employee->formlist->name}-{$formlist_employee->employee->user->name}.pdf");
+        return $pdf->stream("{$formlist_employee->formlist->name}-{$formlist_employee->employee->user->name}.pdf");
     }
 
     public function removeFieldFormlistByEmployee(
