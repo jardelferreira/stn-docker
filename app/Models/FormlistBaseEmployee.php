@@ -48,7 +48,7 @@ class FormlistBaseEmployee extends Model
     {
         return $this->fields()->join("stok_documents","stok_documents.stok_id","=","fields.stok_id")
         ->join("documents","documents.id","=","stok_documents.document_id")
-        ->select("documents.*");
+        ->select("documents.*")->distinct();
         
     }
 }

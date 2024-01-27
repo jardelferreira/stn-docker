@@ -1,5 +1,5 @@
 <div class="card page-break" style="width: 100%; position: absolute; left:0; top:0;">
-    <div class="card-header d-flex">
+    <div class="card-header">
         <h5 class="mb-0 mt-0">Número CA: <span data-item="numero_ca">{{ $caepi->serie }}</span></h5>
         <div class="ml-3" style="float: right">
             @if ($_SERVER['HTTP_HOST'] == 'localhost')
@@ -14,7 +14,7 @@
                 @endif
     </div>
     <div class="card-body">
-        <div class="row mb-0 p-1" style="display:flex">
+        <div class="row mb-0 p-1" style="margin-top:10px">
             <label class="bdg-label" for="Sua Etiqueta">Sobre o CA</label>
             <div class="ctn bdg my-0">
                 <div class="item mx-1 font-weight-bold">Data de Validade: <span
@@ -36,7 +36,7 @@
                 </div>
             </div>
         </div>
-        <div class="row mb-0 mt-0 p-1">
+        <div class="row mb-0 mt-0 p-0">
             <label class="bdg-label" for="Sua Etiqueta">Sobre o Equipamento</label>
             <div class="ctn bdg mt-0 mb-0">
                 <div class="item mx-1 font-weight-bold">Equipamento: <span
@@ -57,7 +57,7 @@
             </div>
         </div>
         <div class="row mb-0 p-1">
-            <label class="bdg-label mt-0 mb-0" for="Sua Etiqueta">Sobre o Laudo</label>
+            <label class="bdg-label" for="Sua Etiqueta">Sobre o Laudo</label>
             <div class="bdg ctn">
                 <div class="item mx-1 font-weight-bold">Número do Laudo: <span
                         data-item="numero_laudo">{{ $complements->numero_laudo }}</span>

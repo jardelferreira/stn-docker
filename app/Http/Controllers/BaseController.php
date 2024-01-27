@@ -274,7 +274,8 @@ class BaseController extends Controller
         //     'formlist' => $formlist_employee,
         //     'document' => $formlist_employee->fields()->first()->stoks()->first()->documents()->first()
         // ]);
-        // dd(array_reverse($formlist_employee->documentsFromFormlist()->get()[0]->parseComplementToJson()->historico_alteracoes,true)[0]);
+        // dd($formlist_employee->documentsFromFormlist()->get()->toArray());
+        // dd($_SERVER["HTTP_HOST"] == "localhost");
         $html = view('formlistPdf',[
             'formlist' => $formlist_employee,
             'fields' => $formlist_employee->fields()->get(),
