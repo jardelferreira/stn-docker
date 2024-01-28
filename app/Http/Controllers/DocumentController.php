@@ -21,7 +21,7 @@ class DocumentController extends Controller
      */
     public function index()
     {
-        // $response =  Http::accept('application/json')->get("https://dev.virtualearth.net/REST/v1/Locations/-24.1034164,-46.6510916?includeEntityTypes=Address&o=json&key=AkAM8Qhsw58S516_zkjiK4pXLu5mNpFOGu0HrDzRtEJ9fSYlf9t_bk6ouAQaEAw4")->body();
+        // $response =  Http::accept('application/json')->get("https://dev.virtualearth.net/REST/v1/Locations/-24.0877568,-46.6092032?includeEntityTypes=Address&o=json&key=AkAM8Qhsw58S516_zkjiK4pXLu5mNpFOGu0HrDzRtEJ9fSYlf9t_bk6ouAQaEAw4")->body();
         // dd(json_decode($response));
 
         // $response =  Http::accept('application/json')->post("https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyAqdoXdjUq5txykTMQsfwnkO1aTbx4kf-g")->body();
@@ -196,7 +196,7 @@ class DocumentController extends Controller
         $apiKey = 'AIzaSyAqdoXdjUq5txykTMQsfwnkO1aTbx4kf-g'; // Substitua com sua chave de API real
 
         // Construir a URL da API Geocoding
-        $geocodingUrl = "https://maps.googleapis.com/maps/api/geocode/json?latlng=-24.0910336,-46.61248&key={$apiKey}";
+        $geocodingUrl = "https://maps.googleapis.com/maps/api/geocode/json?latlng={$coordinates['lat']},{$coordinates['lng']}&key={$apiKey}";
 
         // Enviar requisição GET para a API Geocoding
         $response = Http::get($geocodingUrl);
