@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\StoreDocumentRequest;
 use App\Http\Requests\UpdateDocumentRequest;
 use App\Models\Sector;
+use Illuminate\Support\Facades\Http;
 
 class DocumentController extends Controller
 {
@@ -20,8 +21,14 @@ class DocumentController extends Controller
      */
     public function index()
     {
+        $response =  Http::accept('application/json')->get("https://dev.virtualearth.net/REST/v1/Locations/-24.0877568,-46.6092032?includeEntityTypes=Address&o=json&key=AkAM8Qhsw58S516_zkjiK4pXLu5mNpFOGu0HrDzRtEJ9fSYlf9t_bk6ouAQaEAw4")->body();
+        dd(json_decode($response));
+
+        // $response =  Http::accept('application/json')->post("https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyAqdoXdjUq5txykTMQsfwnkO1aTbx4kf-g")->body();
+        return $this->getGeolocation();
+
         return view('dashboard.documents.index', [
-            'documents' => Document::orderBy("id","DESC")->get(),
+            'documents' => Document::orderBy("id", "DESC")->get(),
             'projects' => Project::all()
         ]);
     }
@@ -126,7 +133,7 @@ class DocumentController extends Controller
         ]);
     }
 
-    public function showFile(Document $document,Request $request)
+    public function showFile(Document $document, Request $request)
     {
         if ($request->has("signature")) {
             if (!$request->hasValidSignature(false)) {
@@ -171,13 +178,57 @@ class DocumentController extends Controller
     {
         // dd($document);
         $document->stoks()->attach($request->stok_id);
-        return redirect()->route('dashboard.documents')->with('success',"Documento vinculado itens de estoque com sucesso!");
+        return redirect()->route('dashboard.documents')->with('success', "Documento vinculado itens de estoque com sucesso!");
     }
 
     public function detachDocumentToStoks(Document $document, Request $request)
     {
         // dd($document);
         $document->stoks()->detach($request->stok_id);
-        return redirect()->route('dashboard.documents')->with('success',"Documento desvinculado itens de estoque com sucesso!");
+        return redirect()->route('dashboard.documents')->with('success', "Documento desvinculado itens de estoque com sucesso!");
+    }
+
+    public function getGeolocation()
+    {
+        $coordinates = $this->getCoordinates()['location'];
+        
+        // Chave de API do Google Maps
+        $apiKey = 'AIzaSyAqdoXdjUq5txykTMQsfwnkO1aTbx4kf-g'; // Substitua com sua chave de API real
+
+        // Construir a URL da API Geocoding
+        $geocodingUrl = "https://maps.googleapis.com/maps/api/geocode/json?latlng=-24.0910336,-46.61248&key={$apiKey}";
+
+        // Enviar requisição GET para a API Geocoding
+        $response = Http::get($geocodingUrl);
+
+        // Verificar se a requisição foi bem-sucedida (código de status 2xx)
+        if ($response->successful()) {
+            // Obter os dados da resposta JSON
+            return $response->json();
+        } else {
+            // A requisição falhou, imprimir o código de status e mensagem de erro
+            return "Erro: " . $response->status() . " - " . $response->body();
+        }
+    }
+
+    public function getCoordinates()
+    {
+        $response = Http::post('https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyAqdoXdjUq5txykTMQsfwnkO1aTbx4kf-g', [
+            'homeMobileCountryCode' => 310,
+            'homeMobileNetworkCode' => 410,
+            'radioType' => 'gsm',
+            'carrier' => 'Vodafone',
+            'considerIp' => true,
+        ]);
+
+        // Verificar se a requisição foi bem-sucedida (código de status 2xx)
+        if ($response->successful()) {
+            // Obter os dados da resposta JSON
+             return $response->json();
+
+        } else {
+            // A requisição falhou, imprimir o código de status e mensagem de erro
+            return "Erro: " . $response->status() . " - " . $response->body();
+        }
     }
 }

@@ -142,24 +142,28 @@
                             </td>
                             <td class="border border-dark text-center">
                                 <p style="padding: 0; margin: 0; font-size: 0.7em;">
-                                    @if ($field->signature_delivered)
-                                        <small>Assinado digitalmente</small>
+                                    @if ($field->date_delivered && $field->signature_delivered)
+                                        Assinado digitalmente
                                     @else
-                                        <small>Falha na assinatura</small>
+                                        Falha na assinatura
                                     @endif
                                 </p>
+                            </td>
+                            <td class="border border-dark text-center">
+                                @if ($field->date_returned)
+                                    <p style="padding: 0; margin: 0; font-size: 0.7em;">
+                                        {{ date('d/m/y', strtotime($field->date_returned)) }}
+                                    </p>
+                                @endif
                             </td>
                             <td class="border border-dark text-center">
                                 <p style="padding: 0; margin: 0; font-size: 0.7em;">
                                     @if ($field->date_returned)
-                                        {{ date('d/m/y', strtotime($field->date_returned)) }}
-                                    @endif
-                                </p>
-                            </td>
-                            <td class="border border-dark text-center">
-                                <p style="padding: 0; margin: 0; font-size: 0.7em;">
-                                    @if ($field->signature_returned)
-                                        Assinado
+                                        @if ($field->signature_returned)
+                                            Assinado digitalmente
+                                        @else
+                                            Falha na assinatura
+                                        @endif
                                     @endif
                                 </p>
                             </td>
@@ -230,7 +234,7 @@
             border-color: #007bff;
             font-size: 0.7em;
             border-radius: 20px;
-            padding-top: 0px;   
+            padding-top: 0px;
         }
 
         .card-header {
@@ -240,7 +244,7 @@
             border-top-right-radius: 20px;
         }
 
-        .card-header > div{
+        .card-header>div {
             position: absolute;
             top: 8px;
         }
@@ -269,7 +273,6 @@
             background-color: white;
             padding: 0 5px;
             border-radius: 3px
-
         }
 
         .bdg-wrapper {
