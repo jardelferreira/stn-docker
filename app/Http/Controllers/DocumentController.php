@@ -25,6 +25,7 @@ class DocumentController extends Controller
         // dd(json_decode($response));
 
         // $response =  Http::accept('application/json')->post("https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyAqdoXdjUq5txykTMQsfwnkO1aTbx4kf-g")->body();
+        // ['lat' => -24.1034164, 'lng' => 46.6510916]
         return $this->getGeolocation();
 
         return view('dashboard.documents.index', [
@@ -188,9 +189,12 @@ class DocumentController extends Controller
         return redirect()->route('dashboard.documents')->with('success', "Documento desvinculado itens de estoque com sucesso!");
     }
 
-    public function getGeolocation()
+    public function getGeolocation($coordinates = null)
     {
-        $coordinates = $this->getCoordinates()['location'];
+        if(!$coordinates){
+
+            $coordinates = $this->getCoordinates()['location'];
+        }
         
         // Chave de API do Google Maps
         $apiKey = 'AIzaSyAqdoXdjUq5txykTMQsfwnkO1aTbx4kf-g'; // Substitua com sua chave de API real
