@@ -214,10 +214,10 @@ class DocumentController extends Controller
     public function getCoordinates()
     {
         $response = Http::post('https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyAqdoXdjUq5txykTMQsfwnkO1aTbx4kf-g', [
-            'homeMobileCountryCode' => 310,
-            'homeMobileNetworkCode' => 410,
+            'homeMobileCountryCode' => 55,
+            'homeMobileNetworkCode' => 15,
             'radioType' => 'gsm',
-            'carrier' => 'Vodafone',
+            'carrier' => 'Vivo',
             'considerIp' => true,
         ]);
 
