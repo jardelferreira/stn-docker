@@ -21,8 +21,8 @@ class DocumentController extends Controller
      */
     public function index()
     {
-        $response =  Http::accept('application/json')->get("https://dev.virtualearth.net/REST/v1/Locations/-24.0877568,-46.6092032?includeEntityTypes=Address&o=json&key=AkAM8Qhsw58S516_zkjiK4pXLu5mNpFOGu0HrDzRtEJ9fSYlf9t_bk6ouAQaEAw4")->body();
-        dd(json_decode($response));
+        // $response =  Http::accept('application/json')->get("https://dev.virtualearth.net/REST/v1/Locations/-24.1034164,-46.6510916?includeEntityTypes=Address&o=json&key=AkAM8Qhsw58S516_zkjiK4pXLu5mNpFOGu0HrDzRtEJ9fSYlf9t_bk6ouAQaEAw4")->body();
+        // dd(json_decode($response));
 
         // $response =  Http::accept('application/json')->post("https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyAqdoXdjUq5txykTMQsfwnkO1aTbx4kf-g")->body();
         return $this->getGeolocation();
