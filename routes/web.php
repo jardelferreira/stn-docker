@@ -7,6 +7,7 @@ use App\Models\Geolocation;
 use App\Models\Stoks;
 use App\Models\Task;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
 
 Route::get('/', function () {
@@ -17,8 +18,11 @@ Auth::routes();
 
 Route::get('/teste',[PublicController::class,'qrcode'])->name('home.teste');
 Route::get('/teste/locations',function(Geolocation $geolocation){
-    dd($geolocation->getGeolocationWithIpCAEPI());
+    return view("teste");
 })->name('teste.locations');
+Route::post('/teste/locationsLatLng',function(Geolocation $geolocation, Request $request){
+    dd($geolocation->getGeolocationWithCoodinatesCAEPI($request->lat,$request->lng));
+})->name('teste.locations.coodinates');
 
 Route::prefix('hkm')->group(function(){
     Route::get('/home',[PublicController::class,'hkmHome'])->name('hkm.home');
