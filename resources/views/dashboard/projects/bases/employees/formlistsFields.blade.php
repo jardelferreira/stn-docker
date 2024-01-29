@@ -617,6 +617,7 @@
                     }
                     $(".swal2-cancel").hide() // oculta o botão de cancelar durante o carregamento
                     // requisição
+                    console.log(pass)
                     return $.ajax({
                         method: "POST",
                         url: `${window.location.href}/devolver`,
@@ -724,9 +725,7 @@
             })
         }
 
-        function addOnreplacement() {
 
-        }
         async function loweringAndAdd(params) {
 
             const {
@@ -901,7 +900,7 @@
                             id: field_id
                         }
                     }).done(function(response) {
-                        return response
+                        console.log(response)
                     }).fail(function(jqXHR, textStatus) {
                         Swal.showValidationMessage(
                             `Request failed: ${textStatus}`

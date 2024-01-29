@@ -128,6 +128,7 @@ class FieldController extends Controller
 
     public function salveField(FormlistBaseEmployee $formlist_employee, Request $request)
     {
+        // parece não estar em uso
         $employee = $formlist_employee->employee()->first();
         // dd($formlist_employee);
         if (!$employee->user->hasSignature()) {
@@ -136,8 +137,12 @@ class FieldController extends Controller
                 'user' => $employee->user
             ])->with(['message' => "O usuário ainda não possui senha para assinar, favor gerar senha, favor gerar senhar"]);
         }
+
         $stok = Stoks::where('id', $request->stok_id)->first();
-        $signature = $employee->signature()->create([
+
+        // dd($formlist_employee->saveEventString($stok->invoiceProduct, $request->qtd_delivered));
+
+        $signature = $employee->signatures()->create([
             'uuid' => Str::uuid(),
             'user_id' => Auth::user()->id,
             'signature' => $employee->user->signature()->signature,
@@ -178,7 +183,7 @@ class FieldController extends Controller
             return response()->json([
                 'success' => false,
                 'type' => 'info',
-                'message' => 'É necessário cadastrar uma assinatura.',
+                'message' => 'A senha do colaborador não existe.',
                 'footer' => "Erro de Senha."
             ]);
         }
@@ -192,7 +197,7 @@ class FieldController extends Controller
         $event = $formlist_employee->saveEventString($stok->invoiceProduct, $field->qtd_delivered, 1);
 
 
-        $signature_returned = $employee->signature()->create([
+        $signature_returned = $employee->signatures()->create([
             'uuid' => Str::uuid(),
             'user_id' => intVal(Auth::user()->id),
             'signature' => $employee->user->signature()->signature,
@@ -232,7 +237,7 @@ class FieldController extends Controller
             return response()->json([
                 'success' => false,
                 'type' => 'info',
-                'message' => 'É necessário cadastrar uma assinatura.',
+                'message' => 'É necessário cadastrar uma assinatura para este usuário.',
                 'footer' => "Erro de Senha."
             ]);
         }
@@ -242,15 +247,16 @@ class FieldController extends Controller
             return response()->json($check);
         }
 
+        //caso já tenha sido gerado uma assinatura previamente e por erros o processo em tela não seguiu
         if ($request->signature_delivered) {
             $signature_delivered = $request->signature_delivered;
         } else {
 
-            $signature_delivered = $employee->signature()->create([
+            $signature_delivered = $employee->signatures()->create([
                 'uuid' => Str::uuid(),
                 'user_id' => Auth::user()->id,
                 'signature' => $employee->user->signature()->signature,
-                'event' => "O Item será adicionado a ficha."
+                'event' => "pre assinatura."
             ]);
         }
         if ($signature_delivered) {
@@ -258,8 +264,8 @@ class FieldController extends Controller
                 'success' => true,
                 'type' => 'success',
                 'signature_id' => $signature_delivered->id,
-                'event' => "O Produto será enviado agora...",
-                'message' => "Documento assinado com sucesso!",
+                'event' => "pre assinatura",
+                'message' => "Assinatura gerada com sucesso!",
             ]);
         }
         return response()->json([
@@ -269,12 +275,20 @@ class FieldController extends Controller
         ]);
     }
 
+    //salvar após gerar a assinatura acima
     public function salveFieldAfterAssign(FormlistBaseEmployee $formlist_employee, StoreFieldRequest $request)
     {
         $employee = $formlist_employee->employee()->first();
         $stok = Stoks::where('id', $request->stok_id)->first();
         $event = $formlist_employee->saveEventString($stok->invoiceProduct, $request->qtd_delivered);
 
+        $signature = Signature::where("id", $request->signature_id);
+
+        if ($stok->qtd < $request->qtd_delivered) {
+            $signature->delete();
+            return redirect()->back()
+                ->withErrors(["message" => "Quantidade insuficiente em estoque. O produto que você tentou adicionar não tem em estoque ou não tem a quantidade disponível."]);
+        }
         $dados = [
             'uuid' => Str::uuid(),
             'ca_first' => $stok->invoiceProduct->ca_number,
@@ -287,18 +301,21 @@ class FieldController extends Controller
         ];
         $dados = array_merge($dados, $request->all());
 
-        Field::create($dados);
+        $field = Field::create($dados);
+        if ($field) {
+            
+            $stok->update(['qtd' => $stok->qtd - $request->qtd_delivered]);
 
-        $stok->update(['qtd' => $stok->qtd - $request->qtd_delivered]);
+            $signature->update(['event' => $event]);
 
-        $signature = Signature::where("id", $request->signature_id);
-        $signature->update(['event' => $event]);
-
-        return redirect()->route('dashboard.bases.employees.formlists.fields', [
-            'formlist_employee' => $formlist_employee,
-            'employee' => $formlist_employee->employee,
-            'base' => $formlist_employee->base
-        ]);
+            return redirect()->route('dashboard.bases.employees.formlists.fields', [
+                'formlist_employee' => $formlist_employee,
+                'employee' => $formlist_employee->employee,
+                'base' => $formlist_employee->base
+            ]);
+        }else{
+            return redirect()->back()->withErrors(["message" => "Ocorreu um erro durante a gravação do campo na ficha."]);
+        }
     }
 
 
@@ -347,7 +364,7 @@ class FieldController extends Controller
             return response()->json([
                 'success' => false,
                 'type' => 'info',
-                'message' => 'É necessário cadastrar uma assinatura.',
+                'message' => 'É necessário cadastrar uma assinatura de usuário.',
                 'footer' => "Erro de Senha."
             ]);
         }
@@ -362,10 +379,10 @@ class FieldController extends Controller
         $event = $formlist_employee->saveEventString($stok->invoiceProduct, $field->qtd_delivered, 2);
 
 
-        $signature_returned = $employee->signature()->create([
+        $signature_returned = $user->signatures()->create([
             'uuid' => Str::uuid(),
             'user_id' => intVal(Auth::user()->id),
-            'signature' => $employee->user->signature()->signature,
+            'signature' => $user->signature()->signature,
             'event' => $event
         ]);
 
@@ -429,15 +446,17 @@ class FieldController extends Controller
         }
     }
 
-    function documents(Base $base,Employee $employee, FormlistBaseEmployee $formlist_employee,Stoks $stok){
-        return view('dashboard.projects.bases.employees.fields.documents',[
+    function documents(Base $base, Employee $employee, FormlistBaseEmployee $formlist_employee, Stoks $stok)
+    {
+        return view('dashboard.projects.bases.employees.fields.documents', [
             "stok" => $stok,
             "employee" => $employee,
             "formlist_employee" => $formlist_employee
         ]);
     }
 
-    function documentsFromStokIdJson(Base $base,Employee $employee, FormlistBaseEmployee $formlist_employee,Stoks $stok) {
+    function documentsFromStokIdJson(Base $base, Employee $employee, FormlistBaseEmployee $formlist_employee, Stoks $stok)
+    {
         return response()->json(['data' => $stok->documents()->get()]);
     }
 }

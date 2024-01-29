@@ -37,4 +37,6 @@ public function parseComplementToJson()
         $json = json_encode($array);
         return json_decode($json);
     }
+
+     
 }

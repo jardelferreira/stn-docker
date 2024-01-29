@@ -20,6 +20,7 @@ class CreateSignaturesTable extends Migration
             $table->string('signature');
             $table->longText('signature_image')->nullable();
             $table->string('path')->nullable();
+            $table->string('location')->nullable();
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->morphs('signaturable');
             $table->timestamps();

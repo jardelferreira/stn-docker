@@ -59,7 +59,7 @@ class Employee extends Model
         return $this->hasMany(FormlistBaseEmployee::class);
     }
 
-    public function signature()
+    public function signatures()
     {
         return $this->morphOne(Signature::class,'signaturable');
     }

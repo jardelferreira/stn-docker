@@ -236,6 +236,7 @@ class BaseController extends Controller
     {
         // dd(User::find(1)->signatures()->get());
         // dd(Signature::find($formlist_employee->fields()->first()->signature_delivered))->first();
+        // dd($employee->signatures()->get()->toArray());
         return view('dashboard.projects.bases.employees.formlistsFields', [
             'employee' => $formlist_employee->employee,
             'base' => $formlist_employee->base,
@@ -270,19 +271,13 @@ class BaseController extends Controller
     public function formlistPdf(FormlistBaseEmployee $formlist_employee)
     {
         
-        // return $html = view('formlistPdf',[
-        //     'formlist' => $formlist_employee,
-        //     'document' => $formlist_employee->fields()->first()->stoks()->first()->documents()->first()
-        // ]);
-        // dd($formlist_employee->documentsFromFormlist()->get()->toArray());
-        // dd($_SERVER["HTTP_HOST"] == "localhost");
         $html = view('formlistPdf',[
             'formlist' => $formlist_employee,
             'fields' => $formlist_employee->fields()->get(),
             'documents' => $formlist_employee->documentsFromFormlist()->get()
         ]);
         $pdf = Pdf::loadHTML($html)->setPaper('a4', 'landscape')->setWarnings(false);
-        return $pdf->stream("{$formlist_employee->formlist->name}-{$formlist_employee->employee->user->name}.pdf");
+        return $pdf->download("{$formlist_employee->formlist->name}-{$formlist_employee->employee->user->name}.pdf");
     }
 
     public function removeFieldFormlistByEmployee(
@@ -359,7 +354,7 @@ class BaseController extends Controller
         $event = $formlist_employee->saveEventString($stok->invoiceProduct, $field->qtd_delivered, 1);
 
 
-        $signature_returned = $employee->signature()->create([
+        $signature_returned = $employee->signatures()->create([
             'uuid' => Str::uuid(),
             'user_id' => intVal(Auth::user()->id),
             'signature' => $employee->user->signature()->signature,

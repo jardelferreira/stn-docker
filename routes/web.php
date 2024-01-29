@@ -274,7 +274,7 @@ Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard'])->group(
                         Route::post('/remove', [BaseController::class, 'removeFieldFormlistByEmployee'])->name('dashboard.bases.employees.formlists.fields.remove');
                         Route::post('/devolver', [FieldController::class, 'devolutionField'])->name('dashboard.bases.employees.formlists.fields.devolution');
                         Route::get('/similar/{stoks}', [BaseController::class, 'getSimilar'])->name('dashboard.bases.employees.formlists.fields.getSimilar');
-                        Route::post('/baixa', [FieldController::class, 'lowering'])->name('dashboard.bases.employees.formlists.fields.lowering');
+                        Route::post ('/baixa', [FieldController::class, 'lowering'])->name('dashboard.bases.employees.formlists.fields.lowering');
                         // Route::get('/adicionar',[FieldController::class,'create'])->name('dashboard.bases.employees.formlists.fields.create');
                     });
                 });

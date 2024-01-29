@@ -157,7 +157,7 @@
                 var url = window.location.href;
 
                 Swal.fire({
-                    title: 'Digite a senha do funcionário.',
+                    title: 'Digite a senha do Colaborador.',
                     input: 'password',
                     inputAttributes: {
                         autocapitalize: 'off',
@@ -200,18 +200,24 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         if (result.value.success) {
-                            var signature = result.value.signature_id;
+                            Swal.fire({
+                                icon: result.value.type,
+                                title: result.value.message,
+                                text: result.value.event,
+                                footer: result.value.footer,
+                                didOpen: (element) => {
+                                    $("#signature_delivered").val(result.value.signature_id);
+                                    $("form").submit();
+                                }
+                            })
+                        }else{
+                            Swal.fire({
+                                icon: result.value.type,
+                                title: result.value.message,
+                                text: result.value.event,
+                                footer: result.value.footer,
+                            })
                         }
-                        Swal.fire({
-                            icon: result.value.type,
-                            title: result.value.message,
-                            text: result.value.event,
-                            footer: result.value.footer,
-                            didOpen: (element) => {
-                                $("#signature_delivered").val(signature);
-                                $("form").submit();
-                            }
-                        })
 
                     }
                 })
