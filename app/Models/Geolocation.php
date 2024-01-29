@@ -10,11 +10,14 @@ class Geolocation extends Model
 {
     use HasFactory;
 
-    private $google_key,$bing_key;
+    private $google_key, $bing_key;
+    protected $ipAddress;
 
-    public function __construct($google_key,$bing_key) {
+    public function __construct()
+    {
         $this->google_key = env("GOOGLE_MAPS_KEY");
         $this->bing_key = env("BING_MAPS_KEY");
+        $this->ipAddress = $_SERVER['HTTP_X_FORWARDED_FOR'] ?? $_SERVER['REMOTE_ADDR'];
     }
 
     public function getCoordinatesGoogle()
@@ -30,25 +33,21 @@ class Geolocation extends Model
         // Verificar se a requisição foi bem-sucedida (código de status 2xx)
         if ($response->successful()) {
             // Obter os dados da resposta JSON
-             return $response->json();
-
+            return $response->json();
         } else {
             // A requisição falhou, imprimir o código de status e mensagem de erro
-            return "Erro: " . $response->status() . " - " . $response->body();
+            return response()->json(["data" => $response->body(), "success" => false]);
         }
     }
 
-    public function getGeolocationGoogle($lat = null,$lng = null)
+    public function getGeolocationGoogle($lat = null, $lng = null)
     {
-        if(!($lat && $lng)){
-            if($coordinates = $this->getCoordinatesGoogle()){
+        if (!($lat && $lng)) {
+            if ($coordinates = $this->getCoordinatesGoogle()) {
                 $lat = $coordinates['location']['lat'];
                 $lng = $coordinates['location']['lng'];
             }
         }
-        
-        // Chave de API do Google Maps
-        $apiKey = 'AIzaSyAqdoXdjUq5txykTMQsfwnkO1aTbx4kf-g'; // Substitua com sua chave de API real
 
         // Construir a URL da API Geocoding
         $geocodingUrl = "https://maps.googleapis.com/maps/api/geocode/json?latlng={$lat},{$lng}&key={$this->google_key}";
@@ -62,25 +61,35 @@ class Geolocation extends Model
             return $response->json();
         } else {
             // A requisição falhou, imprimir o código de status e mensagem de erro
-            return "Erro: " . $response->status() . " - " . $response->body();
+            return response()->json(["data" => $response->body(), "success" => false]);
         }
     }
 
     public function getGeolocationBing($lat = null, $lng = null)
     {
         if (!($lat && $lng)) {
-            if($coordinates = $this->getCoordinatesGoogle()){
+            if ($coordinates = $this->getCoordinatesGoogle()) {
                 $lat = $coordinates['location']['lat'];
                 $lng = $coordinates['location']['lng'];
             };
         }
-       return Http::accept('application/json')
-        ->get("https://dev.virtualearth.net/REST/v1/Locations/{$lat},{$lng}?includeEntityTypes=Address&o=json&key={$this->bing_key}")->body();
+        $response = Http::accept('application/json')
+            ->get("https://dev.virtualearth.net/REST/v1/Locations/{$lat},{$lng}?includeEntityTypes=Address&o=json&key={$this->bing_key}")->body();
+
+        return response()->json([
+            "data" => $response
+        ]);
     }
 
     public function getGeolocationWithIpCAEPI()
     {
-        
+        $geolocation = HTTP::get("https://www.caepionline/geolocationIP/{$this->ipAddress}");
+        return json_decode($geolocation);
     }
 
+    public function getGeolocationWithCoodinatesCAEPI($lat, $lng)
+    {
+        $geolocation = HTTP::get("https://www.caepionline/geolocationLatLng?{$lat}=-24.1034222&{$lng}=-46.61248");
+        return json_decode($geolocation);
+    }
 }

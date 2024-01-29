@@ -28,8 +28,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $ipAddress = $_SERVER['HTTP_X_FORWARDED_FOR'] ?? $_SERVER['REMOTE_ADDR'];
-        echo "Seu endereço IP é: " . $ipAddress;
         $user = User::where("id", Auth::user()->id)->first();
         if ($user->can('dashboard')) {
             return view('home');

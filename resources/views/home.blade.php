@@ -8,7 +8,9 @@
 
 @section('content')
     <p>Painel adm.</p>
-    <div id="local"></div>
+    <div id="local">
+        
+    </div>
     <script>
         // Verificar se o navegador suporta a API Geolocation
         if ("geolocation" in navigator) {

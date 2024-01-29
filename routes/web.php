@@ -3,6 +3,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{BaseController,BranchController,CategoryController,CostController,DepartamentCostController, DocumentController, EmployeeController,FieldController,FormlistController,GanttController,HomeController,InvoiceController,InvoiceProductsController,RoleController,UserController,PermissionController,ProductController,ProfessionController,ProjectController,ProviderController,PublicController,ReceiptController,SectorController,SectorsCostsController, ShortcutController, StoksController
 };
+use App\Models\Geolocation;
 use App\Models\Stoks;
 use App\Models\Task;
 use App\Models\User;
@@ -15,6 +16,9 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/teste',[PublicController::class,'qrcode'])->name('home.teste');
+Route::get('/teste/locations',function(Geolocation $geolocation){
+    dd($geolocation->getGeolocationWithIpCAEPI());
+})->name('home.teste');
 
 Route::prefix('hkm')->group(function(){
     Route::get('/home',[PublicController::class,'hkmHome'])->name('hkm.home');

@@ -30,4 +30,9 @@ class Signature extends Model
         return "Assinatura genérica gerada em: {$date}";
 
     }
+
+    public function setLocation($lat,$lng)
+    {
+        
+    }
 }
