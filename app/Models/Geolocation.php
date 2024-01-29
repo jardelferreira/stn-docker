@@ -83,13 +83,13 @@ class Geolocation extends Model
 
     public function getGeolocationWithIpCAEPI()
     {
-        $geolocation = HTTP::get("https://191.252.102.130/geolocationIP/{$this->ipAddress}");
+        $geolocation = HTTP::get("https://caepionline.com.br/geolocationIP/{$this->ipAddress}");
         return json_decode($geolocation);
     }
 
     public function getGeolocationWithCoodinatesCAEPI($lat, $lng)
     {
-        $geolocation = HTTP::get("https://191.252.102.130/geolocationLatLng?{$lat}=-24.1034222&{$lng}=-46.61248");
+        $geolocation = HTTP::get("https://caepionline.com.br/geolocationLatLng?lat={$lat}&lng={$lng}");
         return json_decode($geolocation);
     }
 }
