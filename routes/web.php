@@ -18,7 +18,7 @@ Auth::routes();
 Route::get('/teste',[PublicController::class,'qrcode'])->name('home.teste');
 Route::get('/teste/locations',function(Geolocation $geolocation){
     dd($geolocation->getGeolocationWithIpCAEPI());
-})->name('home.teste');
+})->name('teste.locations');
 
 Route::prefix('hkm')->group(function(){
     Route::get('/home',[PublicController::class,'hkmHome'])->name('hkm.home');
