@@ -23,7 +23,6 @@
     </div>
     <div class="grey-bg container-fluid">
         <section id="minimal-statistics">
-
             <div class="row">
                 <div class=" col-xl-3 col-sm-6 col-12">
                     <div class="card border border-primary rounded">
@@ -191,7 +190,7 @@
                           <div class="card-body">
                               <div class="media d-flex">
                                   <div class="media-body text-left">
-                                      <h3 class="warning">{{$project->bases()->count()}} / {{$project->employeesOnBases()->count()}}</h3>
+                                      <h3 class="warning">{{$project->bases()->count()}} / {{$project->employeesOnBases->count()}}</h3>
                                       <span>Bases / Funcionários</span>
                                   </div>
                                   <div class="align-self-center">
@@ -208,7 +207,7 @@
                             <div class="card-body">
                                 <div class="media d-flex">
                                     <div class="media-body text-left">
-                                        <h3 class="success">{{$project->professions()->count()}}</h3>
+                                        <h3 class="success">{{$project->employees()->distinct("profession_id")->count()}}</h3>
                                         <span>Profissões</span>
                                     </div>
                                     <div class="align-self-center">

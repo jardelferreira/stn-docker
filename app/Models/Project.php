@@ -19,17 +19,15 @@ class Project extends Model
 
     public function amountInvoicesByProject()
     {
-        $object = $this->hasMany(Invoice::class)
+        return $this->hasMany(Invoice::class)
         ->selectRaw('invoices.project_id, SUM(invoices.value) as amount_project, COUNT(invoices.project_id) as count_invoices')
-        ->groupBy('invoices.project_id');
-
-        return $object->count() ? $object->first() : [];
+        ->groupBy('invoices.project_id')->first();
         
     }
 
     public function amountProductsByProject()
     {
-         $this->hasManyThrough(InvoiceProducts::class,Invoice::class)
+        return $this->hasManyThrough(InvoiceProducts::class,Invoice::class)
         ->selectRaw('invoices.project_id, COUNT(invoice_products.id) as count_products, SUM(invoice_products.qtd) as amount_products')
         ->groupBy('invoices.project_id')
         ->first();
@@ -94,6 +92,12 @@ class Project extends Model
 
     public function products()
     {
-        return $this->belongsToMany(Product::class);
+        return $this->invoiceProducts()
+        ->join("products","products.id","=","invoice_products.product_id")->select("products.*");
+    }
+
+    public function invoiceProducts()
+    {
+        return $this->hasManyThrough(InvoiceProducts::class,Invoice::class);
     }
 }
