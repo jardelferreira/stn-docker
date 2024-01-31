@@ -63,7 +63,7 @@ class ProjectController extends Controller
         // $invoice = Invoice::where('id',4)->first();
         // dd($invoice->amountProducts(),$invoice->products()->get(), $invoice);
         // dd($project->employeesOnBases()->get());
-        dd($project->employeesOnBases()->get());
+        // dd($project->employeesOnBases()->toSql());
         if ($project->id) {
             return \view('dashboard/projects.show', [
                 'project' => $project
