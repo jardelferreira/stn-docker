@@ -22,6 +22,7 @@
             <table class="text-nowrap table-sm table-striped" id="nfs" style="width: 100%">
                 <thead>
                     <tr>
+                        <th>#</th>
                         <th>Nota</th>
                         <th>Valor departamento</th>
                         <th>Valor total</th>
@@ -35,6 +36,7 @@
                 <tbody>
                     @foreach ($invoicers as $item)
                         <tr>
+                            <td scope="row"> {{ $item->id }}</td>
                             <td scope="row"> {{ $item->name }}</td>
                             <td scope="row">R$ {{ number_format($item->value_departament, 2, ',', '.') }}</td>
                             <td scope="row">R$ {{ number_format($item->value, 2, ',', '.') }}</td>
