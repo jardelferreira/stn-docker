@@ -63,9 +63,7 @@ class Project extends Model
 
     public function employeesOnBases()
     {
-        return $this->bases()
-        ->join("employee_base","base_id","=","bases.id")
-        ->select("employee_base.*")->distinct("employee_id");
+        return $this->hasManyThrough(Employees_Base::class,Base::class);
     }
 
     public function employeesForLink()
