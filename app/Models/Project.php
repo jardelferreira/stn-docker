@@ -63,7 +63,7 @@ class Project extends Model
 
     public function employeesOnBases()
     {
-        return $this->hasManyThrough(Employees_Base::class,Base::class);
+        return $this->hasManyThrough(Employees_Base::class,Base::class)->distinct("employee_id");
     }
 
     public function employeesForLink()
