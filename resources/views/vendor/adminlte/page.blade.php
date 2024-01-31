@@ -50,7 +50,6 @@
     @stack('js')
     @yield('js')
 @stop
-@section('geolocation')
     <script>
         function getGeolocation() {
             console.log("geolocal")
@@ -141,5 +140,4 @@
             }
         }
     </script>
-@endsection
 @section('plugins.Sweetalert2', true)
