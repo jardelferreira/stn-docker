@@ -178,6 +178,10 @@ class ProjectController extends Controller
     public function detachEmployee(Project $project, Employee $employee)
     {
         $project->employees()->detach($employee->id);
+        
+        $bases = $project->bases()->pluck("id");
+
+        $employee->bases()->detach($bases);
 
         return redirect()->route('dashboard.projects.employees',$project);
     }
