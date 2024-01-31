@@ -48,8 +48,7 @@
                                     href="{{ route('dashboard.invoices.edit', $item) }}">Editar</a> --}}
                                 @if (count($item->products))
                                     <a class="btn btn-success btn-sm mr-1"
-                                        href="{{ route('dashboard.invoicesProducts.index', ['invoice' => $item->id]) }}">Ver
-                                        Produtos</a>
+                                        href="{{ route('dashboard.invoicesProducts.index', ['invoice' => $item->id]) }}">Ver Produtos</a>
                                 @else
                                     <a class="btn ml-1 btn-warning btn-sm mr-1"
                                         href="{{ route('dashboard.invoices.popular.create', ['invoice' => $item->id]) }}">Cadastrar

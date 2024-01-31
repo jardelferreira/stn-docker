@@ -144,7 +144,7 @@ class DocumentController extends Controller
         }
         $header = [
             'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'inline; filename="' . $document->name . '"'
+            'Content-Disposition' => "inline; filename='{$document->name}.pdf'"
         ];
         $path = \str_replace('public', 'storage', $document->arquive);
 

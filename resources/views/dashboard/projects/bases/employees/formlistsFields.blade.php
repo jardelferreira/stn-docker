@@ -16,8 +16,8 @@
         </a>
         <a class="ml-1 rounded btn btn-primary btn-sm" onclick="window.print()" href="#">imprimir ficha<i
                 class="fas fa-print fa-fw"></i></a>
-        <button class="btn btn-info ml-1" onclick="signatureCanvas()">Assinatura Digital<i class="fa fa-pencil ml-1"
-                aria-hidden="true"></i> </button>
+        {{-- <button class="btn btn-info ml-1" onclick="signatureCanvas()">Assinatura Digital<i class="fa fa-pencil ml-1"
+                aria-hidden="true"></i> </button> --}}
     </div>
 @stop
 
@@ -963,86 +963,7 @@
 @endsection
 
 @section('css')
-    <style>
-        @page {
-            size: landscape;
-        }
 
-        .card {
-            width: 100%;
-            margin-bottom: 0px;
-            height: 900px;
-            padding-bottom: 0;
-            border-color: #007bff;
-            font-size: 0.7em;
-            border-radius: 20px;
-        }
-
-        .card-header {
-            background-color: #007bff;
-            color: white;
-            border-top-left-radius: 20px;
-            border-top-right-radius: 20px;
-        }
-
-        .card-body {
-            margin: 0;
-            padding-bottom: 0;
-        }
-
-        .info-label {
-            font-weight: bold;
-        }
-
-        .info-label>span {
-            font-weight: normal;
-        }
-
-        .bdg-wrapper {
-            position: relative;
-        }
-
-        .bdg {
-            border: 1px solid gray;
-            border-radius: 6px;
-            position: relative;
-            width: 100%;
-
-        }
-
-        .bdg-label {
-            position: relative;
-            top: -20px;
-            z-index: 1;
-            left: 2em;
-            background-color: white;
-            padding: 0 5px;
-
-        }
-
-        .ctn {
-            /* display: flex;
-                                    flex-wrap: wrap; */
-            padding: 5px;
-            position: relative;
-            top: -40px;
-            overflow: hidden;
-        }
-
-        .item {
-            min-width: 150px;
-            padding-bottom: 5px;
-
-        }
-
-        .item>span {
-            font-weight: normal;
-        }
-
-        .page-break {
-            page-break-after: always;
-        }
-    </style>
     <style>
         #swal2-input,
         #user_pass,

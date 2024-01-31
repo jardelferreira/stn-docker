@@ -143,7 +143,15 @@
                             <td class="border border-dark text-center">
                                 <p style="padding: 0; margin: 0; font-size: 0.7em;">
                                     @if ($field->date_delivered && $field->signature_delivered)
-                                        Assinado digitalmente
+                                        @if ($_SERVER['HTTP_HOST'] == 'localhost')
+                                            <a href="http://localhost{{ URL::signedRoute('extern.field.showSignature', ['signatureField' => $field->signature_delivered, 'field' => $field], null, false) }}"
+                                                class="text-dark font-weight-bold" target="_blank"
+                                                rel="noopener noreferrer">Assinatura digital</a>
+                                        @else
+                                            <a href="https://www.jfwebsystem.com.br{{ URL::signedRoute('extern.field.showSignature', ['signatureField' => $field->signature_delivered, 'field' => $field], null, false) }}"
+                                                class="text-dark font-weight-bold" target="_blank"
+                                                rel="noopener noreferrer">Assinatura digital</a>
+                                        @endif
                                     @else
                                         Falha na assinatura
                                     @endif
@@ -160,7 +168,15 @@
                                 <p style="padding: 0; margin: 0; font-size: 0.7em;">
                                     @if ($field->date_returned)
                                         @if ($field->signature_returned)
-                                            Assinado digitalmente
+                                            @if ($_SERVER['HTTP_HOST'] == 'localhost')
+                                                <a href="http://localhost{{ URL::signedRoute('extern.field.showSignature', ['signatureField' => $field->signature_returned, 'field' => $field], null, false) }}"
+                                                    class="text-dark font-weight-bold" target="_blank"
+                                                    rel="noopener noreferrer">Assinatura digital</a>
+                                            @else
+                                                <a href="https://www.jfwebsystem.com.br{{ URL::signedRoute('extern.field.showSignature', ['signatureField' => $field->signature_returned, 'field' => $field], null, false) }}"
+                                                    class="text-dark font-weight-bold" target="_blank"
+                                                    rel="noopener noreferrer">Assinatura digital</a>
+                                            @endif
                                         @else
                                             Falha na assinatura
                                         @endif

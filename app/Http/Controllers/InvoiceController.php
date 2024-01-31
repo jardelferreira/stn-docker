@@ -66,7 +66,7 @@ class InvoiceController extends Controller
     {
         $header = [
             'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'inline; filename="' . $invoice->name . '"'
+            'Content-Disposition' => "inline; filename='{$invoice->name}.pdf"
         ];
         $path = \str_replace('public', 'storage', $invoice->file_path);
 
