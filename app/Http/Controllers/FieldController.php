@@ -72,7 +72,7 @@ class FieldController extends Controller
     public function showSignature(Request $request, Signature $signatureField, Field $field)
     {
         // dd($signatureField);
-        if (!$request->hasValidSignature(true)) {
+        if (!$request->hasValidSignature(false)) {
             abort(401);
         }
         
