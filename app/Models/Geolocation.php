@@ -83,6 +83,15 @@ class Geolocation extends Model
 
     public function getGeolocationWithIpCAEPI()
     {
+        if(env("APP_ENV") == "local"){
+            return response()->json([
+                "success" => true,
+                "data" => [
+                    "success" => true,
+                    "full" => "Geolocalização teste de localhost. IP:{$this->ipAddress}"
+                ]
+                ]);
+        }
         $geolocation = HTTP::get("https://caepionline.com.br/geolocationIP/{$this->ipAddress}");
         return json_decode($geolocation);
     }

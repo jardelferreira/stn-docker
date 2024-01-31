@@ -38,11 +38,11 @@ class FormlistBaseEmployee extends Model
 
     public function saveEventString($product, $qtd, $type = 0)
     {
-        $direction = ['adiciona', 'baixa','devolve'];
+        $direction = ['adicionou em', 'deu baixa em','devolveu em'];
         $user = Auth::user();
         $formlist = $this->formlist()->first();
         $now = explode(" ",date("d-m-Y H:i:s"));
-        return "{$user->name}, {$direction[$type]} em {$formlist->name} de {$this->employee->user()->first()->name}, {$qtd} - {$product->und}, de {$product->description}, ID-{$product->id}, em {$now[0]} as {$now[1]}.";
+        return "{$user->name}, {$direction[$type]} em {$formlist->name} de {$this->employee->user()->first()->name}, {$qtd} - {$product->und}, de {$product->description}, ID-{$product->id}, {$now[0]} as {$now[1]}.";
     }
     
     public function documentsFromFormlist()
@@ -52,4 +52,4 @@ class FormlistBaseEmployee extends Model
         ->select("documents.*")->distinct();
         
     }
-}
+} 

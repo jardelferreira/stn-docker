@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreSignatureRequest;
 use App\Http\Requests\UpdateSignatureRequest;
 use App\Models\Signature;
+use Illuminate\Http\Request;
 
 class SignatureController extends Controller
 {
@@ -45,9 +46,15 @@ class SignatureController extends Controller
      * @param  \App\Models\Signature  $signature
      * @return \Illuminate\Http\Response
      */
-    public function show(Signature $signature)
+    public function show(Request $request, Signature $signatureField)
     {
-        //
+        if (!$request->hasValidSignature(true)) {
+            abort(401);
+        }
+        return $signatureField->with('signaturable')->get();
+        return view("showSignature",[
+            
+        ]);
     }
 
     /**

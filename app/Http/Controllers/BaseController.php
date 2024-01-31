@@ -234,9 +234,11 @@ class BaseController extends Controller
 
     public function fieldsFormlistByEmployee(Base $base, Employee $employee, FormlistBaseEmployee $formlist_employee)
     {
+        // dd($employee->signatures()->get()->toArray());
         // dd(User::find(1)->signatures()->get());
         // dd(Signature::find($formlist_employee->fields()->first()->signature_delivered))->first();
         // dd($employee->signatures()->get()->toArray());
+        // dd(Signature::get()->toArray());
         return view('dashboard.projects.bases.employees.formlistsFields', [
             'employee' => $formlist_employee->employee,
             'base' => $formlist_employee->base,
@@ -284,6 +286,14 @@ class BaseController extends Controller
         Base $base, Employee $employee, FormlistBaseEmployee $formlist_employee,Request $request
     )
     {
+        if (!$request->location) {
+            return response()->json([
+                'success' => false,
+                'type' => 'info',
+                'message' => 'Geolocalização obrigatória.',
+                'footer' => "Erro de Geolocalização."
+            ]);
+        }
         $user  = User::where('id',Auth()->user()->id)->first();
 
         if (!$user->hasSignature()) {
@@ -329,10 +339,19 @@ class BaseController extends Controller
         return response()->json($product->stoksWithDetails()->where("sector_id",$stoks->sector_id)->get());
     }
 
+    //não está em uso
     public function lowering(
         Base $base, Employee $employee, FormlistBaseEmployee $formlist_employee,Request $request
     )
     {
+        if (!$request->location) {
+            return response()->json([
+                'success' => false,
+                'type' => 'info',
+                'message' => 'Geolocalização obrigatória.',
+                'footer' => "Erro de Geolocalização."
+            ]);
+        }
         $user  = User::where('id',Auth()->user()->id)->first();
 
         if (!$user->hasSignature()) {

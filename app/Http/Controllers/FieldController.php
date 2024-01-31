@@ -36,6 +36,7 @@ class FieldController extends Controller
      */
     public function create(FormlistBaseEmployee $formlist_employee)
     {
+        // dd($formlist_employee->employee->signatures()->get());
         // dd($formlist_employee->id);
         return view('dashboard.projects.bases.employees.fields.create', [
             'base' => $formlist_employee->base()->first(),
@@ -65,6 +66,31 @@ class FieldController extends Controller
     public function show(Field $field)
     {
         //
+    }
+
+
+    public function showSignature(Request $request, Signature $signatureField, Field $field)
+    {
+        // dd($signatureField);
+        if (!$request->hasValidSignature(true)) {
+            abort(401);
+        }
+        
+        if ($signatureField->signaturable->user_id) {
+            $user = User::find($signatureField->user_id);
+            return view("showSignature", [
+                "user" => $user,
+                'signature' => $signatureField,
+                'field' => $field
+
+            ]);
+        }
+        return view('showSignature', [
+            'user' => $signatureField->signaturable,
+            'signature' => $signatureField,
+            'field' => $field
+        ]);
+        // return $signatureField->with('signaturable')->get();
     }
 
     /**
@@ -128,11 +154,13 @@ class FieldController extends Controller
 
     public function salveField(FormlistBaseEmployee $formlist_employee, Request $request)
     {
-        // parece não estar em uso
+        if (!$request->location) {
+            return redirect()->back()->with(['message' => "Não foi possível seguir sem os dados da Geolocalização."]);
+        }
+
         $employee = $formlist_employee->employee()->first();
-        // dd($formlist_employee);
         if (!$employee->user->hasSignature()) {
-            //redireciona o usuário que não tem assinatura
+            //redireciona o colaborador que não tem assinatura
             return redirect()->route('dashboard.users.show', [
                 'user' => $employee->user
             ])->with(['message' => "O usuário ainda não possui senha para assinar, favor gerar senha, favor gerar senhar"]);
@@ -142,9 +170,10 @@ class FieldController extends Controller
 
         // dd($formlist_employee->saveEventString($stok->invoiceProduct, $request->qtd_delivered));
 
-        $signature = $employee->signatures()->create([
+        $signature = $employee->user->signatures()->create([
             'uuid' => Str::uuid(),
             'user_id' => Auth::user()->id,
+            'location' => $request->location,
             'signature' => $employee->user->signature()->signature,
             'event' => $formlist_employee->saveEventString($stok->invoiceProduct, $request->qtd_delivered)
         ]);
@@ -160,7 +189,7 @@ class FieldController extends Controller
             'signature_delivered' => $signature->id,
             'qtd_required' => 0
         ];
-        $dados = array_merge($dados, $request->all());
+        $dados = array_merge($dados, $request->except('location'));
         // dd($dados);
         Field::create($dados);
 
@@ -178,13 +207,22 @@ class FieldController extends Controller
         Request $request
     ) {
 
+        if (!$request->location) {
+            return response()->json([
+                'success' => false,
+                'type' => 'info',
+                'message' => 'Geolocalização obrigatória.',
+                'footer' => "Erro de Geolocalização."
+            ]);
+        }
         $employee = $formlist_employee->employee()->first();
         if (!$employee->user->hasSignature()) {
             return response()->json([
                 'success' => false,
                 'type' => 'info',
-                'message' => 'A senha do colaborador não existe.',
-                'footer' => "Erro de Senha."
+                'message' => 'Crie uma senha para o colaborador.',
+                'footer' => "Erro de Senha.",
+                'redirection' => route('dashboard.users.show', $employee->user)
             ]);
         }
 
@@ -194,10 +232,10 @@ class FieldController extends Controller
         }
         $field = Field::where("id", $request->id)->first();
         $stok = Stoks::where('id', $field->stok_id)->first();
-        $event = $formlist_employee->saveEventString($stok->invoiceProduct, $field->qtd_delivered, 1);
+        $event = $formlist_employee->saveEventString($stok->invoiceProduct, $field->qtd_delivered, 2);
 
 
-        $signature_returned = $employee->signatures()->create([
+        $signature_returned = $employee->user->signatures()->create([
             'uuid' => Str::uuid(),
             'user_id' => intVal(Auth::user()->id),
             'signature' => $employee->user->signature()->signature,
@@ -232,7 +270,14 @@ class FieldController extends Controller
     {
 
         $employee = $formlist_employee->employee()->first();
-
+        if (!$request->location) {
+            return response()->json([
+                'success' => false,
+                'type' => 'info',
+                'message' => 'Geolocalização obrigatória.',
+                'footer' => "Erro de Geolocalização."
+            ]);
+        }
         if (!$employee->user->hasSignature()) {
             return response()->json([
                 'success' => false,
@@ -242,7 +287,7 @@ class FieldController extends Controller
             ]);
         }
 
-        $check = $employee->user->checkSignature($request->pass);
+        $check = $employee->user->checkSignature($request->pass, $employee->user->name);
         if (!$check['success']) {
             return response()->json($check);
         }
@@ -252,10 +297,11 @@ class FieldController extends Controller
             $signature_delivered = $request->signature_delivered;
         } else {
 
-            $signature_delivered = $employee->signatures()->create([
+            $signature_delivered = $employee->user->signatures()->create([
                 'uuid' => Str::uuid(),
                 'user_id' => Auth::user()->id,
                 'signature' => $employee->user->signature()->signature,
+                'location' => $request->location,
                 'event' => "pre assinatura."
             ]);
         }
@@ -278,11 +324,16 @@ class FieldController extends Controller
     //salvar após gerar a assinatura acima
     public function salveFieldAfterAssign(FormlistBaseEmployee $formlist_employee, StoreFieldRequest $request)
     {
+        $signature = Signature::find($request->signature_delivered);
+        if (!$request->location) {
+            $signature->delete();
+            return redirect()->back()->with(['message' => "Não foi possível seguir sem os dados da Geolocalização."]);
+        }
         $employee = $formlist_employee->employee()->first();
-        $stok = Stoks::where('id', $request->stok_id)->first();
+        $stok = Stoks::find($request->stok_id)->first();
         $event = $formlist_employee->saveEventString($stok->invoiceProduct, $request->qtd_delivered);
 
-        $signature = Signature::where("id", $request->signature_id);
+
 
         if ($stok->qtd < $request->qtd_delivered) {
             $signature->delete();
@@ -296,15 +347,14 @@ class FieldController extends Controller
             'user_id' => intVal(Auth::user()->id),
             'employee_id' => intVal($employee->id),
             'formlist_base_employee_id' => intVal($formlist_employee->id),
-            'signature_delivered' => $request->signature_id, //trazer via request
+            'signature_delivered' => $signature->id, //trazer via request
             'qtd_required' => 0
         ];
         $dados = array_merge($dados, $request->all());
-
+        // return $signature;
         $field = Field::create($dados);
         if ($field) {
-            
-            $stok->update(['qtd' => $stok->qtd - $request->qtd_delivered]);
+            $stok->update(['qtd' => ($stok->qtd - $request->qtd_delivered)]);
 
             $signature->update(['event' => $event]);
 
@@ -313,7 +363,7 @@ class FieldController extends Controller
                 'employee' => $formlist_employee->employee,
                 'base' => $formlist_employee->base
             ]);
-        }else{
+        } else {
             return redirect()->back()->withErrors(["message" => "Ocorreu um erro durante a gravação do campo na ficha."]);
         }
     }
@@ -321,6 +371,16 @@ class FieldController extends Controller
 
     public function ajaxSalveFieldAfterAssign(FormlistBaseEmployee $formlist_employee, Request $request)
     {
+        $signature = Signature::where("id", $request->signature_id);
+        if (!$request->location) {
+            $signature->delete();
+            return response()->json([
+                'success' => false,
+                'type' => 'info',
+                'message' => 'Geolocalização obrigatória.',
+                'footer' => "Erro de Geolocalização."
+            ]);
+        }
         $employee = $formlist_employee->employee()->first();
         $stok = Stoks::where('id', $request->stok_id)->first();
         $event = $formlist_employee->saveEventString($stok->invoiceProduct, $request->qtd_delivered);
@@ -341,7 +401,6 @@ class FieldController extends Controller
 
         $stok->update(['qtd' => $stok->qtd - $request->qtd_delivered]);
 
-        $signature = Signature::where("id", $request->signature_id);
         $signature->update(['event' => $event]);
 
         return response()->json([
@@ -358,6 +417,14 @@ class FieldController extends Controller
         FormlistBaseEmployee $formlist_employee,
         Request $request
     ) {
+        if (!$request->location) {
+            return response()->json([
+                'success' => false,
+                'type' => 'info',
+                'message' => 'Geolocalização obrigatória.',
+                'footer' => "Erro de Geolocalização."
+            ]);
+        }
         $user  = User::where('id', Auth()->user()->id)->first();
 
         if (!$user->hasSignature()) {
@@ -376,7 +443,7 @@ class FieldController extends Controller
 
         $field = Field::where("id", $request->id)->first();
         $stok = Stoks::where('id', $field->stok_id)->first();
-        $event = $formlist_employee->saveEventString($stok->invoiceProduct, $field->qtd_delivered, 2);
+        $event = $formlist_employee->saveEventString($stok->invoiceProduct, $field->qtd_delivered, 1);
 
 
         $signature_returned = $user->signatures()->create([
@@ -427,6 +494,52 @@ class FieldController extends Controller
         }
     }
 
+    //falta implementar uma rota específica para Fields
+    public function removeFieldFormlistByEmployee(Field $field, Request $request)
+    {
+        if (!$request->location) {
+            return response()->json([
+                'success' => false,
+                'type' => 'info',
+                'message' => 'Geolocalização obrigatória.',
+                'footer' => "Erro de Geolocalização."
+            ]);
+        }
+        $user  = User::where('id', Auth()->user()->id)->first();
+
+        if (!$user->hasSignature()) {
+            return response()->json([
+                'success' => false,
+                'type' => 'info',
+                'message' => 'É necessário cadastrar uma assinatura.',
+                'footer' => "Erro de Senha."
+            ]);
+        }
+
+        $check = $user->checkSignature($request->pass);
+        if (!$check['success']) {
+            return response()->json($check);
+        }
+
+        $field = Field::where("id", $request->id);
+
+        if ($field->delete()) {
+            return response()->json([
+                'success' => true,
+                'type' => 'success',
+                'message' => "O item foi retirado do formulário com sucesso!",
+                'footer' => "Gerenciamento de fichas."
+            ]);
+        }
+
+        return response()->json([
+            'success' => false,
+            'type' => 'erro',
+            'message' => "Não foi possível executar a requisição.",
+            'footer' => "Erro interno."
+        ]);
+    }
+
     public function employeeHasPas(Request $request)
     {
         $employee  = Employee::where('id', $request->id)->first();
@@ -440,7 +553,7 @@ class FieldController extends Controller
             ]);
         }
 
-        $check = $employee->user->checkSignature($request->pass);
+        $check = $employee->user->checkSignature($request->pass, $employee->user->name);
         if (!$check['success']) {
             return response()->json($check);
         }

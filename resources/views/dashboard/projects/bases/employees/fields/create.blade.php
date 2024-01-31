@@ -16,50 +16,63 @@
             href="{{ route('dashboard.bases.employees.list.formlists', ['base' => $base, 'employee' => $employee]) }}"
             role="button">Vincular novo - <i class="fa fa-plus" aria-hidden="true"></i></a></h1>
 @stop
+@section('css')
+    <style>
+        #swal2-input {
+            -webkit-text-security: square;
+        }
 
+        .swal-wide {
+            width: 650px !important;
+            height: auto;
+        }
+    </style>
+@endsection
 @section('content')
     <form action="{{ route('dashboard.fields.salveFieldAfterAssign', $formlist) }}" method="post" class="form">
         @csrf
         @method('POST')
         <input type="hidden" name="signature_delivered" value="{{ old('signature_delivered') ?? '' }}"
             id="signature_delivered">
+        <input type="hidden" name="location" value="{{ old('location') ?? '' }}" id="location">
         <div class="form-row">
-            <div class="form-group col-lg-4 col-md-4">
+            <div class="form-group col-lg-4 col-md-12 col-sm-12">
                 <label for="setor_id">Selecione um Setor</label>
                 <select class="form-control" name="setor_id" id="setor_id">
                 </select>
-                <small id="sector_id" class="form-text text-muted">Lista de Setores</small>
+                <small name="setor_id" class="form-text text-muted">Lista de Setores</small>
             </div>
-            <div class="form-group col-lg-8 col-md-8">
+            <div class="form-group col-lg-8 col-md-12 col-sm-12">
                 <label for="stok_id">Selecione um Produto</label>
                 <select class="form-control" name="stok_id" id="stok_id">
                 </select>
                 @error('stok_id')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
-                <small id="stok_id" class="form-text text-muted">Lista de Produtos</small>
+                <small name="stok_id" class="form-text text-muted">Lista de Produtos</small>
             </div>
         </div>
         <div class="form row">
-            <div class="form-group col-lg-6  col-md-6">
-                <label for="qtd_delivered">Quantidade disponível: <span class="text-danger" id="qtd_available">0</span>
+            <div class="form-group col-lg-2 col-md-3 col-sm-6">
+                <label for="qtd_delivered">Qtd. disp.: <span class="text-danger" id="qtd_available">0</span>
                     und</label>
-                <input type="number" class="form-control" name="qtd_delivered" id="qtd_delivered">
+                <input type="number" class="form-control" required min="1" max="" name="qtd_delivered"
+                    id="qtd_delivered">
                 @error('qtd_delivered')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
                 <small id="qtd_delivered" class="form-text text-muted">Informe a quantidade entregue</small>
             </div>
-            <div class="form-group col-lg-6  col-md-6">
+            <div class="form-group col-lg-2  col-md-3 col-sm-6">
                 <label for="ca_second">C.A Opcional:</label>
                 <input type="text" class="form-control" name="ca_second" id="ca_second" aria-describedby="ca_second"
                     placeholder="CA2560.89-NBR">
                 <small id="ca_second" class="form-text text-muted">Certificado de Aprovação Opcional</small>
             </div>
-        </div>
-        <div class="form-group col-12">
-            <label for="observation">Observações:</label>
-            <textarea class="form-control" name="observation" id="observation" rows="3"></textarea>
+            <div class="form-group col-lg-8 col-md-6 col-sm-12">
+                <label for="observation">Observações:</label>
+                <textarea class="form-control" name="observation" id="observation" rows="3"></textarea>
+            </div>
         </div>
         <button type="button" id="add" class="ml-1 mb-3 btn btn-primary">Adicionar a ficha</button>
     </form>
@@ -69,7 +82,7 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
         $(document).ready(function() {
-
+            getGeolocation()
             var $url = window.location.href
 
             $("#setor_id").select2({
@@ -127,21 +140,18 @@
                 }).on('select2:select', function(e) {
                     var qtd_available = e.params.data.qtd;
                     $("#qtd_available").text(qtd_available)
-
+                    $("#qtd_delivered").val(1)
                 })
             })
 
         });
-        $("#stok_id").on("change", (e) => {
-
-        })
     </script>
     <script>
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
-        }); 
+        });
 
         function signatureCanvas() {
             Swal.fire({
@@ -158,7 +168,7 @@
 
                 Swal.fire({
                     title: 'Digite a senha do Colaborador.',
-                    input: 'password',
+                    input: 'text',
                     inputAttributes: {
                         autocapitalize: 'off',
                         required: true,
@@ -185,8 +195,10 @@
                             url: url.replace("adicionar", 'signatureField'),
                             data: {
                                 pass: pass,
+                                location: JSON.parse(localStorage.geolocation).full
                             }
                         }).done(function(response) {
+                            console.log(response);
                             return response
                         }).fail(function(jqXHR, textStatus) {
                             Swal.showValidationMessage(
@@ -195,7 +207,7 @@
                             Swal.close()
                         });
                         // fim requisição
-                    }, 
+                    },
                     allowOutsideClick: () => !Swal.isLoading()
                 }).then((result) => {
                     if (result.isConfirmed) {
@@ -206,11 +218,14 @@
                                 text: result.value.event,
                                 footer: result.value.footer,
                                 didOpen: (element) => {
+                                    console.log($("#location").val())
+                                    $("#location").val(JSON.parse(localStorage.geolocation)
+                                        .full);
                                     $("#signature_delivered").val(result.value.signature_id);
                                     $("form").submit();
                                 }
                             })
-                        }else{
+                        } else {
                             Swal.fire({
                                 icon: result.value.type,
                                 title: result.value.message,

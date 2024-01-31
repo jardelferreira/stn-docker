@@ -1,12 +1,13 @@
 <?php
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{BaseController,BranchController,CategoryController,CostController,DepartamentCostController, DocumentController, EmployeeController,FieldController,FormlistController,GanttController,HomeController,InvoiceController,InvoiceProductsController,RoleController,UserController,PermissionController,ProductController,ProfessionController,ProjectController,ProviderController,PublicController,ReceiptController,SectorController,SectorsCostsController, ShortcutController, StoksController
+use App\Http\Controllers\{BaseController,BranchController,CategoryController,CostController,DepartamentCostController, DocumentController, EmployeeController,FieldController,FormlistController,GanttController,HomeController,InvoiceController,InvoiceProductsController,RoleController,UserController,PermissionController,ProductController,ProfessionController,ProjectController,ProviderController,PublicController,ReceiptController,SectorController,SectorsCostsController, ShortcutController, SignatureController, StoksController
 };
 use App\Models\Geolocation;
 use App\Models\Stoks;
 use App\Models\Task;
 use App\Models\User;
+use FontLib\Table\Type\name;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
 
@@ -18,10 +19,12 @@ Auth::routes();
 
 Route::get('/teste',[PublicController::class,'qrcode'])->name('home.teste');
 Route::get('/teste/locations',function(Geolocation $geolocation){
-    return view("teste");
+    return view("teste",[
+        'location' => $geolocation->getGeolocationWithIpCAEPI()
+    ]);
 })->name('teste.locations');
 Route::post('/teste/locationsLatLng',function(Geolocation $geolocation, Request $request){
-    dd($geolocation->getGeolocationWithCoodinatesCAEPI($request->lat,$request->lng));
+    return ($geolocation->getGeolocationWithCoodinatesCAEPI($request->lat,$request->lng));
 })->name('teste.locations.coodinates');
 
 Route::prefix('hkm')->group(function(){
@@ -52,6 +55,7 @@ Route::prefix('externo')->group(function () {
     Route::post('recibos/{receipt}/assign', [ReceiptController::class, 'externAssign'])->name('extern.externAssign');
 
     Route::get('documentos/{document}/arquivo',[DocumentController::class,'showFile'])->name('extern.documents.showFile');
+    Route::get("ficha/assinatura/{signatureField}/{field}",[FieldController::class,"showSignature"])->name("extern.field.showSignature");
 });
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
@@ -62,25 +66,11 @@ Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard'])->group(
 
     Route::get('gantt', [GanttController::class, 'index'])->name('dashboard.projects.statistics.gantt');
 
-    Route::get('teste', function () {
-        function showUrl(){
-            return sprintf(
-              "%s://%s%s",
-              isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http',
-              $_SERVER['SERVER_NAME'],
-              $_SERVER['REQUEST_URI']
-            );
-          }
-          echo showUrl();
-          
-        // $task = Task::find(2);
-        // $parent = $task->parentTask()->first();
-        // $lastDate = "";
-        // foreach ($task->subTasks()->get() as $subtask) {
-        //     $newDate = date_create($subtask->start_date)->modify("+ {$subtask->duration} day");
-        //     $lastDate =  $lastDate > $newDate ? $lastDate : $newDate;
-        // }
-        // dd($lastDate);
+    Route::get('geolocation', function (Geolocation $geolocation,Request $request) {
+        if ($request->lat && $request->lng) {
+            return $geolocation->getGeolocationWithCoodinatesCAEPI($request->lat,$request->lng);
+        }
+        return $geolocation->getGeolocationWithIpCAEPI();
     });
     Route::get('formulario/{formlist_employee}', [BaseController::class, 'formlistPdf'])->name('formlistPdf');
     Route::prefix('api')->group(function () {

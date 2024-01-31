@@ -27,6 +27,13 @@
         </div>
         <button type="submit" class="btn btn-primary">Enviar</button>
     </form>
+    <br>
+    @if ($location->data->success)
+        <div id="localIP">{{ $location->data->full }}</div>
+    @else
+        <div>{{ $location->data->message }}</div>
+    @endif
+
 </body>
 <script>
     // Verificar se o navegador suporta a API Geolocation

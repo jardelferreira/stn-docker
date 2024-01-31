@@ -38,5 +38,14 @@ public function parseComplementToJson()
         return json_decode($json);
     }
 
-     
+     public function formlistBaseEmployee()
+     {
+        return $this->belongsTo(FormlistBaseEmployee::class);
+     }
+
+     public function user()
+     {
+        return $this->belongsTo(User::class);       
+     }
+
 }
