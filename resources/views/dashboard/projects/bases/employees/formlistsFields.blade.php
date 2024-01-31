@@ -237,6 +237,7 @@
                                 <td colspan="100%" style="padding: 5px; margin: 5px; font-size: 0.8em;"
                                     class="border border-dark ">{{ $field->observation }}</td>
                             </tr>
+                            <tr style="display: none"></tr>
                         @endif
                     @endforeach
                 </tbody>
