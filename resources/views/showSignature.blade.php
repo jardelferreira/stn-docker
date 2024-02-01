@@ -15,7 +15,7 @@
         <h1 class="mb-4">Detalhes da Assinatura Digital</h1>
 
         <ul class="list-group">
-            <li class="list-group-item"><strong>Documento Assinado:</strong> {{$field->formlistBaseEmployee->formlist->name}}</li>
+            <li class="list-group-item"><strong>Documento Assinado:</strong> {{$field->formlistBaseEmployee->formlist->description}}</li>
             <li class="list-group-item"><strong>Projeto:</strong> {{$field->formlistBaseEmployee->base->project->name}}</li>
             <li class="list-group-item"><strong>Base:</strong> {{$field->formlistBaseEmployee->base->name}}</li>
             <li class="list-group-item"><strong>Quem Assinou:</strong> {{$user->name}}</li>

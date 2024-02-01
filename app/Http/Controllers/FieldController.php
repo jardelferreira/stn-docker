@@ -77,7 +77,7 @@ class FieldController extends Controller
         }
         
         if ($signatureField->signaturable->user_id) {
-            $user = User::where("id",$signatureField->user_id);
+            $user = User::where("id",$signatureField->user_id)->first();
             return view("showSignature", [
                 "user" => $user,
                 'signature' => $signatureField,
@@ -520,7 +520,7 @@ class FieldController extends Controller
             return response()->json($check);
         }
 
-        $field = Field::where("id", $request->id);
+        $field = Field::where("id", $request->id)->first();
 
         if ($field->delete()) {
             return response()->json([
