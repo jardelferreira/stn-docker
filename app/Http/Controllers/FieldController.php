@@ -325,7 +325,6 @@ class FieldController extends Controller
     public function salveFieldAfterAssign(FormlistBaseEmployee $formlist_employee, StoreFieldRequest $request)
     {
         $signature = Signature::where("id",$request->signature_delivered)->first();
-        dd($signature);
         if (!$request->location) {
             $signature->delete();
             return redirect()->back()->with(['message' => "Não foi possível seguir sem os dados da Geolocalização."]);
