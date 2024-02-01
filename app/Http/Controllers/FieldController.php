@@ -77,7 +77,7 @@ class FieldController extends Controller
         }
         
         if ($signatureField->signaturable->user_id) {
-            $user = User::find($signatureField->user_id);
+            $user = User::where("id",$signatureField->user_id);
             return view("showSignature", [
                 "user" => $user,
                 'signature' => $signatureField,
@@ -324,7 +324,7 @@ class FieldController extends Controller
     //salvar após gerar a assinatura acima
     public function salveFieldAfterAssign(FormlistBaseEmployee $formlist_employee, StoreFieldRequest $request)
     {
-        $signature = Signature::find($request->signature_delivered);
+        $signature = Signature::where("id",$request->signature_delivered);
         if (!$request->location) {
             $signature->delete();
             return redirect()->back()->with(['message' => "Não foi possível seguir sem os dados da Geolocalização."]);
@@ -332,7 +332,6 @@ class FieldController extends Controller
         $employee = $formlist_employee->employee()->first();
         $stok = Stoks::where("id",intval($request->stok_id))->first();
         $event = $formlist_employee->saveEventString($stok->invoiceProduct, $request->qtd_delivered);
-        dd($request->all(),$stok.$stok);
         
         if ($stok->qtd < $request->qtd_delivered) {
             $signature->delete();
