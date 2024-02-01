@@ -330,8 +330,9 @@ class FieldController extends Controller
             return redirect()->back()->with(['message' => "Não foi possível seguir sem os dados da Geolocalização."]);
         }
         $employee = $formlist_employee->employee()->first();
-        $stok = Stoks::find($request->stok_id)->first();
+        $stok = Stoks::find(intval($request->stok_id))->first();
         $event = $formlist_employee->saveEventString($stok->invoiceProduct, $request->qtd_delivered);
+        dd($request->all(),$stok);
 
 
         
