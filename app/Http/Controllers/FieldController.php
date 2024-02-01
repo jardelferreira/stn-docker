@@ -332,9 +332,7 @@ class FieldController extends Controller
         $employee = $formlist_employee->employee()->first();
         $stok = Stoks::find(intval($request->stok_id))->first();
         $event = $formlist_employee->saveEventString($stok->invoiceProduct, $request->qtd_delivered);
-        dd($request->all(),$stok);
-
-
+        dd($request->all(),$stok.$stok);
         
         if ($stok->qtd < $request->qtd_delivered) {
             $signature->delete();
