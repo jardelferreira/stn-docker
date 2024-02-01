@@ -324,7 +324,8 @@ class FieldController extends Controller
     //salvar após gerar a assinatura acima
     public function salveFieldAfterAssign(FormlistBaseEmployee $formlist_employee, StoreFieldRequest $request)
     {
-        $signature = Signature::where("id",$request->signature_delivered);
+        $signature = Signature::where("id",$request->signature_delivered)->first();
+        dd($signature);
         if (!$request->location) {
             $signature->delete();
             return redirect()->back()->with(['message' => "Não foi possível seguir sem os dados da Geolocalização."]);
@@ -369,7 +370,7 @@ class FieldController extends Controller
 
     public function ajaxSalveFieldAfterAssign(FormlistBaseEmployee $formlist_employee, Request $request)
     {
-        $signature = Signature::where("id", $request->signature_id);
+        $signature = Signature::where("id", $request->signature_id)->first();
         if (!$request->location) {
             $signature->delete();
             return response()->json([
