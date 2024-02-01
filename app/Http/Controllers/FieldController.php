@@ -239,6 +239,7 @@ class FieldController extends Controller
             'uuid' => Str::uuid(),
             'user_id' => intVal(Auth::user()->id),
             'signature' => $employee->user->signature()->signature,
+            'location' => $request->location,
             'event' => $event
         ]);
 
