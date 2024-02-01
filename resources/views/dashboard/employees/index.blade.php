@@ -80,6 +80,18 @@
 <script>
     var lang = "";
     $(document).ready(function() {
+
+        $(".dropdown").on("hidden.bs.dropdown", () => {
+            if (employees.rows.length < 6) {
+                employees.style.height = ""
+            }
+        })
+        $(".dropdown").on("show.bs.dropdown", () => {
+            if (employees.rows.length < 6) {
+                employees.style.height = "220px"
+            }
+        })
+
         $.ajax({
             url: "//cdn.datatables.net/plug-ins/1.13.1/i18n/pt-BR.json",
             success: function(result) {
