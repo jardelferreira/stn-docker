@@ -3,16 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Invoice;
 use App\Models\Project;
 use App\Models\Employee;
 use App\Models\Provider;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Yajra\Acl\Models\Permission;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\ProjectRequest;
-use App\Models\Invoice;
 
 class ProjectController extends Controller
 {
+    
     /**
      * Display a listing of the resource.
      *
@@ -20,6 +23,11 @@ class ProjectController extends Controller
      */
     public function index()
     {
+        // dd(User::find(1)->permissions()->get());
+        // dd(Permission::where("resource",Str::title("PG"))->first()
+        // ->join("permission_user","permissions.id","=","permission_user.permission_id")
+        // ->select("permission_user.user_id")->distinct()->pluck("permission_user.user_id")); 
+        // dd(Permission::where("resource","Pgm")->first());
         $user = User::where('id',Auth::user()->id)->first();
         
         return \view('dashboard/projects.index', [
@@ -120,7 +128,9 @@ class ProjectController extends Controller
     {
         $user = User::where('id',Auth::user()->id)->first();
 
-        if (!$user->can('projeto-deletar')) {
+        $project = Project::getProjectByUuid($request->uuid)->first();
+        $permission = Str::lower($project->initials);
+        if (!$user->can("delete-{$permission}")) {
             return response()->json([
                 'confirm' => false,
                 'title' => "Ação rejeitada!",
@@ -128,7 +138,6 @@ class ProjectController extends Controller
                 'type' => 'error'
             ]);
         }
-        $project = Project::getProjectByUuid($request->uuid)->first();
         
         if (is_object($project)) {
             $project->delete();

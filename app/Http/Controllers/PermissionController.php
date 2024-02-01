@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use Yajra\Acl\Models\Role;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Yajra\Acl\Models\Permission;
 
@@ -16,8 +17,9 @@ class PermissionController extends Controller
      */
     public function index()
     {
+        // dd(Permission::where('resource', Str::title("PPG"))->get());
         return \view('dashboard.permissions.index',[
-            'permissions' => Permission::all()
+            'permissions' => Permission::latest()->get()
         ]);
     }
 

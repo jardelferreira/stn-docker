@@ -41,7 +41,7 @@
                                     </div>
                                 </div>
                                 <h5 class="card-title mb-0 font-weight-bold"><a class="mx-auto"
-                                        href="{{ route('dashboard.projects.show', $project) }}"><small>{{ $project->initials }}</small></a>
+                                        href="{{ route('dashboard.projects.show', $project) }}"><small>{{ $project->name }}</small></a>
                                 </h5>
                             </div>
                             <?php $progress = random_int(0, 100); ?>

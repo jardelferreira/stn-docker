@@ -20,7 +20,7 @@ class CreateProjectsTable extends Migration
             $table->string('slug')->unique();
             $table->longText('description')->nullable();
             $table->string('initials')->unique();
-            $table->timestamps();
+            $table->timestamps(); 
         });
 
         Schema::create('project_user', function(Blueprint $table){

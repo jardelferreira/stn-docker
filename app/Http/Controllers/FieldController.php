@@ -334,11 +334,11 @@ class FieldController extends Controller
         $event = $formlist_employee->saveEventString($stok->invoiceProduct, $request->qtd_delivered);
 
 
-
+        
         if ($stok->qtd < $request->qtd_delivered) {
             $signature->delete();
             return redirect()->back()
-                ->withErrors(["message" => "Quantidade insuficiente em estoque. O produto que você tentou adicionar não tem em estoque ou não tem a quantidade disponível."]);
+                ->withErrors(["message" => "Quantidade: {$stok->qtd}, solicitado: {$request->qtd_delivered}, insuficiente em estoque. O produto que você tentou adicionar não tem em estoque ou não tem a quantidade disponível."]);
         }
         $dados = [
             'uuid' => Str::uuid(),

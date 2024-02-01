@@ -32,13 +32,13 @@
 @stop
 
 @section('css')
-    <link rel="stylesheet" href="/css/admin_custom.css">
+    
 @stop
 
 @section('js')
     <script>
      let  inputName = document.getElementById("name");
-     inputName.addEventListener("blur", (e) => {
+     inputName.addEventListener("keyup", (e) => {
        let initials = "";
         regex = /[0-9]/;
        let  arrayNames = e.target.value.split(" ");
