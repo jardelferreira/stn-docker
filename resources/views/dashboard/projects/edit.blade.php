@@ -39,6 +39,7 @@
     <script>
      let  inputName = document.getElementById("name");
      inputName.addEventListener("keyup", (e) => {
+      e.target.value = e.target.value.toUpperCase()
        let initials = "";
         regex = /[0-9]/;
        let  arrayNames = e.target.value.split(" ");

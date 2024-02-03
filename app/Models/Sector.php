@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\ProjectTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Sector extends Model
 {
-    use HasFactory;
+    use HasFactory,ProjectTrait;
 
     protected $fillable = ['id','uuid','name','description','base_id','project_id'];
 

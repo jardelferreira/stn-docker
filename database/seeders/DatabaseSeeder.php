@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
             PermissionSeeder::class,
             UserSeeder::class,
             TasksTableSeeder::class,
-            LinksTableSeeder::class,
+            // LinksTableSeeder::class,
         ]);
     }
 }

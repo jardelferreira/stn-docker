@@ -7,7 +7,18 @@
             href="{{ route('dashboard.employees.create') }}" role="button">Criar novo - <i class="fa fa-plus"
                 aria-hidden="true"></i></a></h1>
 @stop
-
+@section('css')
+    <style>
+        .dropdown-item:hover{
+            background-color: #3B71CA;
+            color: #fff;
+            text-decoration: none;
+        }
+        .dropdown-item{
+            border-bottom: solid 1px slategray;
+        }
+    </style>
+@endsection
 @section('content')
     @if (count($employees))
         <table class="table table-striped text-nowrap table-responsive" id="employees">

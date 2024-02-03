@@ -2,72 +2,72 @@
 
 namespace App\Observers;
 
-use App\Models\CostCenter;
+use App\Models\Cost;
 use Illuminate\Support\Str;
 
-class CostCenterObserver
+class CostObserver
 {
     /**
-     * Handle the CostCenter "created" event.
+     * Handle the Cost "created" event.
      *
-     * @param  \App\Models\CostCenter  $costCenter
+     * @param  \App\Models\Cost  $costCenter
      * @return void
      */
-    public function creating(CostCenter $costCenter)
+    public function creating(Cost $costCenter)
     {
         $costCenter->uuid = Str::uuid();
     }
     /**
-     * Handle the CostCenter "created" event.
+     * Handle the Cost "created" event.
      *
-     * @param  \App\Models\CostCenter  $costCenter
+     * @param  \App\Models\Cost  $costCenter
      * @return void
      */
-    public function created(CostCenter $costCenter)
+    public function created(Cost $costCenter)
     {
         //
     }
 
     /**
-     * Handle the CostCenter "updated" event.
+     * Handle the Cost "updated" event.
      *
-     * @param  \App\Models\CostCenter  $costCenter
+     * @param  \App\Models\Cost  $costCenter
      * @return void
      */
-    public function updated(CostCenter $costCenter)
+    public function updated(Cost $costCenter)
     {
         //
     }
 
     /**
-     * Handle the CostCenter "deleted" event.
+     * Handle the Cost "deleted" event.
      *
-     * @param  \App\Models\CostCenter  $costCenter
+     * @param  \App\Models\Cost  $costCenter
      * @return void
      */
-    public function deleted(CostCenter $costCenter)
+    public function deleted(Cost $costCenter)
     {
         //
     }
 
     /**
-     * Handle the CostCenter "restored" event.
+     * Handle the Cost "restored" event.
      *
-     * @param  \App\Models\CostCenter  $costCenter
+     * @param  \App\Models\Cost  $costCenter
      * @return void
      */
-    public function restored(CostCenter $costCenter)
+    public function restored(Cost $costCenter)
     {
         //
     }
 
     /**
-     * Handle the CostCenter "force deleted" event.
+     * Handle the Cost "force deleted" event.
      *
-     * @param  \App\Models\CostCenter  $costCenter
+     * @param  \App\Models\Cost  $costCenter
      * @return void
      */
-    public function forceDeleted(CostCenter $costCenter)
+    public function forceDeleted(Cost $costCenter)
     {
         //
     }

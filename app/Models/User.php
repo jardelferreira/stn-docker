@@ -54,6 +54,16 @@ class User extends Authenticatable
 
     protected $cipher = "aes-128-gcm";
 
+    public function projects()
+    {
+        return $this->belongsToMany(Project::class);
+    }
+    
+    public function scopeProjects():array
+    {
+        return User::find(auth()->user()->id)->projects()->pluck("project_id")->toArray();
+    }
+
     public function permissions()
     {
         return $this->belongsToMany(Permission::class);

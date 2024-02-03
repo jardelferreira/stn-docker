@@ -2,12 +2,20 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
 use Yajra\Acl\Models\Permission;
+use App\Repositories\PermissionRepository;
 
 class PermissionSeeder extends Seeder
 {
+    protected $permissionsRepository;
+    public function __construct(PermissionRepository $permissionRepository)
+    {
+        $this->permissionsRepository = $permissionRepository;
+    }
+
     /**
      * Run the database seeds.
      *
@@ -15,12 +23,26 @@ class PermissionSeeder extends Seeder
      */
     public function run()
     {
-        $permissions = ['dashboard','permissions-manager','roles-manager'];
-        foreach ($permissions as $permission) {
-            Permission::create([
-                'name' => $permission,
-                'slug' => Str::slug($permission,'-')
-            ]);
+        foreach (Permission::all() as $permission) {
+            $permission->delete();
         }
+        $permissions = ['dashboard', 'permissions-manager', 'roles-manager', 'public', "acl", "suprimentos", "dp", "projetos"];
+        $id = [];
+        foreach ($permissions as $permission) {
+
+           $created = Permission::create([
+                'name' => $permission,
+                'slug' => Str::slug($permission, '-')
+            ]);
+            array_push($id,$created->id);
+        }
+
+        foreach ($this->permissionsRepository->getResources() as $resources) {
+            foreach ($resources['permissions'] as $permission) {
+                Permission::create($permission);
+            }
+        }
+
+        User::find(1)->permissions()->attach($id);
     }
 }

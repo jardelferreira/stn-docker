@@ -15,23 +15,20 @@ use App\Http\Requests\ProjectRequest;
 
 class ProjectController extends Controller
 {
-    
+    public function __construct()
+    {
+    //  $this->middleware("permission:project-view")->only('index'); 
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        // dd(User::find(1)->permissions()->get());
-        // dd(Permission::where("resource",Str::title("PG"))->first()
-        // ->join("permission_user","permissions.id","=","permission_user.permission_id")
-        // ->select("permission_user.user_id")->distinct()->pluck("permission_user.user_id")); 
-        // dd(Permission::where("resource","Pgm")->first());
-        $user = User::where('id',Auth::user()->id)->first();
-        
+    {        
+        // dd(User::find(1)->projects()->pluck("project_id")->toArray());
         return \view('dashboard/projects.index', [
-            'projects' => Project::all()
+            'projects' => USer::find(intval(auth()->user()->id))->projects()->get()
         ]);
     }
 
@@ -67,11 +64,7 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        
-        // $invoice = Invoice::where('id',4)->first();
-        // dd($invoice->amountProducts(),$invoice->products()->get(), $invoice);
-        // dd($project->employeesOnBases()->get());
-        // dd($project->employeesOnBases()->toSql());
+
         if ($project->id) {
             return \view('dashboard/projects.show', [
                 'project' => $project
@@ -91,7 +84,6 @@ class ProjectController extends Controller
     public function edit(Project $project)
     {
         // $project = Project::where('id',$request->id)->first();
-
         if (is_object($project)) {
             return \view('dashboard/projects.edit', [
                 'project' => $project
@@ -129,8 +121,8 @@ class ProjectController extends Controller
         $user = User::where('id',Auth::user()->id)->first();
 
         $project = Project::getProjectByUuid($request->uuid)->first();
-        $permission = Str::lower($project->initials);
-        if (!$user->can("delete-{$permission}")) {
+        // $permission = Str::slug($project->name);
+        if (!$user->can("deletar-projeto")) {
             return response()->json([
                 'confirm' => false,
                 'title' => "Ação rejeitada!",

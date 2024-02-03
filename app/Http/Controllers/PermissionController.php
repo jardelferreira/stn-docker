@@ -7,9 +7,16 @@ use Yajra\Acl\Models\Role;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Yajra\Acl\Models\Permission;
+use App\Repositories\PermissionRepository;
+use App\Repositories\Contracts\PermissionRepositoryInterface;
 
 class PermissionController extends Controller
 {
+    protected $permissionRepository;
+    function __construct(PermissionRepository $permissionRepository)
+    {
+        $this->permissionRepository = $permissionRepository;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -17,7 +24,7 @@ class PermissionController extends Controller
      */
     public function index()
     {
-        // dd(Permission::where('resource', Str::title("PPG"))->get());
+        // dd(Permission::all());
         return \view('dashboard.permissions.index',[
             'permissions' => Permission::latest()->get()
         ]);
@@ -43,6 +50,7 @@ class PermissionController extends Controller
      */
     public function store(Request $request)
     {
+        $request['slug'] = Str::slug($request->name);
         Permission::create($request->all());
 
         return \redirect()->route('dashboard.permissions',[
@@ -93,6 +101,7 @@ class PermissionController extends Controller
        
         $permission = Permission::where('id',$request->id)->first();
         // dd($permission);
+        $permission->slug = Str::slug($request->name);
         $permission->update($request->all());
         
         return \redirect()->route('dashboard.permissions');

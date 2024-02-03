@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 class CreatePermissionsTable extends Migration
 {
@@ -14,9 +15,9 @@ class CreatePermissionsTable extends Migration
     {
         Schema::create('permissions', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 50);
+            $table->string('name', 80);
             $table->string('slug')->unique();
-            $table->string('resource', 20)->default('System');
+            $table->string('resource', 50)->default('System');
             $table->boolean('system')->default(0);
             $table->timestamps();
         });

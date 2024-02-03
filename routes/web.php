@@ -59,7 +59,7 @@ Route::prefix('externo')->group(function () {
 });
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
-// Route::get('/home', [HomeController::class, 'getModels'])->name('modelos');
+// Route::get('/models', [HomeController::class, 'getControllers'])->name('modelos');
 Route::get('/unauthorized', [HomeController::class, 'unauthorized'])->name('unauthorized');
 
 Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard'])->group(function () {

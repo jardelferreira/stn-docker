@@ -326,20 +326,20 @@ return [
         // ['header' => 'account_settings'],
         [
             'text' => "Formulários",
-            'icon' =>"fa fa-id-card-o",
+            'icon' => "fa fa-id-card-o",
             'icon_color'  => 'primary',
             'classes' => "bg-light",
             'submenu' => [
-               [
-                'text' => "Fichas de materiais",
-                'route' => 'dashboard.formlists',
-                'icon' => "fa fa-id-card-o",
-               ],
-               [
-                'text' => 'Recibo de pagamentos',
-                'icon' => "fa fa-id-card-o",
-                'route' => 'dashboard.financeiro.receipts',
-               ]
+                [
+                    'text' => "Fichas de materiais",
+                    'route' => 'dashboard.formlists',
+                    'icon' => "fa fa-id-card-o",
+                ],
+                [
+                    'text' => 'Recibo de pagamentos',
+                    'icon' => "fa fa-id-card-o",
+                    'route' => 'dashboard.financeiro.receipts',
+                ]
             ]
         ],
         [
@@ -347,38 +347,35 @@ return [
             'icon' => 'fas fa-users-cog ',
             'icon_color'  => 'primary',
             'classes' => "bg-light",
-            'can' => ['sys-admin','sys-manager'],
+            'can' => ['acl', 'sys-manager'],
             'submenu' => [
                 [
                     'text' => 'Usuários',
                     'route'  => 'dashboard.users',
                     'icon' => 'fas fa-fw fa-user',
-                    'can'  => ['manager-users','sys-admin']
+                    'can'  => ['acl', 'sys-admin']
                 ],
                 [
                     'text' => 'Permissões',
                     'route'  => 'dashboard.permissions',
                     'icon' => 'fas fa-fw fa-user',
-                    'can'  => ['manager-permissions','sys-admin']
+                    'can'  => ['acl', 'sys-admin']
                 ],
                 [
                     'text' => 'Funções',
                     'route'  => 'dashboard.roles',
                     'icon' => 'fas fa-fw fa-user',
-                    'can'  => [
-                        'manager-roles','sys-admin'
-                    ]
+                    'can'  => ['acl', 'sys-admin' ]
                 ],
-               
-            ]    
-        ]
-        ,
+
+            ]
+        ],
         [
             'text' => 'Projetos',
             'icon_color'  => 'primary',
             'classes' => "bg-light",
             'icon' => 'fas fa-project-diagram ',
-            'can'  => ['manager-projects','sys-admin'],
+            'can'  => ['manager-projects', 'sys-admin'],
             'submenu' => [
                 [
                     'text' => 'Todos Projetos',

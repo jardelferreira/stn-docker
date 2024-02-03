@@ -11,13 +11,17 @@ class PermissionObserver
 
     public function creating(Permission $permission)
     {
-        $permission->slug = Str::slug($permission->name, '-');
+        if (!$permission->slug) {
+            $permission->slug = Str::slug($permission->name);
+        }
     }
 
 
     public function updating(Permission $permission)
     {
-        $permission->slug = Str::slug($permission->name, '-');
+        if (!$permission->slug) {
+            $permission->slug = Str::slug($permission->name);
+        }
     }
 
     /**

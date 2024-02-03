@@ -11,7 +11,8 @@
     <table class="table table-striped table-inverse table-responsive">
         <thead class="thead-inverse">
             <tr>
-                <th>permissões</th>
+                <th>Nome</th>
+                <th>Permissão</th>
                 <th>Recurso</th>
                 <th>Ações</th>
             </tr>
@@ -20,6 +21,7 @@
                @foreach ($permissions as $item)
                <tr>
                    <td scope="row">{{$item->name}}</td>
+                   <td scope="row">{{$item->slug}}</td>
                    <td scope="row">{{$item->resource}}</td>
                    <td class="btn-group" role="group">
                        <a class="btn btn-info btn-sm mr-1" href="{{route('dashboard.permissions.edit',['id' => $item->id])}}" >Editar</a>

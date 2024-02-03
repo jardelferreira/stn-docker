@@ -19,10 +19,10 @@ class UserSeeder extends Seeder
     {
         $user = User::create([
             'uuid' => Str::uuid(),
-            'name' => "Jardel Ferreira de Sousa",
-            'email' => "jardel@mail",
+            'name' => "Adm do Sistema",
+            'email' => "admin.sglt@mail",
             'email_verified_at' => now(),
-            'password' => "jardel1987", // password
+            'password' => env("PASS_ADMIN","sglt1987"), // password
             'remember_token' => Str::random(10),
         ]);
 

@@ -12,6 +12,7 @@ class Project extends Model
 
     protected $fillable = ['name','slug','description','initials','uuid'];
 
+    
     public function invoices()
     {
         return $this->hasMany(Invoice::class);

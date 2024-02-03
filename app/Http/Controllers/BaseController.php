@@ -29,6 +29,8 @@ class BaseController extends Controller
      */
     public function index()
     {
+        // dd(Base::toSql());
+        // dd(User::find(1)->pluck("id")->toArray());
         return view('dashboard.projects.bases.index', [
             'bases' => Base::all()
         ]);
