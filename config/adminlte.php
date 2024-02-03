@@ -375,7 +375,7 @@ return [
             'icon_color'  => 'primary',
             'classes' => "bg-light",
             'icon' => 'fas fa-project-diagram ',
-            'can'  => ['manager-projects', 'sys-admin'],
+            'can'  => ['projects', 'sys-admin'],
             'submenu' => [
                 [
                     'text' => 'Todos Projetos',
