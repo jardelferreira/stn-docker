@@ -31,10 +31,10 @@ class UserController extends Controller
      */
     public function index()
     {
-        // dd(User::with('employees')->get());
+        // dd(User::withoutGlobalScopes()->get());
         // dd(User::all()[0]->employee()->first());
         return \view('dashboard.users.index', [
-            'users' => User::with('employees')->get(),
+            'users' => User::withoutGlobalScopes()->get(),
         ]);
     }
     /**
