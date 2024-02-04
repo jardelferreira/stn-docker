@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Repositories\PermissionRepository;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Category extends Model
 {
@@ -14,5 +15,16 @@ class Category extends Model
     public function products()
     {
         return $this->hasMany(Product::class);
+    }
+
+    public static function resourcesModel():array
+    {
+        $permissionRepository = new PermissionRepository();
+        $permissions = ['admin','suprimentos'];
+        foreach ($permissionRepository->getResources()['supplyments-categories']['permissions'] as $value) {
+            array_push($permissions,$value['slug']);
+        };
+        // dd($permissions);
+        return $permissions;
     }
 }

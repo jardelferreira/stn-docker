@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Model;
+use App\Repositories\PermissionRepository;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Project extends Model
 {
@@ -100,5 +101,16 @@ class Project extends Model
     public function invoiceProducts()
     {
         return $this->hasManyThrough(InvoiceProducts::class,Invoice::class);
+    }
+
+    public static function resourcesModel():array
+    {
+        $permissionRepository = new PermissionRepository();
+        $permissions = ['projetos','admin'];
+        foreach ($permissionRepository->getResources()['projects']['permissions'] as $value) {
+            array_push($permissions,$value['slug']);
+        };
+        // dd($permissions);
+        return $permissions;
     }
 }

@@ -3,8 +3,9 @@
 namespace App\Models;
 
 use App\Traits\ProjectTrait;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Repositories\PermissionRepository;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Sector extends Model
 {
@@ -32,4 +33,14 @@ class Sector extends Model
         return $this->stoks()->whereNotIn('id',$document->stoks()->pluck('document_id'));
     }
     
+    public static function resourcesModel():array
+    {
+        $permissionRepository = new PermissionRepository();
+        $permissions = ['admin'];
+        foreach ($permissionRepository->getResources()['sectors']['permissions'] as $value) {
+            array_push($permissions,$value['slug']);
+        };
+        // dd($permissions);
+        return $permissions;
+    }
 }

@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Repositories\PermissionRepository;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Provider extends Model
 {
@@ -37,5 +38,16 @@ class Provider extends Model
     public function projects()
     {
         return $this->belongsToMany(Project::class,'provider_project','provider_id','project_id');
+    }
+
+    public static function resourcesModel():array
+    {
+        $permissionRepository = new PermissionRepository();
+        $permissions = ['admin','suprimentos'];
+        foreach ($permissionRepository->getResources()['supplyments-providers']['permissions'] as $value) {
+            array_push($permissions,$value['slug']);
+        };
+        // dd($permissions);
+        return $permissions;
     }
 }

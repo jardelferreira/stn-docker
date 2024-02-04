@@ -9,14 +9,10 @@ use Illuminate\Http\Request;
 use Yajra\Acl\Models\Permission;
 use App\Repositories\PermissionRepository;
 use App\Repositories\Contracts\PermissionRepositoryInterface;
+use App\Scopes\ProjectScope;
 
 class PermissionController extends Controller
 {
-    protected $permissionRepository;
-    function __construct(PermissionRepository $permissionRepository)
-    {
-        $this->permissionRepository = $permissionRepository;
-    }
     /**
      * Display a listing of the resource.
      *
@@ -24,7 +20,7 @@ class PermissionController extends Controller
      */
     public function index()
     {
-        // dd(Permission::all());
+        // dd(Project::withoutGlobalScope(ProjectScope::class)->get());
         return \view('dashboard.permissions.index',[
             'permissions' => Permission::latest()->get()
         ]);

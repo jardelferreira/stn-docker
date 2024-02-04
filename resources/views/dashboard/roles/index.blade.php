@@ -17,14 +17,15 @@
             </tr>
             </thead>
             <tbody>
-               @foreach ($roles as $item)
+               @foreach ($roles as $role)
                <tr>
-                   <td scope="row">{{$item->name}}</td>
-                   <td scope="row">{{$item->description}}</td>
+                   <td scope="row">{{$role->name}}</td>
+                   <td scope="row">{{$role->description}}</td>
                    <td class="btn-group" role="group">
-                       <a class="btn btn-info btn-sm mr-1" href="{{route('dashboard.roles.edit',['id' => $item->id])}}" >Editar</a>
-                       <a class="btn btn-warning btn-sm mr-1" href="{{route('dashboard.roles.permissions',$item)}}" >Vincular</a>
-                        <form action="{{route('dashboard.roles.destroy',['id' => $item->id])}}" method="POST">
+                       <a class="btn btn-info btn-sm mr-1" href="{{route('dashboard.roles.show', $role)}}" >Exibir</a>
+                       <a class="btn btn-warning btn-sm mr-1" href="{{route('dashboard.roles.permissions',$role)}}" >Vincular</a>
+                       <a class="btn btn-info btn-sm mr-1" href="{{route('dashboard.roles.edit', $role)}}" >Editar</a>
+                        <form action="{{route('dashboard.roles.destroy', $role)}}" method="POST">
                             @csrf
                             @method('DELETE')
                         <button class="btn btn-danger btn-sm" type="submit">Deletar</button>

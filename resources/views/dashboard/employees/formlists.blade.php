@@ -3,7 +3,7 @@
 @section('title','Formulários')
 
 @section('content_header')
-    <h1>Listagem de Formulários  -  <a name="" id="" class="btn btn-success" href="{{route('dashboard.formlists.create')}}" role="button">Criar novo - <i class="fa fa-plus" aria-hidden="true"></i></a></h1>
+    <h1>Listagem de Formulários - {{$employee->user->name}} - <a name="" id="" class="btn btn-success btn-sm" href="{{route('dashboard.formlists.create')}}" role="button">Criar novo - <i class="fa fa-plus" aria-hidden="true"></i></a></h1>
 @stop
 
 @section('content')

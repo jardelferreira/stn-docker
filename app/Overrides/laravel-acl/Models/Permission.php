@@ -2,13 +2,14 @@
 
 namespace Yajra\Acl\Models;
 
-use App\Models\User;
 use Exception;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
 use Illuminate\Support\Str;
-use Yajra\Acl\Traits\InteractsWithRole;
 use Yajra\Acl\Traits\RefreshCache;
+use Illuminate\Database\Eloquent\Model;
+use Yajra\Acl\Traits\InteractsWithRole;
+use App\Repositories\PermissionRepository;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * @property string resource
@@ -296,4 +297,28 @@ class Permission extends Model
     {
         return $this->belongsToMany(User::class,"permission_user");
     }
+
+    public static function resourcesModel():array
+    {
+        $permissionRepository = new PermissionRepository();
+        $permissions = ['acl','admin'];
+        foreach ($permissionRepository->getResources()['acl-permissions']['permissions'] as $value) {
+            array_push($permissions,$value['slug']);
+        };
+        // dd($permissions);
+        return $permissions;
+    }
+
+    public static function resourcesRolesModel():array
+    {
+        $permissionRepository = new PermissionRepository();
+        $permissions = ['acl','admin'];
+        foreach ($permissionRepository->getResources()['acl-roles']['permissions'] as $value) {
+            array_push($permissions,$value['slug']);
+        };
+        // dd($permissions);
+        return $permissions;
+    }
+
 }
+ 

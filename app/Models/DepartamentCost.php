@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\ProjectTrait;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -9,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class DepartamentCost extends Model
 {
-    use HasFactory;
+    use HasFactory,ProjectTrait;
 
     protected $table = 'departament_costs';
 

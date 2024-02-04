@@ -16,7 +16,7 @@ class RoleController extends Controller
 
     public function __construct()
     {
-        // $this->middleware('manager-roles');
+        $this->middleware("permission:admin,acl");
     }
     public function index()
     {
@@ -117,11 +117,12 @@ class RoleController extends Controller
     }
 
     public function permissions(Role $role)
-    {   // dd($role->getPermissions());
+    {
+        //    dd($role->permissions()->pluck("permission_id"));
         return view('dashboard/roles.permissions',[
             'role' => $role,
-            'permissions' => Permission::all(),
-            'role_permissions' => $role->getPermissions()
+            'permissions' => Permission::get()->chunk(4),
+            'role_permissions' => $role->permissions()->pluck("permission_id")->toArray()
         ]);
     }
 
@@ -129,11 +130,7 @@ class RoleController extends Controller
     {
         $role->syncPermissions($request->permissions);
 
-        return redirect()->route('dashboard.roles.permissions',[
-            'role' => $role,
-            'permissions' => Permission::all(),
-            'role_permissions' => $role->getPermissions()
-        ]);
+        return redirect()->route('dashboard.roles.permissions',$role);
 
     }
 }

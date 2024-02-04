@@ -8,13 +8,14 @@ use Yajra\Acl\Traits\HasRole;
 use Yajra\Acl\Models\Permission;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Notifications\Notifiable;
+use App\Repositories\PermissionRepository;
 use Yajra\Acl\Traits\HasRoleAndPermission;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable
 {
@@ -56,7 +57,7 @@ class User extends Authenticatable
 
     public function projects()
     {
-        return $this->belongsToMany(Project::class);
+        return $this->belongsToMany(Project::class)->distinct('user_id');
     }
     
     public function scopeProjects():array
@@ -220,4 +221,27 @@ class User extends Authenticatable
             
         
     }
+
+    public static function resourcesModel():array
+    {
+        $permissionRepository = new PermissionRepository();
+        $permissions = ['acl','admin'];
+        foreach ($permissionRepository->getResources()['acl-users']['permissions'] as $value) {
+            array_push($permissions,$value['slug']);
+        };
+        // dd($permissions);
+        return $permissions;
+    }
+    
+    public static function resourcesPublicModel():array
+    {
+        $permissionRepository = new PermissionRepository();
+        $permissions = ['public','admin'];
+        foreach ($permissionRepository->getResources()['public']['permissions'] as $value) {
+            array_push($permissions,$value['slug']);
+        };
+        // dd($permissions);
+        return $permissions;
+    }
+
 }

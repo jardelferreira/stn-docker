@@ -5,10 +5,10 @@
 @section('content')
     <div class="container">
         @if (session('message'))
-    <div class="alert alert-warning">
-        {{ session('message') }}
-    </div>
-@endif
+            <div class="alert alert-warning">
+                {{ session('message') }}
+            </div>
+        @endif
         <div class="main-body">
 
             <!-- Breadcrumb -->
@@ -30,10 +30,10 @@
                                     class="rounded-circle" width="150">
                                 <div class="mt-3">
                                     <h4>{{ $user->name }}</h4>
-                                    <p class="text-secondary mb-1">Full Stack Developer</p>
-                                    <p class="text-muted font-size-sm">Bay Area, San Francisco, CA</p>
-                                    <button class="btn btn-primary">Follow</button>
-                                    <button class="btn btn-outline-primary">Message</button>
+                                    <p class="text-secondary mb-1">{{$user->email}}</p>
+                                    <p class="text-muted font-size-sm">STN EMPREENDIMENTOS E CONSTRUÇÕES</p>
+                                    <button class="btn btn-primary">Nova senha</button>
+                                    <button class="btn btn-outline-primary">Nova imagem</button>
                                     @if ($user->hasSignature())
                                         <a class="btn btn-outline-success rounded-circle"><i class="fa fa-key"
                                                 aria-hidden="true"></i></a>
@@ -91,8 +91,8 @@
                                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                         stroke-linecap="round" stroke-linejoin="round"
                                         class="feather feather-instagram mr-2 icon-inline text-danger">
-                                        <rect x="2" y="2" width="20" height="20" rx="5"
-                                            ry="5"></rect>
+                                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5">
+                                        </rect>
                                         <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
                                         <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
                                     </svg>Instagram</h6>
@@ -115,7 +115,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-sm-3">
-                                    <h6 class="mb-0">Full Name</h6>
+                                    <h6 class="mb-0">Nome Completo</h6>
                                 </div>
                                 <div class="col-sm-9 text-secondary">
                                     {{ $user->name }}
@@ -124,16 +124,16 @@
                             <hr>
                             <div class="row">
                                 <div class="col-sm-3">
-                                    <h6 class="mb-0">Email</h6>
+                                    <h6 class="mb-0">E-mail</h6>
                                 </div>
                                 <div class="col-sm-9 text-secondary">
                                     {{ $user->email }}
                                 </div>
                             </div>
                             <hr>
-                            <div class="row">
+                            {{-- <div class="row">
                                 <div class="col-sm-3">
-                                    <h6 class="mb-0">Phone</h6>
+                                    <h6 class="mb-0">Telefone</h6>
                                 </div>
                                 <div class="col-sm-9 text-secondary">
                                     (239) 816-9029
@@ -156,12 +156,12 @@
                                 <div class="col-sm-9 text-secondary">
                                     Bay Area, San Francisco, CA
                                 </div>
-                            </div>
+                            </div> --}}
                             <hr>
                             <div class="row">
                                 <div class="col-sm-12">
                                     <a class="btn btn-info "
-                                        href="{{ route('dashboard.users.edit', ['user' => $user->id]) }}">Atualizar
+                                        href="{{ route('dashboard.users.edit',$user->id)}}">Atualizar
                                         informações</a>
                                 </div>
                             </div>
@@ -207,17 +207,21 @@
                             <div class="card h-100">
                                 <div class="card-body">
                                     <h6 class="d-flex align-items-center mb-3"><i
-                                            class="material-icons text-info mr-2">Permissões e Funções </i>para Jardel
+                                            class="material-icons text-info mr-2">Permissões e Funções </i>{{explode(" ",$user->name)[0]}} {{explode(" ",$user->name)[1] ?? ""}}
                                     </h6>
-                                    <h6>Funções: - <a name="" id=""
-                                            class="btn btn-outline-primary btn-sm"
-                                            href="{{ route('dashboard.users.roles', ['id' => $user->id]) }}"
-                                            role="button">Gerenciar Funções</a></h6>
+                                    <h6>Funções: - 
+                                        @can(['acl'])     
+                                        <a name="" id=""
+                                        class="btn btn-outline-primary btn-sm"
+                                        href="{{ route('dashboard.users.roles',$user->id) }}"
+                                        role="button">Gerenciar Funções</a>
+                                        @endcan
+                                    </h6>
                                     @if (count($user->roles))
                                         <ul class="list-group list-group-flush">
                                             @foreach ($user->roles as $role)
                                                 <li class="list-group-item"><a
-                                                        href="{{ route('dashboard.roles.show', ['role' => $role]) }}">
+                                                        href="{{ route('dashboard.roles.show', $role) }}">
                                                         <i class="fa fa-check text-success" aria-hidden="true"></i>
                                                         {{ $role->name }}</a></li>
                                             @endforeach
@@ -226,10 +230,13 @@
                                         <p>O usuário ainda não possui Funções</p>
                                     @endif
                                     <hr>
-                                    <h6>Permissões: - <a name="" id=""
-                                            class="btn btn-outline-success btn-sm"
-                                            href="{{ route('dashboard.users.permissions', ['id' => $user->id]) }}"
-                                            role="button">Gerenciar Permissões</a></h6>
+                                    <h6>Permissões: -
+                                         @can('acl')
+                                         <a name="" id="" class="btn btn-outline-success btn-sm"
+                                         href="{{ route('dashboard.users.permissions', $user->id) }}"
+                                         role="button">Gerenciar Permissões</a>
+                                         @endcan
+                                    </h6> 
                                     @if (count($user->permissions))
                                         <ul class="list-group list-group-flush">
                                             @foreach ($user->permissions as $permission)
@@ -266,20 +273,21 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                  <p>Informe uma senha para suas assinaturas</p>
-                    <form action="{{route('dashboard.users.signature',$user)}}" method="post">
-                      @csrf
-                      @method('post')
-                      <div class="form-group">
-                        <label for="pass">Informe a Senha</label>
-                        <input type="password" class="form-control" name="pass" id="pass" placeholder="4 a 8 digitos">
-                      </div>
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-danger" data-dismiss="modal">fechar</button>
-                      <button type="submit" class="btn btn-success">Gerar</button>
-                    </div>
-                  </form>
+                    <p>Informe uma senha para suas assinaturas</p>
+                    <form action="{{ route('dashboard.users.signature', $user) }}" method="post">
+                        @csrf
+                        @method('post')
+                        <div class="form-group">
+                            <label for="pass">Informe a Senha</label>
+                            <input type="password" class="form-control" name="pass" id="pass"
+                                placeholder="4 a 8 digitos">
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">fechar</button>
+                    <button type="submit" class="btn btn-success">Gerar</button>
+                </div>
+                </form>
             </div>
         </div>
     </div>

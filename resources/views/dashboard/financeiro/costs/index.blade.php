@@ -10,8 +10,8 @@
 
 @section('content')
     @if (count($costs))
-        <table class="table table-striped table-inverse table-responsive">
-            <thead class="thead-inverse">
+        <table class="table table-striped table-inverse table-responsive" id="costs_table">
+            <thead class="thead-inverse"> 
                 <tr>
                     <th>Centros de custo</th>
                     <th>Descrição</th>
@@ -33,7 +33,7 @@
                                     Setores
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton{{ $item }}">
-                                    <a class="dropdown-item" href="#">Listar </a>
+                                    <a class="dropdown-item" href="{{route("dashboard.costs_sectors.index")}}">Listar </a>
                                     <a class="dropdown-item" href="{{route('dashboard.costs.createSector',$item)}}">Cadastrar</a>
                                     {{-- <a class="dropdown-item" href="#">Something else here</a> --}}
                                 </div>
@@ -54,5 +54,21 @@
         <p>Não há Centros de custo para listagem</p>
     @endif
 
+@endsection
+@section('js')
+    <script>
+        $.ajax({
+            url: "//cdn.datatables.net/plug-ins/1.13.1/i18n/pt-BR.json",
+            success: function(result) {
+                $('#costs_table').DataTable({
+                    "language": result,
+                    lengthMenu: [
+                        [10, 25, 50, -1],
+                        [10, 25, 50, 'Tudo'],
+                    ],
+                });
+            }
+        });
+    </script>
 @endsection
     

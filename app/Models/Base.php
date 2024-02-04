@@ -3,8 +3,9 @@
 namespace App\Models;
 
 use App\Traits\ProjectTrait;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Repositories\PermissionRepository;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Base extends Model
 {
@@ -40,5 +41,16 @@ class Base extends Model
     public function formlistsByEmlpoyee() {
         return $this->belongsToMany(Formlist::class,'formlist_base_employee')
         ->withPivot(['formlist_base_employee.id as pivot_formlist_id', 'formlist_base_employee.employee_id as employee_id' ]);
+    }
+
+    public static function resourcesModel():array
+    {
+        $permissionRepository = new PermissionRepository();
+        $permissions = ['bases','admin'];
+        foreach ($permissionRepository->getResources()['bases']['permissions'] as $value) {
+            array_push($permissions,$value['slug']);
+        };
+        // dd($permissions);
+        return $permissions;
     }
 } 

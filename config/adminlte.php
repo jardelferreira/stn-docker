@@ -1,5 +1,21 @@
 <?php
 
+use App\Models\Base;
+use App\Models\Branch;
+use App\Models\Category;
+use App\Models\Cost;
+use App\Models\Document;
+use App\Models\Employee;
+use App\Models\Formlist;
+use App\Models\Invoice;
+use App\Models\Product;
+use App\Models\Profession;
+use App\Models\Project;
+use App\Models\Provider;
+use App\Models\Sector;
+use App\Models\User;
+use Yajra\Acl\Models\Permission;
+
 return [
 
     /*
@@ -247,7 +263,7 @@ return [
             'icon' => 'fa fa-dashcube',
             'icon_color'  => 'primary',
             'classes' => "bg-light",
-            'can' => "public"
+            'can' => User::resourcesPublicModel(),
         ],
         [
             'text' => 'Documentos',
@@ -255,21 +271,24 @@ return [
             'icon' => 'fa fa-file-o',
             'icon_color'  => 'primary',
             'classes' => "bg-light",
-            'can' => "dashboard"
+            'can' => Document::resourcesModel()
         ],
         [
             'text' => 'DP',
             'icon' => 'fa fa-users',
             'icon_color'  => 'primary',
             'classes' => "bg-light",
+            'can' => ['dp','admin'],
             'submenu' => [
                 [
                     'text'  => 'Profissões',
-                    'route' => 'dashboard.professions'
+                    'route' => 'dashboard.professions',
+                    'can'   =>  Profession::resourcesModel()
                 ],
                 [
                     'text'  => 'Colaboradores',
-                    'route' => 'dashboard.employees'
+                    'route' => 'dashboard.employees',
+                    'can'   =>  Employee::resourcesModel()
                 ],
             ]
         ],
@@ -277,47 +296,57 @@ return [
             'text'        => 'Financeiro',
             'icon'        => 'fa fa-bar-chart',
             'icon_color'  => 'primary',
-            'classes' => "bg-light",
+            'classes'    => "bg-light",
+            'can'   =>  ['financeiro','admin','suprimentos'],
             'submenu' => [
                 [
                     'text' => 'Filiais',
-                    'route' => 'dashboard.financeiro.branches'
+                    'route' => 'dashboard.financeiro.branches',
+                    'can'   => Branch::resourcesModel()
                 ],
                 [
                     'text' => 'Suprimentos',
                     'submenu'  => [
                         [
                             'text' => 'NFs',
-                            'route' => 'dashboard.invoices.index'
+                            'route' => 'dashboard.invoices.index',
+                            'can' => Invoice::resourcesModel()
                         ],
                         [
                             'text' => 'Fornecedores',
-                            'route'  => 'dashboard.providers.index'
+                            'route'  => 'dashboard.providers.index',
+                            'can' => Provider::resourcesModel()
                         ],
                         [
                             'text' => 'Categorias',
-                            'route'  => 'dashboard.financeiro.categories'
+                            'route'  => 'dashboard.financeiro.categories',
+                            'can'   => Category::resourcesModel()
                         ],
                         [
                             'text' => 'Produtos',
-                            'route'  => 'dashboard.financeiro.products'
+                            'route'  => 'dashboard.financeiro.products',
+                            'can'   => Product::resourcesModel()
                         ],
                     ]
                 ],
                 [
                     'text' => 'Custos',
+                    'can'   => Cost::resourcesModel(),
                     'submenu' => [
                         [
                             'text' => 'Centros de custo',
-                            'route'  => 'dashboard.costs.index'
+                            'route'  => 'dashboard.costs.index',
+                            'can'   => Cost::resourcesModel(),
                         ],
                         [
                             'text' => 'Setores de custo',
-                            'route'  => 'dashboard.costs_sectors.index'
+                            'route'  => 'dashboard.costs_sectors.index',
+                            'can'   => Cost::resourcesModel(),
                         ],
                         [
                             'text' => 'Departamentos de custo',
-                            'route'  => 'dashboard.costs_departaments.index'
+                            'route'  => 'dashboard.costs_departaments.index',
+                            'can'   => Cost::resourcesModel(),
                         ],
                     ],
                 ],
@@ -329,16 +358,19 @@ return [
             'icon' => "fa fa-id-card-o",
             'icon_color'  => 'primary',
             'classes' => "bg-light",
+            'can' => Formlist::resourcesModel(),
             'submenu' => [
                 [
                     'text' => "Fichas de materiais",
                     'route' => 'dashboard.formlists',
                     'icon' => "fa fa-id-card-o",
+                    'can'   => Formlist::resourcesModel()
                 ],
                 [
                     'text' => 'Recibo de pagamentos',
                     'icon' => "fa fa-id-card-o",
                     'route' => 'dashboard.financeiro.receipts',
+                    'can'   => Formlist::resourcesModel()
                 ]
             ]
         ],
@@ -347,25 +379,25 @@ return [
             'icon' => 'fas fa-users-cog ',
             'icon_color'  => 'primary',
             'classes' => "bg-light",
-            'can' => ['acl', 'sys-manager'],
+            'can' => ['acl','admin'],
             'submenu' => [
                 [
                     'text' => 'Usuários',
                     'route'  => 'dashboard.users',
                     'icon' => 'fas fa-fw fa-user',
-                    'can'  => ['acl', 'sys-admin']
+                    'can'  => User::resourcesModel()
                 ],
                 [
                     'text' => 'Permissões',
                     'route'  => 'dashboard.permissions',
                     'icon' => 'fas fa-fw fa-user',
-                    'can'  => ['acl', 'sys-admin']
+                    'can'  => Permission::resourcesModel()
                 ],
                 [
                     'text' => 'Funções',
                     'route'  => 'dashboard.roles',
                     'icon' => 'fas fa-fw fa-user',
-                    'can'  => ['acl', 'sys-admin' ]
+                    'can'  => Permission::resourcesRolesModel()
                 ],
 
             ]
@@ -375,19 +407,22 @@ return [
             'icon_color'  => 'primary',
             'classes' => "bg-light",
             'icon' => 'fas fa-project-diagram ',
-            'can'  => ['projetos', 'sys-admin'],
+            'can'  => Project::resourcesModel(),
             'submenu' => [
                 [
                     'text' => 'Todos Projetos',
                     'route'  => 'dashboard.projects',
+                    'can'   =>Project::resourcesModel()
                 ],
                 [
                     'text' => 'Bases',
                     'route'  => 'dashboard.bases.index',
+                    'can'   => Base::resourcesModel()
                 ],
                 [
                     'text' => 'Setores',
                     'route'  => 'dashboard.sectors.index',
+                    'can'   => Sector::resourcesModel()
                 ],
             ]
         ],

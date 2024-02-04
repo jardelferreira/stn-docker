@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Yajra\Acl\Models\Permission;
 use App\Http\Requests\UserRequest;
+use App\Models\Project;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -17,7 +18,11 @@ class UserController extends Controller
 
     public function __construct()
     {
-        // $this->middleware('manager-user');
+        $this->middleware('can:acl,admin,dp,listar-acl-usuarios');
+        $this->middleware('can:acl,admin,criar-acl-usuarios,gerenciar-acl-usuarios')->only(['create','store']);
+        $this->middleware('can:acl,admin,gerenciar-acl-usuarios,editar-acl-usuarios')->only(['edit','update']);
+        $this->middleware('can:acl,admin,deletar-acl-usuarios,gerenciar-acl-usuarios')->only(['destroy']);
+        $this->middleware('can:acl,admin,gerenciar-acl-usuarios')->only(['attachProject','detachProject']);
     }
     /**
      * Display a listing of the resource.
@@ -30,7 +35,6 @@ class UserController extends Controller
             'users' => User::all()
         ]);
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -40,7 +44,6 @@ class UserController extends Controller
     {
         return \view('dashboard/users.create');
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -55,7 +58,6 @@ class UserController extends Controller
             'users' => User::all()
         ]);
     }
-
     /**
      * Display the specified resource.
      *
@@ -69,23 +71,21 @@ class UserController extends Controller
             'user' => $user
         ]);
     }
-
     /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($user)
+    public function edit(User $user)
     {
         return view(
             'dashboard/users.edit',
             [
-                'user' => User::where('id', $user)->first()
+                'user' => $user
             ]
         );
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -103,7 +103,6 @@ class UserController extends Controller
             'user' => User::where('id', $user->id)->first()
         ]);
     }
-
     /**
      * Remove the specified resource from storage.
      *
@@ -120,34 +119,27 @@ class UserController extends Controller
             'users' => User::all()
         ]);
     }
-
-    public function permissions(int $id)
+    public function permissions(User $user)
     {
-
+        // dd(Permission::get()->chunk(3));
         // $array = (User::find($id)->permissions()->pluck('permission_id')->toArray());
         // dd(array_key_exists('0',$array));
         return view('dashboard/users.permissions', [
-            'user' => User::where('id', $id)->first(),
-            'permissions' => Permission::all(),
-            'user_permissions' => User::find($id)->permissions()->pluck('permission_id')->toArray()
+            'user' => $user,
+            'permissions' => Permission::get()->chunk(4),
+            'user_permissions' => $user->permissions()->pluck('permission_id')->toArray()
         ]);
     }
-
-    public function roles(int $id)
+    public function roles(User $user)
     {
-
-        // $array = (User::find($id)->roles()->pluck('permission_id')->toArray());
-        // dd(array_key_exists('0',$array));
         return view('dashboard/users.roles', [
-            'user' => User::where('id', $id)->first(),
+            'user' => $user,
             'roles' => Role::all(),
-            'user_roles' => User::find($id)->roles()->pluck('role_id')->toArray()
+            'user_roles' => $user->roles()->pluck('role_id')->toArray()
         ]);
     }
-
     public function permissionsUpdate(User $user, Request $request)
     {
-
         $user->syncPermissions($request->permissions);
 
         return redirect()->route('dashboard.users.show', [
@@ -157,7 +149,6 @@ class UserController extends Controller
 
     public function rolesUpdate(User $user, Request $request)
     {
-
         $user->syncRoles($request->roles);
 
         return redirect()->route('dashboard.users.show', [
@@ -177,4 +168,29 @@ class UserController extends Controller
         $user = User::where('id',Auth::user()->id)->first();
         return $user->checkSignature($request->pass);
     }
+
+    public function projects(USer $user)
+    {
+        return view('dashboard.users.projects',[
+            'user' => $user,
+            'projects' => Project::withoutGlobalScopes()->get(),
+            'user_projects' => $user->projects()->pluck("projects.id")->toArray()
+        ]);
+    }
+
+    public function attachProject(User $user, Request $request)
+    {
+    
+        $user->projects()->attach($request->project_id);
+
+        return redirect()->back();
+    }
+    
+    public function detachProject(User $user, Request $request)
+    {
+        $user->projects()->detach($request->project_id);
+
+        return redirect()->back();
+    }
+
 }

@@ -62,7 +62,7 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 // Route::get('/models', [HomeController::class, 'getControllers'])->name('modelos');
 Route::get('/unauthorized', [HomeController::class, 'unauthorized'])->name('unauthorized');
 
-Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard'])->group(function () {
+Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard,admin'])->group(function () {
 
     Route::get('gantt', [GanttController::class, 'index'])->name('dashboard.projects.statistics.gantt');
 
@@ -113,11 +113,15 @@ Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard'])->group(
 
         Route::delete('/', [UserController::class, 'destroy'])->name('dashboard.users.destroy');
         Route::put('/', [UserController::class, 'update'])->name('dashboard.users.update');
-
-        Route::get('{id}/permissoes', [UserController::class, 'permissions'])->name('dashboard.users.permissions');
+        
+        Route::get('{user}/permissoes', [UserController::class, 'permissions'])->name('dashboard.users.permissions');
         Route::put('{user}/permissoes/update', [UserController::class, 'permissionsUpdate'])->name('dashboard.users.permissions.update');
-        Route::get('{id}/funcoes', [UserController::class, 'roles'])->name('dashboard.users.roles');
+        Route::get('{user}/funcoes', [UserController::class, 'roles'])->name('dashboard.users.roles');
         Route::put('{user}/funcoes/update', [UserController::class, 'rolesUpdate'])->name('dashboard.users.roles.update');
+
+        Route::get('{user}/projetos',[UserController::class,'projects'])->name('dashboard.users.projects');
+        Route::post('{user}/projetos/vincular',[UserController::class,'attachProject'])->name('dashboard.users.projects.attachProject');
+        Route::post('{user}/projetos/desvincular',[UserController::class,'detachProject'])->name('dashboard.users.projects.detachProject');
     });
 
     Route::prefix('permissoes')->group(function () {

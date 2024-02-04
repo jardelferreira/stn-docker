@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Repositories\PermissionRepository;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
  
 class Formlist extends Model
 {
@@ -39,5 +40,16 @@ class Formlist extends Model
     public function fields()
     {
         return $this->belongsToMany(Field::class,'formlist_base_employee');
+    }
+
+    public static function resourcesModel():array
+    {
+        $permissionRepository = new PermissionRepository();
+        $permissions = ['admin'];
+        foreach ($permissionRepository->getResources()['formlists']['permissions'] as $value) {
+            array_push($permissions,$value['slug']);
+        };
+        // dd($permissions);
+        return $permissions;
     }
 }

@@ -26,13 +26,15 @@ class PermissionSeeder extends Seeder
         foreach (Permission::all() as $permission) {
             $permission->delete();
         }
-        $permissions = ['dashboard', 'permissions-manager', 'roles-manager', 'public', "acl", "suprimentos", "dp", "projetos"];
+        $permissions = ['dashboard', 'financeiro', 'filial','custos','public', "acl", "suprimentos", "dp", "projetos",'bases','setores','admin'];
         $id = [];
         foreach ($permissions as $permission) {
 
            $created = Permission::create([
                 'name' => $permission,
-                'slug' => Str::slug($permission, '-')
+                'slug' => Str::slug($permission, '-'),
+                'resource' => "System",
+                'System' => true
             ]);
             array_push($id,$created->id);
         }

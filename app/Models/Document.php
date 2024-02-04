@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Repositories\PermissionRepository;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -69,5 +70,16 @@ class Document extends Model
         }
         $json = json_encode($array);
         return json_decode($json);
+    }
+
+    public static function resourcesModel():array
+    {
+        $permissionRepository = new PermissionRepository();
+        $permissions = ['admin'];
+        foreach ($permissionRepository->getResources()['documents']['permissions'] as $value) {
+            array_push($permissions,$value['slug']);
+        };
+        // dd($permissions);
+        return $permissions;
     }
 }
