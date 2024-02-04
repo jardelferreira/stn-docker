@@ -18,11 +18,11 @@ class UserController extends Controller
 
     public function __construct()
     {
-        $this->middleware('can:acl,admin,dp,listar-acl-usuarios');
-        $this->middleware('can:acl,admin,criar-acl-usuarios,gerenciar-acl-usuarios')->only(['create','store']);
-        $this->middleware('can:acl,admin,gerenciar-acl-usuarios,editar-acl-usuarios')->only(['edit','update']);
-        $this->middleware('can:acl,admin,deletar-acl-usuarios,gerenciar-acl-usuarios')->only(['destroy']);
-        $this->middleware('can:acl,admin,gerenciar-acl-usuarios')->only(['attachProject','detachProject']);
+        // $this->middleware('can:acl,admin,dp,listar-acl-usuarios');
+        // $this->middleware('can:acl,admin,criar-acl-usuarios,gerenciar-acl-usuarios')->only(['create','store']);
+        // $this->middleware('can:acl,admin,gerenciar-acl-usuarios,editar-acl-usuarios')->only(['edit','update']);
+        // $this->middleware('can:acl,admin,deletar-acl-usuarios,gerenciar-acl-usuarios')->only(['destroy']);
+        // $this->middleware('can:acl,admin,gerenciar-acl-usuarios')->only(['attachProject','detachProject']);
     }
     /**
      * Display a listing of the resource.
