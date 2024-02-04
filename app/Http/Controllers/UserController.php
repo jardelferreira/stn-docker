@@ -31,7 +31,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        dd(User::with('employee')->get()[0]);
+        // dd(User::with('employee')->get()[0]);
         return \view('dashboard.users.index', [
             'users' => User::get()
         ]);
