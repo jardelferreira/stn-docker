@@ -34,7 +34,7 @@ class UserController extends Controller
         // dd(User::with('employee')->get()[0]);
         // dd(User::all()[0]->employee()->first());
         return \view('dashboard.users.index', [
-            'users' => User::all(),
+            'users' => User::with('employee')->get(),
         ]);
     }
     /**
