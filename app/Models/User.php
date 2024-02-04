@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Yajra\Acl\Models\Role;
 use Illuminate\Support\Str;
-use Yajra\Acl\Traits\HasRole;
 use Yajra\Acl\Models\Permission;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\DB;
