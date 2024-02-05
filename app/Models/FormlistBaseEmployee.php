@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Traits\ProjectTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -10,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 class FormlistBaseEmployee extends Model
 {
-    use HasFactory, ProjectTrait;
+    use HasFactory;
 
     protected $table = 'formlist_base_employee';
     protected $fillable = ['id', 'formlist_id', 'base_id', 'employee_id'];
