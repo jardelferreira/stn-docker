@@ -34,6 +34,7 @@ class FormlistBaseEmployee extends Model
     public function base()
     {
         $projects_id = $this->employee->user->projects()->pluck("project_id")->toArray();
+        dd($projects_id);
         return $this->belongsTo(Base::class)->whereIn("project_id",$projects_id);
     }
 
