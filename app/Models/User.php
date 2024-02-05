@@ -101,7 +101,7 @@ class User extends Authenticatable
 
     public static function usersForEmployee()
     {
-        return User::leftJoin("employees",'users.id','=',"employees.user_id")->where("employees.user_id",null);
+        return User::leftJoin("employees",'users.id','=',"employees.user_id")->where("employees.user_id",null)->orderBy("users.id", 'DESC');
     }
 
     public function signature()
