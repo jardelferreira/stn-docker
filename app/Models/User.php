@@ -101,7 +101,7 @@ class User extends Authenticatable
 
     public static function usersForEmployee()
     {
-        return User::whereNotIn('id',Employee::get()->pluck('id')->toArray());
+        return User::leftJoin("employees",'users.id','=',"employees.user_id")->where("employees.user_id",null);
     }
 
     public function signature()
