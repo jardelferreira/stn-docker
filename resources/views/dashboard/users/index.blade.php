@@ -45,7 +45,7 @@
                                 <a class="dropdown-item" href="{{ route('dashboard.users.roles',$user->id) }}">Funções</a>
                                 @isset($user->employee->id)
                                     
-                                <a class="dropdown-item" href="{{ route('dashboard.employees.formlists', $user->employee) }}" target="_blank">Formulários</a>
+                                <a class="dropdown-item" href="{{ route('dashboard.employees.formlists', $user->employee->id) }}" target="_blank">Formulários</a>
                                 @endisset
                                 <a class="dropdown-item"
                                     href="{{ route('dashboard.users.edit',$user->id)}}">Editar</a>

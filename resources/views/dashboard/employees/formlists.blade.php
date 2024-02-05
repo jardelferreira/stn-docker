@@ -24,7 +24,7 @@
                    <td scope="row">{{$item->formlist->name}}</td>
                    <td scope="row">Rev-{{$item->formlist->revision}}</td>
                    <td scope="row">{{$item->formlist->area}}</td>
-                   <td scope="row">{{$item->base->name}}</td>
+                   <td scope="row">{{$item->formlist->base->name}}</td>
                    <td class="btn-group" role="group">
                     <a href="{{route('dashboard.bases.employees.formlists.fields',
                     ['base' => $item->base,'employee' => $employee, 'formlist_employee' => $item->id])}}" class="btn btn-sm btn-info">Ver</a>
