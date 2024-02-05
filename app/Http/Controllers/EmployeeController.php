@@ -32,7 +32,7 @@ class EmployeeController extends Controller
      */
     public function create()
     {
-        dd(User::usersForEmployee()->get(),User::all());
+        // dd(User::usersForEmployee()->get('users.*'),User::all());
         return view('dashboard.employees.create',[
             'users' => User::usersForEmployee()->get(),
             'professions' => Profession::latest()->get(),
