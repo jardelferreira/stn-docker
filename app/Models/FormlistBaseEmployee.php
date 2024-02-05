@@ -33,7 +33,8 @@ class FormlistBaseEmployee extends Model
 
     public function base()
     {
-        return $this->belongsTo(Base::class);
+        $projects_id = $this->employee->user->projects()->pluck("project_id")->toArray();
+        return $this->belongsTo(Base::class)->whereIn("project_id",$projects_id);
     }
 
     public function saveEventString($product, $qtd, $type = 0)
