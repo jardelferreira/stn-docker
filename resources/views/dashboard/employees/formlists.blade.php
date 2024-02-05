@@ -19,7 +19,7 @@
             </tr>
             </thead>
             <tbody>
-               @foreach ($employee->formlistsFromEmployee as $item)
+               @foreach ($employee->formlistsFromEmployee()->get() as $item)
                <tr>
                    <td scope="row">{{$item->formlist->name}}</td>
                    <td scope="row">Rev-{{$item->formlist->revision}}</td>
