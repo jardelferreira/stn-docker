@@ -147,7 +147,7 @@ class EmployeeController extends Controller
 
     public function formlists(Employee $employee)
     {
-        dd($employee->with('formlistsFromEmployee.base')->get());
+        dd($employee->formlistsFromEmployee);
         return view('dashboard.employees.formlists',[
             'employee' => $employee,
             'formlists' => $employee->formlists()->get()
