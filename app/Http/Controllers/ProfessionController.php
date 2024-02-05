@@ -18,7 +18,7 @@ class ProfessionController extends Controller
     public function index()
     {
         return view('dashboard.professions.index', [
-            'professions' => Profession::all()
+            'professions' => Profession::latest()->get()
         ]);
     }
 

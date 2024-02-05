@@ -99,6 +99,11 @@ class User extends Authenticatable
         return $this->hasOne(Employee::class);
     }
 
+    public static function usersForEmployee()
+    {
+        return User::whereNotIn('id',Employee::get()->pluck('id')->toArray());
+    }
+
     public function signature()
     {
         return $this->hasMany(SignatureUser::class)->latest()->first();
