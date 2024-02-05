@@ -149,7 +149,7 @@ class EmployeeController extends Controller
     {
         // dd($employee->formlistsFromEmployee()->with('base')->get());
         // dd($employee->bases()->get()->toArray());
-        dd($employee->formlistsFromEmployee()->get());
+        // dd($employee->formlistsFromEmployee()->get());
         return view('dashboard.employees.formlists',[
             'employee' => $employee,
             'formlists' => $employee->formlists()->get()

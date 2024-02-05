@@ -57,7 +57,8 @@ class Employee extends Model
 
     public function formlistsFromEmployee()
     {
-        return $this->hasMany(FormlistBaseEmployee::class);
+        $bases_id = $this->bases()->pluck("bases.id")->toArray();
+        return $this->hasMany(FormlistBaseEmployee::class)->whereIn("formlist_base_employee.base_id",$bases_id);
     }
 
     public function signatures()
