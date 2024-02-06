@@ -34,7 +34,7 @@ class EmployeeController extends Controller
     {
         // dd(User::usersForEmployee()->get('users.*'),User::all());
         return view('dashboard.employees.create',[
-            'users' => User::usersForEmployee()->get(),
+            'users' => User::usersForEmployee()->get('users.*'),
             'professions' => Profession::latest()->get(),
         ]);
     }
@@ -47,7 +47,7 @@ class EmployeeController extends Controller
      */
     public function store(StoreEmployeeRequest $request)
     {
-        // dd($request->all());
+        dd($request->all());
         Employee::create($request->all());
 
         return redirect()->route('dashboard.employees');
