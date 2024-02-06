@@ -169,7 +169,7 @@
                                         $("#location").val(JSON.stringify(res.full))
                                         localStorage.setItem("geolocation", JSON.stringify(res.full));
                                     } else {
-                                        localStorage.setItem("coordinates", null);
+                                        localStorage.removeItem("coordinates");
                                         $.get(`${window.location.origin}/dashboard/geolocation`).then((
                                             resp) => {
                                             if (res.success) {
