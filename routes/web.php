@@ -67,9 +67,7 @@ Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard,admin'])->
     Route::get('gantt', [GanttController::class, 'index'])->name('dashboard.projects.statistics.gantt');
 
     Route::get('geolocation', function (Geolocation $geolocation,Request $request) {
-        // dd($geolocation->getGeolocationBing($request->lat,$request->lng));
-        // dd(env('GOOGLE_MAPS_KEY'));
-        // dd($geolocation->getCoordinatesGoogle());
+
             $location = $geolocation->getGeolocationBing($request->lat,$request->lng);
             if($location->statusCode == 200){
                 return response()->json([

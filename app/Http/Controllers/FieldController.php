@@ -269,7 +269,7 @@ class FieldController extends Controller
 
     public function signatureField(FormlistBaseEmployee $formlist_employee, Request $request)
     {
-
+        
         $employee = $formlist_employee->employee()->first();
         if (!$request->location) {
             return response()->json([

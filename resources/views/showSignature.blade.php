@@ -18,11 +18,11 @@
             <li class="list-group-item"><strong>Documento Assinado:</strong> {{$field->formlistBaseEmployee->formlist->description}}</li>
             <li class="list-group-item"><strong>Projeto:</strong> {{$field->formlistBaseEmployee->base->project->name}}</li>
             <li class="list-group-item"><strong>Base:</strong> {{$field->formlistBaseEmployee->base->name}}</li>
-            <li class="list-group-item"><strong>Quem Assinou:</strong> {{$user->name}}</li>
+            <li class="list-group-item"><strong>Quem Assinou:</strong> {{$user->user->name ?? $user->name}}</li>
             <li class="list-group-item"><strong>Usuário Logado:</strong> {{$field->user->name}}</li>
             <li class="list-group-item"><strong>Descrição do Evento:</strong> {{$signature->event ?? "evento não localizado."}}</li>
             <li class="list-group-item"><strong>Localização aproximada:</strong> {{$signature->location ?? "Local não informado."}}</li>
-            <li class="list-group-item"><strong>Assinado em:</strong> {{ date('d/m/y H:m:s', strtotime($signature->created_at)) }}</li>
+            <li class="list-group-item"><strong>Assinado em:</strong> {{ \Carbon\Carbon::parse($signature->created_at)->format("d/m/Y H:m:s") }}</li>
         </ul>
     </div>
 

@@ -155,7 +155,7 @@
             } else {
                 // O navegador não suporta Geolocation_error
                 if (localStorage.geolocation) {
-                    $("#location").val(JSON.parse(localStorage.geolocation).full)
+                    $("#locatiON.parse(localStorage.geolocation).replace('"',"")
                 } else {
                     $.get(`${window.location.origin}/geolocation`).then((res) => {
                         if (res.success) {
@@ -287,7 +287,7 @@
                         url: url.replace("adicionar", 'signatureField'),
                         data: {
                             pass: pass,
-                            location: JSON.parse(localStorage.geolocation).full
+                            location: localStorage.geolocation.replaceAll('"',"")
                         }
                     }).done(function(response) {
                         console.log(response);
@@ -310,9 +310,6 @@
                             text: result.value.event,
                             footer: result.value.footer,
                             didOpen: (element) => {
-                                console.log($("#location").val())
-                                $("#location").val(JSON.parse(localStorage.geolocation)
-                                    .full);
                                 $("#signature_delivered").val(result.value.signature_id);
                                 $("form").submit();
                             }

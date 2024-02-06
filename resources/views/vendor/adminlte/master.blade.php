@@ -141,17 +141,17 @@
                                     .then((
                                         res) => {
                                         if (res.success) {
-                                            $("#location").val(JSON.stringify(res.full))
+                                            $("#location").val(JSON.stringify(res.full).replace('"',""))
                                             localStorage.setItem("geolocation", JSON.stringify(res.full));
                                         } else {
                                             $.get(`${window.location.origin}/dashboard/geolocation`).then((
                                                 resp) => {
                                                 if (res.success) {
-                                                    $("#location").val(JSON.stringify(res.full))
+                                                    $("#location").val(JSON.stringify(res.full).replace('"',""))
                                                     localStorage.setItem("geolocation", JSON.stringify(res
                                                         .full));
                                                 } else {
-                                                    $("#location").val(JSON.stringify(res.full))
+                                                    $("#location").val(JSON.stringify(res.full).replace('"',""))
                                                     localStorage.setItem("geolocation",
                                                         "Não foi possível obter a localização.");
                                                 }
@@ -166,18 +166,18 @@
                                 .then((
                                     res) => {
                                     if (res.success) {
-                                        $("#location").val(JSON.stringify(res.full))
+                                        $("#location").val(JSON.stringify(res.full).replace('"',""))
                                         localStorage.setItem("geolocation", JSON.stringify(res.full));
                                     } else {
                                         localStorage.removeItem("coordinates");
                                         $.get(`${window.location.origin}/dashboard/geolocation`).then((
                                             resp) => {
                                             if (res.success) {
-                                                $("#location").val(JSON.stringify(res.full))
+                                                $("#location").val(JSON.stringify(res.full).replace('"',""))
                                                 localStorage.setItem("geolocation", JSON.stringify(res
                                                     .full));
                                             } else {
-                                                $("#location").val(JSON.stringify(res.full))
+                                                $("#location").val(JSON.stringify(res.full).replace('"',""))
                                                 localStorage.setItem("geolocation",
                                                     "Não foi possível obter a localização.");
                                             }
@@ -208,10 +208,10 @@
 
                 $.get(`${window.location.origin}/dashboard/geolocation`).then((resp) => {
                     if (res.success) {
-                        $("#location").val(JSON.stringify(res.full))
+                        $("#location").val(JSON.stringify(res.full).replace('"',""))
                         localStorage.setItem("geolocation", JSON.stringify(res.data));
                     } else {
-                        $("#location").val(JSON.stringify(res.full))
+                        $("#location").val(JSON.stringify(res.full).replace('"',""))
                         localStorage.setItem("geolocation", "Não foi possível obter a localização.");
                     }
                 })

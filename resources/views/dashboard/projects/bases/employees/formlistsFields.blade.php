@@ -688,7 +688,7 @@
                         data: {
                             pass: pass,
                             id: id,
-                            location: JSON.parse(localStorage.geolocation).resourceSets[0].resources[0].name
+                            location: localStorage.geolocation.replaceAll('"',"")
 
                         }
                     }).done(function(response) {
@@ -750,7 +750,7 @@
                         data: {
                             pass: pass,
                             id: id,
-                            location: JSON.parse(localStorage.geolocation).resourceSets[0].resources[0].name
+                            location: localStorage.geolocation.replaceAll('"',"")
 
                         }
                     }).done(function(response) {
@@ -895,7 +895,7 @@
                 }
             })
             if (data_replacements) {
-                data_replacements.location =  JSON.parse(localStorage.geolocation).resourceSets[0].resources[0].name
+                data_replacements.location =  localStorage.geolocation.replaceAll('"',"")
 
                 Swal.fire({
                     title: "Realizando troca.",
@@ -1027,7 +1027,7 @@
                         data: {
                             user_pass: pass,
                             id: field_id,
-                            location: JSON.parse(localStorage.geolocation).resourceSets[0].resources[0].name
+                            location: localStorage.geolocation.replaceAll('"',"")
                         }
                     }).done(function(response) {
                         console.log(response)

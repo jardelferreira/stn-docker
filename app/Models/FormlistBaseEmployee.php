@@ -41,7 +41,7 @@ class FormlistBaseEmployee extends Model
         $direction = ['adicionou em', 'deu baixa em','devolveu em'];
         $user = Auth::user();
         $formlist = $this->formlist()->first();
-        $now = explode(" ",date("d-m-Y H:i:s"));
+        $now = explode(" ",date("d-m-Y H:m:s"));
         return "{$user->name}, {$direction[$type]} em {$formlist->name} de {$this->employee->user()->first()->name}, {$qtd} - {$product->und}, de {$product->description}, ID-{$product->id}, {$now[0]} as {$now[1]}.";
     }
     
