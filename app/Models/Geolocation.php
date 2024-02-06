@@ -10,7 +10,7 @@ class Geolocation extends Model
 {
     use HasFactory;
 
-    private $google_key, $bing_key;
+    protected $google_key, $bing_key;
     protected $ipAddress;
 
     public function __construct()
