@@ -22,7 +22,7 @@ class Geolocation extends Model
 
     public function getCoordinatesGoogle()
     {
-        $response = Http::post("https://www.googleapis.com/geolocation/v1/geolocate?key={$this->google_key}", [
+        $response = Http::post("https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyAqdoXdjUq5txykTMQsfwnkO1aTbx4kf-g", [
             'homeMobileCountryCode' => 55,
             'homeMobileNetworkCode' => 15,
             'radioType' => 'gsm',
