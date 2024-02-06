@@ -75,11 +75,11 @@ class FieldController extends Controller
         if (!$request->hasValidSignature(false)) {
             abort(401);
         }
-        
-        if ($signatureField->signaturable->user_id) {
+        // dd($signatureField->signaturable()->first());
+        if ($signatureField->signaturable->user_id) { 
             $user = User::where("id",$signatureField->user_id)->first();
             return view("showSignature", [
-                "user" => $user,
+                "user" => $signatureField->signaturable()->first(),
                 'signature' => $signatureField,
                 'field' => $field
 
