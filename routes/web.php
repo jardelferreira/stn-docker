@@ -67,11 +67,19 @@ Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard,admin'])->
     Route::get('gantt', [GanttController::class, 'index'])->name('dashboard.projects.statistics.gantt');
 
     Route::get('geolocation', function (Geolocation $geolocation,Request $request) {
-        if ($request->lat && $request->lng) {
-            return (["success" => true, "data" => $geolocation->getGeolocationBing($request->lat,$request->lng)]);
+        // dd($geolocation->getGeolocationBing($request->lat,$request->lng));
+            $location = $geolocation->getGeolocationBing($request->lat,$request->lng);
+            if($location->statusCode == 200){
+                return response()->json([
+                    'success' => true,
+                    'full' => $location->resourceSets[0]->resources[0]->address->formattedAddress
+                ]);
+            }
+            return response()->json([
+                "success" => false,
+                "full" => "Não foi possível obter localização"
+            ]);
 
-        }
-        return $geolocation->getGeolocationWithIpCAEPI();
     });
     Route::get('formulario/{formlist_employee}', [BaseController::class, 'formlistPdf'])->name('formlistPdf');
     Route::prefix('api')->group(function () {

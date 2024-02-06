@@ -121,92 +121,100 @@
             console.log("geolocal")
             // Verificar se o navegador suporta a API Geolocation
             if ("geolocation" in navigator) {
-                // Obter a localização atual
-                navigator.geolocation.getCurrentPosition(
+                // Obter a localização do usuário
+                return navigator.geolocation.getCurrentPosition(
                     function(position) {
                         // Sucesso: As coordenadas estão disponíveis em position.coords
-                        lat = position.coords.latitude
-                        lng = position.coords.longitude
-                        new_coordinates = JSON.stringify({
-                            "lat": lat,
-                            "lng": lng
-                        })
-                        if (!(new_coordinates == localStorage.getItem("coordinates"))) {
-                            $.get(`${window.location.origin}/dashboard/geolocation?lat=${lat}&lng=${lng}`).then((
-                                res) => {
-                                if (res.success) {
-                                    localStorage.setItem("coordinates", JSON.stringify(new_coordinates));
-                                    localStorage.setItem("geolocation", JSON.stringify(res.data));
-                                    $("#location").val(JSON.parse(localStorage.geolocation).resourceSets[0]
-                                        .resources[0].name)
+                        const latitude = position.coords.latitude;
+                        const longitude = position.coords.longitude;
+                        
+                        if ((typeof localStorage.coordinates == 'string')) {
+                            local = JSON.parse(localStorage.coordinates)
+                            if ((local.lat.toFixed(2) == latitude.toFixed(2)) & (local.lng.toFixed(2) == longitude
+                            .toFixed(2)) & localStorage.geolocation) {
+                                geolocation = JSON.parse(localStorage.geolocation)
+                            } else {
+                                localStorage.setItem("coordinates", JSON.stringify({"lat":latitude,"lng":longitude}));
+                                $.get(
+                                        `${window.location.origin}/dashboard/geolocation?lat=${latitude}&lng=${longitude}`
+                                    )
+                                    .then((
+                                        res) => {
+                                        if (res.success) {
+                                            $("#location").val(JSON.stringify(res.full))
+                                            localStorage.setItem("geolocation", JSON.stringify(res.full));
+                                        } else {
+                                            $.get(`${window.location.origin}/dashboard/geolocation`).then((
+                                                resp) => {
+                                                if (res.success) {
+                                                    $("#location").val(JSON.stringify(res.full))
+                                                    localStorage.setItem("geolocation", JSON.stringify(res
+                                                        .full));
+                                                } else {
+                                                    $("#location").val(JSON.stringify(res.full))
+                                                    localStorage.setItem("geolocation",
+                                                        "Não foi possível obter a localização.");
+                                                }
+                                            })
+                                        }
+                                    })
+                            }
+                        } else {
+                            localStorage.setItem("coordinates", JSON.stringify({"lat":latitude,"lng":longitude}));
 
-                                } else {
-                                    localStorage.setItem("geolocation", JSON.stringify(res.data))
-                                }
-                            })
+                            $.get(`${window.location.origin}/dashboard/geolocation?lat=${latitude}&lng=${longitude}`)
+                                .then((
+                                    res) => {
+                                    if (res.success) {
+                                        $("#location").val(JSON.stringify(res.full))
+                                        localStorage.setItem("geolocation", JSON.stringify(res.full));
+                                    } else {
+                                        localStorage.setItem("coordinates", null);
+                                        $.get(`${window.location.origin}/dashboard/geolocation`).then((
+                                            resp) => {
+                                            if (res.success) {
+                                                $("#location").val(JSON.stringify(res.full))
+                                                localStorage.setItem("geolocation", JSON.stringify(res
+                                                    .full));
+                                            } else {
+                                                $("#location").val(JSON.stringify(res.full))
+                                                localStorage.setItem("geolocation",
+                                                    "Não foi possível obter a localização.");
+                                            }
+                                        })
+                                    }
+                                })
                         }
-
                     },
                     function(error) {
-                        $.get(`${window.location.origin}/geolocation`).then((res) => {
-                            if (res.success) {
-                                localStorage.setItem("geolocation", JSON.stringify(res.data));
-                            } else {
-                                localStorage.setItem("geolocation", JSON.stringify(res.data))
-                            }
-                        })
                         // Erro: Tratar erros aqui
                         switch (error.code) {
                             case error.PERMISSION_DENIED:
-                                localStorage.setItem("geolocation", JSON.stringify({
-                                    "sucess": false,
-                                    "full": "Permissão negada pelo usuário."
-                                }))
-                                alert("Permissão negada pelo usuário.");
+                                console.error("Permissão negada pelo usuário.");
                                 break;
                             case error.POSITION_UNAVAILABLE:
-                                localStorage.setItem("geolocation", JSON.stringify({
-                                    "sucess": false,
-                                    "full": "Informações de localização indisponíveis."
-                                }))
-                                alert("Informações de localização indisponíveis.");
+                                console.error("Informações de localização indisponíveis.");
                                 break;
                             case error.TIMEOUT:
-                                localStorage.setItem("geolocation", JSON.stringify({
-                                    "sucess": false,
-                                    "full": "Tempo esgotado ao obter localização."
-                                }))
-                                alert("Tempo esgotado ao obter localização.");
+                                console.error("Tempo esgotado ao obter localização.");
                                 break;
                             case error.UNKNOWN_ERROR:
-                                localStorage.setItem("geolocation", JSON.stringify({
-                                    "sucess": false,
-                                    "full": "Erro desconhecido ao obter localização."
-                                }))
-                                alert("Erro desconhecido ao obter localização.");
+                                console.error("Erro desconhecido ao obter localização.");
                                 break;
                         }
                     }
-                ), {
-                    enableHighAccuracy: true
-                };
+                );
             } else {
-                // O navegador não suporta Geolocation_error 
-                if (localStorage.geolocation) {
-                    console.log("master");
-                    $("#location").val(JSON.parse(localStorage.geolocation).resourceSets[0].resources[0].name)
-                } else {
-                    $.get(`${window.location.origin}/geolocation`).then((res) => {
-                        if (res.success) {
-                            localStorage.setItem("geolocation", JSON.stringify(res.data));
-                        } else {
-                            localStorage.setItem("geolocation", JSON.stringify({
-                                "sucess": false,
-                                "full": "Navegador não suporta Geolocation."
-                            }));
-                        }
-                    })
-                }
+
+                $.get(`${window.location.origin}/dashboard/geolocation`).then((resp) => {
+                    if (res.success) {
+                        $("#location").val(JSON.stringify(res.full))
+                        localStorage.setItem("geolocation", JSON.stringify(res.data));
+                    } else {
+                        $("#location").val(JSON.stringify(res.full))
+                        localStorage.setItem("geolocation", "Não foi possível obter a localização.");
+                    }
+                })
             }
         }
     </script>
