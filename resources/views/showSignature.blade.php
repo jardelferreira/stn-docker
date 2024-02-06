@@ -21,7 +21,7 @@
             <li class="list-group-item"><strong>Quem Assinou:</strong> {{$user->name}}</li>
             <li class="list-group-item"><strong>Usuário Logado:</strong> {{$field->user->name}}</li>
             <li class="list-group-item"><strong>Descrição do Evento:</strong> {{$signature->event ?? "evento não localizado."}}</li>
-            <li class="list-group-item"><strong>Localização:</strong> {{$signature->location ?? "Local não informado."}}</li>
+            <li class="list-group-item"><strong>Localização aproximada:</strong> {{$signature->location ?? "Local não informado."}}</li>
             <li class="list-group-item"><strong>Assinado em:</strong> {{ date('d/m/y H:m:s', strtotime($signature->created_at)) }}</li>
         </ul>
     </div>

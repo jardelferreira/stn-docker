@@ -21,7 +21,7 @@
         #swal2-input {
             -webkit-text-security: square;
         }
-
+ 
         .swal-wide {
             width: 650px !important;
             height: auto;

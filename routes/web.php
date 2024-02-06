@@ -24,7 +24,7 @@ Route::get('/teste/locations',function(Geolocation $geolocation){
     ]);
 })->name('teste.locations');
 Route::post('/teste/locationsLatLng',function(Geolocation $geolocation, Request $request){
-    return ($geolocation->getGeolocationWithCoodinatesCAEPI($request->lat,$request->lng));
+    return ($geolocation->getGeolocationBing($request->lat,$request->lng));
 })->name('teste.locations.coodinates');
 
 Route::prefix('hkm')->group(function(){
@@ -68,7 +68,8 @@ Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard,admin'])->
 
     Route::get('geolocation', function (Geolocation $geolocation,Request $request) {
         if ($request->lat && $request->lng) {
-            return $geolocation->getGeolocationWithCoodinatesCAEPI($request->lat,$request->lng);
+            return (["success" => true, "data" => $geolocation->getGeolocationBing($request->lat,$request->lng)]);
+
         }
         return $geolocation->getGeolocationWithIpCAEPI();
     });

@@ -54,7 +54,7 @@
                         @foreach ($professions as $item)
                             <option value="{{ $item->id }}"
                                 @if ( $errors->any() && old('profession_id') == $item->id) selected @endif>
-                                {{ $item->name }}</option>
+                                {{ $item->description }}</option>
                         @endforeach
                     </select>
                     @error('profession_id')

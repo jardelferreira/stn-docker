@@ -134,9 +134,12 @@
                         if (!(new_coordinates == localStorage.getItem("coordinates"))) {
                             $.get(`${window.location.origin}/dashboard/geolocation?lat=${lat}&lng=${lng}`).then((
                                 res) => {
-                                if (res.data.success) {
+                                if (res.success) {
                                     localStorage.setItem("coordinates", JSON.stringify(new_coordinates));
                                     localStorage.setItem("geolocation", JSON.stringify(res.data));
+                                    $("#location").val(JSON.parse(localStorage.geolocation).resourceSets[0]
+                                        .resources[0].name)
+
                                 } else {
                                     localStorage.setItem("geolocation", JSON.stringify(res.data))
                                 }
@@ -188,9 +191,10 @@
                     enableHighAccuracy: true
                 };
             } else {
-                // O navegador não suporta Geolocation_error
+                // O navegador não suporta Geolocation_error 
                 if (localStorage.geolocation) {
-                    $("#location").val(JSON.parse(localStorage.geolocation).full)
+                    console.log("master");
+                    $("#location").val(JSON.parse(localStorage.geolocation).resourceSets[0].resources[0].name)
                 } else {
                     $.get(`${window.location.origin}/geolocation`).then((res) => {
                         if (res.success) {

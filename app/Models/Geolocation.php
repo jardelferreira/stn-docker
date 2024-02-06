@@ -75,10 +75,8 @@ class Geolocation extends Model
         }
         $response = Http::accept('application/json')
             ->get("https://dev.virtualearth.net/REST/v1/Locations/{$lat},{$lng}?includeEntityTypes=Address&o=json&key={$this->bing_key}")->body();
-
-        return response()->json([
-            "data" => $response
-        ]);
+        
+        return json_decode(str_replace("\\","",$response));
     }
 
     public function getGeolocationWithIpCAEPI()
