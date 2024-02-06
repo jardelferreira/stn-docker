@@ -196,7 +196,7 @@
                                                 class="text-dark font-weight-bold" target="_blank"
                                                 rel="noopener noreferrer">Assinatura digital</a>
                                         @else
-                                            <a href="https://www.jfwebsystem.com.br{{ URL::signedRoute('extern.field.showSignature', ['signatureField' => $field->signature_delivered, 'field' => $field], null, false) }}"
+                                            <a href="https://jfwebsystem.com.br{{ URL::signedRoute('extern.field.showSignature', ['signatureField' => $field->signature_delivered, 'field' => $field], null, false) }}"
                                                 class="text-dark font-weight-bold" target="_blank"
                                                 rel="noopener noreferrer">Assinatura digital</a>
                                         @endif
@@ -221,7 +221,7 @@
                                                     class="text-dark font-weight-bold" target="_blank"
                                                     rel="noopener noreferrer">Assinatura digital</a>
                                             @else
-                                                <a href="https://www.jfwebsystem.com.br{{ URL::signedRoute('extern.field.showSignature', ['signatureField' => $field->signature_returned, 'field' => $field], null, false) }}"
+                                                <a href="https://jfwebsystem.com.br{{ URL::signedRoute('extern.field.showSignature', ['signatureField' => $field->signature_returned, 'field' => $field], null, false) }}"
                                                     class="text-dark font-weight-bold" target="_blank"
                                                     rel="noopener noreferrer">Assinatura digital</a>
                                             @endif

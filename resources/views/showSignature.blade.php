@@ -16,7 +16,7 @@
 
         <ul class="list-group">
             <li class="list-group-item"><strong>Documento Assinado:</strong> {{$field->formlistBaseEmployee->formlist->description}}</li>
-            {{-- <li class="list-group-item"><strong>Projeto:</strong> {{$field->formlistBaseEmployee->base->project->name}}</li> --}}
+            <li class="list-group-item"><strong>Projeto:</strong> {{$field->formlistBaseEmployee->base->project->name}}</li>
             <li class="list-group-item"><strong>Base:</strong> {{$field->formlistBaseEmployee->base->name}}</li>
             <li class="list-group-item"><strong>Quem Assinou:</strong> {{$user->name}}</li>
             <li class="list-group-item"><strong>Usuário Logado:</strong> {{$field->user->name}}</li>

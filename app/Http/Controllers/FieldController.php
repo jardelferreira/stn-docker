@@ -39,7 +39,7 @@ class FieldController extends Controller
         // dd($formlist_employee->employee->signatures()->get());
         // dd($formlist_employee->id);
         return view('dashboard.projects.bases.employees.fields.create', [
-            'base' => $formlist_employee->base()->first(),
+            'base' => $formlist_employee->base,
             'formlist' => $formlist_employee->id,
             'employee' => $formlist_employee->employee,
             'formlist_employee' => $formlist_employee->with('base.sectors.stoks.invoiceProduct.invoice')->first()
