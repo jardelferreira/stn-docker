@@ -81,7 +81,6 @@
             success: function(result) {
                 $('#users').DataTable({
                     responsive: true,
-                    order: [0,'desc'],
                     "language": result,
                     lengthMenu: [
                         [10, 25, 50, -1],

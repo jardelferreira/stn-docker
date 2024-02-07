@@ -4,8 +4,8 @@
 
 @section('content_header')
     <h1>Listagem de projetos de - {{$user->name}} 
-        <a name="" id="" class="btn btn-success ml-1 btn-sm"  href="{{ route('dashboard.projects.create') }}" 
-        role="button">Criar nova - <i class="fa fa-plus" aria-hidden="true"></i></a></h1>
+        <a name="" id="" class="btn btn-primary ml-1 btn-sm"  href="{{ route('dashboard.users.show',$user) }}" 
+        role="button">Vizualizar Perfil</a></h1>
 @stop
 
 @section('content')
