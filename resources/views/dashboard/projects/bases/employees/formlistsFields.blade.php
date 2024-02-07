@@ -49,12 +49,12 @@
                 <tr>
                     <td class="border border-dark" colspan="3"><span>Matricula:</span> {{ $employee->registration }}
                     </td>
-                    <td class="border border-dark" colspan="2"><span>Nome:</span> {{ $employee->user->name }}</td>
-                    <td class="border border-dark" colspan="2">
-                        <span>Admissão:</span> {{ date('d/m/Y', strtotime($employee->admission)) }}
+                    <td class="border border-dark" colspan="1"><span>Nome:</span> {{ $employee->user->name }}</td>
+                    <td class="border border-dark" colspan="3">
+                        <span>Função:</span> {{$employee->profession->name}}
                     </td>
-                    <td class="border border-dark">
-                        <span>Status: </span> Ativo
+                    <td class="border border-dark" colspan="1">
+                        <span>Admissão: </span> {{\Carbon\Carbon::parse($employee->admission)->format("d/m/Y")}}
                     </td>
 
                 </tr>
@@ -64,7 +64,8 @@
                     <td class="border border-dark" colspan="2"><span>Form Nº
                         </span>{{ str_repeat('0', strlen($formlist->id) < 5 ? 4 - strlen($formlist->id) : 0) }}{{ $formlist->id }}
                     </td>
-                    <td class="border border-dark" colspan="2"><span>Rev: </span>{{ $formlist->revision }}</td>
+                    <td class="border border-dark" colspan="1"><span>Rev: </span>{{ $formlist->revision }}</td>
+                    <td class="border border-dark" colspan="1"><span>Status: </span>Ativo</td>
                 </tr>
                 {{-- <tr>
                     <td class="border border-dark" colspan="8"><span>Unidade (Obra):</span>{{ $base->name }} </td>

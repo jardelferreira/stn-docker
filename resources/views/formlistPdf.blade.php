@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
     <!-- Required meta tags -->
@@ -38,12 +38,10 @@
                     <th class="border border-dark text-center" colspan="3" id="img_logo">
                         <img src="{{ public_path('images/stnlogo.png') }}" alt="Logo da empresa">
                     </th>
-                    <th class="border border-dark text-center text-uppercase" colspan="3">
+                    <th class="border border-dark text-center text-uppercase" style="font-size: 1.5em" colspan="3">
                         {{ $formlist->formlist->description }}</th>
-                    <th class="border border-dark text-center" colspan="2" rowspan="3">
-                        <img class="img img-fluid rounded" id="img-user"
-                            src="https://img.freepik.com/premium-vector/white-man-icon-app-web-isolated-white-background-color-icon_599062-393.jpg?w=740"
-                            alt="">
+                    <th class="border border-dark text-center" colspan="2" rowspan="2" style="padding: 0;">
+                        <img id="img-client" src="{{public_path("images/channels4_profile.jpg")}}" alt="">
                     </th>
                 </tr>
                 <tr id="l2">
@@ -64,14 +62,13 @@
                         <span style="margin-left: 2px">Nome:</span>
                         {{ $formlist->employee->user->name }}
                     </td>
-                    <td class="border border-dark " colspan="2" style="padding: 0; margin: 0; font-size: 0.7em;">
+                    <td class="border border-dark " colspan="3" style="padding: 0; margin: 0; font-size: 0.7em;">
+                        <span style="margin-left: 2px">Função: </span> {{$formlist->employee->profession->name}}
+                    </td>
+                    <td class="border border-dark " colspan="1" style="padding: 0; margin: 0; font-size: 0.7em;">
                         <span style="margin-left: 2px">Admissão:</span>
                         {{ date('d/m/Y', strtotime($formlist->employee->admission)) }}
                     </td>
-                    {{-- <td class="border border-dark " colspan="2" style="padding: 0; margin: 0; font-size: 0.7em;">
-                        <span style="margin-left: 2px">Status: </span> Ativo
-                    </td> --}}
-
                 </tr>
                 <tr>
                     <td style="padding: 0; margin: 0; font-size: 0.7em;" class="border border-dark " colspan="4">
@@ -82,8 +79,12 @@
                         <span style="margin-left: 2px">Form Nº
                         </span>{{ str_repeat('0', strlen($formlist->formlist->id) < 5 ? 4 - strlen($formlist->formlist->id) : 0) }}{{ $formlist->formlist->id }}
                     </td>
-                    <td style="padding: 0; margin: 0; font-size: 0.7em;" class="border border-dark " colspan="2">
+                    <td style="padding: 0; margin: 0; font-size: 0.7em;" class="border border-dark " colspan="1">
                         <span style="margin-left: 2px">Rev: </span>{{ $formlist->formlist->revision }}
+                    </td>
+                    <td class="border border-dark " style="padding: 0; margin: 0; font-size: 0.7em;" colspan="1">
+                        <span style="margin-left: 2px">Matricula:</span>
+                        {{ $formlist->employee->registration }}
                     </td>
                 </tr>
                 <tr>
@@ -230,6 +231,13 @@
             width: 80px;
             margin: 0;
             border: black solid 1px;
+        }
+
+        #img-client{
+            height: 60px;
+            position: relative;
+            top: -20px;
+            margin: 0;
         }
 
         #img_logo img {
