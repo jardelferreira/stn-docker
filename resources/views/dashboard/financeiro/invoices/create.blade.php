@@ -17,7 +17,7 @@
 @section('content')
     @if ($errors->has('name'))
         <div class="alert alert-danger p-0 m-1">
-           <p class="p-0">{{$errors->first('name')}}</p>
+            <p class="p-0">{{ $errors->first('name') }}</p>
         </div>
     @endif
     <div class="form">
@@ -33,7 +33,7 @@
                         required aria-describedby="helpName" placeholder="0001" value="{{ old('number') }}">
                     @if ($errors->has('number'))
                         <div class="invalid-feedback">
-                            {{$errors->first('number') }}
+                            {{ $errors->first('number') }}
                         </div>
                     @else
                         <small id="helpNumber" class="form-text text-muted">informe número da nota</small>
@@ -66,7 +66,7 @@
                         value="{{ old('issue') }}" aria-describedby="helpName" placeholder="emissão" required>
                     @if ($errors->has('issue'))
                         <div class="invalid-feedback">
-                            {{$errors->first('issue') }}
+                            {{ $errors->first('issue') }}
                         </div>
                     @else
                         <small id="helpIssue" class="form-text text-muted">Informe a Emissão</small>
@@ -88,10 +88,10 @@
                 </div>
             </div>
             <div class="form-row">
-                <div class="form-group col-lg-6 col-sm-12 col-md-12">
+                <div class="form-group col-lg-4 col-sm-12 col-md-12">
                     <label for="provider">Fornecedor: </label>
                     <select id="provider" class="form-control {{ $errors->has('provider_id') ? 'is-invalid' : '' }}"
-                        name="provider_id"   required value="{{ old('provider_id') }}">
+                        name="provider_id" required value="{{ old('provider_id') }}">
                         <option value="">Selecione um fornecedor</option>
                         {{-- @foreach ($providers as $item)
                             <option value="{{ $item->id }}"><small>{{ $item->corporate_name }}</small></option>
@@ -105,10 +105,11 @@
                         <small id="helpProvider" class="form-text text-muted">Lista de Fornecedores</small>
                     @endif
                 </div>
-                <div class="form-group col-lg-6 col-sm-12 col-md-12">
+                <div class="form-group col-lg-8 col-sm-12 col-md-12">
                     <label for="departament_cost">Departamento: </label>
-                    <select id="departament_cost" class="form-control {{ $errors->has('departament_cost_id') ? 'is-invalid' : '' }}" name="departament_cost_id"
-                        value="{{ old('departament_cost_id') }}">
+                    <select id="departament_cost"
+                        class="form-control {{ $errors->has('departament_cost_id') ? 'is-invalid' : '' }}"
+                        name="departament_cost_id" value="{{ old('departament_cost_id') }}">
                         <option value="">Selecione um departamento</option>
                         @foreach ($departament_costs as $item)
                             <option value="{{ $item->id }}"><small>{{ $item->sectorCost->cost->project->name }} =>
@@ -128,9 +129,10 @@
             <div class="form-row">
                 <div class="form-group col-lg-3 col-md-6 col-sm-12">
                     <label for="value">Valor total: </label>
-                    <input type="text" step="0.01" autocomplete="off" class="form-control {{ $errors->has('value') ? 'is-invalid' : '' }}" name="value"
-                         required value="{{ old('value') }}" id="value"
-                        aria-describedby="helpName" placeholder="R$ 1.000,00">
+                    <input type="text" step="0.01" autocomplete="off"
+                        class="form-control {{ $errors->has('value') ? 'is-invalid' : '' }}" name="value" required
+                        value="{{ old('value') }}" id="value" aria-describedby="helpName"
+                        placeholder="R$ 1.000,00">
                     @if ($errors->has('value'))
                         <div id="" class="invalid-feedback">
                             {{ $errors->first('value') }}
@@ -141,9 +143,10 @@
                 </div>
                 <div class="form-group col-lg-3 col-md-6 col-sm-12">
                     <label for="value_departament">Valor para Departamento: </label>
-                    <input type="text" step="0.01" autocomplete="off" class="form-control {{ $errors->has('value_departament') ? 'is-invalid' : '' }}" required
-                        value="{{ old('value_departament') }}" id="value_departament" name="value_departament" aria-describedby="helpName"
-                        placeholder="R$ 1.000,00">
+                    <input type="text" step="0.01" autocomplete="off"
+                        class="form-control {{ $errors->has('value_departament') ? 'is-invalid' : '' }}" required
+                        value="{{ old('value_departament') }}" id="value_departament" name="value_departament"
+                        aria-describedby="helpName" placeholder="R$ 1.000,00">
                     @if ($errors->has('value_departament'))
                         <div id="" class="invalid-feedback">
                             {{ $errors->first('value_departament') }}
@@ -154,17 +157,19 @@
                 </div>
                 <div class="form-group col-lg-6 col-md-12 col-sm-12">
                     <label for="file">Carregar arquivo: </label>
-                    <input id="file" class="form-control-file {{ $errors->has('file_invoice') ? 'is-invalid' : '' }}" type="file" name="file_invoice" required>
+                    <input id="file"
+                        class="form-control-file {{ $errors->has('file_invoice') ? 'is-invalid' : '' }}" type="file"
+                        name="file_invoice" required>
                     @if ($errors->has('file_invoice'))
                         <div id="" class="invalid-feedback">
                             {{ $errors->first('file_invoice') }}
                         </div>
                     @else
-                        <small id="helpFile" class="form-text text-muted">carregar PDF</small> 
+                        <small id="helpFile" class="form-text text-muted">carregar PDF</small>
                     @endif
                 </div>
             </div>
-                <button type="submit" class="btn btn-primary">Cadastrar</button>
+            <button type="submit" class="btn btn-primary">Cadastrar</button>
         </form>
     </div>
 @stop
@@ -223,6 +228,12 @@
                 },
                 cache: true
             }
+        });
+
+        $("#departament_cost").select2()
+        $(document).on('select2:open', () => {
+            document.querySelector('.select2-search__field').focus();
+
         });
     </script>
 @stop

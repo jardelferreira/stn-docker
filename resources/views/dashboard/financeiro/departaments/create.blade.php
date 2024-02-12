@@ -22,13 +22,14 @@
         </div>
 
         <div class="form-group">
-          <label for="cost_center_id">Selecione o Setor de custo para vincular:<small>Setor-Centro de custo-Projeto</small></label>
+          <label for="cost_center_id">Selecione o Setor de custo para vincular:</label>
           <select class="form-control" name="cost_sector_id" id="cost_sectors">
             <option value="">Selecione um projeto para o departamento de custo</option>
             @foreach ($cost_sectors as $item)
                 <option value="{{$item->id}}">{{$item->name}} - {{$item->cost->name}} - {{$item->cost->project->name}}</option>
             @endforeach
           </select>
+          <small id="helpName" class="form-text text-muted">Selecionar da lista</small>
         </div>
 
         <button type="submit" class="btn btn-primary">Cadastrar</button>
@@ -37,9 +38,19 @@
 @stop
 
 @section('css')
-    <link rel="stylesheet" href="/css/admin_custom.css">
+
 @stop
 
-{{-- @section('js')
-    <script> console.log('Hi!'); </script>
-@stop --}}
+@section('js')
+<script src="{{ asset('vendor/inputmask/dist/jquery.inputmask.min.js') }}"></script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+    $("#cost_sectors").select2()
+    $(document).on('select2:open', () => {
+        document.querySelector('.select2-search__field').focus();
+
+    });
+    
+</script>
+@stop

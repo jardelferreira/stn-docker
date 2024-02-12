@@ -9,7 +9,7 @@
 @section('content')
     <form action="{{route('dashboard.formlists.store')}}" method="post" autocomplete="off">
         @csrf
-        @method('POST')
+        @method('POST') 
         <div class="form-group">
           <label for="name">Nome do formulário</label>
           <input type="text" autocomplete="off" class="form-control" name="name" id="name" aria-describedby="helpName" placeholder="Nome do formulário">

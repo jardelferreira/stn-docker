@@ -59,7 +59,11 @@
 
                 </tr>
                 <tr>
-                    <td class="border border-dark" colspan="4"><span>Responsável Técnico:</span> Marcos Athie Trevisan
+                    <td class="border border-dark" colspan="4"><span>Responsável Técnico:</span> 
+                        {{implode(", ",$formlist_employee->formlistBase->users()->pluck('name')->toArray())}}
+                        {{-- @foreach ($formlist_employee->formlistBase->users()->get() as $user)
+                            {{$user->name}}
+                        @endforeach --}}
                     </td>
                     <td class="border border-dark" colspan="2"><span>Form Nº
                         </span>{{ str_repeat('0', strlen($formlist->id) < 5 ? 4 - strlen($formlist->id) : 0) }}{{ $formlist->id }}
@@ -144,7 +148,7 @@
                                                 onclick="devolutionField({{ $field->id }})"
                                                 type="button">Devolução</button>
                                             <button class="dropdown-item bg-success"
-                                                onclick="replacementField({{ $field->stok_id }},{{ $field->id }},{{ $formlist_employee }})"
+                                                onclick="replacementField({{ $field->stok_id }},{{ $field->id }},{{ $formlist_employee->id }})"
                                                 type="button">Troca</button>
                                         @endif
                                         <a name="addDoc" id="addDoc" target="_blank"

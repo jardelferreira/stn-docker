@@ -8,7 +8,7 @@
 
 @section('content')
 @if (count($departaments))
-    <table class="table table-striped table-inverse table-responsive">
+    <table class="table table-striped table-inverse table-responsive" id="departaments">
         <thead class="thead-inverse">
             <tr>
                 <th>Departamento de custo</th>
@@ -40,4 +40,20 @@
                @else
                    <p>Não há Departamento de custo para listagem</p>
                @endif
+@endsection
+@section('js')
+    <script>
+        $.ajax({
+            url: "//cdn.datatables.net/plug-ins/1.13.1/i18n/pt-BR.json",
+            success: function(result) {
+                $('#departaments').DataTable({
+                    "language": result,
+                    lengthMenu: [
+                        [10, 25, 50, -1],
+                        [10, 25, 50, 'Tudo'],
+                    ],
+                });
+            }
+        });
+    </script>
 @endsection

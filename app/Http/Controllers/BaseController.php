@@ -17,6 +17,7 @@ use App\Models\FormlistBaseEmployee;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreBaseRequest;
 use App\Http\Requests\UpdateBaseRequest;
+use App\Models\FormlistBase;
 use App\Models\Product;
 use App\Models\Signature;
 
@@ -140,16 +141,35 @@ class BaseController extends Controller
     {
         $base->formlists()->sync($request->formlists);
 
-        return redirect()->route('dashboard.bases.show', $base);
+        return redirect()->route('dashboard.bases.show', $base); 
     }
 
     public function showFormlists(Base $base)
     {
-        // dd($base);
+        // dd($base->formlists()->withPivot('id')->first()->pivot->id);
+        // dd($base->with('formlists.users')->get());
+        // dd(FormlistBaseEmployee::find(1)->users());
         return view('dashboard.projects.bases.formlists.showFormlists', [
             'base' => $base,
-            'formlists' => $base->formlists()->get()
+            'formlists' => $base->formlists()->get(),
+            'users' => User::all()
         ]);
+    }
+
+    public function formlistUsers(Base $base,FormlistBase $formlist_base)
+    {
+        // dd($formlist_base->users($formlist_base->id)->get()->toArray());
+
+       return (['users' => User::all(),'responses' => $formlist_base->users()->pluck('user_id')->toArray()]);
+    }
+
+    public function formlistUsersSync(Request $request)
+    {
+        // return "TESE";
+        // dd($request->all());
+        $formlist_base = FormlistBase::where("id",$request->formlist_id)->first();
+        $formlist_base->users()->sync($request->users);
+       return redirect()->back()->with('success',"Responsáveis atualizados com sucesso.");
     }
 
     public function employeesLinked(Base $base)
@@ -236,6 +256,7 @@ class BaseController extends Controller
 
     public function fieldsFormlistByEmployee(Base $base, Employee $employee, FormlistBaseEmployee $formlist_employee)
     {
+        // dd($formlist_employee->formlistBase->users()->get());
         // dd($employee->signatures()->get()->toArray());
         // dd(User::find(1)->signatures()->get());
         // dd(Signature::find($formlist_employee->fields()->first()->signature_delivered))->first();
@@ -245,7 +266,7 @@ class BaseController extends Controller
             'employee' => $formlist_employee->employee,
             'base' => $formlist_employee->base,
             'formlist' => $formlist_employee->formlist,
-            'formlist_employee' => $formlist_employee->id,
+            'formlist_employee' => $formlist_employee,
             'fields' => $formlist_employee->fields()->get()
         ]);
     }

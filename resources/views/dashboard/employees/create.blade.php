@@ -86,6 +86,7 @@
             <button type="submit" class="btn btn-primary mb-3">Cadastrar</button>
         </form>
     </div>
+  
 @stop
 
 {{-- @section('css')
@@ -93,10 +94,17 @@
 @stop --}}
 
 @section('js')
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script> 
   $(document).ready(function () { 
       var $cpf = $("#cpf");
       $cpf.mask('000.000.000-00', {reverse: true});
+
+      $("#profession, #user").select2();
+  });
+  $(document).on('select2:open', () => {
+    document.querySelector('.select2-search__field').focus();
   });
 </script>
 @stop

@@ -36,9 +36,18 @@
 @stop
 
 @section('css')
-    <link rel="stylesheet" href="/css/admin_custom.css">
+    
 @stop
 
 @section('js')
-    <script> console.log('Hi!'); </script>
+<script src="{{ asset('vendor/inputmask/dist/jquery.inputmask.min.js') }}"></script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+    $("#projects").select2()
+    $(document).on('select2:open', () => {
+        document.querySelector('.select2-search__field').focus();
+
+    });
+</script>
 @stop

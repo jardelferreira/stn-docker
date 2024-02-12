@@ -52,4 +52,14 @@ class FormlistBaseEmployee extends Model
         ->select("documents.*")->distinct();
         
     }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class,'formlist_base_user','user_id','formlist_base_id');
+    }
+
+    public function formlistBase()
+    {
+        return $this->belongsTo(FormlistBase::class,"formlist_id");
+    }
 } 

@@ -41,6 +41,12 @@ class CreateFormlistsTable extends Migration
             $table->unique(['formlist_id','base_id','employee_id'],'formlist_base_employee_unique');
             $table->timestamps();
         });
+        Schema::create('formlist_base_user',function(Blueprint $table){
+            $table->id();
+            $table->foreignId('user_id')->references('id')->on('users');
+            $table->foreignId('formlist_base_id')->references('id')->on('formlist_base');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -53,6 +59,7 @@ class CreateFormlistsTable extends Migration
         Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('formlist_base_employee');
         Schema::dropIfExists('formlist_base');
+        Schema::dropIfExists('formlist_base_user');
         Schema::dropIfExists('formlists');
     }
 }

@@ -1,0 +1,3 @@
+Teste: create table `formlist_base_user` (`id` bigint unsigned not null auto_increment primary key, `user_id` bigint unsigned not null, `formlist_base_id` bigint unsigned not null, `created_at` timestamp null, `updated_at` timestamp null) default character set utf8mb4 collate 'utf8mb4_unicode_ci'
+Teste: alter table `formlist_base_user` add constraint `formlist_base_user_user_id_foreign` foreign key (`user_id`) references `users` (`id`)
+Teste: alter table `formlist_base_user` add constraint `formlist_base_user_formlist_base_id_foreign` foreign key (`formlist_base_id`) references `formlist_base` (`id`)

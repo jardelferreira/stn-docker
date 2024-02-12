@@ -257,6 +257,10 @@ Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard,admin'])->
             // formlists x bases
             Route::get('/formularios', [BaseController::class, 'formlists'])->name('dashboard.bases.formlists');
             Route::get('/formularios/show', [BaseController::class, 'showFormlists'])->name('dashboard.bases.formlists.show');
+            
+            Route::get('/formularios/show/{formlist_base}/users', [BaseController::class, 'formlistUsers'])->name('dashboard.bases.formlists.users');
+            
+            Route::post('/formularios/usuarios/sincronizar', [BaseController::class, 'formlistUsersSync'])->name('dashboard.bases.formlists.users.sync');
             Route::put('/formularios/sync', [BaseController::class, 'syncFormlistsById'])->name('dashboard.bases.formlists.sync');
             Route::delete('/formularios/detach', [BaseController::class, 'detachFormlist'])->name('dashboard.bases.detachFormlist');
 

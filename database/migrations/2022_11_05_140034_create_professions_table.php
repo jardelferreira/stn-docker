@@ -27,8 +27,8 @@ class CreateProfessionsTable extends Migration
 
         Schema::create('profession_project', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->foreignId('project_id')->references('id')->on('projects')->onDelete('cascade');
-            $table->foreignId('profession_id')->references('id')->on('professions')->onDelete('cascade');
+            $table->foreignId('project_id')->references('id')->on('projects');
+            $table->foreignId('profession_id')->references('id')->on('professions');
             $table->timestamps();
         });
     }

@@ -25,7 +25,7 @@ class Base extends Model
     
     public function formlists()
     {
-        return $this->belongsToMany(Formlist::class,'formlist_base');
+        return $this->belongsToMany(Formlist::class,'formlist_base')->withPivot('id');
     }
     
     public function employees()
@@ -53,4 +53,5 @@ class Base extends Model
         // dd($permissions);
         return $permissions;
     }
+
 } 

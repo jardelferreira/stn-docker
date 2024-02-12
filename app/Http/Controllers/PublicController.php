@@ -150,7 +150,7 @@ class PublicController extends Controller
             'employee' => $formlist_employee->employee,
             'base' => $formlist_employee->base,
             'formlist' => $formlist_employee->formlist,
-            'formlist_employee' => $formlist_employee->id,
+            'formlist_employee' => $formlist_employee,
             'fields' => $formlist_employee->fields()->get()
         ]);
         

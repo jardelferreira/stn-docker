@@ -72,8 +72,8 @@
                 </tr>
                 <tr>
                     <td style="padding: 0; margin: 0; font-size: 0.7em;" class="border border-dark " colspan="4">
-                        <span style="margin-left: 2px">Responsável Técnico:</span> Marcos Athie
-                        Trevisan
+                        <span style="margin-left: 2px">Responsável Técnico:</span> 
+                        {{implode(", ",$formlist->formlistBase->users()->pluck('name')->toArray())}}
                     </td>
                     <td class="border border-dark " colspan="2" style="padding: 0; margin: 0; font-size: 0.7em;">
                         <span style="margin-left: 2px">Form Nº
