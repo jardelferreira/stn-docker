@@ -302,7 +302,7 @@ class BaseController extends Controller
             'documents' => $formlist_employee->documentsFromFormlist()->get()
         ]);
         $pdf = Pdf::loadHTML($html)->setPaper('a4', 'landscape')->setWarnings(false);
-        return $pdf->download("{$formlist_employee->formlist->name}-{$formlist_employee->employee->user->name}.pdf");
+        return $pdf->stream("{$formlist_employee->formlist->name}-{$formlist_employee->employee->user->name}.pdf");
     }
 
     public function removeFieldFormlistByEmployee(

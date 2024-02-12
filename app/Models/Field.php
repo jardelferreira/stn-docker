@@ -48,4 +48,8 @@ public function parseComplementToJson()
         return $this->belongsTo(User::class);       
      }
 
+     public function base()
+     {
+        return $this->hasOneThrough(Base::class,FormlistBaseEmployee::class);
+     }
 }
