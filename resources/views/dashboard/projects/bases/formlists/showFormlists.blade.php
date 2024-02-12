@@ -3,7 +3,7 @@
 @section('title', 'Formulários')
 
 @section('content_header')
-    <h1> Formulários da base - {{ $base->name }} <a class="btn btn-primary"
+    <h1> Formulários da base - <a href="{{route('dashboard.bases.show',$base)}}">{{ $base->name }}</a>  <a class="btn btn-primary"
             href="{{ route('dashboard.bases.formlists', $base) }}" role="button">Vincular novo - <i class="fa fa-plus"
                 aria-hidden="true"></i></a></h1>
 @stop

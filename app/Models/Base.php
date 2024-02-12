@@ -23,6 +23,11 @@ class Base extends Model
         return $this->hasMany(Sector::class);
     }
     
+    public function projectWithoutScope()
+    {
+        return $this->project()->withoutGlobalScopes();
+    }
+
     public function formlists()
     {
         return $this->belongsToMany(Formlist::class,'formlist_base')->withPivot('id');

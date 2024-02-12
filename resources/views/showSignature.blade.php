@@ -10,13 +10,13 @@
 </head>
 
 <body>
-
+{{-- {{dd($field->formlistBaseEmployee->base->projectWithoutScope->name)}} --}}
     <div class="container mt-5">
         <h1 class="mb-4">Detalhes da Assinatura Digital</h1>
 
         <ul class="list-group">
             <li class="list-group-item"><strong>Documento Assinado:</strong> {{$field->formlistBaseEmployee->formlist->description}}</li>
-            <li class="list-group-item"><strong>Projeto:</strong> {{$field->formlistBaseEmployee->base->project->name}}</li>
+            <li class="list-group-item"><strong>Projeto:</strong> {{$field->formlistBaseEmployee->base->projectWithoutScope->name}}</li>
             <li class="list-group-item"><strong>Base:</strong> {{$field->formlistBaseEmployee->base->name}}</li>
             <li class="list-group-item"><strong>Quem Assinou:</strong> {{$user->user->name ?? $user->name}}</li>
             <li class="list-group-item"><strong>Usuário Logado:</strong> {{$field->user->name}}</li>

@@ -42,7 +42,7 @@
                 <tr>
                     <th class="border border-dark" colspan="6"><span>Unidade (Obra):</span><span
                             style="font-weight: normal">
-                            {{ $base->name }}({{ $base->project->name }})</span> </th>
+                            {{ Str::title($base->name) }}({{ $base->project->name }})</span> </th>
                 </tr>
             </thead>
             <tbody>

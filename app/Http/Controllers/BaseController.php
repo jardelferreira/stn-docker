@@ -141,7 +141,7 @@ class BaseController extends Controller
     {
         $base->formlists()->sync($request->formlists);
 
-        return redirect()->route('dashboard.bases.show', $base); 
+        return redirect()->route('dashboard.bases.formlists.show', $base); 
     }
 
     public function showFormlists(Base $base)
