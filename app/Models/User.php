@@ -61,7 +61,7 @@ class User extends Authenticatable
     
     public function scopeProjects():array
     {
-        return User::find(auth()->user()->id)->projects()->pluck("project_id")->toArray();
+        return User::find(auth()->user()->id ?? "")->projects()->pluck("project_id")->toArray();
     }
 
     public function permissions()

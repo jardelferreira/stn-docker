@@ -48,7 +48,7 @@
                     <th class="border border-dark " style="padding: 0; margin: 0; font-size: 0.7em;" colspan="6">
                         <span style="margin-left: 2px">Unidade (Obra):</span><span style="margin-left: 2px"
                             style="font-weight: normal">
-                            {{ Str::tittle($formlist->base->name) }}({{ $formlist->base->project->name }})</span>
+                            {{ $formlist->base->name }}({{ $formlist->base->project->name }})</span>
                     </th>
                 </tr>
             </thead>
