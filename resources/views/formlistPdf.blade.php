@@ -134,7 +134,7 @@
                                 </p>
                             </td>
                             <td class="border border-dark text-center">
-                                <p style="padding: 0; margin: 0; font-size: 0.7em;" colspan="2">
+                                <p style="padding: 0; margin: 0; font-size: 0.6em;" colspan="2">
                                     {{ $field->stoks->invoiceProduct->description }}</p>
                             </td>
                             <td class="border border-dark text-center">
