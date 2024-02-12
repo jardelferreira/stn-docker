@@ -130,8 +130,8 @@
                         
                         if ((typeof localStorage.coordinates == 'string')) {
                             local = JSON.parse(localStorage.coordinates)
-                            if ((local.lat.toFixed(2) == latitude.toFixed(2)) & (local.lng.toFixed(2) == longitude
-                            .toFixed(2)) & localStorage.geolocation) {
+                            if ((local.lat.toFixed(1) == latitude.toFixed(1)) & (local.lng.toFixed(1) == longitude
+                            .toFixed(1)) & localStorage.geolocation) {
                                 geolocation = JSON.parse(localStorage.geolocation)
                             } else {
                                 localStorage.setItem("coordinates", JSON.stringify({"lat":latitude,"lng":longitude}));
