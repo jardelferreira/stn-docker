@@ -168,7 +168,9 @@
                             console.log("não é string")
                             localStorage.setItem("coordinates", JSON.stringify({"lat":latitude,"lng":longitude}));
                             console.log(`coordinates= ${latitude},${longitude}`)
-                            $.get(`${window.location.origin}/dashboard/geolocation?lat=${latitude}&lng=${longitude}`)
+                            date = new Date()
+                            time = date.getTime()
+                            $.get(`${window.location.origin}/dashboard/geolocation?lat=${latitude}&lng=${longitude}&time=${time}`)
                                 .then((
                                     res) => {
                                     if (res.success) {
