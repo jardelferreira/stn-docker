@@ -96,7 +96,7 @@ Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard,admin'])->
 
     Route::get('geolocation', function (Geolocation $geolocation, Request $request) {
 
-        dd($request->all());
+        // dd(($request->lat && $request->lng));
         $location = $geolocation->getGeolocationBing($request->lat, $request->lng);
         if ($location->statusCode == 200) {
             return response()->json([

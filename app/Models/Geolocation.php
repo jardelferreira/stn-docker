@@ -67,7 +67,7 @@ class Geolocation extends Model
 
     public function getGeolocationBing($lat = null, $lng = null)
     {
-        if (!($lat && $lng)) {
+        if (!(is_numeric($lat) && is_numeric($lng))) {
             if ($coordinates = $this->getCoordinatesGoogle()) {
                 $lat = $coordinates->location->lat;
                 $lng = $coordinates->location->lng;
