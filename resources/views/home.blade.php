@@ -16,7 +16,6 @@
 
 @section('js')
 <script>
-    localStorage.removeItem("coordinates");
-    localStorage.removeItem("geolocation");
+   localStorage.reaproveita = 0
 </script>
 @stop

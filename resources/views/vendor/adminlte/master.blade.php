@@ -133,6 +133,9 @@
                             if ((local.lat.toFixed(1) == latitude.toFixed(1)) & (local.lng.toFixed(1) == longitude
                             .toFixed(1))) {
                                 geolocation = JSON.parse(localStorage.geolocation)
+                                if (!localStorage.reaproveita) {
+                                    localStorage.reaproveita = 0
+                                }
                                 localStorage.reaproveita = parseInt(localStorage.reaproveita) +1
                                 console.log("mesma")
                                 console.log(localStorage.geolocation)
@@ -168,6 +171,7 @@
                             console.log("não é string")
                             localStorage.setItem("coordinates", JSON.stringify({"lat":latitude,"lng":longitude}));
                             console.log(`coordinates= ${latitude},${longitude}`)
+                            localStorage.reaproveita = 0
                             date = new Date()
                             time = date.getTime()
                             $.get(`${window.location.origin}/dashboard/geolocation?lat=${latitude}&lng=${longitude}&time=${time}`)
