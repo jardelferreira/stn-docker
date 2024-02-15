@@ -311,6 +311,7 @@
                             footer: result.value.footer,
                             didOpen: (element) => {
                                 $("#signature_delivered").val(result.value.signature_id);
+                                $("#location").val(localStorage.geolocation.replaceAll('"',""))
                                 $("form").submit();
                             }
                         })

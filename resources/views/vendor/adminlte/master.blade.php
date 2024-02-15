@@ -124,42 +124,49 @@
                 // Obter a localização do usuário
                 return navigator.geolocation.getCurrentPosition(
                     function(position) {
+                        date = new Date()
+                        time = date.getTime()
                         // Sucesso: As coordenadas estão disponíveis em position.coords
                         const latitude = position.coords.latitude;
                         const longitude = position.coords.longitude;
-                        
+
                         if ((typeof localStorage.coordinates == 'string')) {
                             local = JSON.parse(localStorage.coordinates)
                             if ((local.lat.toFixed(1) == latitude.toFixed(1)) & (local.lng.toFixed(1) == longitude
-                            .toFixed(1))) {
+                                    .toFixed(1))) {
                                 geolocation = JSON.parse(localStorage.geolocation)
                                 if (!localStorage.reaproveita) {
                                     localStorage.reaproveita = 0
                                 }
-                                localStorage.reaproveita = parseInt(localStorage.reaproveita) +1
+                                localStorage.reaproveita = parseInt(localStorage.reaproveita) + 1
                                 console.log("mesma")
                                 console.log(localStorage.geolocation)
                             } else {
                                 localStorage.reaproveita = 0
 
-                                localStorage.setItem("coordinates", JSON.stringify({"lat":latitude,"lng":longitude}));
+                                localStorage.setItem("coordinates", JSON.stringify({
+                                    "lat": latitude,
+                                    "lng": longitude
+                                }));
                                 $.get(
-                                        `${window.location.origin}/dashboard/geolocation?lat=${latitude}&lng=${longitude}`
+                                        `${window.location.origin}/dashboard/geolocation?lat=${latitude}&lng=${longitude}&time=${time}`
                                     )
                                     .then((
                                         res) => {
                                         if (res.success) {
-                                            $("#location").val(JSON.stringify(res.full).replace('"',""))
                                             localStorage.setItem("geolocation", JSON.stringify(res.full));
+                                            $("#location").val(localStorage.geolocation.replaceAll('"', ""))
                                         } else {
                                             $.get(`${window.location.origin}/dashboard/geolocation`).then((
                                                 resp) => {
                                                 if (res.success) {
-                                                    $("#location").val(JSON.stringify(res.full).replace('"',""))
+                                                    $("#location").val(JSON.stringify(res.full).replaceAll(
+                                                        '"', ""))
                                                     localStorage.setItem("geolocation", JSON.stringify(res
                                                         .full));
                                                 } else {
-                                                    $("#location").val(JSON.stringify(res.full).replace('"',""))
+                                                    $("#location").val(JSON.stringify(res.full).replaceAll(
+                                                        '"', ""))
                                                     localStorage.setItem("geolocation",
                                                         "Não foi possível obter a localização.");
                                                 }
@@ -169,27 +176,32 @@
                             }
                         } else {
                             console.log("não é string")
-                            localStorage.setItem("coordinates", JSON.stringify({"lat":latitude,"lng":longitude}));
+                            localStorage.setItem("coordinates", JSON.stringify({
+                                "lat": latitude,
+                                "lng": longitude
+                            }));
                             console.log(`coordinates= ${latitude},${longitude}`)
                             localStorage.reaproveita = 0
-                            date = new Date()
-                            time = date.getTime()
-                            $.get(`${window.location.origin}/dashboard/geolocation?lat=${latitude}&lng=${longitude}&time=${time}`)
+
+                            $.get(
+                                    `${window.location.origin}/dashboard/geolocation?lat=${latitude}&lng=${longitude}&time=${time}`)
                                 .then((
                                     res) => {
                                     if (res.success) {
-                                        $("#location").val(JSON.stringify(res.full).replace('"',""))
+                                        $("#location").val(JSON.stringify(res.full).replace('"', ""))
                                         localStorage.setItem("geolocation", JSON.stringify(res.full));
                                     } else {
                                         localStorage.removeItem("coordinates");
                                         $.get(`${window.location.origin}/dashboard/geolocation`).then((
                                             resp) => {
                                             if (res.success) {
-                                                $("#location").val(JSON.stringify(res.full).replace('"',""))
+                                                $("#location").val(JSON.stringify(res.full).replace('"',
+                                                    ""))
                                                 localStorage.setItem("geolocation", JSON.stringify(res
                                                     .full));
                                             } else {
-                                                $("#location").val(JSON.stringify(res.full).replace('"',""))
+                                                $("#location").val(JSON.stringify(res.full).replace('"',
+                                                    ""))
                                                 localStorage.setItem("geolocation",
                                                     "Não foi possível obter a localização.");
                                             }
@@ -217,13 +229,12 @@
                     }
                 );
             } else {
-
                 $.get(`${window.location.origin}/dashboard/geolocation`).then((resp) => {
                     if (res.success) {
-                        $("#location").val(JSON.stringify(res.full).replace('"',""))
+                        $("#location").val(JSON.stringify(res.full).replace('"', ""))
                         localStorage.setItem("geolocation", JSON.stringify(res.data));
                     } else {
-                        $("#location").val(JSON.stringify(res.full).replace('"',""))
+                        $("#location").val(JSON.stringify(res.full).replace('"', ""))
                         localStorage.setItem("geolocation", "Não foi possível obter a localização.");
                     }
                 })

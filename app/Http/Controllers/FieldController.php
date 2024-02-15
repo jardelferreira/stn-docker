@@ -326,6 +326,7 @@ class FieldController extends Controller
     public function salveFieldAfterAssign(FormlistBaseEmployee $formlist_employee, StoreFieldRequest $request)
     {
         $signature = Signature::where("id",$request->signature_delivered)->first();
+        
         if (!$request->location) {
             $signature->delete();
             return redirect()->back()->with(['message' => "Não foi possível seguir sem os dados da Geolocalização."]);
@@ -354,8 +355,9 @@ class FieldController extends Controller
         $field = Field::create($dados);
         if ($field) {
             $stok->update(['qtd' => ($stok->qtd - $request->qtd_delivered)]);
-
+            
             $signature->update(['event' => $event]);
+            // dd($signature);
 
             return redirect()->route('dashboard.bases.employees.formlists.fields', [
                 'formlist_employee' => $formlist_employee,
