@@ -1,7 +1,35 @@
 <?php
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{BaseController,BranchController,CategoryController,CostController,DepartamentCostController, DocumentController, EmployeeController,FieldController,FormlistController,GanttController,HomeController,InvoiceController,InvoiceProductsController,RoleController,UserController,PermissionController,ProductController,ProfessionController,ProjectController,ProviderController,PublicController,ReceiptController,SectorController,SectorsCostsController, ShortcutController, SignatureController, StoksController
+use App\Http\Controllers\{
+    BaseController,
+    BranchController,
+    CategoryController,
+    CostController,
+    DepartamentCostController,
+    DocumentController,
+    EmployeeController,
+    FieldController,
+    FormlistController,
+    GanttController,
+    HomeController,
+    InvoiceController,
+    InvoiceProductsController,
+    RoleController,
+    UserController,
+    PermissionController,
+    ProductController,
+    ProfessionController,
+    ProjectController,
+    ProviderController,
+    PublicController,
+    ReceiptController,
+    SectorController,
+    SectorsCostsController,
+    ShortcutController,
+    SignatureController,
+    StoksController
 };
 use App\Models\Geolocation;
 use App\Models\Stoks;
@@ -17,33 +45,33 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/teste',[PublicController::class,'qrcode'])->name('home.teste');
-Route::get('/teste/locations',function(Geolocation $geolocation){
-    return view("teste",[
+Route::get('/teste', [PublicController::class, 'qrcode'])->name('home.teste');
+Route::get('/teste/locations', function (Geolocation $geolocation) {
+    return view("teste", [
         'location' => $geolocation->getGeolocationWithIpCAEPI()
     ]);
 })->name('teste.locations');
-Route::post('/teste/locationsLatLng',function(Geolocation $geolocation, Request $request){
-    return ($geolocation->getGeolocationBing($request->lat,$request->lng));
+Route::post('/teste/locationsLatLng', function (Geolocation $geolocation, Request $request) {
+    return ($geolocation->getGeolocationBing($request->lat, $request->lng));
 })->name('teste.locations.coodinates');
 
-Route::prefix('hkm')->group(function(){
-    Route::get('/home',[PublicController::class,'hkmHome'])->name('hkm.home');
+Route::prefix('hkm')->group(function () {
+    Route::get('/home', [PublicController::class, 'hkmHome'])->name('hkm.home');
 });
 
-Route::prefix('stn')->group(function(){
-    Route::get('fichas/funcionario/{user}',[PublicController::class,'showFormlists'])->name('showFormlists');
-    Route::get('fichas/{formlist_employee}',[PublicController::class,'formlistPdf'])->name('stn.formlistPdf');
-    Route::get('fichas',[PublicController::class,'getUserByCpf'])->name('stn.getUserByCpf');
-    Route::get('apica',[PublicController::class,'apica'])->name('stn.apica');
-    Route::get('apica/{ca}',[PublicController::class,'getCA'])->name('stn.getCA');
-    Route::post('fichas',[PublicController::class,'redirectUserByCpf'])->name('stn.redirectUserByCpf');
-    Route::get('hkm',[PublicController::class,'hkmHome'])->name('stn.hkm');
+Route::prefix('stn')->group(function () {
+    Route::get('fichas/funcionario/{user}', [PublicController::class, 'showFormlists'])->name('showFormlists');
+    Route::get('fichas/{formlist_employee}', [PublicController::class, 'formlistPdf'])->name('stn.formlistPdf');
+    Route::get('fichas', [PublicController::class, 'getUserByCpf'])->name('stn.getUserByCpf');
+    Route::get('apica', [PublicController::class, 'apica'])->name('stn.apica');
+    Route::get('apica/{ca}', [PublicController::class, 'getCA'])->name('stn.getCA');
+    Route::post('fichas', [PublicController::class, 'redirectUserByCpf'])->name('stn.redirectUserByCpf');
+    Route::get('hkm', [PublicController::class, 'hkmHome'])->name('stn.hkm');
 });
 
-Route::prefix('s')->group(function(){
-    Route::get('{shortcut}',[ShortcutController::class,'redirectToUrl'])->name('shortcut.url');
-    Route::get('s/{shortcut}',[ShortcutController::class,'redirectToSecure'])->name('shortcut.secure');
+Route::prefix('s')->group(function () {
+    Route::get('{shortcut}', [ShortcutController::class, 'redirectToUrl'])->name('shortcut.url');
+    Route::get('s/{shortcut}', [ShortcutController::class, 'redirectToSecure'])->name('shortcut.secure');
 });
 // Route::get('xml',function() {
 //     return view('')
@@ -54,8 +82,8 @@ Route::prefix('externo')->group(function () {
     Route::get('recibos/{receipt}/assinatura', [ReceiptController::class, 'externAssignShow'])->name('extern.externAssignShow');
     Route::post('recibos/{receipt}/assign', [ReceiptController::class, 'externAssign'])->name('extern.externAssign');
 
-    Route::get('documentos/{document}/arquivo',[DocumentController::class,'showFile'])->name('extern.documents.showFile');
-    Route::get("ficha/assinatura/{signatureField}/{field}",[FieldController::class,"showSignature"])->name("extern.field.showSignature");
+    Route::get('documentos/{document}/arquivo', [DocumentController::class, 'showFile'])->name('extern.documents.showFile');
+    Route::get("ficha/assinatura/{signatureField}/{field}", [FieldController::class, "showSignature"])->name("extern.field.showSignature");
 });
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
@@ -66,20 +94,20 @@ Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard,admin'])->
 
     Route::get('gantt', [GanttController::class, 'index'])->name('dashboard.projects.statistics.gantt');
 
-    Route::get('geolocation', function (Geolocation $geolocation,Request $request) {
+    Route::get('geolocation', function (Geolocation $geolocation, Request $request) {
 
-            $location = $geolocation->getGeolocationBing($request->lat,$request->lng);
-            if($location->statusCode == 200){
-                return response()->json([
-                    'success' => true,
-                    'full' => $location->resourceSets[0]->resources[0]->address->formattedAddress
-                ]);
-            }
+        dd($request->all());
+        $location = $geolocation->getGeolocationBing($request->lat, $request->lng);
+        if ($location->statusCode == 200) {
             return response()->json([
-                "success" => false,
-                "full" => "Não foi possível obter localização"
+                'success' => true,
+                'full' => $location->resourceSets[0]->resources[0]->address->formattedAddress
             ]);
-
+        }
+        return response()->json([
+            "success" => false,
+            "full" => "Não foi possível obter localização"
+        ]);
     });
     Route::get('formulario/{formlist_employee}', [BaseController::class, 'formlistPdf'])->name('formlistPdf');
     Route::prefix('api')->group(function () {
@@ -89,25 +117,23 @@ Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard,admin'])->
         Route::get('providers/invoices/{sector}', [StoksController::class, 'getAllInvoicesFromProviderByProject'])->name('api.providers.invoices');
         Route::get('providers/{sector}', [StoksController::class, 'filterProviders'])->name('api.providers');
         Route::post('/products/store', [StoksController::class, 'store'])->name('api.stoks.store');
-
     });
 
-    Route::prefix('documentos')->group(function (){
-        Route::get('/',[DocumentController::class,'index'])->name('dashboard.documents');
-        Route::get('/json',[DocumentController::class,'documentsJson'])->name('dashboard.documents.json');
-        Route::get('/cadastro',[DocumentController::class,'create'])->name('dashboard.documents.create');
-        Route::get('{document}/arquivo',[DocumentController::class,'showFile'])->name('dashboard.documents.showFile');
-        
-        Route::post('/cadastro',[DocumentController::class,'store'])->name('dashboard.documents.store');
-        Route::post('/vincular-estoque',[DocumentController::class,'stoksAvailable'])->name('dashboard.documents.stoksAvailable');
-        Route::post('/desvincular-estoque',[DocumentController::class,'stoksAttached'])->name('dashboard.documents.stoksAttached');
-        Route::post('{document}/vincular-estoque',[DocumentController::class,'attachDocumentToStoks'])->name('dashboard.documents.attachDocumentToStoks');
-        Route::post('{document}/desvincular-estoque',[DocumentController::class,'detachDocumentToStoks'])->name('dashboard.documents.detachDocumentToStoks');
+    Route::prefix('documentos')->group(function () {
+        Route::get('/', [DocumentController::class, 'index'])->name('dashboard.documents');
+        Route::get('/json', [DocumentController::class, 'documentsJson'])->name('dashboard.documents.json');
+        Route::get('/cadastro', [DocumentController::class, 'create'])->name('dashboard.documents.create');
+        Route::get('{document}/arquivo', [DocumentController::class, 'showFile'])->name('dashboard.documents.showFile');
+
+        Route::post('/cadastro', [DocumentController::class, 'store'])->name('dashboard.documents.store');
+        Route::post('/vincular-estoque', [DocumentController::class, 'stoksAvailable'])->name('dashboard.documents.stoksAvailable');
+        Route::post('/desvincular-estoque', [DocumentController::class, 'stoksAttached'])->name('dashboard.documents.stoksAttached');
+        Route::post('{document}/vincular-estoque', [DocumentController::class, 'attachDocumentToStoks'])->name('dashboard.documents.attachDocumentToStoks');
+        Route::post('{document}/desvincular-estoque', [DocumentController::class, 'detachDocumentToStoks'])->name('dashboard.documents.detachDocumentToStoks');
 
 
-        Route::get('stok/{stok}',[DocumentController::class,"documentsAvaliable"])->name('dashboard.documents.documentsAvaliable');
-        Route::post('vincular/{document}/stok/{stok}',[DocumentController::class,'attachDocument'])->name('dashboard.documents.attachDocument');
-
+        Route::get('stok/{stok}', [DocumentController::class, "documentsAvaliable"])->name('dashboard.documents.documentsAvaliable');
+        Route::post('vincular/{document}/stok/{stok}', [DocumentController::class, 'attachDocument'])->name('dashboard.documents.attachDocument');
     });
 
     Route::prefix('usuarios')->group(function () {
@@ -122,15 +148,15 @@ Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard,admin'])->
 
         Route::delete('/', [UserController::class, 'destroy'])->name('dashboard.users.destroy');
         Route::put('/', [UserController::class, 'update'])->name('dashboard.users.update');
-        
+
         Route::get('{user}/permissoes', [UserController::class, 'permissions'])->name('dashboard.users.permissions');
         Route::put('{user}/permissoes/update', [UserController::class, 'permissionsUpdate'])->name('dashboard.users.permissions.update');
         Route::get('{user}/funcoes', [UserController::class, 'roles'])->name('dashboard.users.roles');
         Route::put('{user}/funcoes/update', [UserController::class, 'rolesUpdate'])->name('dashboard.users.roles.update');
 
-        Route::get('{user}/projetos',[UserController::class,'projects'])->name('dashboard.users.projects');
-        Route::post('{user}/projetos/vincular',[UserController::class,'attachProject'])->name('dashboard.users.projects.attachProject');
-        Route::post('{user}/projetos/desvincular',[UserController::class,'detachProject'])->name('dashboard.users.projects.detachProject');
+        Route::get('{user}/projetos', [UserController::class, 'projects'])->name('dashboard.users.projects');
+        Route::post('{user}/projetos/vincular', [UserController::class, 'attachProject'])->name('dashboard.users.projects.attachProject');
+        Route::post('{user}/projetos/desvincular', [UserController::class, 'detachProject'])->name('dashboard.users.projects.detachProject');
     });
 
     Route::prefix('permissoes')->group(function () {
@@ -257,9 +283,9 @@ Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard,admin'])->
             // formlists x bases
             Route::get('/formularios', [BaseController::class, 'formlists'])->name('dashboard.bases.formlists');
             Route::get('/formularios/show', [BaseController::class, 'showFormlists'])->name('dashboard.bases.formlists.show');
-            
+
             Route::get('/formularios/show/{formlist_base}/users', [BaseController::class, 'formlistUsers'])->name('dashboard.bases.formlists.users');
-            
+
             Route::post('/formularios/usuarios/sincronizar', [BaseController::class, 'formlistUsersSync'])->name('dashboard.bases.formlists.users.sync');
             Route::put('/formularios/sync', [BaseController::class, 'syncFormlistsById'])->name('dashboard.bases.formlists.sync');
             Route::delete('/formularios/detach', [BaseController::class, 'detachFormlist'])->name('dashboard.bases.detachFormlist');
@@ -281,15 +307,15 @@ Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard,admin'])->
                     Route::get('/list', [BaseController::class, 'listFormlistsForEmployee'])->name('dashboard.bases.employees.list.formlists');
                     Route::put('/sync', [BaseController::class, 'syncFormlistsByEmployee'])->name('dashboard.bases.employees.formlists.sync');
 
-                    Route::get('{formlist_employee}/estoque/{stok}/documents',[FieldController::class,'documents'])->name('dashboard.bases.employees.formlists.documents');
-                    Route::get('{formlist_employee}/estoque/{stok}/documents/json',[FieldController::class,'documentsFromStokIdJson'])->name('dashboard.bases.employees.formlists.documentsFromStokIdJson');
+                    Route::get('{formlist_employee}/estoque/{stok}/documents', [FieldController::class, 'documents'])->name('dashboard.bases.employees.formlists.documents');
+                    Route::get('{formlist_employee}/estoque/{stok}/documents/json', [FieldController::class, 'documentsFromStokIdJson'])->name('dashboard.bases.employees.formlists.documentsFromStokIdJson');
 
                     Route::prefix('{formlist_employee}/ficha')->group(function () {
                         Route::get('/', [BaseController::class, 'fieldsFormlistByEmployee'])->name('dashboard.bases.employees.formlists.fields');
                         Route::post('/remove', [BaseController::class, 'removeFieldFormlistByEmployee'])->name('dashboard.bases.employees.formlists.fields.remove');
                         Route::post('/devolver', [FieldController::class, 'devolutionField'])->name('dashboard.bases.employees.formlists.fields.devolution');
                         Route::get('/similar/{stoks}', [BaseController::class, 'getSimilar'])->name('dashboard.bases.employees.formlists.fields.getSimilar');
-                        Route::post ('/baixa', [FieldController::class, 'lowering'])->name('dashboard.bases.employees.formlists.fields.lowering');
+                        Route::post('/baixa', [FieldController::class, 'lowering'])->name('dashboard.bases.employees.formlists.fields.lowering');
                         // Route::get('/adicionar',[FieldController::class,'create'])->name('dashboard.bases.employees.formlists.fields.create');
                     });
                 });
@@ -317,9 +343,8 @@ Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard,admin'])->
             Route::post('cadastrar/products/store', [StoksController::class, 'store'])->name('dashboard.sectors.stoks.store');
 
             Route::post('/retirar', [StoksController::class, 'removeFromStock'])->name('dashboard.sectors.stoks.removeFromStock');
-            Route::get('{stok}/documentos',[StoksController::class,'documents'])->name('dashboard.sectors.stoks.documents');
-            Route::get('{stok}/documentos/{document}',[StoksController::class,'detachDocument'])->name('dashboard.sectors.stoks.detachDocument');
-
+            Route::get('{stok}/documentos', [StoksController::class, 'documents'])->name('dashboard.sectors.stoks.documents');
+            Route::get('{stok}/documentos/{document}', [StoksController::class, 'detachDocument'])->name('dashboard.sectors.stoks.detachDocument');
         });
     });
 
@@ -434,7 +459,7 @@ Route::get('publico/login', [PublicController::class, 'login'])->name('public.lo
 Route::get('publico/logout', [PublicController::class, 'logout'])->name('public.logout');
 Route::post('publico/login', [PublicController::class, 'authenticate'])->name('public.authenticate');
 
-Route::prefix('publico')->middleware(['auth','permission:public'])->group(function () {
+Route::prefix('publico')->middleware(['auth', 'permission:public'])->group(function () {
     Route::get('/', [PublicController::class, 'index'])->name('public.index');
     Route::prefix('projetos')->middleware('permission:public-projects')->group(function () {
         Route::get('/', [PublicController::class, 'projects'])->name('public.projects');

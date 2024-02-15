@@ -131,9 +131,14 @@
                         if ((typeof localStorage.coordinates == 'string')) {
                             local = JSON.parse(localStorage.coordinates)
                             if ((local.lat.toFixed(1) == latitude.toFixed(1)) & (local.lng.toFixed(1) == longitude
-                            .toFixed(1)) & localStorage.geolocation) {
+                            .toFixed(1))) {
                                 geolocation = JSON.parse(localStorage.geolocation)
+                                localStorage.reaproveita = parseInt(localStorage.reaproveita) +1
+                                console.log("mesma")
+                                console.log(localStorage.geolocation)
                             } else {
+                                localStorage.reaproveita = 0
+
                                 localStorage.setItem("coordinates", JSON.stringify({"lat":latitude,"lng":longitude}));
                                 $.get(
                                         `${window.location.origin}/dashboard/geolocation?lat=${latitude}&lng=${longitude}`
@@ -160,6 +165,7 @@
                                     })
                             }
                         } else {
+                            console.log("não é string")
                             localStorage.setItem("coordinates", JSON.stringify({"lat":latitude,"lng":longitude}));
 
                             $.get(`${window.location.origin}/dashboard/geolocation?lat=${latitude}&lng=${longitude}`)

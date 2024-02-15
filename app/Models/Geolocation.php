@@ -69,8 +69,8 @@ class Geolocation extends Model
     {
         if (!($lat && $lng)) {
             if ($coordinates = $this->getCoordinatesGoogle()) {
-                $lat = $coordinates['location']['lat'];
-                $lng = $coordinates['location']['lng'];
+                $lat = $coordinates->location->lat;
+                $lng = $coordinates->location->lng;
             };
         }
         $response = Http::accept('application/json')
