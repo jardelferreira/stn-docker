@@ -250,7 +250,7 @@ class User extends Authenticatable
 
     public function adminlte_image()
     {
-        return asset(auth()->user()->image_path);
+        return auth()->user()->image_path ? asset(auth()->user()->image_path) : "https://bootdey.com/img/Content/avatar/avatar7.png";
     }
 
 }
