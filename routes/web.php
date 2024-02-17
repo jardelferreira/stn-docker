@@ -145,6 +145,9 @@ Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard,admin'])->
 
         Route::post('/', [UserController::class, 'store'])->name('dashboard.users.store');
         Route::post('{user}/assinatura', [UserController::class, 'generateSignature'])->name('dashboard.users.signature');
+        Route::post('{user}/updateImage', [UserController::class, 'updateImageProfile'])->name('dashboard.users.updateImageProfile');
+        Route::post('{user}/assinatura/atualizar', [UserController::class, 'updateSignaturePass'])->name('dashboard.users.updateSignaturePass');
+        Route::post('{user}/senha/atualizar', [UserController::class, 'updatePassword'])->name('dashboard.users.updatePassword');
 
         Route::delete('/', [UserController::class, 'destroy'])->name('dashboard.users.destroy');
         Route::put('/', [UserController::class, 'update'])->name('dashboard.users.update');

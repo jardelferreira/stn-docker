@@ -12,6 +12,8 @@ use App\Http\Requests\UserRequest;
 use App\Models\Project;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -68,6 +70,8 @@ class UserController extends Controller
      */
     public function show(User $user)
     {     
+        // dd($user->decryptPass($user->signature()->signature));
+        // dd($user->signature(),auth()->user()->signature());
         // $user->generateSignature('teste');
         return view('dashboard/users/show', [
             'user' => $user
@@ -121,6 +125,64 @@ class UserController extends Controller
             'users' => User::all()
         ]);
     }
+
+    public function updateImageProfile(User $user, Request $request)
+    {
+        if ($request->hasFile('file')) {
+            $name = $request->file('file')->getClientOriginalName();
+            $extension = $request->file('file')->extension();
+            $path = $request->file('file')->storeAs('public/users/profile',"{$user->uuid}.{$extension}");
+            $path = \str_replace('public', 'storage',$path);
+            $user->update(['image_path' => "{$path}"]);
+            return true;
+        }
+        return false;
+    }
+
+    public function updateSignaturePass(User $user, Request $request)
+    {
+        if (Hash::check($request->password,$user->password)) {
+            $user->generateSignature($request->signature);
+            return redirect()->back()->with('success','Nova assinatura gerada com sucesso!');
+        }else{
+            return redirect()->back()->with('error',"Senha incorreta");
+        }
+        return redirect()->back()->with('error','Não foi possível gerar assinatura.');
+    }
+
+    public function updatePassword(User $user, Request $request)
+    {
+       $validator = Validator::make($request->all(),[
+            'user_password' => "required|min:8",
+            'new_password' => "required|min:8",
+            'new_password_confirm' => "required|min:8",
+        ],[
+            'user_password.required' => "Senha do usuário é obrigatória",
+            'user_password.min' => "A senha deve conter no mínimo 8 caracters",
+            'new_password.required' => "Nova senha do usuário é obrigatória",
+            'new_password.min' => "A nova senha deve conter no mínimo 8 caracters",
+            'new_password_confirm.required' => "Nova senha do usuário é obrigatória",
+            'new_password_confirm.min' => "A nova senha deve conter no mínimo 8 caracters",
+            
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+
+        if(!(Hash::check($request->user_password,auth()->user()->password))) {
+            return redirect()->back()->with('error',"Senha incorreta");
+        } 
+            if ($request->new_password == $request->new_password_confirm) {
+                $user->update(['password' => Hash::make($request->new_password)]);
+                return redirect()->back()->with('success','Senha alterada com sucesso!');
+            }else{
+                return redirect()->back()->with('error','As senhas precisam ser iguais!');
+            }
+        
+    }
     public function permissions(User $user)
     {
         // dd(Permission::get()->chunk(3));
@@ -167,8 +229,8 @@ class UserController extends Controller
 
     function checkSignature(Request $request) {
         
-        $user = User::where('id',Auth::user()->id)->first();
-        return $user->checkSignature($request->pass);
+        // $user = User::where('id',Auth::user()->id)->first();
+        return auth()->user()->checkSignature($request->pass);
     }
 
     public function projects(USer $user)

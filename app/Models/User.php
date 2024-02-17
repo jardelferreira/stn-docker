@@ -114,7 +114,7 @@ class User extends Authenticatable
         return $this->hasMany(SignatureUser::class);
     }
 
-    public function generateSignature($pass)
+    public function generateSignature($pass, $event = "Primeira Assinatura")
     {
         // dd();
         $signature_pass = $this->encryptPass($pass);
@@ -124,7 +124,7 @@ class User extends Authenticatable
             'signature' => Hash::make($signature_pass),
             'signaturable_type' => get_class($this),
             'signaturable_id'   => $this->id,
-            'event' => "Primeira assinatura",
+            'event' => $event,
             'uuid' => Str::uuid(),
         ]));
         $user_signature = SignatureUser::create([
@@ -246,6 +246,11 @@ class User extends Authenticatable
         };
         // dd($permissions);
         return $permissions;
+    }
+
+    public function adminlte_image()
+    {
+        return asset(auth()->user()->image_path);
     }
 
 }
