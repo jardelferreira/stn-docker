@@ -363,22 +363,22 @@
                         @csrf
                         @method('POST')
                         <div class="form-group">
-                            <label for="user_password">Senha de login</label>
+                            <label for="user_password">Informe sua senha</label>
                             <input type="text" class="form-control" name="user_password" required id="user_password"
                                 aria-describedby="helpPawrd" placeholder="senha utlizada para login">
-                            <small id="helpPawrd" class="form-text text-muted">Informe a senha de login do usuário</small>
+                            <small id="helpPawrd" class="form-text text-muted">Sua senha de login do usuário</small>
                         </div>
                         <div class="form-group">
-                            <label for="new_password">Nova senha</label>
+                            <label for="new_password">Nova senha para o usuário</label>
                             <input type="text" class="form-control" name="new_password" required id="new_password"
                                 aria-describedby="helpId" placeholder="Mínimo 8 digitos">
                             <small id="helpId" class="form-text text-muted">Informe a nova senha de usuário</small>
                         </div>
                         <div class="form-group">
-                            <label for="new_password_confirm">Nova senha</label>
+                            <label for="new_password_confirm">Confirmar senha</label>
                             <input type="text" class="form-control" name="new_password_confirm" required
                                 id="new_password_confirm" aria-describedby="helpId" placeholder="Minimo 8 digitos">
-                            <small id="helpId" class="form-text text-muted">Informe a nova senha de usuário</small>
+                            <small id="helpId" class="form-text text-muted">Confirme a nova senha de usuário</small>
                         </div>
                     </div>
                     <div class="modal-footer">
