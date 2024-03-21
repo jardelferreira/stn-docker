@@ -32,7 +32,7 @@ class PublicController extends Controller
     {
         // dd(Stoks::with(['sector','base','project', 'invoiceProduct','product','fields'])->get()->toArray());
         return view('publico.stoks.stoks', [
-            'stoks' => $stoks->with(['sector','base','project', 'invoiceProduct','product','fields'])->get()->toArray()
+            'stoks' => $stoks->with(['sector','base','project', 'invoiceProduct','product','fields'])->get()
         ]);
     }
     public function projects()

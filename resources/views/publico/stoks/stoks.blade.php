@@ -25,24 +25,24 @@
                     </thead>
                     <tbody>
                         @foreach ($stoks as $stok)
-                            @if (count($stok['fields']) || $stok['qtd'] > 0)
+                            @if (count($stok->fields) || $stok->qtd > 0)
                                 <tr>
-                                    <td scope="row"><small>{{ $stok['project']['name'] }}</small></td>
-                                    <td scope="row"><small>{{ $stok['base']['name'] }}</small></td>
-                                    <td scope="row">{{ $stok['sector']['name'] }}</td>
-                                    <td scope="row">{{ $stok['invoice_product']['name'] }}</td>
-                                    <td scope="row">{{ $stok['qtd'] }}</td>
+                                    <td scope="row"><small>{{ $stok->project->name }}</small></td>
+                                    <td scope="row"><small>{{ $stok->base->name ?? "sem nome" }}</small></td>
+                                    <td scope="row">{{ $stok->sector->name ?? "sem nome"}}</td>
+                                    <td scope="row">{{ $stok->invoiceProduct->name "sem nome" }}</td>
+                                    <td scope="row">{{ $stok->qtd }}</td>
                                     <td scope="row">
-                                        @if (count($stok['fields']))
+                                        @if (count($stok->fields))
                                             Fichas
-                                            @if ($stok['invoice_product']['qtd'] > $stok['qtd'])
+                                            @if ($stok->invoiceProduct->qtd > $stok->qtd)
                                                 / Saidas
                                             @endif
                                         @else
-                                            @if ($stok['qtd'] > 0)
+                                            @if ($stok->qtd > 0)
                                                 / Estoque
                                             @endif
-                                            @if ($stok['invoice_product']['qtd'] > $stok['qtd'])
+                                            @if ($stok->invoiceProduct->qtd > $stok->qtd)
                                                 / Saidas
                                             @endif
                                         @endif
