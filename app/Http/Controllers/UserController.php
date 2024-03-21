@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Yajra\Acl\Models\Permission;
 use App\Http\Requests\UserRequest;
+use App\Models\Biometric;
 use App\Models\Project;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -21,10 +22,10 @@ class UserController extends Controller
     public function __construct()
     {
         $this->middleware('can:acl,admin,dp,listar-acl-usuarios');
-        $this->middleware('can:acl,admin,criar-acl-usuarios,gerenciar-acl-usuarios')->only(['create','store']);
-        $this->middleware('can:acl,admin,gerenciar-acl-usuarios,editar-acl-usuarios')->only(['edit','update']);
+        $this->middleware('can:acl,admin,criar-acl-usuarios,gerenciar-acl-usuarios')->only(['create', 'store']);
+        $this->middleware('can:acl,admin,gerenciar-acl-usuarios,editar-acl-usuarios')->only(['edit', 'update']);
         $this->middleware('can:acl,admin,deletar-acl-usuarios,gerenciar-acl-usuarios')->only(['destroy']);
-        $this->middleware('can:acl,admin,gerenciar-acl-usuarios')->only(['attachProject','detachProject']);
+        $this->middleware('can:acl,admin,gerenciar-acl-usuarios')->only(['attachProject', 'detachProject']);
     }
     /**
      * Display a listing of the resource.
@@ -56,8 +57,12 @@ class UserController extends Controller
      */
     public function store(UserRequest $request, User $user)
     {
-        $user->create($request->all());
-
+       $user = $user->create($request->all());
+        if ($request->biometric) {
+            return redirect()->route('dashboard.users.show', [
+                'user' => $user
+            ]);
+        }
         return redirect()->route('dashboard.users', [
             'users' => User::all()
         ]);
@@ -69,7 +74,9 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(User $user)
-    {     
+    {
+        // dd($user->projects()->with('users.biometric')->get()->toArray());
+        // dd($user->biometric->first());
         // dd($user->decryptPass($user->signature()->signature));
         // dd($user->signature(),auth()->user()->signature());
         // $user->generateSignature('teste');
@@ -115,10 +122,8 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroy(User $user)
     {
-        $user = User::where('id', $request->user);
-
         $user->delete();
 
         return redirect()->route('dashboard.users', [
@@ -131,8 +136,8 @@ class UserController extends Controller
         if ($request->hasFile('file')) {
             $name = $request->file('file')->getClientOriginalName();
             $extension = $request->file('file')->extension();
-            $path = $request->file('file')->storeAs('public/users/profile',"{$user->uuid}.{$extension}");
-            $path = \str_replace('public', 'storage',$path);
+            $path = $request->file('file')->storeAs('public/users/profile', "{$user->uuid}.{$extension}");
+            $path = \str_replace('public', 'storage', $path);
             $user->update(['image_path' => "{$path}"]);
             return true;
         }
@@ -141,57 +146,59 @@ class UserController extends Controller
 
     public function updateSignaturePass(User $user, Request $request)
     {
-        if (Hash::check($request->password,$user->password)) {
+        if (Hash::check($request->password, $user->password)) {
             $user->generateSignature($request->signature);
-            return redirect()->back()->with('success','Nova assinatura gerada com sucesso!');
-        }else{
-            return redirect()->back()->with('error',"Senha incorreta");
+            return redirect()->back()->with('success', 'Nova assinatura gerada com sucesso!');
+        } else {
+            return redirect()->back()->with('error', "Senha incorreta");
         }
-        return redirect()->back()->with('error','Não foi possível gerar assinatura.');
+        return redirect()->back()->with('error', 'Não foi possível gerar assinatura.');
     }
 
     public function updatePassword(User $user, Request $request)
     {
-       $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'user_password' => "required|min:8",
             'new_password' => "required|min:8",
             'new_password_confirm' => "required|min:8",
-        ],[
+        ], [
             'user_password.required' => "Senha do usuário é obrigatória",
             'user_password.min' => "A senha deve conter no mínimo 8 caracters",
             'new_password.required' => "Nova senha do usuário é obrigatória",
             'new_password.min' => "A nova senha deve conter no mínimo 8 caracters",
             'new_password_confirm.required' => "Nova senha do usuário é obrigatória",
             'new_password_confirm.min' => "A nova senha deve conter no mínimo 8 caracters",
-            
+
         ]);
 
         if ($validator->fails()) {
             return redirect()->back()
-                        ->withErrors($validator)
-                        ->withInput();
+                ->withErrors($validator)
+                ->withInput();
         }
 
-        if(!(Hash::check($request->user_password,auth()->user()->password))) {
-            return redirect()->back()->with('error',"Senha incorreta");
-        } 
-            if ($request->new_password == $request->new_password_confirm) {
-                $user->update(['password' => Hash::make($request->new_password)]);
-                return redirect()->back()->with('success','Senha alterada com sucesso!');
-            }else{
-                return redirect()->back()->with('error','As senhas precisam ser iguais!');
-            }
-        
+        if (!(Hash::check($request->user_password, auth()->user()->password))) {
+            return redirect()->back()->with('error', "Senha incorreta");
+        }
+        if ($request->new_password == $request->new_password_confirm) {
+            $user->update(['password' => Hash::make($request->new_password)]);
+            return redirect()->back()->with('success', 'Senha alterada com sucesso!');
+        } else {
+            return redirect()->back()->with('error', 'As senhas precisam ser iguais!');
+        }
     }
     public function permissions(User $user)
     {
-        // dd(Permission::get()->chunk(3));
+        $permissions = Permission::get();
+
+        $mod = ($permissions->count() % 4);
         // $array = (User::find($id)->permissions()->pluck('permission_id')->toArray());
         // dd(array_key_exists('0',$array));
         return view('dashboard/users.permissions', [
             'user' => $user,
-            'permissions' => Permission::get()->chunk(4),
-            'user_permissions' => $user->permissions()->pluck('permission_id')->toArray()
+            'permissions' => $permissions->chunk(4),
+            'user_permissions' => $user->permissions()->pluck('permission_id')->toArray(),
+            'count' => ($mod > 0) ? (4 - $mod):0
         ]);
     }
     public function roles(User $user)
@@ -220,22 +227,23 @@ class UserController extends Controller
         ]);
     }
 
-    public function generateSignature(User $user,Request $request)
+    public function generateSignature(User $user, Request $request)
     {
         $user->generateSignature($request->pass);
 
-        return redirect()->route('dashboard.users.show',$user);
+        return redirect()->route('dashboard.users.show', $user);
     }
 
-    function checkSignature(Request $request) {
-        
+    function checkSignature(Request $request)
+    {
+
         // $user = User::where('id',Auth::user()->id)->first();
         return auth()->user()->checkSignature($request->pass);
     }
 
     public function projects(USer $user)
     {
-        return view('dashboard.users.projects',[
+        return view('dashboard.users.projects', [
             'user' => $user,
             'projects' => Project::withoutGlobalScopes()->get(),
             'user_projects' => $user->projects()->pluck("projects.id")->toArray()
@@ -244,12 +252,12 @@ class UserController extends Controller
 
     public function attachProject(User $user, Request $request)
     {
-    
+
         $user->projects()->attach($request->project_id);
 
         return redirect()->back();
     }
-    
+
     public function detachProject(User $user, Request $request)
     {
         $user->projects()->detach($request->project_id);
@@ -257,4 +265,16 @@ class UserController extends Controller
         return redirect()->back();
     }
 
+    public function biometricStore(User $user, Request $request)
+    {
+        // return $request->all();
+        Biometric::create([
+            "user_id" => $user->id,
+            "template" => $request->template
+        ]);
+        return response()->json([
+            "user" => $user,
+            "template" => $user->biometric()->first()->template,
+        ]);
+    }
 }

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
     BaseController,
+    BiometricController,
     BranchController,
     CategoryController,
     CostController,
@@ -93,6 +94,11 @@ Route::get('/unauthorized', [HomeController::class, 'unauthorized'])->name('unau
 Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard,admin'])->group(function () {
 
     Route::get('gantt', [GanttController::class, 'index'])->name('dashboard.projects.statistics.gantt');
+    Route::get('user-sectors',function(){
+        return response()->json([
+            "sectors" => auth()->user()->sectors()
+        ]);
+    });
 
     Route::get('geolocation', function (Geolocation $geolocation, Request $request) {
 
@@ -141,6 +147,9 @@ Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard,admin'])->
         Route::post('/check', [UserController::class, 'checkSignature'])->name('dashboard.users.checkSignature');
         Route::get('/cadastro', [UserController::class, 'create'])->name('dashboard.users.create');
         Route::get('/{user}', [UserController::class, 'show'])->name('dashboard.users.show');
+        
+        Route::post('/{user}/biometria/salvar', [UserController::class, 'biometricStore'])->name('dashboard.users.biometricStore');
+
         Route::get('/{user}/editar', [UserController::class, 'edit'])->name('dashboard.users.edit');
 
         Route::post('/', [UserController::class, 'store'])->name('dashboard.users.store');
@@ -317,7 +326,7 @@ Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard,admin'])->
                         Route::get('/', [BaseController::class, 'fieldsFormlistByEmployee'])->name('dashboard.bases.employees.formlists.fields');
                         Route::post('/remove', [BaseController::class, 'removeFieldFormlistByEmployee'])->name('dashboard.bases.employees.formlists.fields.remove');
                         Route::post('/devolver', [FieldController::class, 'devolutionField'])->name('dashboard.bases.employees.formlists.fields.devolution');
-                        Route::get('/similar/{stoks}', [BaseController::class, 'getSimilar'])->name('dashboard.bases.employees.formlists.fields.getSimilar');
+                        Route::get('/similar/{stoks}/qtd/{qtd_delivered}', [BaseController::class, 'getSimilar'])->name('dashboard.bases.employees.formlists.fields.getSimilar');
                         Route::post('/baixa', [FieldController::class, 'lowering'])->name('dashboard.bases.employees.formlists.fields.lowering');
                         // Route::get('/adicionar',[FieldController::class,'create'])->name('dashboard.bases.employees.formlists.fields.create');
                     });
@@ -338,6 +347,9 @@ Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard,admin'])->
 
         Route::prefix('{sector}/estoque')->group(function () {
             Route::get('/', [StoksController::class, 'index'])->name('dashboard.sectors.stoks.index');
+            Route::get("/produtos",[StoksController::class,"products"])->name('dashboard.sectors.stoks.products');
+            Route::get("/produtos/{product}/defineStokMin",[StoksController::class,"defineStokMin"])->name('dashboard.sectors.stoks.products.defineStokMin');
+            Route::get("/produtos/{product}/revokeStokMin",[StoksController::class,"revokeStokMin"])->name('dashboard.sectors.stoks.products.revokeStokMin');
             Route::get('/cadastrar', [StoksController::class, 'create'])->name('dashboard.sectors.stoks.create');
             Route::get('/cadastrar/invoice/{invoice}/products', [StoksController::class, 'getProductsByInvoiceId'])->name('dashboard.sectors.stoks.invoices.products');
             Route::get('cadastrar/providers', [StoksController::class, 'filterProviders'])->name('dashboard.sectors.stoks.providers');
@@ -456,6 +468,10 @@ Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard,admin'])->
             Route::post('/{receipt}/genTemporaryLink', [ReceiptController::class, 'genTemporaryLink'])->name('dashboard.financeiro.receipts.genTemporaryLink');
         });
     });
+
+    Route::prefix('biometria')->group(function(){
+        Route::get('/',[BiometricController::class,'index'])->name('dashboard.biometrics');
+    });
 });
 
 Route::get('publico/login', [PublicController::class, 'login'])->name('public.login');
@@ -464,8 +480,9 @@ Route::post('publico/login', [PublicController::class, 'authenticate'])->name('p
 
 Route::prefix('publico')->middleware(['auth', 'permission:public'])->group(function () {
     Route::get('/', [PublicController::class, 'index'])->name('public.index');
-    Route::prefix('projetos')->middleware('permission:public-projects')->group(function () {
+    Route::prefix('projetos')->group(function () {
         Route::get('/', [PublicController::class, 'projects'])->name('public.projects');
+        Route::get('/estoque', [PublicController::class, 'stoks'])->name('public.stoks');
         Route::get('/{project}/estoque', [PublicController::class, 'stokFromProject'])->name('public.projects.stoks');
         Route::get('/{project}/bases', [PublicController::class, 'bases'])->name('public.projects.bases');
         Route::get('/{project}/estoque', [PublicController::class, 'stokFromProject'])->name('public.projects.stoks');

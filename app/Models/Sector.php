@@ -43,4 +43,12 @@ class Sector extends Model
         // dd($permissions);
         return $permissions;
     }
+
+    public function products()
+    {
+        return $this->hasManyThrough(Product::class,Stoks::class,'sector_id','id')
+        ->selectRaw("SUM(stoks.qtd) as qtd_total,products.name,products.id,sector_id")
+        ->groupBy('products.id');
+    }
+    
 }

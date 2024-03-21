@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreStoksRequest;
 use App\Http\Requests\UpdateStoksRequest;
 use App\Models\Document;
+use App\Models\Product;
 
 class StoksController extends Controller
 {
@@ -24,6 +25,7 @@ class StoksController extends Controller
      */
     public function index(Sector $sector)
     {   
+        // dd($sector->products()->get()->toArray());
         // dd($sector->stoks()->with('invoiceProduct')->where('slug','like','%lixadeira%')->get());
         // dd($sector->stoks()->with('invoiceProduct.invoice')->get());
         return view('dashboard.projects.bases.sectors.stoks.index',[
@@ -217,5 +219,25 @@ class StoksController extends Controller
     {
         $stok->documents()->detach($document->id);
         return redirect()->back()->with('detach',"O Documento foi desvinculado com sucesso!");
+    }
+
+    public function products(Sector $sector)
+    {   
+        // dd($sector->products()->get()[0]->stokMin()->toSql());
+        return view('dashboard.projects.bases.sectors.stoks.products',[
+            "products" => $sector->products()->get(),
+            "sector" => $sector
+        ]);
+    }
+
+    public function defineStokMin(Sector $sector,Product $product)
+    {
+        $product->stokMin()->create([
+            'product_id' => $product->id,
+            'sector_id' => $sector->id,
+            'project_id' => $sector->project->id,
+            'stok_min' => 50
+        ]);
+        return redirect()->back();
     }
 }

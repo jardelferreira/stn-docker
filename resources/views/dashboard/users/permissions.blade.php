@@ -59,15 +59,29 @@
                                 <td>
                                     <div class="form-check">
                                         <input class="form-check-input" name="permissions[]"
-                                            @if (in_array($item->id, $user_permissions)) checked @endif name="{{ $item->id }}"
+                                            @if (in_array($item->id, $user_permissions)) checked @endif 
                                             id="{{ $item->id }}" type="checkbox" value="{{ $item->id }}"
                                             aria-label="Permissão">
                                     </div>
                                 </td>
                                 <td scope="row">{{ $item->name }}</td>
                             @endforeach
+                            @if ($loop->last)
+                            @for ($i = 0; $i < $count; $i++)
+                            <td>
+                                <div class="form-check">
+                                    <input class="form-check-input" disabled name="fillet[]"
+                                        
+                                        id="fillet-{{$i}}" type="checkbox" value=""
+                                        aria-label="Permissão">
+                                </div>
+                            </td>
+                            <td scope="row"></td>
+                            @endfor
+                            @endif
                         </tr>
                     @endforeach
+                   
                 </tbody>
         </form>
         </table>

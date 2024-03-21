@@ -399,7 +399,12 @@ return [
                     'icon' => 'fas fa-fw fa-user',
                     'can'  => Permission::resourcesRolesModel()
                 ],
-
+                [
+                    'text' => 'Biometria',
+                    'route'  => 'dashboard.biometrics',
+                    'icon' => 'fa fa-user-circle-o',
+                    'can'  => User::resourcesModel()
+                ],
             ]
         ],
         [

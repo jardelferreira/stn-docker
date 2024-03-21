@@ -15,4 +15,9 @@ class InvoiceProducts extends Model
     {
         return $this->hasOne(Invoice::class,'id','invoice_id');
     }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
 }

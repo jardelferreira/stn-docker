@@ -14,6 +14,11 @@ class Project extends Model
     protected $fillable = ['name','slug','description','initials','uuid'];
 
     
+    public function users()
+    {
+        return $this->belongsToMany(User::class)->distinct('user_id'); 
+    }
+
     public function invoices()
     {
         return $this->hasMany(Invoice::class);

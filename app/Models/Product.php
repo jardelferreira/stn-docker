@@ -40,4 +40,9 @@ class Product extends Model
         // dd($permissions);
         return $permissions;
     }
+
+    public function stokMin()
+    {
+        return $this->belongsToMany(Product::class,'product_sectors')->selectRaw("product_sectors.stok_min");
+    }
 }

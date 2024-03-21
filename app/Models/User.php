@@ -114,6 +114,11 @@ class User extends Authenticatable
         return $this->hasMany(SignatureUser::class);
     }
 
+    public function sectors()
+    {
+        return $this->belongsToMany(Project::class,'project_user')->join('sectors',"sectors.project_id","=","projects.id")->select("sectors.name as sector", "sectors.id as sector_id","projects.name as project")->get();
+    }
+
     public function generateSignature($pass, $event = "Primeira Assinatura")
     {
         // dd();
@@ -253,4 +258,18 @@ class User extends Authenticatable
         return auth()->user()->image_path ? asset(auth()->user()->image_path) : "https://bootdey.com/img/Content/avatar/avatar7.png";
     }
 
+    public function biometric()
+    {
+        return $this->hasOne(Biometric::class);
+    }
+
+    public function usersAvaliableToBiometric()
+    {
+        $user_projects = auth()->user()->projects()->with("users")->get()->pluck("users.*.id")->toArray();
+        $user_projects = array_merge_recursive_distinct(...$user_projects);
+        $user_biometrics = Biometric::pluck("user_id")->toArray();
+        return User::all()->whereNotIn("id",$user_biometrics)->whereIn("id",$user_projects);
+    }
+
+    
 }

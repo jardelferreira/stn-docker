@@ -41,15 +41,19 @@
                     <a href="{{ route('home') }}" class="list-group-item list-group-item-action border-bottom py-1 mb-1"><i
                             class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
                 @endcan
-                @can('public-projects')
-                    
-                <a href="{{ route('public.projects') }}"
-                class="list-group-item list-group-item-action border-bottom py-1 mb-1"><i
-                class="fas fa-tachometer-alt me-2"></i>Projetos</a>
-                @endcan
+                @canany(auth()->user()->resourcesPublicModel(), auth()->user())
+                    <a href="{{ route('public.projects') }}"
+                        class="list-group-item list-group-item-action border-bottom py-1 mb-1"><i
+                            class="fas fa-tachometer-alt me-2"></i>Projetos</a>
+                @endcanany
                 <a href="{{ route('public.employees.formlists', Auth::id()) }}"
                     class="list-group-item list-group-item-action border-bottom py-1 mb-1">
                     <i class="fas fa-id-card me-2"></i>Minhas Fichas</a>
+                    @can('admin-estoque', auth()->user())                      
+                    <a href="{{ route('public.stoks') }}"
+                    class="list-group-item list-group-item-action border-bottom py-1 mb-1">
+                    <img src="{{asset('images/stok-check.svg')}}" alt="icone de menu" class="menu-icon">Estoque</a>
+                    @endcan
                 @yield('sidebar-list')
                 {{-- 
                 <small><a href="#"
@@ -121,7 +125,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
         crossorigin="anonymous"></script>
-@section('plugins.Sweetalert2', true)
+    @section('plugins.Sweetalert2', true)
     @yield('js')
     <script>
         $(document).ready(() => {
@@ -139,6 +143,11 @@
         };
     </script>
     <style>
+        .menu-icon{
+            height: 20px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
         #breadcrumb {
             margin-left: 25px;
         }

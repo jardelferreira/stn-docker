@@ -3,6 +3,8 @@
 @section('title', 'usuários')
 
 @section('content')
+    @csrf
+    
     @if (session('error'))
         <div class="alert alert-warning">
             {{ session('error') }}
@@ -65,6 +67,19 @@
                                         data-target="#exampleModal">
                                         Gerar assinatura
                                     </button>
+                                @endif
+                                @if ($user->biometric)
+                                
+                                <input type="hidden" id="template" value="{{$user->biometric->template}}">
+                                    <button onclick="matchOneOnOne('{{$user->biometric->template}}')" style="border: none; margin: 0; padding: 0;"><img style="height: 35px;"
+                                            class="ml-1" src="{{ asset('images/finger-ok.svg') }}"
+                                            alt=""></button>
+                                @else
+                                <input type="hidden" id="template">
+                                    <button style="border: none; margin: 0; padding: 0;"
+                                        onclick="captureHash({{ $user->id }})" href="#"><img style="height: 35px;"
+                                            class="ml-1" src="{{ asset('images/finger-read.svg') }}"
+                                            alt=""></button>
                                 @endif
 
                             </div>
@@ -539,6 +554,7 @@
             }, 3000);
         })
     </script>
+    <script src="{{ asset('js/fingertechweb.js') }}"></script>
     <script>
         document.addEventListener("change", function(event) {
             if (event.target.classList.contains("uploadProfileInput")) {

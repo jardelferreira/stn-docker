@@ -215,7 +215,6 @@
                         };
                     },
                     processResults: function(response) {
-                        console.log(response)
                         let stoks = response.map(function(e) {
                             return {
                                 "id": e.id,

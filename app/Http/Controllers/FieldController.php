@@ -76,8 +76,8 @@ class FieldController extends Controller
             abort(401);
         }
         // dd($signatureField->signaturable()->first());
-        if ($signatureField->signaturable->user_id) { 
-            $user = User::where("id",$signatureField->user_id)->first();
+        if ($signatureField->signaturable->user_id) {
+            $user = User::where("id", $signatureField->user_id)->first();
             return view("showSignature", [
                 "user" => $signatureField->signaturable()->first(),
                 'signature' => $signatureField,
@@ -249,7 +249,25 @@ class FieldController extends Controller
                 'signature_returned' => $signature_returned->id,
             ]);
 
-            $stok->update(['qtd' => $stok->qtd + $field->qtd_delivered]);
+            if ($request->sector_id == $stok->sector_id) {
+                $stok->update(['qtd' => floatval($stok->qtd) + floatval($field->qtd_delivered)]);
+            } else {
+                # code...
+                $sector = Sector::where("id",$request->sector_id)->first();
+                // $stok->old_id = $stok->id;
+                Stoks::create([
+                    'uuid' => Str::uuid(),
+                    'slug' => Str::slug("{$sector->id}-{$stok->slug}"),
+                    'sector_id' => $sector->id,
+                    'base_id' => $sector->base->id,
+                    'project_id' => $sector->project_id,
+                    'invoice_products_id' => $stok->invoice_products_id,
+                    'qtd' => $field->qtd_delivered,
+                    'product_id' => $stok->product_id,
+                    'image_path' => $stok->image_path,
+                    'status' => 'disponível',
+                ]);
+            }
 
             return response()->json([
                 'success' => true,
@@ -269,7 +287,7 @@ class FieldController extends Controller
 
     public function signatureField(FormlistBaseEmployee $formlist_employee, Request $request)
     {
-        
+
         $employee = $formlist_employee->employee()->first();
         if (!$request->location) {
             return response()->json([
@@ -325,16 +343,16 @@ class FieldController extends Controller
     //salvar após gerar a assinatura acima
     public function salveFieldAfterAssign(FormlistBaseEmployee $formlist_employee, StoreFieldRequest $request)
     {
-        $signature = Signature::where("id",$request->signature_delivered)->first();
-        
+        $signature = Signature::where("id", $request->signature_delivered)->first();
+
         if (!$request->location) {
             $signature->delete();
             return redirect()->back()->with(['message' => "Não foi possível seguir sem os dados da Geolocalização."]);
         }
         $employee = $formlist_employee->employee()->first();
-        $stok = Stoks::where("id",intval($request->stok_id))->first();
+        $stok = Stoks::where("id", intval($request->stok_id))->first();
         $event = $formlist_employee->saveEventString($stok->invoiceProduct, $request->qtd_delivered);
-        
+
         if ($stok->qtd < $request->qtd_delivered) {
             $signature->delete();
             return redirect()->back()
@@ -355,7 +373,7 @@ class FieldController extends Controller
         $field = Field::create($dados);
         if ($field) {
             $stok->update(['qtd' => ($stok->qtd - $request->qtd_delivered)]);
-            
+
             $signature->update(['event' => $event]);
             // dd($signature);
 

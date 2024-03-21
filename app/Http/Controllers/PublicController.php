@@ -9,6 +9,7 @@ use App\Models\Employee;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\FormlistBaseEmployee;
+use App\Models\Stoks;
 use Illuminate\Support\Facades\Auth;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use SimpleSoftwareIO\QrCode\Generator;
@@ -27,6 +28,13 @@ class PublicController extends Controller
         return view('publico.index');
     }
 
+    public function stoks()
+    {
+        // dd(Stoks::with(['sector','base','project', 'invoiceProduct','product','fields'])->get()->toArray());
+        return view('publico.stoks.stoks', [
+            'stoks' => Stoks::with(['sector','base','project', 'invoiceProduct','product','fields'])->get()
+        ]);
+    }
     public function projects()
     {
         return view('publico.projects.principal', [

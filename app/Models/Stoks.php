@@ -13,14 +13,36 @@ class Stoks extends Model
     protected $fillable = ['uuid','slug','sector_id','base_id','product_id',
     'project_id','invoice_products_id','qtd','status','image_path','user_id'];
     
+    // "status" => ["disponivel","defeito","manutenção","certificado vencido","indisponível"]
+
     public function invoiceProduct()
     {
         return $this->hasOne(InvoiceProducts::class,'id','invoice_products_id');
     }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
      
     public function sector()
     {
-        return $this->hasOne(Sector::class);
+        return $this->belongsTo(Sector::class);
+    }
+
+    public function base()
+    {
+        return $this->belongsTo(Base::class);
+    }
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
+    }
+
+    public function fields()
+    {
+        return $this->hasMany(Field::class,'stok_id')->with(['user','employee'])->where('date_returned',null);
     }
 
     public function parentOfProduct() {
@@ -45,5 +67,10 @@ class Stoks extends Model
         };
         // dd($permissions);
         return $permissions;
+    }
+
+    public function productsFromSector()
+    {
+        return $this->belongsTo(Product::class);
     }
 }

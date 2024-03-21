@@ -18,6 +18,7 @@ class CreateProductSectorsTable extends Migration
             $table->foreignId('product_id')->references('id')->on('products');
             $table->foreignId('project_id')->references('id')->on('projects');
             $table->foreignId('sector_id')->references('id')->on('sectors');
+            $table->boolean('adjustable')->default(1);
             $table->decimal('stok_min',8,2,true);
             $table->timestamps();
         });

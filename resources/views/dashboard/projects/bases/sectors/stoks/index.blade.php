@@ -3,9 +3,11 @@
 @section('title', 'Estoque')
 
 @section('content_header')
-    <h1>Estoque do setor -{{ $sector->name }} <a name="" id="" class="btn btn-success"
+    <h1>Estoque do setor  - {{$sector->base->name}} - {{ $sector->name }} <a name="" id="" class="btn btn-success btn-sm"
             href="{{ route('dashboard.sectors.stoks.create', $sector) }}" role="button">Adicionar ao estoque - <i
-                class="fa fa-plus" aria-hidden="true"></i></a></h1>
+                class="fa fa-plus" aria-hidden="true"></i></a>
+                <a name="products_view" id="products_view" class="btn btn-info" href="{{route('dashboard.sectors.stoks.products',$sector)}}" role="button">Gerenciar por produtos</a>
+            </h1>
 @stop
 
 @section('content')

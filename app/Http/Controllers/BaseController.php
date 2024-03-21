@@ -256,12 +256,8 @@ class BaseController extends Controller
 
     public function fieldsFormlistByEmployee(Base $base, Employee $employee, FormlistBaseEmployee $formlist_employee)
     {
-        // dd($formlist_employee->formlistBase->users()->get());
-        // dd($employee->signatures()->get()->toArray());
-        // dd(User::find(1)->signatures()->get());
-        // dd(Signature::find($formlist_employee->fields()->first()->signature_delivered))->first();
-        // dd($employee->signatures()->get()->toArray());
-        // dd(Signature::get()->toArray());
+        
+        // dd(auth()->user()->sectors());
         return view('dashboard.projects.bases.employees.formlistsFields', [
             'employee' => $formlist_employee->employee,
             'base' => $formlist_employee->base,
@@ -354,12 +350,12 @@ class BaseController extends Controller
     }
  
     public function getSimilar(
-        Base $base, Employee $employee, FormlistBaseEmployee $formlist_employee,Stoks $stoks
+        Base $base, Employee $employee, FormlistBaseEmployee $formlist_employee,Stoks $stoks,$qtd_delivered
     )
     {
         $product = Product::where("id",$stoks->invoiceProduct->product_id)->first(); 
         // dd($product->stoksWithDetails()->where("sector_id",$stoks->sector_id)->get());
-        return response()->json($product->stoksWithDetails()->where("sector_id",$stoks->sector_id)->get());
+        return response()->json($product->stoksWithDetails()->where("sector_id",$stoks->sector_id)->where("stoks.qtd",">",$qtd_delivered)->get());
     }
 
     //não está em uso
