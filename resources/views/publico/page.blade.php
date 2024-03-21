@@ -197,7 +197,7 @@
         <div id="page-content-wrapper">
             <nav class="navbar navbar-expand-lg navbar-light bg-light py-4 px-4">
                 <div class="d-flex align-items-center">
-                    <i class="fas fa-align-left primary-text fs-4 me-3 mr-2" id="menu-toggle"> Menu </i>
+                    <i class="fas fa-align-left primary-text fs-4 me-3 mr-2" id="menu-toggle"> Abrir Menu </i>
                     <h2 class="fs-2 m-0 d-none d-md-block"> - Painel do usuário</h2>
                 </div>
 
