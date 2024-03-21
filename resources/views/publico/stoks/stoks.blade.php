@@ -30,7 +30,7 @@
                                     <td scope="row"><small>{{ $stok->project->name }}</small></td>
                                     <td scope="row"><small>{{ $stok->base->name ?? "sem nome" }}</small></td>
                                     <td scope="row">{{ $stok->sector->name ?? "sem nome"}}</td>
-                                    <td scope="row">{{ $stok->invoiceProduct->name "sem nome" }}</td>
+                                    <td scope="row">{{ $stok->invoiceProduct->name ?? "sem nome" }}</td>
                                     <td scope="row">{{ $stok->qtd }}</td>
                                     <td scope="row">
                                         @if (count($stok->fields))
