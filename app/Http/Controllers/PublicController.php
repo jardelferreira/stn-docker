@@ -28,11 +28,11 @@ class PublicController extends Controller
         return view('publico.index');
     }
 
-    public function stoks()
+    public function stoks(Stoks $stoks)
     {
-        dd(Stoks::with(['sector','base','project', 'invoiceProduct','product','fields'])->get()->toArray());
+        // dd(Stoks::with(['sector','base','project', 'invoiceProduct','product','fields'])->get()->toArray());
         return view('publico.stoks.stoks', [
-            'stoks' => Stoks::with(['sector','base','project', 'invoiceProduct','product','fields'])->get()
+            'stoks' => $stoks->with(['sector','base','project', 'invoiceProduct','product','fields'])->get()->toArray()
         ]);
     }
     public function projects()

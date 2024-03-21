@@ -37,7 +37,7 @@ class Stoks extends Model
 
     public function project()
     {
-        return $this->belongsTo(Project::class);
+        return $this->hasOne(Project::class,"id","project_id");
     }
 
     public function fields()
