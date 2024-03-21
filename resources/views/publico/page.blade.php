@@ -13,141 +13,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 
     @yield('css')
-
-    {{-- Title --}}
-    <title>
-        @yield('title_prefix', config('adminlte.title_prefix', ''))
-        @yield('title', config('adminlte.title', 'SGLT'))
-        @yield('title_postfix', config('adminlte.title_postfix', ''))
-    </title>
-</head>
-
-<body>
-    <div class="d-flex" id="wrapper">
-        {{-- Body Content --}}
-        @yield('body')
-        <!-- Sidebar -->
-        <div class="bg-dark" id="sidebar-wrapper">
-            <div class="sidebar-heading text-center py-1 text-light fs-4 fw-bold border-bottom">
-                <p><small>STN Empreendimentos</small></p>
-            </div>
-            <div class="list-group list-group-flush my-1">
-
-                <a href="{{ route('public.index') }}"
-                    class="list-group-item list-group-item-action border-bottom py-1 mb-1">
-                    <i class="fas fa-warehouse    "></i>
-                    Home</a>
-                @can('dashboard')
-                    <a href="{{ route('home') }}" class="list-group-item list-group-item-action border-bottom py-1 mb-1"><i
-                            class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
-                @endcan
-                @canany(auth()->user()->resourcesPublicModel(), auth()->user())
-                    <a href="{{ route('public.projects') }}"
-                        class="list-group-item list-group-item-action border-bottom py-1 mb-1"><i
-                            class="fas fa-tachometer-alt me-2"></i>Projetos</a>
-                @endcanany
-                <a href="{{ route('public.employees.formlists', Auth::id()) }}"
-                    class="list-group-item list-group-item-action border-bottom py-1 mb-1">
-                    <i class="fas fa-id-card me-2"></i>Minhas Fichas</a>
-                    @can('admin-estoque', auth()->user())                      
-                    <a href="{{ route('public.stoks') }}"
-                    class="list-group-item list-group-item-action border-bottom py-1 mb-1">
-                    <img src="{{asset('images/stok-check.svg')}}" alt="icone de menu" class="menu-icon">Estoque</a>
-                    @endcan
-                @yield('sidebar-list')
-                {{-- 
-                <small><a href="#"
-                        class="list-group-item list-group-item-action bg-transparent text-light fw-bold"><i
-                            class="fas fa-project-diagram me-2"></i>Projects</a></small>
-                <small><a href="#"
-                        class="list-group-item list-group-item-action bg-transparent text-light fw-bold"><i
-                            class="fas fa-chart-line me-2"></i>Analytics</a></small>
-                <small><a href="#"
-                        class="list-group-item list-group-item-action bg-transparent text-light fw-bold"><i
-                            class="fas fa-paperclip me-2"></i>Reports</a></small>
-                <small><a href="#"
-                        class="list-group-item list-group-item-action bg-transparent text-light fw-bold"><i
-                            class="fas fa-shopping-cart me-2"></i>Store Mng</a></small>
-                <small><a href="#"
-                        class="list-group-item list-group-item-action bg-transparent text-light fw-bold"><i
-                            class="fas fa-gift me-2"></i>Products</a></small>
-                <small><a href="#"
-                        class="list-group-item list-group-item-action bg-transparent text-light fw-bold"><i
-                            class="fas fa-comment-dots me-2"></i>Chat</a></small>
-                <small><a href="#"
-                        class="list-group-item list-group-item-action bg-transparent text-light fw-bold"><i
-                            class="fas fa-map-marker-alt me-2"></i>Outlet</a></small>
-                <small><a href="#"
-                        class="list-group-item list-group-item-action bg-transparent text-danger fw-bold"><i
-                            class="fas fa-power-off me-2"></i>Logout</a></small> --}}
-            </div>
-        </div>
-        <!-- /#sidebar-wrapper -->
-
-        <!-- Page Content -->
-        <div id="page-content-wrapper">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light py-4 px-4">
-                <div class="d-flex align-items-center">
-                    <i class="fas fa-align-left primary-text fs-4 me-3 " id="menu-toggle"> Menu </i>
-                    <h2 class="fs-2 m-0 d-none d-md-block"> - Painel do usuário</h2>
-                </div>
-
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle second-text fw-bold" href="#" id="navbarDropdown"
-                                role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-user me-2"></i>{{ Auth::user()->name }}
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li class="dropdown-item"><a class="btn " href="#">Profile <i
-                                            class="far fa-address-card"></i></a></li>
-                                <li class="dropdown-item"><a class="btn " href="#">Settings <i
-                                            class="far fa-cog"></i></a></li>
-                                <li class="dropdown-item"><a class="btn btn-danger"
-                                        href="{{ route('public.logout') }}">Logout <i class="fas fa-power-off"></i></a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-            @yield('content')
-        </div>
-        <!-- /#page-content-wrapper -->
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
-        crossorigin="anonymous"></script>
-    @section('plugins.Sweetalert2', true)
-    @yield('js')
-    <script>
-        $(document).ready(() => {
-            $(".list-group-item").each((i, e) => {
-                if (e.href == window.location.href) {
-                    e.classList.add("active")
-                }
-            })
-        })
-        var el = document.getElementById("wrapper");
-        var toggleButton = document.getElementById("menu-toggle");
-
-        toggleButton.onclick = function() {
-            el.classList.toggle("toggled");
-        };
-    </script>
     <style>
-        .menu-icon{
+        .menu-icon {
             height: 20px;
             margin-right: 10px;
             margin-bottom: 10px;
         }
+
         #breadcrumb {
             margin-left: 25px;
         }
@@ -251,6 +123,141 @@
             }
         }
     </style>
+    {{-- Title --}}
+    <title>
+        @yield('title_prefix', config('adminlte.title_prefix', ''))
+        @yield('title', config('adminlte.title', 'SGLT'))
+        @yield('title_postfix', config('adminlte.title_postfix', ''))
+    </title>
+</head>
+
+<body>
+    <div class="d-flex" id="wrapper">
+        {{-- Body Content --}}
+        @yield('body')
+        <!-- Sidebar -->
+        <div class="bg-dark" id="sidebar-wrapper">
+            <div class="sidebar-heading text-center py-1 text-light fs-4 fw-bold border-bottom">
+                <p><small>STN Empreendimentos</small></p>
+            </div>
+            <div class="list-group list-group-flush my-1">
+
+                <a href="{{ route('public.index') }}"
+                    class="list-group-item list-group-item-action border-bottom py-1 mb-1">
+                    <i class="fas fa-warehouse    "></i>
+                    Home</a>
+                @can('dashboard')
+                    <a href="{{ route('home') }}" class="list-group-item list-group-item-action border-bottom py-1 mb-1"><i
+                            class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
+                @endcan
+                @canany(auth()->user()->resourcesPublicModel(), auth()->user())
+                    <a href="{{ route('public.projects') }}"
+                        class="list-group-item list-group-item-action border-bottom py-1 mb-1"><i
+                            class="fas fa-tachometer-alt me-2"></i>Projetos</a>
+                @endcanany
+                <a href="{{ route('public.employees.formlists', Auth::id()) }}"
+                    class="list-group-item list-group-item-action border-bottom py-1 mb-1">
+                    <i class="fas fa-id-card me-2"></i>Minhas Fichas</a>
+                @can('admin-estoque', auth()->user())
+                    <a href="{{ route('public.stoks') }}"
+                        class="list-group-item list-group-item-action border-bottom py-1 mb-1">
+                        <img src="{{ asset('images/stok-check.svg') }}" alt="icone de menu" class="menu-icon">Estoque</a>
+                @endcan
+                {{-- @yield('sidebar-list') --}}
+                {{-- 
+                <small><a href="#"
+                        class="list-group-item list-group-item-action bg-transparent text-light fw-bold"><i
+                            class="fas fa-project-diagram me-2"></i>Projects</a></small>
+                <small><a href="#"
+                        class="list-group-item list-group-item-action bg-transparent text-light fw-bold"><i
+                            class="fas fa-chart-line me-2"></i>Analytics</a></small>
+                <small><a href="#"
+                        class="list-group-item list-group-item-action bg-transparent text-light fw-bold"><i
+                            class="fas fa-paperclip me-2"></i>Reports</a></small>
+                <small><a href="#"
+                        class="list-group-item list-group-item-action bg-transparent text-light fw-bold"><i
+                            class="fas fa-shopping-cart me-2"></i>Store Mng</a></small>
+                <small><a href="#"
+                        class="list-group-item list-group-item-action bg-transparent text-light fw-bold"><i
+                            class="fas fa-gift me-2"></i>Products</a></small>
+                <small><a href="#"
+                        class="list-group-item list-group-item-action bg-transparent text-light fw-bold"><i
+                            class="fas fa-comment-dots me-2"></i>Chat</a></small>
+                <small><a href="#"
+                        class="list-group-item list-group-item-action bg-transparent text-light fw-bold"><i
+                            class="fas fa-map-marker-alt me-2"></i>Outlet</a></small>
+                <small><a href="#"
+                        class="list-group-item list-group-item-action bg-transparent text-danger fw-bold"><i
+                            class="fas fa-power-off me-2"></i>Logout</a></small> --}}
+            </div>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light py-4 px-4">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-align-left primary-text fs-4 me-3 mr-2" id="menu-toggle"> Menu </i>
+                    <h2 class="fs-2 m-0 d-none d-md-block"> - Painel do usuário</h2>
+                </div>
+
+                <button class="navbar-toggler mr-2" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle second-text fw-bold" href="#" id="navbarDropdown"
+                                role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-user me-2"></i>{{ Auth::user()->name }}
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li class="dropdown-item"><a class="btn " href="#">Profile <i
+                                            class="far fa-address-card"></i></a></li>
+                                <li class="dropdown-item"><a class="btn " href="#">Settings <i
+                                            class="far fa-cog"></i></a></li>
+                                <li class="dropdown-item"><a class="btn btn-danger"
+                                        href="{{ route('public.logout') }}">Logout <i class="fas fa-power-off"></i></a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            @yield('content')
+        </div>
+        <!-- /#page-content-wrapper -->
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
+        crossorigin="anonymous"></script>
+    @section('plugins.Sweetalert2', true)
+    @yield('js')
+    <script>
+        $(document).ready(() => {
+            $(".list-group-item").each((i, e) => {
+                if (e.href == window.location.href) {
+                    e.classList.add("active")
+                }
+            })
+        })
+        var el = document.getElementById("wrapper");
+        el.classList.toggle("toggled");
+
+        var toggleButton = document.getElementById("menu-toggle");
+
+        toggleButton.onclick = function() {
+            if (el.classList.contains("toggled")) {
+                toggleButton.innerText = " Fechar Menu"
+            } else {
+                toggleButton.innerText = " Abrir Menu"
+            }
+            el.classList.toggle("toggled");
+        };
+    </script>
 </body>
 
 </html>

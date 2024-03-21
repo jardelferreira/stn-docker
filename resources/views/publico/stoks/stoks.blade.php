@@ -1,15 +1,8 @@
 @extends('publico.page')
 @section('title', 'Estoque Global')
-@section('css')
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
-@endsection
-
-@section('sidebar-list')
-
-@endsection
 @section('content')
     <div class="bg-light mt-1">
-        <h1 class="ms-2">Listagem de estoque - Global</h1>
+        <h4 class="ms-2">Listagem de estoque - Global - <small>Total de <span class="text-light bg-danger px-2">{{$stoks->count() ?? 0}}</span> Produtos em em estoque</small></h4>
         @if (count($stoks))
             <div class="table-responsive">
                 <table class=" table table-striped table-sm" id="stok">
@@ -58,6 +51,9 @@
         @endif
     </div>
 @endsection
+@section('css')
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+@endsection
 @section('js')
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     <script>
@@ -70,8 +66,8 @@
                     $('#stok').DataTable({
                         "language": result,
                         lengthMenu: [
-                            [10, 25, 50, -1],
-                            [10, 25, 50, 'Tudo'],
+                            [10, 25, 50,100,500,1000, -1],
+                            [10, 25, 50,100,500,1000, 'Tudo'],
                         ],
                     });
                 }

@@ -27,12 +27,12 @@ class Stoks extends Model
      
     public function sector()
     {
-        return $this->belongsTo(Sector::class);
+        return $this->belongsTo(Sector::class)->withoutGlobalScopes();
     }
 
     public function base()
     {
-        return $this->belongsTo(Base::class);
+        return $this->belongsTo(Base::class)->withoutGlobalScopes();
     }
 
     public function project()
