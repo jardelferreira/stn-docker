@@ -409,8 +409,13 @@ function searchUser() {
 
 function loadFromDatabase() {
 	$.get(`${window.location.href}/download`).then((fingers) => {
-		console.log(fingers)
-		loadToMemory(fingers,false)
+		// console.log(fingers.length)
+		if (fingers.length > 0) {
+			deleteAllFromMemory()
+			loadToMemory(fingers,false)
+		}else{
+			Swal.fire("Biometrias","Não há dados biométricos no banco de dados","info")
+		}
 	})
 }
 
