@@ -15,6 +15,11 @@ class Stoks extends Model
     
     // "status" => ["disponivel","defeito","manutenção","certificado vencido","indisponível"]
 
+    public function analitic()
+    {
+        return $this->selectRaw("product_id, SUM(qtd) as amount")->groupBy("product_id")->with(['product.invoiceProduct']);
+    }
+
     public function invoiceProduct()
     {
         return $this->hasOne(InvoiceProducts::class,'id','invoice_products_id');
