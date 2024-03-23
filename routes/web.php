@@ -471,6 +471,7 @@ Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard,admin'])->
 
     Route::prefix('biometria')->group(function(){
         Route::get('/',[BiometricController::class,'index'])->name('dashboard.biometrics');
+        Route::get('/download',[BiometricController::class,'downloadBiometrics'])->name('dashboard.biometrics.download');
     });
 });
 

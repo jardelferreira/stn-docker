@@ -5,7 +5,8 @@
 @section('content_header')
     <h1>Listagem de biometrias -
         <button style="border: none; margin: 0; padding: 0;" class="border border-dark rounded ml-1" onclick="addBiometric()"><img style="height: 35px;" class="ml-2" src="{{ asset('images/finger-add.svg') }}" alt=""></button> 
-        <button style="border: none; margin: 0; padding: 0;" class="border border-dark rounded ml-1"><img style="height: 35px;" class="ml-2" src="{{ asset('images/finger-search.svg') }}" alt=""></button>
+        <button onclick="searchUser()" style="border: none; margin: 0; padding: 0;" class="border border-dark rounded ml-1"><img style="height: 35px;" class="ml-2" src="{{ asset('images/finger-search.svg') }}" alt=""></button>
+        <button type="button" onclick="loadFromDatabase()" class="btn btn-outline-info"><i class="fa fa-cloud-download fa-2xl" aria-hidden="true"></i></button>
     </h1>
 @stop
 
@@ -51,9 +52,8 @@
             }
         });
     </script>
-@endsection
-@section('js')
 <script src="{{ asset('js/fingertechweb.js') }}"></script>
+
     <script>
         function addBiometric(){
             

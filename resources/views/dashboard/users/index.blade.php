@@ -6,7 +6,7 @@
     <h1>Listagem de usuários - <a name="" id="" class="btn btn-success btn-sm"
             href="{{ route('dashboard.users.create') }}" role="button"><i class="fa fa-plus" aria-hidden="true"></i> Cadastrar
             novo</a>
-        <button onclick="searcUser()" style="border: none; margin: 0; padding: 0;"><img style="height: 35px;" class="ml-1"
+        <button onclick="searchUser()" style="border: none; margin: 0; padding: 0;"><img style="height: 35px;" class="ml-1"
                 src="{{ asset('images/finger-search.svg') }}" alt=""></button>
     </h1>
 @stop

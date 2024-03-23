@@ -193,7 +193,7 @@ function captureHash(user_id) {
 										icon: "success",
 										title: "Biometria cadastrada com sucesso."
 									})
-									loadToMemory(response2.user.id, response2.template, true)
+									loadToMemory([{id:response2.user.id, digital:response2.template}], true)
 
 								},
 								error: function (response2) {
@@ -294,15 +294,18 @@ function identification() {
 }
 
 // Função para carregar para a memória
-function loadToMemory(id, digital, reload = false) {
+function loadToMemory(finger_array, reload = false) {
 	var template = [];
-	var finger = {};
-	finger.id = id;
-	finger.template = digital;
-	template.push(finger);
+	finger_array.forEach((new_finger) => {
+		finger = {};
+
+		finger.id = new_finger.id;
+		finger.template = new_finger.digital;
+		template.push(finger);
+	})
 
 	console.log(template)
-	if (digital != "") {
+	if (template[0].template != "") {
 		$.ajax({
 			url: "https://localhost:9000/apiservice/load-to-memory",
 			type: "POST",
@@ -351,7 +354,7 @@ function deleteAllFromMemory() {
 	});
 }
 
-function searcUser() {
+function searchUser() {
 	Swal.fire({
 		title: 'Aguarde...',
 		html: 'Procurando o Leitor Biométrico.',
@@ -401,6 +404,13 @@ function searcUser() {
 				}
 			});
 		}
+	})
+}
+
+function loadFromDatabase() {
+	$.get(`${window.location.href}/download`).then((fingers) => {
+		console.log(fingers)
+		loadToMemory(fingers,false)
 	})
 }
 

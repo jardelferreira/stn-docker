@@ -271,5 +271,10 @@ class User extends Authenticatable
         return User::all()->whereNotIn("id",$user_biometrics)->whereIn("id",$user_projects);
     }
 
-    
+    public function usersWithBiometric()
+    {
+        $user_projects = auth()->user()->projects()->with("users")->get()->pluck("users.*.id")->toArray();
+        $user_projects = count($user_projects) > 1 ? array_merge_recursive_distinct(...$user_projects): $user_projects[0];
+        return Biometric::select('user_id as id','template as digital')->whereIn('user_id',$user_projects);
+    }   
 }

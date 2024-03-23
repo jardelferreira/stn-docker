@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreBiometricRequest;
 use App\Http\Requests\UpdateBiometricRequest;
 use App\Models\Biometric;
+use App\Models\User;
 
 use function GuzzleHttp\Promise\all;
 
@@ -95,5 +96,10 @@ class BiometricController extends Controller
         return response()->json([
             'users' => auth()->user()->projects()->users()->get()
         ]);
+    }
+
+    public function downloadBiometrics()
+    {
+        return response()->json(auth()->user()->usersWithBiometric()->get());
     }
 }
