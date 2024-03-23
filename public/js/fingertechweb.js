@@ -354,7 +354,7 @@ function deleteAllFromMemory() {
 	});
 }
 
-function searchUser() {
+function searcUser() {
 	Swal.fire({
 		title: 'Aguarde...',
 		html: 'Procurando o Leitor Biométrico.',
