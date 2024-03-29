@@ -267,7 +267,7 @@ class User extends Authenticatable
     {
         $users = auth()->user()->projects()->with(["users",'employees'])->get();
         $array_users = array_merge($users->pluck("users.*.id")->toArray(),$users->pluck("employees.*.user_id")->toArray());
-        $user_projects = count($array_users) > 1 ? array_merge_recursive_distinct(...$array_users): $array_users[0];
+        $user_projects = count($array_users) > 1 ? array_unique(array_merge_recursive(...$array_users)): $array_users[0];
         $user_biometrics = Biometric::pluck("user_id")->toArray();
         return User::orderBy('name')->whereNotIn("id",$user_biometrics)->whereIn("id",$user_projects)->get();
     }
@@ -276,7 +276,7 @@ class User extends Authenticatable
     {
         $users = auth()->user()->projects()->with(["users",'employees'])->get();
         $array_users = array_merge($users->pluck("users.*.id")->toArray(),$users->pluck("employees.*.user_id")->toArray());
-        $user_projects = count($array_users) > 1 ? array_merge_recursive_distinct(...$array_users): $array_users[0];
+        $user_projects = count($array_users) > 1 ? array_unique(array_merge_recursive(...$array_users)): $array_users[0];
         return Biometric::select('user_id as id','template as digital')->whereIn('user_id',$user_projects);
     }   
 }
