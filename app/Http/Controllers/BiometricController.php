@@ -19,6 +19,9 @@ class BiometricController extends Controller
     public function index(Biometric $biometric)
     {
         // return response()->json(auth()->user()->usersAvaliableToBiometric());
+        // $users = auth()->user()->projects()->with(['users','employees'])->get();
+        // $array_users = array_merge($users->pluck("users.*.id")->toArray(),$users->pluck("employees.*.user_id")->toArray());
+        // dd(array_merge_recursive_distinct(...$array_users));
         return view('dashboard.biometrics.index', [
             'biometrics' => Biometric::with('user')->get(),
             'availiables' => auth()->user()->usersAvaliableToBiometric()

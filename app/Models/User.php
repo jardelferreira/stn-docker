@@ -265,16 +265,18 @@ class User extends Authenticatable
 
     public static function usersAvaliableToBiometric()
     {
-        $user_projects = auth()->user()->projects()->with("users")->get()->pluck("users.*.id")->toArray();
-        $user_projects = count($user_projects) > 1 ? array_merge_recursive_distinct(...$user_projects): $user_projects[0];
+        $users = auth()->user()->projects()->with(["users",'employees'])->get();
+        $array_users = array_merge($users->pluck("users.*.id")->toArray(),$users->pluck("employees.*.user_id")->toArray());
+        $user_projects = count($array_users) > 1 ? array_merge_recursive_distinct(...$array_users): $array_users[0];
         $user_biometrics = Biometric::pluck("user_id")->toArray();
         return User::orderBy('name')->whereNotIn("id",$user_biometrics)->whereIn("id",$user_projects)->get();
     }
 
     public function usersWithBiometric()
     {
-        $user_projects = auth()->user()->projects()->with("users")->get()->pluck("users.*.id")->toArray();
-        $user_projects = count($user_projects) > 1 ? array_merge_recursive_distinct(...$user_projects): $user_projects[0];
+        $users = auth()->user()->projects()->with(["users",'employees'])->get();
+        $array_users = array_merge($users->pluck("users.*.id")->toArray(),$users->pluck("employees.*.user_id")->toArray());
+        $user_projects = count($array_users) > 1 ? array_merge_recursive_distinct(...$array_users): $array_users[0];
         return Biometric::select('user_id as id','template as digital')->whereIn('user_id',$user_projects);
     }   
 }
