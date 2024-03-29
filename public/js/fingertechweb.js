@@ -87,7 +87,7 @@
 // Função para capturar o hash
 var ajax_header = {
 	"Access-Control-Allow-Origin": '*',
-	"Access-Control-Allow-Methods": "POST, GET, OPTIONS",
+	"Access-Control-Allow-Methods": "POST, GET,DELETE, OPTIONS",
 	// 'Content-Type': 'application/json',
 	"Access-Control-Allow-Headers": "Authorization, Origin, X-Requested-With, Content-Type, Accept",
 	'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -118,7 +118,7 @@ function preCapture(event) {
 					img = document.getElementById("finger")
 					if (response.success) {
 						$("#template").val(response.template)
-						img.src = img.src.replace("finger-read.svg","finger-ok.svg")
+						img.src = img.src.replace("finger-read.svg", "finger-ok.svg")
 						document.getElementById("finger-text").innerText = "Biometria capturada, pronta para salvar"
 						Swal.fire({
 							icon: 'success',
@@ -127,7 +127,7 @@ function preCapture(event) {
 						});
 
 					} else {
-						img.src = img.src.replace("finger-ok.svg","finger-read.svg")
+						img.src = img.src.replace("finger-ok.svg", "finger-read.svg")
 						document.getElementById("finger-text").innerText = "Capturar biometria."
 						Swal.fire({
 							icon: 'info',
@@ -185,15 +185,17 @@ function captureHash(user_id) {
 								type: "post",
 								headers: ajax_header,
 								data: {
-									template: response.template
+									template: response.template,
+									id: user_id
 								},
 								success: function (response2) {
 									Swal.close();
+									console.log(response)
 									Toast.fire({
 										icon: "success",
 										title: "Biometria cadastrada com sucesso."
 									})
-									loadToMemory([{id:response2.user.id, digital:response2.template}], true)
+									loadToMemory([{ id: response2.user.id, digital: response2.template }], true)
 
 								},
 								error: function (response2) {
@@ -231,6 +233,7 @@ function captureHash(user_id) {
 
 // Função para identificar um indivíduo
 function matchOneOnOne(digital) {
+	var verified = false
 	template = {}
 	template.template = digital
 	if (digital != "") {
@@ -248,25 +251,34 @@ function matchOneOnOne(digital) {
 			data: JSON.stringify(template),
 			success: function (data) {
 				if (data != "") {
+					verified = true
 					Swal.fire({
 						icon: 'success',
 						title: 'Sucesso!',
 						text: 'Digital comparada com sucesso!'
-					});
+					})
 				} else {
 					Swal.fire({
 						icon: 'error',
 						title: 'Erro!',
 						text: 'Digital capturada não corresponde!'
-					});
+					})
 				}
 			}, error: function (xhr, status, error) {
-
-				Swal.fire({
-					icon: 'info',
-					title: `Atenção!`,
-					text: "Não Foi possível identificar a digital"
-				});
+				if (!xhr.status) {
+					Swal.fire({
+						icon: 'error',
+						title: `Atenção!`,
+						text: "Não Foi possível identificar a digital."
+					});
+				} else {
+					errorCode = xhr.responseText.match(/\d+/g)
+					Swal.fire({
+						icon: 'info',
+						title: `Atenção!`,
+						text: errosMap[errorCode] ?? xhr.responseText
+					});
+				}
 			}
 		});
 	} else {
@@ -276,11 +288,75 @@ function matchOneOnOne(digital) {
 			text: "Por favor registre a impressão digital"
 		})
 	}
+	return verified
+}
+function matchOneOnOne2(digital) {
+	return new Promise((resolve, reject) => {
+		var verified = false;
+		template = {};
+		template.template = digital;
+		if (digital != "") {
+			// digital = JSON.parse(digital);
+			$.ajax({
+				url: 'https://localhost:9000/apiservice/match-one-on-one',
+				type: 'POST',
+				headers: {
+					'Access-Control-Allow-Origin': '*',
+					'Content-Type': 'application/json',
+					'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
+					'Access-Control-Allow-Headers': 'Authorization, Origin, X-Requested-With, Content-Type, Accept'
+				},
+				dataType: 'json',
+				data: JSON.stringify(template),
+				success: function (data) {
+					if (data != "") {
+						verified = true;
+						Swal.fire({
+							icon: 'success',
+							title: 'Sucesso!',
+							text: 'Digital comparada com sucesso!'
+						});
+						resolve(verified);
+					} else {
+						Swal.fire({
+							icon: 'error',
+							title: 'Erro!',
+							text: 'Digital capturada não corresponde!'
+						});
+						reject(new Error('Digital capturada não corresponde!'));
+					}
+				},
+				error: function (xhr, status, error) {
+					if (!xhr.status) {
+						Swal.fire({
+							icon: 'error',
+							title: `Atenção!`,
+							text: "Não Foi possível identificar a digital."
+						});
+					} else {
+						errorCode = xhr.responseText.match(/\d+/g) ?? xhr.responseJSON.message;
+						Swal.fire({
+							icon: 'error',
+							title: `Atenção!`,
+							text: errosMap[errorCode] ?? xhr.responseText
+						});
+					}
+					reject(new Error('Erro na requisição AJAX'));
+				}
+			});
+		} else {
+			Swal.fire({
+				icon: "info",
+				title: "Atenção!",
+				text: "Por favor registre a impressão digital"
+			});
+			reject(new Error('Digital não registrada'));
+		}
+	});
 }
 
 // Função para identificação
 function identification() {
-
 	$.ajax({
 		url: "https://localhost:9000/apiservice/identification",
 		type: "GET",
@@ -338,7 +414,6 @@ function loadToMemory(finger_array, reload = false) {
 		});
 	}
 }
-
 // Função para deletar todos da memória
 function deleteAllFromMemory() {
 	$.ajax({
@@ -407,14 +482,168 @@ function searchUser() {
 	})
 }
 
+async function getAuthBiometric() {
+	Swal.fire({
+		title: "Carregando sua biometria.",
+		text: "É necessário confimrar sua identidade biométrica.",
+		showConfirmButton: false,
+		didOpen: () => {
+			Swal.showLoading()
+			$.ajax({
+				url: `${window.location.href}/bioauth`,
+				type: "GET",
+				success: function (response) {
+					if (response.success) {
+						matchOneOnOne2(response.template).then((response) => {
+							if (response) {
+								getUsersAvailable()
+							}
+						}).catch((error) => {
+							console.error("error: ", error)
+						})
+
+					} else {
+						Swal.fire({
+							title: "Erro",
+							text: "Não foi possível resgatar sua biometria.",
+							icon: "info",
+						})
+					}
+				},
+				error: function (xhr, status, error) {
+					if (!xhr.status) {
+						Swal.fire({
+							icon: 'error',
+							title: `Erro de resposta!`,
+							text: "Não foi possível se conectar a rede da API, é necessário executar a API do leitor neste computador."
+						});
+					} else {
+						errorCode = xhr.responseText.match(/\d+/g)
+
+						Swal.fire({
+							icon: 'info',
+							title: `Atenção!`,
+							text: errosMap[errorCode] ?? xhr.responseText
+						});
+					}
+				}
+			})
+		}
+	})
+}
+
+function deleteUserFromMemory(user_id,bio_id) {
+	if (bio_id > 0) {
+		Swal.fire({
+			title: "Deletar Biometria",
+			icon: "info",
+			text: "Esta ação apagará a biometria do sistema",
+			showCancelButton: true,
+			confirmButtonText: "Apagar biometria",
+			preConfirm: (result) => {
+				console.log(result)
+				Swal.showLoading()
+				$.ajax({
+					url: `${window.location.href}/${bio_id}/delete`,
+					type: "DELETE",
+					headers: ajax_header,
+					success: function (response) {
+						if (response.success) {
+							$.ajax({
+								url: `https://localhost:9000/apiservice/remove-user-from-memory/${response.id}`,
+								type: "GET",
+								headers: ajax_header,
+								success: function () {
+									Swal.fire({
+										title: "Deletar Digital",
+										icon: "success",
+										text: "Digital removida do dispositivo com sucesso."
+									}).then(() => {
+										window.location.reload()
+									})
+								},
+								error: function (xhr, status, error) {
+									if (!xhr.status || xhr.status == 404) {
+										Swal.fire({
+											icon: 'error',
+											title: `Erro de resposta!`,
+											text: "Não foi possível se conectar a rede da API, é necessário executar a API do leitor neste computador."
+										}).then(() => {
+											window.location.reload()
+										});
+									} else {
+										errorCode = xhr.responseText.match(/\d+/g) ?? xhr.responseJSON.message;
+										errorText = errosMap[errorCode] ?? xhr.responseText
+										Swal.fire({
+											icon: 'info',
+											title: `Atenção!`,
+											text: `não foi possível remover a biometria do dispositivo,<p>Erro:
+											 ${errorText}</p>`
+										}).then(() => {
+											window.location.reload()
+										});
+									}
+								}
+							});
+						} else {
+
+						}
+					}
+				})
+			},
+		})
+	} else {
+
+	}
+
+}
+
 function loadFromDatabase() {
 	$.get(`${window.location.href}/download`).then((fingers) => {
 		// console.log(fingers.length)
 		if (fingers.length > 0) {
 			deleteAllFromMemory()
-			loadToMemory(fingers,false)
-		}else{
-			Swal.fire("Biometrias","Não há dados biométricos no banco de dados","info")
+			loadToMemory(fingers, false)
+		} else {
+			Swal.fire("Biometrias", "Não há dados biométricos no banco de dados", "info")
+		}
+	})
+}
+
+function getUsersAvailable() {
+	Swal.fire({
+		title: 'Selecione um usuário',
+		html: `'<div class="form-group">
+		<select class="form-control" id="list-users">
+		</select>
+		</div>`,
+		allowOutsideClick: false,
+		showConfirmButton: true,
+		showCancelButton: true,
+		confirmButtonText: "Confirmar",
+		cancelButtonText: "cancelar",
+		didOpen: () => {
+			$.get(`${window.location.href}/usuarios`).then((data) => {
+				if (data.count) {
+					for (const key in data.users) {
+						if (Object.hasOwnProperty.call(data.users, key)) {
+							$("#list-users").append(new Option(
+								data.users[key].name,
+								data.users[key].id));
+						}
+					}
+					// $("#list-users").select2()
+				}
+
+			})
+		}
+	}).then((result) => {
+		if (result.isConfirmed) {
+			id = $("#list-users").val()
+			if (!isNaN(id)) {
+				console.log(`cadastrar: ${id}`)
+				captureHash(id)
+			}
 		}
 	})
 }
@@ -426,7 +655,8 @@ function randomIntFromInterval(min, max) { // min and max included
 errosMap = {
 	"261": "Leitor Biométrico não localizado",
 	"513": "Operação cancelada pelo usuário",
-	"1287": "Biometria existente no leitor"
+	"1287": "Biometria existente no leitor",
+	"Timeout": "Tempo de espera foi excedido!, não foi possível identificar a digital"
 }
 const Toast = Swal.mixin({
 	toast: true,

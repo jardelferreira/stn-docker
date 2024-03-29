@@ -19,7 +19,7 @@ class BiometricController extends Controller
     public function index(Biometric $biometric)
     {
         // return response()->json(auth()->user()->usersAvaliableToBiometric());
-        return view('dashboard.biometrics.index',[
+        return view('dashboard.biometrics.index', [
             'biometrics' => Biometric::with('user')->get(),
             'availiables' => auth()->user()->usersAvaliableToBiometric()
         ]);
@@ -88,13 +88,36 @@ class BiometricController extends Controller
      */
     public function destroy(Biometric $biometric)
     {
-        //
+        if ($biometric->count()) {
+            $user_id = $biometric->user()->first()->id;
+            $biometric->delete();
+            return response()->json([
+                "success" => true,
+                'id' => $user_id
+            ]);
+        }
+        return response()->json([
+            "success" => false
+        ]);
     }
 
     public function getUsers()
     {
+        $users = User::usersAvaliableToBiometric();
         return response()->json([
-            'users' => auth()->user()->projects()->users()->get()
+            'users' => $users,
+            'count' => $users->count()
+
+        ]);
+    }
+
+    public function bioauth()
+    {
+        $template = auth()->user()->biometric()->first()->template;
+        return response()->json([
+            'template' => $template,
+            'success' => $template != "" || $template != null,
+            'user_id' => auth()->user()->id
         ]);
     }
 

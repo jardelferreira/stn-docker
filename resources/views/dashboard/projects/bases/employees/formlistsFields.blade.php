@@ -1148,7 +1148,7 @@
                     html: ` <div class="form-group">
                      <select class="form-control" name="sector" id="sector">
                      </select>
-                     </div>`,
+                     </div>`, 
                     didOpen: () => {
                         $.get(`${window.location.origin}/dashboard/user-sectors`).then((response) => {
                             for (sector of response.sectors) {

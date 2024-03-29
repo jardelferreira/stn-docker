@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
+use function PHPUnit\Framework\isNan;
+
 class UserController extends Controller
 {
 
@@ -268,10 +270,15 @@ class UserController extends Controller
     public function biometricStore(User $user, Request $request)
     {
         // return $request->all();
+        $id = is_numeric($user->id) ? $user->id : $request->id; 
+        
         Biometric::create([
-            "user_id" => $user->id,
+            "user_id" => $id,
             "template" => $request->template
         ]);
+        if (!$user->id) {
+         $user = User::where("id",$id)->first();
+        }
         return response()->json([
             "user" => $user,
             "template" => $user->biometric()->first()->template,

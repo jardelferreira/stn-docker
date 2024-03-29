@@ -472,6 +472,10 @@ Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard,admin'])->
     Route::prefix('biometria')->group(function(){
         Route::get('/',[BiometricController::class,'index'])->name('dashboard.biometrics');
         Route::get('/download',[BiometricController::class,'downloadBiometrics'])->name('dashboard.biometrics.download');
+        Route::get('/usuarios',[BiometricController::class,'getUsers'])->name('dashboard.biometrics.getUsers');
+        Route::get('/bioauth',[BiometricController::class,'bioauth'])->name('dashboard.biometrics.bioauth');
+        Route::delete('{biometric}/delete',[BiometricController::class,'destroy'])->name('dashboard.biometrics.destroy');
+        Route::post('biometria/salvar', [UserController::class, 'biometricStore'])->name('dashboard.users.biometricStore');
     });
 });
 

@@ -263,12 +263,12 @@ class User extends Authenticatable
         return $this->hasOne(Biometric::class);
     }
 
-    public function usersAvaliableToBiometric()
+    public static function usersAvaliableToBiometric()
     {
         $user_projects = auth()->user()->projects()->with("users")->get()->pluck("users.*.id")->toArray();
         $user_projects = count($user_projects) > 1 ? array_merge_recursive_distinct(...$user_projects): $user_projects[0];
         $user_biometrics = Biometric::pluck("user_id")->toArray();
-        return User::all()->whereNotIn("id",$user_biometrics)->whereIn("id",$user_projects);
+        return User::orderBy('name')->whereNotIn("id",$user_biometrics)->whereIn("id",$user_projects)->get();
     }
 
     public function usersWithBiometric()
