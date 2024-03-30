@@ -43,5 +43,22 @@
                 <strong>Não há documentos cadastrados</strong>
             </div>
     @endif
-
+@section('js')
+    <script>
+        $.ajax({
+            url: "https://cdn.datatables.net/plug-ins/1.13.1/i18n/pt-BR.json",
+            success: function(result) {
+                $('#documents').DataTable({
+                    responsive: true,
+                    order: [0, 'desc'],
+                    "language": result,
+                    lengthMenu: [
+                        [10, 25, 50, -1],
+                        [10, 25, 50, 'Tudo'],
+                    ],
+                });
+            }
+        });
+    </script>
+@endsection
 @endsection
