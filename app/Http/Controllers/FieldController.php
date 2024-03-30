@@ -76,19 +76,21 @@ class FieldController extends Controller
             abort(401);
         }
         // dd($signatureField->signaturable()->first());
+        $biometric = strpos(Str::lower($signatureField->event), "biometria");
         if ($signatureField->signaturable->user_id) {
-            $user = User::where("id", $signatureField->user_id)->first();
             return view("showSignature", [
                 "user" => $signatureField->signaturable()->first(),
                 'signature' => $signatureField,
-                'field' => $field
+                'field' => $field,
+                'biometric' => $biometric ? $signatureField->signature : "Assinatura por senha"
 
             ]);
         }
         return view('showSignature', [
             'user' => $signatureField->signaturable,
             'signature' => $signatureField,
-            'field' => $field
+            'field' => $field,
+            'biometric' => $biometric ? $signatureField->signature : "Assinatura por senha"
         ]);
         // return $signatureField->with('signaturable')->get();
     }
@@ -225,8 +227,16 @@ class FieldController extends Controller
                 'redirection' => route('dashboard.users.show', $employee->user)
             ]);
         }
+        if ($request->has('template')) {
+            $check['success'] = true;
+            $check['signature'] = $request->template;
+            $check['type'] = "Biometria";
+        } else {
 
-        $check = $employee->user->checkSignature($request->pass);
+            $check = $employee->user->checkSignature($request->pass);
+            $check['signature'] = $employee->user->signature()->signature;
+            $check['type'] = "Senha";
+        }
         if (!$check['success']) {
             return response()->json($check);
         }
@@ -238,9 +248,9 @@ class FieldController extends Controller
         $signature_returned = $employee->user->signatures()->create([
             'uuid' => Str::uuid(),
             'user_id' => intVal(Auth::user()->id),
-            'signature' => $employee->user->signature()->signature,
+            'signature' => $check['signature'],
             'location' => $request->location,
-            'event' => $event
+            'event' => "{$event} validado através de {$check['type']}."
         ]);
 
         if ($signature_returned) {
@@ -253,7 +263,7 @@ class FieldController extends Controller
                 $stok->update(['qtd' => floatval($stok->qtd) + floatval($field->qtd_delivered)]);
             } else {
                 # code...
-                $sector = Sector::where("id",$request->sector_id)->first();
+                $sector = Sector::where("id", $request->sector_id)->first();
                 // $stok->old_id = $stok->id;
                 Stoks::create([
                     'uuid' => Str::uuid(),
@@ -305,8 +315,18 @@ class FieldController extends Controller
                 'footer' => "Erro de Senha."
             ]);
         }
+        if ($request->has('template')) {
+            $check['success'] = true;
+            $check['signature'] = $request->template;
+            $check['type'] = "Biometria";
+        } else {
 
-        $check = $employee->user->checkSignature($request->pass, $employee->user->name);
+            $check = $employee->user->checkSignature($request->pass, $employee->user->name);
+            $check['signature'] = $employee->user->signature()->signature;
+            $check['type'] = "Senha";
+        }
+
+
         if (!$check['success']) {
             return response()->json($check);
         }
@@ -319,7 +339,7 @@ class FieldController extends Controller
             $signature_delivered = $employee->user->signatures()->create([
                 'uuid' => Str::uuid(),
                 'user_id' => Auth::user()->id,
-                'signature' => $employee->user->signature()->signature,
+                'signature' => $check['signature'],
                 'location' => $request->location,
                 'event' => "pre assinatura."
             ]);
@@ -352,6 +372,7 @@ class FieldController extends Controller
         $employee = $formlist_employee->employee()->first();
         $stok = Stoks::where("id", intval($request->stok_id))->first();
         $event = $formlist_employee->saveEventString($stok->invoiceProduct, $request->qtd_delivered);
+        $type = $request->has('template') ? "Por bioemetria" : "Por senha";
 
         if ($stok->qtd < $request->qtd_delivered) {
             $signature->delete();
@@ -374,7 +395,7 @@ class FieldController extends Controller
         if ($field) {
             $stok->update(['qtd' => ($stok->qtd - $request->qtd_delivered)]);
 
-            $signature->update(['event' => $event]);
+            $signature->update(['event' => "{$event} {$type}"]);
             // dd($signature);
 
             return redirect()->route('dashboard.bases.employees.formlists.fields', [
@@ -403,6 +424,7 @@ class FieldController extends Controller
         $employee = $formlist_employee->employee()->first();
         $stok = Stoks::where('id', $request->stok_id)->first();
         $event = $formlist_employee->saveEventString($stok->invoiceProduct, $request->qtd_delivered);
+        $type = $request->has('template') ? "Bioemetria" : "Senha";
 
         $dados = [
             'uuid' => Str::uuid(),
@@ -420,7 +442,7 @@ class FieldController extends Controller
 
         $stok->update(['qtd' => $stok->qtd - $request->qtd_delivered]);
 
-        $signature->update(['event' => $event]);
+        $signature->update(['event' => "{$event} {$type}"]);
 
         return response()->json([
             'success' => true,
@@ -455,7 +477,15 @@ class FieldController extends Controller
             ]);
         }
 
-        $check = $user->checkSignature($request->user_pass);
+        if ($request->has('template')) {
+            $check['success'] = true;
+            $check['signature'] = $request->template;
+            $check['type'] = "Biometria";
+        } else {
+            $check = $user->checkSignature($request->user_pass);
+            $check['signature'] = $employee->user->signature()->signature;
+            $check['type'] = "Senha";
+        }
         if (!$check['success']) {
             return response()->json($check);
         }
@@ -468,9 +498,9 @@ class FieldController extends Controller
         $signature_returned = $user->signatures()->create([
             'uuid' => Str::uuid(),
             'user_id' => intVal(Auth::user()->id),
-            'signature' => $user->signature()->signature,
+            'signature' => $check['signature'],
             'location' => $request->location,
-            'event' => $event
+            'event' => "{$event} {$check['type']}"
         ]);
 
         if ($signature_returned) {

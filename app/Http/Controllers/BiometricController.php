@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreBiometricRequest;
 use App\Http\Requests\UpdateBiometricRequest;
 use App\Models\Biometric;
+use App\Models\Employee;
 use App\Models\User;
 
 use function GuzzleHttp\Promise\all;
@@ -27,6 +28,11 @@ class BiometricController extends Controller
             'biometrics' => Biometric::with('user')->get(),
             'availiables' => auth()->user()->usersAvaliableToBiometric()
         ]);
+    }
+
+    public function check()
+    {
+        return view('dashboard.biometrics.check');
     }
 
     /**
@@ -129,4 +135,31 @@ class BiometricController extends Controller
     {
         return response()->json(auth()->user()->usersWithBiometric()->get());
     }
+
+    public function getBiometricFromEmployee(Employee $employee)
+    {
+        $biometric = $employee->user->biometric()->first();
+        if ($biometric) {
+            return response()->json([
+                'template' => $biometric->template,
+                'success' => true
+            ]);
+        }
+        return response()->json(['success' => false]);
+
+    }
+    
+    public function getBiometricFromUser(User $user)
+    {
+        $biometric = $user->biometric()->first();
+        if ($biometric) {
+            return response()->json([
+                'template' => $biometric->template,
+                'success' => true
+            ]);
+        }
+        return response()->json(['success' => false]);
+
+    }
+
 }

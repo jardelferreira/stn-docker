@@ -21,7 +21,7 @@
         #swal2-input {
             -webkit-text-security: square;
         }
- 
+
         .swal-wide {
             width: 650px !important;
             height: auto;
@@ -74,138 +74,22 @@
                 <textarea class="form-control" name="observation" id="observation" rows="3"></textarea>
             </div>
         </div>
-        <button type="button" id="add" class="ml-1 mb-3 btn btn-primary">Adicionar a ficha</button>
+        <button type="button" onclick="addToField({{ $employee->id }})" class="ml-1 mb-3 btn btn-primary">Adicionar
+            a ficha</button>
     </form>
 @endsection
 @section('js')
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-{{-- @section('geolocation')
+    <script src="{{ asset('js/fingertechweb.js') }}"></script>
     <script>
-        function getGeolocation() {
-            console.log("geolocal")
-            // Verificar se o navegador suporta a API Geolocation
-            if ("geolocation" in navigator) {
-                // Obter a localização atual
-                navigator.geolocation.getCurrentPosition(
-                    function(position) {
-                        // Sucesso: As coordenadas estão disponíveis em position.coords
-                        lat = position.coords.latitude
-                        lng = position.coords.longitude
-                        new_coordinates = JSON.stringify({
-                            "lat": lat,
-                            "lng": lng
-                        })
-                        if (!(new_coordinates == localStorage.getItem("coordinates"))) {
-                            $.get(`${window.location.origin}/dashboard/geolocation?lat=${lat}&lng=${lng}`).then((
-                                res) => {
-                                if (res.data.success) {
-                                    localStorage.setItem("coordinates", JSON.stringify(new_coordinates));
-                                    localStorage.setItem("geolocation", JSON.stringify(res.data));
-                                } else {
-                                    localStorage.setItem("geolocation", JSON.stringify(res.data))
-                                }
-                            })
-                        }
+        $(document).ready(function() {
+            getGeolocation()
+            var $url = window.location.href
 
-                    },
-                    function(error) {
-                        $.get(`${window.location.origin}/geolocation`).then((res) => {
-                            if (res.success) {
-                                localStorage.setItem("geolocation", JSON.stringify(res.data));
-                            } else {
-                                localStorage.setItem("geolocation", JSON.stringify(res.data))
-                            }
-                        })
-                        // Erro: Tratar erros aqui
-                        switch (error.code) {
-                            case error.PERMISSION_DENIED:
-                                localStorage.setItem("geolocation", JSON.stringify({
-                                    "sucess": false,
-                                    "full": "Permissão negada pelo usuário."
-                                }))
-                                alert("Permissão negada pelo usuário.");
-                                break;
-                            case error.POSITION_UNAVAILABLE:
-                                localStorage.setItem("geolocation", JSON.stringify({
-                                    "sucess": false,
-                                    "full": "Informações de localização indisponíveis."
-                                }))
-                                alert("Informações de localização indisponíveis.");
-                                break;
-                            case error.TIMEOUT:
-                                localStorage.setItem("geolocation", JSON.stringify({
-                                    "sucess": false,
-                                    "full": "Tempo esgotado ao obter localização."
-                                }))
-                                alert("Tempo esgotado ao obter localização.");
-                                break;
-                            case error.UNKNOWN_ERROR:
-                                localStorage.setItem("geolocation", JSON.stringify({
-                                    "sucess": false,
-                                    "full": "Erro desconhecido ao obter localização."
-                                }))
-                                alert("Erro desconhecido ao obter localização.");
-                                break;
-                        }
-                    }
-                ), {
-                    enableHighAccuracy: true
-                };
-            } else {
-                // O navegador não suporta Geolocation_error
-                if (localStorage.geolocation) {
-                    $("#locatiON.parse(localStorage.geolocation).replace('"',"")
-                } else {
-                    $.get(`${window.location.origin}/geolocation`).then((res) => {
-                        if (res.success) {
-                            localStorage.setItem("geolocation", JSON.stringify(res.data));
-                        } else {
-                            localStorage.setItem("geolocation", JSON.stringify({
-                                "sucess": false,
-                                "full": "Navegador não suporta Geolocation."
-                            }));
-                        }
-                    })
-                }
-            }
-        }
-    </script>
-@endsection --}}
-<script>
-    $(document).ready(function() {
-        getGeolocation()
-        var $url = window.location.href
-
-        $("#setor_id").select2({
-            ajax: {
-                url: `${$url.replace("adicionar","sectors")}`,
-                type: "GET",
-                dataType: 'json',
-                delay: 250,
-                data: function(params) {
-                    return {
-                        q: params.term,
-                    };
-                },
-                processResults: function(response) {
-                    let sectors = response.map(function(e) {
-                        return {
-                            "id": e.id,
-                            "text": e.name
-                        }
-                    })
-                    return {
-                        results: sectors
-                    };
-                },
-                cache: true
-            }
-        });
-        $("#setor_id").on('change', (e) => {
-            $("#stok_id").select2({
+            $("#setor_id").select2({
                 ajax: {
-                    url: `${$url.replace("adicionar","sectors")}/${$("#setor_id").val()}`,
+                    url: `${$url.replace("adicionar","sectors")}`,
                     type: "GET",
                     dataType: 'json',
                     delay: 250,
@@ -215,134 +99,259 @@
                         };
                     },
                     processResults: function(response) {
-                        let stoks = response.map(function(e) {
+                        let sectors = response.map(function(e) {
                             return {
                                 "id": e.id,
-                                "text": `${e.name} - CA: ${e.ca}`,
-                                "qtd": e.qtd,
+                                "text": e.name
                             }
                         })
                         return {
-                            results: stoks
+                            results: sectors
                         };
                     },
                     cache: true
                 }
-            }).on('select2:select', function(e) {
-                var qtd_available = e.params.data.qtd;
-                $("#qtd_available").text(qtd_available)
-                $("#qtd_delivered").val(1)
-            })
-        })
-
-    });
-</script>
-<script>
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
-
-    function signatureCanvas() {
-        Swal.fire({
-            title: "Assinatura Digital",
-            html: ""
-        })
-    }
-    $("#add").on("click", (e) => {
-
-        if ($("#stok_id").val() != null && $("#qtd_delivered").val() != null && $("#qtd_delivered").val() !=
-            '') {
-
-            var url = window.location.href;
-
-            Swal.fire({
-                title: 'Digite a senha do Colaborador.',
-                input: 'text',
-                inputAttributes: {
-                    autocapitalize: 'off',
-                    required: true,
-                },
-                showCancelButton: true,
-                confirmButtonText: 'Confirmar',
-                showLoaderOnConfirm: true,
-                inputValidator: (value) => {
-                    return new Promise((resolve) => {
-                        if (!value) {
-                            resolve('Você precisa informar a senha')
-                        }
-                        resolve()
-                    })
-                },
-                preConfirm: (pass) => {
-                    if (!pass) {
-                        Swal.showValidationMessage("O campo Senha é Obrigatório!")
+            });
+            $("#setor_id").on('change', (e) => {
+                $("#stok_id").select2({
+                    ajax: {
+                        url: `${$url.replace("adicionar","sectors")}/${$("#setor_id").val()}`,
+                        type: "GET",
+                        dataType: 'json',
+                        delay: 250,
+                        data: function(params) {
+                            return {
+                                q: params.term,
+                            };
+                        },
+                        processResults: function(response) {
+                            let stoks = response.map(function(e) {
+                                return {
+                                    "id": e.id,
+                                    "text": `${e.name} - CA: ${e.ca}`,
+                                    "qtd": e.qtd,
+                                }
+                            })
+                            return {
+                                results: stoks
+                            };
+                        },
+                        cache: true
                     }
+                }).on('select2:select', function(e) {
+                    var qtd_available = e.params.data.qtd;
+                    $("#qtd_available").text(qtd_available)
+                    $("#qtd_delivered").val(1)
+                })
+            })
 
-                    // requisição
-                    return $.ajax({
-                        method: "POST",
-                        url: url.replace("adicionar", 'signatureField'),
-                        data: {
-                            pass: pass,
-                            location: localStorage.geolocation.replaceAll('"',"")
+        });
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        function addToField(employee_id) {
+
+            if ($("#stok_id").val() != null && $("#qtd_delivered").val() != null && $("#qtd_delivered").val() !=
+                '') {
+                console.log(employee_id)
+                var url = window.location.href;
+
+                Swal.fire({
+                    title: 'Digite a senha do Colaborador.',
+                    input: 'text',
+                    html: `<div class="form-group col-12">
+                            <button onclick="addWithBiometry(${employee_id})" style="border: none; margin: 0; padding: 0;"><img style="height: 70px;"
+                            class="ml-1" src="{{ asset('images/finger-ok.svg') }}"
+                            alt=""></button>
+                        </div>`,
+                    inputAttributes: {
+                        autocapitalize: 'off',
+                        required: true,
+                    },
+                    showCancelButton: true,
+                    confirmButtonText: 'Confirmar',
+                    showLoaderOnConfirm: true,
+                    inputValidator: (value) => {
+                        return new Promise((resolve) => {
+                            if (!value) {
+                                resolve('Você precisa informar a senha')
+                            }
+                            resolve()
+                        })
+                    },
+                    preConfirm: (pass) => {
+                        if (!pass) {
+                            Swal.showValidationMessage("O campo Senha é Obrigatório!")
                         }
-                    }).done(function(response) {
-                        console.log(response);
-                        return response
-                    }).fail(function(jqXHR, textStatus) {
-                        Swal.showValidationMessage(
-                            `Request failed: ${textStatus}`
-                        )
-                        Swal.close()
-                    });
-                    // fim requisição
-                },
-                allowOutsideClick: () => !Swal.isLoading()
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    if (result.value.success) {
-                        Swal.fire({
-                            icon: result.value.type,
-                            title: result.value.message,
-                            text: result.value.event,
-                            footer: result.value.footer,
-                            didOpen: (element) => {
-                                $("#signature_delivered").val(result.value.signature_id);
-                                $("#location").val(localStorage.geolocation.replaceAll('"',""))
-                                $("form").submit();
+
+                        // requisição
+                        return $.ajax({
+                            method: "POST",
+                            url: url.replace("adicionar", 'signatureField'),
+                            data: {
+                                pass: pass,
+                                location: localStorage.geolocation.replaceAll('"', "")
+                            }
+                        }).done(function(response) {
+                            console.log(response);
+                            return response
+                        }).fail(function(jqXHR, textStatus) {
+                            Swal.showValidationMessage(
+                                `Request failed: ${textStatus}`
+                            )
+                            Swal.close()
+                        });
+                        // fim requisição
+                    },
+                    allowOutsideClick: () => !Swal.isLoading()
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        if (result.value.success) {
+                            Swal.fire({
+                                icon: result.value.type,
+                                title: result.value.message,
+                                text: result.value.event,
+                                footer: result.value.footer,
+                                didOpen: (element) => {
+                                    $("#signature_delivered").val(result.value.signature_id);
+                                    $("#location").val(localStorage.geolocation.replaceAll('"',
+                                        ""))
+                                    $("form").submit();
+                                }
+                            })
+                        } else {
+                            Swal.fire({
+                                icon: result.value.type,
+                                title: result.value.message,
+                                text: result.value.event,
+                                footer: result.value.footer,
+                            })
+                        }
+
+                    }
+                })
+            } else {
+                if ($("#stok_id").val() == null) {
+                    Swal.fire(
+                        'Dados incompletos!',
+                        'Você precisa selecionar um item para adicionar a ficha!',
+                        'error'
+                    )
+                    $("#stok_id").addClass("is-invalid");
+                } else {
+                    Swal.fire(
+                        'Dados incompletos!',
+                        'Você precisa informar a quantidade a ser adicionarda!',
+                        'error'
+                    )
+                    $("#qtd_delivered").addClass("is-invalid");
+                }
+
+            }
+        }
+
+        function addWithBiometry(employee_id) {
+            if ($("#stok_id").val() != null && $("#qtd_delivered").val() != null && $("#qtd_delivered").val() != '') {
+                Swal.fire({
+                    title: "Adicionar com biometria",
+                    text: "Resgatando a biometria da base de dados",
+                    showCancelButton: false,
+                    showConfirmButton: false,
+                    didOpen: () => {
+                        $.get(`${window.location.origin}/dashboard/biometria/colaborador/${employee_id}`).then((
+                            response) => {
+                            if (response.success) {
+                                matchOneOnOne2(response.template).then((finger) => {
+                                    if (finger.success) {
+                                        $.ajax({
+                                            method: "POST",
+                                            url: window.location.href.replace(
+                                                "adicionar",
+                                                'signatureField'),
+                                            data: {
+                                                pass: null,
+                                                template: response.template,
+                                                location: localStorage.geolocation
+                                                    .replaceAll('"', "")
+                                            },
+                                            success: function(responseSignature) {
+                                                if (responseSignature.success) {
+
+                                                    Swal.fire({
+                                                        icon: responseSignature
+                                                            .type,
+                                                        title: responseSignature
+                                                            .message,
+                                                        text: responseSignature
+                                                            .event,
+                                                        footer: responseSignature
+                                                            .footer,
+                                                        didOpen: (
+                                                            element) => {
+                                                                $("#signature_delivered")
+                                                                    .val(
+                                                                        responseSignature
+                                                                        .signature_id
+                                                                    );
+                                                                $("#location")
+                                                                    .val(
+                                                                        localStorage
+                                                                        .geolocation
+                                                                        .replaceAll(
+                                                                            '"',
+                                                                            ""
+                                                                            )
+                                                                        )
+                                                                $("form")
+                                                                    .submit();
+                                                            }
+                                                    })
+                                                } else {
+                                                    Swal.fire({
+                                                        icon: responseSignature
+                                                            .type,
+                                                        title: responseSignature
+                                                            .message,
+                                                        text: responseSignature
+                                                            .event,
+                                                        footer: responseSignature
+                                                            .footer,
+                                                    })
+                                                }
+                                            }
+                                        })
+                                    }
+                                })
+                            } else {
+                                Swal.fire({
+                                    title: "Devolução com biometria",
+                                    text: "O usiário não possui uma Biometria cadastrada.",
+                                    icon: "error"
+                                })
                             }
                         })
-                    } else {
-                        Swal.fire({
-                            icon: result.value.type,
-                            title: result.value.message,
-                            text: result.value.event,
-                            footer: result.value.footer,
-                        })
                     }
-
-                }
-            })
-        } else {
-            if ($("#stok_id").val() == null) {
-                Swal.fire(
-                    'Dados incompletos!',
-                    'Você precisa selecionar um item para adicionar a ficha!',
-                    'error'
-                )
-                $("#stok_id").addClass("is-invalid");
+                })
             } else {
-                Swal.fire(
-                    'Dados incompletos!',
-                    'Você precisa informar a quantidade a ser adicionarda!',
-                    'error'
-                )
-                $("#qtd_delivered").addClass("is-invalid");
+                if ($("#stok_id").val() == null) {
+                    Swal.fire(
+                        'Dados incompletos!',
+                        'Você precisa selecionar um item para adicionar a ficha!',
+                        'error'
+                    )
+                    $("#stok_id").addClass("is-invalid");
+                } else {
+                    Swal.fire(
+                        'Dados incompletos!',
+                        'Você precisa informar a quantidade a ser adicionarda!',
+                        'error'
+                    )
+                    $("#qtd_delivered").addClass("is-invalid");
+                }
             }
-
         }
-    })
-</script>
+    </script>
 @stop

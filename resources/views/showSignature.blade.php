@@ -10,19 +10,35 @@
 </head>
 
 <body>
-{{-- {{dd($field->formlistBaseEmployee->base()->withoutGlobalScopes()->first()->project->name)}} --}}
+    {{-- {{dd($field->formlistBaseEmployee->base()->withoutGlobalScopes()->first()->project->name)}} --}}
     <div class="container mt-5">
         <h1 class="mb-4">Detalhes da Assinatura Digital</h1>
 
         <ul class="list-group">
-            <li class="list-group-item"><strong>Documento Assinado:</strong> {{$field->formlistBaseEmployee->formlist->description}}</li>
-            <li class="list-group-item"><strong>Projeto:</strong> {{$field->formlistBaseEmployee->base()->withoutGlobalScopes()->first()->project->name}}</li>
-            <li class="list-group-item"><strong>Base:</strong> {{$field->formlistBaseEmployee->base()->withoutGlobalScopes()->first()->name}}</li>
-            <li class="list-group-item"><strong>Quem Assinou:</strong> {{$user->user->name ?? $user->name}}</li>
-            <li class="list-group-item"><strong>Usuário Logado:</strong> {{$field->user->name}}</li>
-            <li class="list-group-item"><strong>Descrição do Evento:</strong> {{$signature->event ?? "evento não localizado."}}</li>
-            <li class="list-group-item"><strong>Localização aproximada:</strong> {{$signature->location ?? "Local não informado."}}</li>
-            <li class="list-group-item"><strong>Assinado em:</strong> {{ \Carbon\Carbon::parse($signature->created_at)->format("d/m/Y H:m:s") }}</li>
+            <li class="list-group-item"><strong>Documento Assinado:</strong>
+                {{ $field->formlistBaseEmployee->formlist->description }}</li>
+            <li class="list-group-item"><strong>Projeto:</strong>
+                {{ $field->formlistBaseEmployee->base()->withoutGlobalScopes()->first()->project->name }}</li>
+            <li class="list-group-item"><strong>Base:</strong>
+                {{ $field->formlistBaseEmployee->base()->withoutGlobalScopes()->first()->name }}</li>
+            <li class="list-group-item"><strong>Quem Assinou:</strong> {{ $user->user->name ?? $user->name }}</li>
+            <li class="list-group-item"><strong>Usuário Logado:</strong> {{ $field->user->name }}</li>
+            <li class="list-group-item"><strong>Descrição do Evento:</strong>
+                {{ $signature->event ?? 'evento não localizado.' }}</li>
+            <li class="list-group-item"><strong>Hash da Biometria:</strong>
+                <span style="overflow-wrap: break-word;"
+                    id="hash">{{ $biometric ?? 'hash não localizado.' }}</span><button
+                    onclick="copyToClipboard()">Copiar
+                    Texto</button>
+            </li>
+            @if ($biometric)
+                <li class="list-group-item"><a href="{{ route('extern.check.biometric') }}" target="_blank"
+                        rel="noopener noreferrer">Página de verificação de Biometrias </a></li>
+            @endif
+            <li class="list-group-item"><strong>Localização aproximada:</strong>
+                {{ $signature->location ?? 'Local não informado.' }}</li>
+            <li class="list-group-item"><strong>Assinado em:</strong>
+                {{ \Carbon\Carbon::parse($signature->created_at)->format('d/m/Y H:m:s') }}</li>
         </ul>
     </div>
 
@@ -56,6 +72,25 @@
 
         // Chamar a função ao carregar a página
         generateHash();
+
+        function copyToClipboard() {
+            var listItem = document.getElementById("hash");
+            // Cria um elemento temporário para armazenar o texto
+            var tempInput = document.createElement("textarea");
+            tempInput.value = listItem.innerText;
+            document.body.appendChild(tempInput);
+
+            // Seleciona o texto no elemento temporário
+            tempInput.select();
+            tempInput.setSelectionRange(0, 99999); // Para dispositivos móveis
+
+            // Copia o texto selecionado para a área de transferência
+            document.execCommand('copy');
+            // Remove o elemento temporário
+            document.body.removeChild(tempInput);
+            // Mensagem de confirmação
+            alert("O texto foi copiado para a área de transferência:");
+        }
     </script>
 
 </body>

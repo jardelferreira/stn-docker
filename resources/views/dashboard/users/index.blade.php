@@ -63,7 +63,7 @@
                                         <a class="dropdown-item"
                                             href="{{ route('dashboard.users.edit', $user->id) }}">Editar</a>
                                         <form action="{{ route('dashboard.users.destroy', $user) }}" method="POST"
-                                            id="{{ $user->id }}">
+                                            id="{{ $user }}">
                                             @csrf
                                             @method('DELETE')
                                             <button class=" dropdown-item bg-danger" type="submit">Deletar</button>

@@ -17,7 +17,7 @@ class CreateSignaturesTable extends Migration
             $table->id();
             $table->uuid('uuid');
             $table->string('event');
-            $table->string('signature');
+            $table->longText('signature');
             $table->longText('signature_image')->nullable();
             $table->string('path')->nullable();
             $table->string('location')->nullable();

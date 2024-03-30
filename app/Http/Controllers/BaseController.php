@@ -382,7 +382,16 @@ class BaseController extends Controller
             ]);
         }
 
-        $check = $user->checkSignature($request->pass);
+        if ($request->has('template')) {
+            $check['success'] = true;
+            $check['signature'] = $request->template;
+            $check['type'] = "Biometria";
+        } else {
+            $check = $user->checkSignature($request->pass);
+            $check['signature'] = $employee->user->signature()->signature;
+            $check['type'] = "Senha";
+        }
+        
         if (!$check['success']) {
             return response()->json($check);
         }
@@ -395,8 +404,8 @@ class BaseController extends Controller
         $signature_returned = $employee->signatures()->create([
             'uuid' => Str::uuid(),
             'user_id' => intVal(Auth::user()->id),
-            'signature' => $employee->user->signature()->signature,
-            'event' => $event
+            'signature' => $check['signature'],
+            'event' => "{$event} validado através de {$check['type']}."
         ]);
 
         if ($signature_returned) {

@@ -186,7 +186,7 @@ function matchOneOnOne(digital) {
 						text: "Não Foi possível identificar a digital."
 					});
 				} else {
-					errorCode = xhr.responseText.match(/\d+/g)
+					errorCode = xhr.responseText.match(/\d+/g) ?? xhr.responseJSON.message;
 					Swal.fire({
 						icon: 'info',
 						title: `Atenção!`,
@@ -230,7 +230,7 @@ function matchOneOnOne2(digital) {
 							title: 'Sucesso!',
 							text: 'Digital comparada com sucesso!'
 						});
-						resolve(verified);
+						resolve(data);
 					} else {
 						Swal.fire({
 							icon: 'error',
@@ -446,7 +446,27 @@ async function getAuthBiometric() {
 	})
 }
 
-function deleteUserFromMemory(user_id,bio_id) {
+async function checkAuthBiometry() {
+
+}
+
+async function getAuthBiometry() {
+	const data = await $.ajax({
+		url: `${window.location.origin}/dashboard/biometria/bioauth`,
+		method: 'GET'
+	});
+	return data;
+}
+
+async function getEmployeeBiometry(id) {
+	const data = await $.ajax({
+		url: `${window.location.origin}/dashboard/biometria/colaborador/${id}`,
+		method: 'GET'
+	});
+	return data;
+}
+
+function deleteUserFromMemory(user_id, bio_id) {
 	if (bio_id > 0) {
 		Swal.fire({
 			title: "Deletar Biometria",

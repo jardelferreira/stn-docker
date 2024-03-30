@@ -552,7 +552,7 @@
             setTimeout(() => {
                 $(".alert").fadeOut(2000)
             }, 3000);
-        })
+        }) 
     </script>
     <script src="{{ asset('js/fingertechweb.js') }}"></script>
     <script>

@@ -82,7 +82,8 @@ Route::prefix('externo')->group(function () {
     Route::get('recibos/{receipt}/show', [ReceiptController::class, 'externReceiptShow'])->name('extern.receiptShow');
     Route::get('recibos/{receipt}/assinatura', [ReceiptController::class, 'externAssignShow'])->name('extern.externAssignShow');
     Route::post('recibos/{receipt}/assign', [ReceiptController::class, 'externAssign'])->name('extern.externAssign');
-
+    Route::get('/check/biometria',[BiometricController::class,'check'])->name('extern.check.biometric');
+    
     Route::get('documentos/{document}/arquivo', [DocumentController::class, 'showFile'])->name('extern.documents.showFile');
     Route::get("ficha/assinatura/{signatureField}/{field}", [FieldController::class, "showSignature"])->name("extern.field.showSignature");
 });
@@ -158,7 +159,7 @@ Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard,admin'])->
         Route::post('{user}/assinatura/atualizar', [UserController::class, 'updateSignaturePass'])->name('dashboard.users.updateSignaturePass');
         Route::post('{user}/senha/atualizar', [UserController::class, 'updatePassword'])->name('dashboard.users.updatePassword');
 
-        Route::delete('/', [UserController::class, 'destroy'])->name('dashboard.users.destroy');
+        Route::delete('{user}/', [UserController::class, 'destroy'])->name('dashboard.users.destroy');
         Route::put('/', [UserController::class, 'update'])->name('dashboard.users.update');
 
         Route::get('{user}/permissoes', [UserController::class, 'permissions'])->name('dashboard.users.permissions');
@@ -474,6 +475,10 @@ Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard,admin'])->
         Route::get('/download',[BiometricController::class,'downloadBiometrics'])->name('dashboard.biometrics.download');
         Route::get('/usuarios',[BiometricController::class,'getUsers'])->name('dashboard.biometrics.getUsers');
         Route::get('/bioauth',[BiometricController::class,'bioauth'])->name('dashboard.biometrics.bioauth');
+        Route::get('/usuarios/{user}',[BiometricController::class,'getBiometricFromUser'])->name('dashboard.biometrics.getBiometricFromUser');
+        Route::get('/colaborador/{employee}',[BiometricController::class,'getBiometricFromEmployee'])->name('dashboard.biometrics.getBiometricFromEmployee');
+
+
         Route::delete('{biometric}/delete',[BiometricController::class,'destroy'])->name('dashboard.biometrics.destroy');
         Route::post('biometria/salvar', [UserController::class, 'biometricStore'])->name('dashboard.users.biometricStore');
     });
