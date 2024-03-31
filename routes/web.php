@@ -386,7 +386,7 @@ Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard,admin'])->
         Route::get('/{employee}/empregado', [EmployeeController::class, 'show'])->name('dashboard.employees.show');
         Route::get('/{employee}/vincular', [EmployeeController::class, 'projects'])->name('dashboard.employees.projects');
         Route::get('/{employee}/formularios', [EmployeeController::class, 'formlists'])->name('dashboard.employees.formlists');
-        Route::get('/{employee}/usuario', [EmployeeController::class, 'getUser'])->name('dashboard.employees.usuario');
+        Route::get('/{user}/colaborador', [EmployeeController::class, 'getEmployeeWithUser'])->name('dashboard.employees.employee');
         Route::put('/{employee}/update', [EmployeeController::class, 'update'])->name('dashboard.employees.update');
 
 

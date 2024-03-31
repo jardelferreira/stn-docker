@@ -408,7 +408,7 @@ function searchEmployeeByUserId() {
 				type: "GET",
 				success: async function (response) {
 					if (response.success) {
-						employee = await $.get(`${window.location.href}/${response.id}/usuario`)
+						employee = await $.get(`${window.location.href}/${response.id}/colaborador`)
 						Swal.fire({
 							position: "center",
 							icon: "success",
