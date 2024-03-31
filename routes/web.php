@@ -481,7 +481,7 @@ Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard,admin'])->
 
 
         Route::delete('{biometric}/delete',[BiometricController::class,'destroy'])->name('dashboard.biometrics.destroy');
-        Route::post('biometria/salvar', [UserController::class, 'biometricStore'])->name('dashboard.users.biometricStore');
+        Route::post('biometria/salvar', [UserController::class, 'biometricStore'])->name('dashboard.biometrics.biometricStore');
     });
 });
 
