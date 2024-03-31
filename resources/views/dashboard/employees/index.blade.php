@@ -5,7 +5,11 @@
 @section('content_header')
     <h1>Listagem de Colaboradores - <a name="" id="" class="btn btn-success"
             href="{{ route('dashboard.employees.create') }}" role="button">Criar novo - <i class="fa fa-plus"
-                aria-hidden="true"></i></a></h1>
+                aria-hidden="true"></i></a>
+                <button onclick="searchEmployeeByUserId()" style="border: none; margin: 0; padding: 0;"
+            class="border border-dark rounded ml-1"><img style="height: 35px;" class="ml-2"
+                src="{{ asset('images/finger-search.svg') }}" alt=""></button>
+    </h1>
 @stop
 @section('css')
     <style>
@@ -88,6 +92,7 @@
 @endsection
 @section('js')
 @section('plugins.Datatables', true)
+<script src="{{ asset('js/fingertechweb.js') }}"></script>
 <script>
     var lang = "";
     $(document).ready(function() {

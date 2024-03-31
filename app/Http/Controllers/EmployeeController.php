@@ -111,6 +111,11 @@ class EmployeeController extends Controller
         return redirect()->route('dashboard.employees');
     }
 
+    public function getUser(Employee $employee)
+    {
+        return response()->json(["id" => $employee->user_id]);
+    }
+
     public function projects(Employee $employee)
     {   
         // dd($employee->projects()->get());

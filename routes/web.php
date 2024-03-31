@@ -83,7 +83,7 @@ Route::prefix('externo')->group(function () {
     Route::get('recibos/{receipt}/assinatura', [ReceiptController::class, 'externAssignShow'])->name('extern.externAssignShow');
     Route::post('recibos/{receipt}/assign', [ReceiptController::class, 'externAssign'])->name('extern.externAssign');
     Route::get('/check/biometria',[BiometricController::class,'check'])->name('extern.check.biometric');
-    
+
     Route::get('documentos/{document}/arquivo', [DocumentController::class, 'showFile'])->name('extern.documents.showFile');
     Route::get("ficha/assinatura/{signatureField}/{field}", [FieldController::class, "showSignature"])->name("extern.field.showSignature");
 });
@@ -386,6 +386,7 @@ Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard,admin'])->
         Route::get('/{employee}/empregado', [EmployeeController::class, 'show'])->name('dashboard.employees.show');
         Route::get('/{employee}/vincular', [EmployeeController::class, 'projects'])->name('dashboard.employees.projects');
         Route::get('/{employee}/formularios', [EmployeeController::class, 'formlists'])->name('dashboard.employees.formlists');
+        Route::get('/{employee}/usuario', [EmployeeController::class, 'getUser'])->name('dashboard.employees.usuario');
         Route::put('/{employee}/update', [EmployeeController::class, 'update'])->name('dashboard.employees.update');
 
 

@@ -396,6 +396,60 @@ function searchUser() {
 	})
 }
 
+function searchEmployeeByUserId() {
+	Swal.fire({
+		title: 'Aguarde...',
+		html: 'Procurando o Leitor Biométrico.',
+		allowOutsideClick: false,
+		didOpen: () => {
+			Swal.showLoading();
+			$.ajax({
+				url: "https://localhost:9000/apiservice/identification",
+				type: "GET",
+				success: async function (response) {
+					if (response.success) {
+						employee = await $.get(`${window.location.href}/${response.id}/usuario`)
+						Swal.fire({
+							position: "center",
+							icon: "success",
+							title: "Usuário localizado com sucesso!",
+							showConfirmButton: false,
+							timer: 1500,
+							didClose: () => {
+								window.location.href = `${window.location.href}/${employee.id}/formularios`
+							}
+						});
+					} else {
+						Swal.fire({
+							icon: "info",
+							title: "Atenção!",
+							text: "Não foi possível identificar a biometria."
+						})
+					}
+				},
+				error: function (xhr, status, error) {
+					if (!xhr.status) {
+						Swal.fire({
+							icon: 'error',
+							title: `Erro de resposta!`,
+							text: "Não foi possível se conectar a rede da API, é necessário executar a API do leitor neste computador."
+						});
+					} else {
+
+						errorCode = xhr.responseText.match(/\d+/g)
+
+						Swal.fire({
+							icon: 'info',
+							title: `Atenção!`,
+							text: errosMap[errorCode] ?? xhr.responseText
+						});
+					}
+				}
+			});
+		}
+	})
+}
+
 async function getAuthBiometric() {
 	Swal.fire({
 		title: "Carregando sua biometria.",
