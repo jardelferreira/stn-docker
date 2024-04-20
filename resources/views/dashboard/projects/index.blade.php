@@ -4,7 +4,7 @@
 
 @section('content')
     @if (count($projects))
-        <div class="container p-0">
+        <div class="p-0">
 
             <a href="{{ route('dashboard.projects.create') }}" class="btn btn-primary float-right mt-n1"><i
                     class="fas fa-plus"></i> Novo projeto</a>
