@@ -50,7 +50,6 @@ class ProjectController extends Controller
      */
     public function store(ProjectRequest $request)
     {
-        dd($request->all());
         Project::create($request->all());
 
         return \redirect()->route('dashboard.projects');
