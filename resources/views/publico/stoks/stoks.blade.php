@@ -1,10 +1,14 @@
 @extends('publico.page')
 @section('title', 'Estoque Global')
+@section('css')
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+@endsection
 @section('content')
     <div class="bg-light mt-1">
-        <h4 class="ms-2">Listagem de estoque - Global - <small>Total de <span class="text-light bg-danger px-2">{{$stoks->count() ?? 0}}</span> Produtos em em estoque</small></h4>
+        <h4 class="ms-2 text-center text-uppercase">Listagem de estoque - Global</h4>
+        <hr>
         @if (count($stoks))
-            <div class="table-responsive">
+            <div class="table-responsive col-12">
                 <table class=" table table-striped table-sm" id="stok">
                     <thead class="thead-inverse">
                         <tr>
@@ -49,11 +53,11 @@
         @else
             <p>Não há Produtos para listagem</p>
         @endif
+        
     </div>
+    
 @endsection
-@section('css')
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
-@endsection
+
 @section('js')
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     <script>
@@ -62,7 +66,7 @@
         $(document).ready(function() {
             $.ajax({
                 url: "https://cdn.datatables.net/plug-ins/1.13.1/i18n/pt-BR.json",
-                success: function(result) {
+                success: function(result) { 
                     $('#stok').DataTable({
                         "language": result,
                         lengthMenu: [

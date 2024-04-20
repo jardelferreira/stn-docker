@@ -22,6 +22,9 @@ class CreateStoksTable extends Migration
             $table->foreignId('project_id')->references('id')->on('projects')->onDelete('cascade');
             $table->foreignId('invoice_products_id')->references('id')->on('invoice_products')->onDelete('cascade');
             $table->decimal('qtd',12,2,true);
+            $table->boolean('patrimony')->default(false);
+            $table->string('serial')->nullable();
+            $table->date('verifiqued_at')->nullable();
             $table->integer('user_id')->nullable(); // vincular item do estoque ao usuário
             $table->foreignId('product_id')->references('id')->on('products');
             $table->string('status');

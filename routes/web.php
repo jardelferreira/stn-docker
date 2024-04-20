@@ -30,9 +30,11 @@ use App\Http\Controllers\{
     SectorsCostsController,
     ShortcutController,
     SignatureController,
+    StockHistoryController,
     StoksController
 };
 use App\Models\Geolocation;
+use App\Models\StockHistory;
 use App\Models\Stoks;
 use App\Models\Task;
 use App\Models\User;
@@ -483,6 +485,8 @@ Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard,admin'])->
         Route::delete('{biometric}/delete',[BiometricController::class,'destroy'])->name('dashboard.biometrics.destroy');
         Route::post('biometria/salvar', [UserController::class, 'biometricStore'])->name('dashboard.biometrics.biometricStore');
     });
+
+    Route::get("history",[StockHistoryController::class,'index'])->name('dashboard.stock.history');
 });
 
 Route::get('publico/login', [PublicController::class, 'login'])->name('public.login');
@@ -502,3 +506,4 @@ Route::prefix('publico')->middleware(['auth', 'permission:public'])->group(funct
     Route::get('fichas/{user}/funcionario', [PublicController::class, 'formlists'])->name('public.employees.formlists');
     Route::get('fichas/{formlist}/show', [PublicController::class, 'fieldsFormlistByEmployee'])->name('public.employees.formlists.show');
 });
+

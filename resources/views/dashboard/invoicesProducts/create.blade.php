@@ -226,14 +226,16 @@
                         },
                         url: window.location.href,
                         success: (response) => {
-                            console.log(response)
                             if (response.success) {
                                 Swal.fire({
                                     icon: response.type,
                                     title: response.message,
                                     text: response.event,
                                     footer: response.footer
+                                }).then(() => {
+                                    window.location.reload()
                                 })
+
                             } else {
                                 Swal.fire({
                                     icon: response.type,

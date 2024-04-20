@@ -121,7 +121,7 @@
                             })
                             .done(function(data) {
                                 if (!data.length) {
-                                    alert("NF não tem produto disponível");
+                                    Swal.fire("NF não tem produto disponível");
                                 } else {
 
                                     data.forEach(product => {
@@ -211,7 +211,8 @@
                     $.post(`${url}/products/store`, dados,
                         function(data, status) {
                             console.log(data)
-                            alert("Data: " + data + "\nStatus: " + status);
+                            
+                            Swal.fire("Produtos adicionados ao estoque com sucesso")
                             $("#produtos tr").remove();
                         });
                 } // fim addStok
@@ -226,7 +227,7 @@
                     event.target.value = 1;
                 }
                 if (qtd > available) {
-                    alert("Quantidade excedida!");
+                    Swal.fire("Quantidade excedida!");
                     event.target.value = available;
                 }
             }

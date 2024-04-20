@@ -6,6 +6,16 @@
     <h1>Cadastro de Projetos</h1>
 @stop
 
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
 @section('content')
     <form action="{{ route('dashboard.projects.store') }}" method="post" autocomplete="off">
         @csrf

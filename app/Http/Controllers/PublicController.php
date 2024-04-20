@@ -30,7 +30,7 @@ class PublicController extends Controller
 
     public function stoks(Stoks $stoks)
     {
-        return response()->json($stoks->analitic()->get());
+        // return response()->json($stoks->analitic()->get());
         // dd(Stoks::with(['sector','base','project', 'invoiceProduct','product','fields'])->get()->toArray());
         return view('publico.stoks.stoks', [
             'stoks' => $stoks->with(['sector','base','project', 'invoiceProduct','product','fields'])->get()

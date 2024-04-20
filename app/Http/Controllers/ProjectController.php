@@ -50,7 +50,7 @@ class ProjectController extends Controller
      */
     public function store(ProjectRequest $request)
     {
-
+        dd($request->all());
         Project::create($request->all());
 
         return \redirect()->route('dashboard.projects');
@@ -122,7 +122,7 @@ class ProjectController extends Controller
 
         $project = Project::getProjectByUuid($request->uuid)->first();
         // $permission = Str::slug($project->name);
-        if (!$user->can("deletar-projeto")) {
+        if (!$user->can("deletar-projetos")) {
             return response()->json([
                 'confirm' => false,
                 'title' => "Ação rejeitada!",

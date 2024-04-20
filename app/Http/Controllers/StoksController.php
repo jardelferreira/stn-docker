@@ -6,15 +6,16 @@ use App\Models\User;
 use App\Models\Stoks;
 use App\Models\Sector;
 use App\Models\Invoice;
+use App\Models\Product;
+use App\Models\Document;
 use App\Models\Provider;
 use Illuminate\Support\Str;
+use App\Models\StockHistory;
 use Illuminate\Http\Request;
 use App\Models\InvoiceProducts;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreStoksRequest;
 use App\Http\Requests\UpdateStoksRequest;
-use App\Models\Document;
-use App\Models\Product;
 
 class StoksController extends Controller
 {
@@ -75,9 +76,11 @@ class StoksController extends Controller
                     'image_path' => $invoice_product->image_path,
                     'status' => 'disponível',
                 ]);
+                StockHistory::saveHistory(0,0,floatval($product['qtd']),"Adicionado pelo sistema",$result[$key]['id']);
             } catch (\Throwable $th) {
                 return response()->json($th);
             }
+            // Salvar histórico, 0 é entrada e 1 é ficha
             $invoice_product->update(['qtd_available' => $qtd_remaining]);
            
         }
@@ -192,6 +195,8 @@ class StoksController extends Controller
         }
         if($stok->update(['qtd' => $qtd])){
             $stok = Stoks::where("id",$request->id)->first();
+            // Salvar histórico, 0 é entrada e 1 é ficha
+            StockHistory::saveHistory(1,4,floatval($request->qtd),"Adicionado pelo sistema",$request->id);
             return response()->json([
                 'success' => true,
                 'type' => 'success',

@@ -6,19 +6,20 @@
     <h1>Listagem de Colaboradores - <a name="" id="" class="btn btn-success"
             href="{{ route('dashboard.employees.create') }}" role="button">Criar novo - <i class="fa fa-plus"
                 aria-hidden="true"></i></a>
-                <button onclick="searchEmployeeByUserId()" style="border: none; margin: 0; padding: 0;"
+        <button onclick="searchEmployeeByUserId()" style="border: none; margin: 0; padding: 0;"
             class="border border-dark rounded ml-1"><img style="height: 35px;" class="ml-2"
                 src="{{ asset('images/finger-search.svg') }}" alt=""></button>
     </h1>
 @stop
 @section('css')
     <style>
-        .dropdown-item:hover{
+        .dropdown-item:hover {
             background-color: #3B71CA;
             color: #fff;
             text-decoration: none;
         }
-        .dropdown-item{
+
+        .dropdown-item {
             border-bottom: solid 1px slategray;
         }
     </style>
@@ -45,13 +46,13 @@
                         <td scope="row">{{ $item->registration }}</td>
                         <td scope="row">{{ date('d/m/Y', strtotime($item->admission)) }}</td>
                         <td scope="row">
-                            <div class="dropdown show">
-                                <a class="btn btn-sm btn-secondary dropdown-toggle" href="#" role="button"
-                                    id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <div class="dropdown show drop-show">
+                                <a class="btn btn-sm btn-secondary dropdown-toggle link-drop" href="#" role="button"
+                                    id="dropdownMenuLink-{{$loop->index}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Opções
                                 </a>
 
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink-{{$loop->index}}">
                                     <a class="dropdown-item" href="#">Projetos</a>
                                     <a class="dropdown-item"
                                         href="{{ route('dashboard.employees.formlists', $item) }}">Formulários</a>
@@ -97,15 +98,24 @@
     var lang = "";
     $(document).ready(function() {
 
-        $(".dropdown").on("hidden.bs.dropdown", () => {
+        $(".drop-show").on("hidden.bs.dropdown", (d) => {
+            $(d.currentTarget).parent().parent().removeClass("bg-info")
             if (employees.rows.length < 6) {
                 employees.style.height = ""
             }
         })
-        $(".dropdown").on("show.bs.dropdown", () => {
+        $(".drop-show").on("show.bs.dropdown", (d) => {
+            $(d.currentTarget).parent().parent().addClass("bg-info")
             if (employees.rows.length < 6) {
                 employees.style.height = "220px"
             }
+        })
+
+        $('.link-drop').on('show.bs.dropdown', function() {
+            this.parentElement.parentElement.parentElement.classList.toggle("bg-info")
+        })
+        $('.link-drop').on('hide.bs.dropdown', function() {
+            this.parentElement.parentElement.parentElement.classList.toggle("bg-info")
         })
 
         $.ajax({

@@ -43,11 +43,11 @@
                                 href="{{ route('dashboard.users.show', ['user' => $user->id]) }}" role="button">
                                 Ver Perfil - <i class="fa fa-user" aria-hidden="true"></i></a>
                             <div class="dropdown show mr-1 dropuser">
-                                <a class="btn btn-sm btn-secondary dropdown-toggle" href="#" role="button"
-                                    id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <a class="btn btn-sm btn-secondary dropdown-toggle menu-link" href="#" role="button"
+                                    id="dropdownMenuLink-{{$loop->index}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Adm. Acesso
                                 </a>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink-{{$loop->index}}">
                                     <a class="dropdown-item"
                                         href="{{ route('dashboard.users.projects', $user) }}">Projetos</a>
                                     <a class="dropdown-item"
@@ -88,7 +88,6 @@
 @endsection
 @section('js')
     <script src="{{ asset('js/fingertechweb.js') }}"></script>
-@section('plugins.Datatables', true)
 <script>
     var lang = "";
     $(document).ready(function() {
@@ -96,8 +95,7 @@
             url: "https://cdn.datatables.net/plug-ins/1.13.1/i18n/pt-BR.json",
             success: function(result) {
                 $('#users').DataTable({
-                    responsive: true,
-                    "ordering": false,
+                    order: false,
                     "language": result,
                     lengthMenu: [
                         [10, 25, 50, -1],
@@ -121,10 +119,10 @@
         }
     })
 
-    $('#dropdownMenuLink').on('show.bs.dropdown', function() {
+    $('.menu-link').on('show.bs.dropdown', function() {
         this.parentElement.parentElement.parentElement.classList.toggle("bg-info")
     })
-    $('#dropdownMenuLink').on('hide.bs.dropdown', function() {
+    $('.menu-link').on('hide.bs.dropdown', function() {
         this.parentElement.parentElement.parentElement.classList.toggle("bg-info")
     })
 </script>

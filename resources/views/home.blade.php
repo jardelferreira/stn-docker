@@ -4,6 +4,7 @@
 
 @section('content_header')
     <h1>Dashboard</h1>
+    <a href="{{route('dashboard.stock.history')}}"></a>
 @stop
 
 @section('content')

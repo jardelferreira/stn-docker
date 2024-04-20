@@ -15,6 +15,7 @@ use App\Models\FormlistBaseEmployee;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreFieldRequest;
 use App\Http\Requests\UpdateFieldRequest;
+use App\Models\StockHistory;
 use phpDocumentor\Reflection\Types\Boolean;
 
 class FieldController extends Controller
@@ -261,6 +262,8 @@ class FieldController extends Controller
 
             if ($request->sector_id == $stok->sector_id) {
                 $stok->update(['qtd' => floatval($stok->qtd) + floatval($field->qtd_delivered)]);
+                // Salvar histórico, 0 é entrada e 2 é devolução
+                StockHistory::saveHistory(0, 1, floatval($field->qtd_delivered), $event, $field->stok_id);
             } else {
                 # code...
                 $sector = Sector::where("id", $request->sector_id)->first();
@@ -394,7 +397,8 @@ class FieldController extends Controller
         $field = Field::create($dados);
         if ($field) {
             $stok->update(['qtd' => ($stok->qtd - $request->qtd_delivered)]);
-
+            // Salvar histórico, 0 é saída e 1 é ficha
+            StockHistory::saveHistory(1, 1, floatval($request->qtd_delivered), $event, $request->stok_id);
             $signature->update(['event' => "{$event} {$type}"]);
             // dd($signature);
 
@@ -441,7 +445,8 @@ class FieldController extends Controller
         Field::create($dados);
 
         $stok->update(['qtd' => $stok->qtd - $request->qtd_delivered]);
-
+        // Salvar histórico, 0 é saída e 1 é ficha
+        StockHistory::saveHistory(1, 1, floatval($request->qtd_delivered), $event, $request->stok_id);
         $signature->update(['event' => "{$event} {$type}"]);
 
         return response()->json([
