@@ -209,7 +209,7 @@
                     });
                     console.log(dados.products);
                     $.ajax({
-                        method: "POST"
+                        method: "POST",
                         url: `${url}/products/store`,
                         data: dados                       
                     }).then(function(data) {
