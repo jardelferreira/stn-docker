@@ -208,13 +208,15 @@
                         }
                     });
                     console.log(dados.products);
-                    $.post(`${url}/products/store`, dados.products,
-                        function(data, status) {
-                            console.log(data)
-                            
-                            Swal.fire("Produtos adicionados ao estoque com sucesso")
-                            $("#produtos tr").remove();
-                        });
+                    $.ajax({
+                        method: "POST"
+                        url: `${url}/products/store`,
+                        data: dados                       
+                    }).then(function(data) {
+                        console.log(data)
+                        Swal.fire("Produtos adicionados ao estoque com sucesso")
+                        $("#produtos tr").remove();  
+                    })
                 } // fim addStok
 
             });
