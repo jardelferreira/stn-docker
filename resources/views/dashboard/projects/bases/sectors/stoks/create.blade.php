@@ -208,7 +208,7 @@
                         }
                     });
                     console.log(dados.products);
-                    $.post(`${url}/products/store`, dados,
+                    $.post(`${url}/products/store`, dados.products,
                         function(data, status) {
                             console.log(data)
                             
