@@ -75,6 +75,7 @@ class StoksController extends Controller
                     'image_path' => $invoice_product->image_path,
                     'status' => 'disponível',
                 ]);
+                return response()->json($result);
                 StockHistory::saveHistory(0,0,floatval($product['qtd']),"Adicionado pelo sistema",$result[$key]['id']);
 
             // Salvar histórico, 0 é entrada e 1 é ficha
