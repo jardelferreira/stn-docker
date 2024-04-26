@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=0.5">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <script src="https://kit.fontawesome.com/486fc227d4.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/486fc227d4.js"></script>
     {{-- Custom Meta Tags --}}
     @yield('meta_tags')
 
