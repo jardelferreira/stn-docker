@@ -56,7 +56,7 @@ class StoksController extends Controller
      */
     public function store(Sector $sector, StoreStoksRequest $request)
     {
-        return response()->json($request);
+        // return response()->json($request);
         $result = [];
         $sector = Sector::where('id',$request->sector)->first();
         foreach ($request->products as $key => $product) {
