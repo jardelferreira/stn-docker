@@ -43,6 +43,9 @@ class StoksController extends Controller
     public function create(Sector $sector)
     {
         // dd($sector->project->providers()->get());
+        $stok = Stoks::where('id',735)->with(['sector','base','project','invoiceProduct.provider','product'])->first();
+        dd($stok->invoiceProduct->provider->fantasy_name);
+
         return view('dashboard.projects.bases.sectors.stoks.create',[
             'sector' => $sector
         ]);
