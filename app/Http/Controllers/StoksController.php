@@ -43,10 +43,6 @@ class StoksController extends Controller
     public function create(Sector $sector)
     {
         // dd($sector->project->providers()->get());
-        $stok = Stoks::where('id',735)->with(['sector','base','project','invoiceProduct.provider','product'])->first();
-        $ip = InvoiceProducts::where('id',1318)->first();
-        dd($stok->invoiceProduct->provider,$stok, $ip->provider()->first());
-
         return view('dashboard.projects.bases.sectors.stoks.create',[
             'sector' => $sector
         ]);
@@ -60,13 +56,14 @@ class StoksController extends Controller
      */
     public function store(Sector $sector, StoreStoksRequest $request)
     {
-        // return response()->json($request);
+        return response()->json($request);
         $result = [];
         $sector = Sector::where('id',$request->sector)->first();
         foreach ($request->products as $key => $product) {
             $invoice_product = InvoiceProducts::where('id',$product['id'])->first();
             //criar controle para evitar inserir quatidade maior que a disponível
             $qtd_remaining = floatVal($invoice_product->qtd_available) - floatval($product['qtd']);
+            try {
                 $result[$key] = Stoks::create([
                     'uuid' => Str::uuid(),
                     'slug' => $invoice_product->slug,
@@ -79,9 +76,10 @@ class StoksController extends Controller
                     'image_path' => $invoice_product->image_path,
                     'status' => 'disponível',
                 ]);
-                return response()->json($result);
                 StockHistory::saveHistory(0,0,floatval($product['qtd']),"Adicionado pelo sistema",$result[$key]['id']);
-
+            } catch (\Throwable $th) {
+                return response()->json($th);
+            }
             // Salvar histórico, 0 é entrada e 1 é ficha
             $invoice_product->update(['qtd_available' => $qtd_remaining]);
            
