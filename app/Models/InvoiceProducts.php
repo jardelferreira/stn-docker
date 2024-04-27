@@ -23,6 +23,6 @@ class InvoiceProducts extends Model
 
     public function provider()
     {
-        return $this->hasOneThrough(Provider::class, Invoice::class,"id","id","invoice_id");
+        return $this->hasOneThrough(Provider::class, Invoice::class,"id","id","invoice_id","provider_id");
     }
 }
