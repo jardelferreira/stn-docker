@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 <meta name="csrf-token" content="{{ csrf_token() }}">
-@section('title', 'Cadastro de Setores')
+@section('title', 'Adicionar ao Estoque')
 
 @section('content_header')
     <h1>Adicionar produtos ao Estoque do Setor - <small>{{ $sector->name }}</small></h1>

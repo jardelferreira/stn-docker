@@ -56,9 +56,9 @@ class StoksController extends Controller
      */
     public function store(Sector $sector, StoreStoksRequest $request)
     {
-        return response()->json($request);
         $result = [];
         $sector = Sector::where('id',$request->sector)->first();
+
         foreach ($request->products as $key => $product) {
             $invoice_product = InvoiceProducts::where('id',$product['id'])->first();
             //criar controle para evitar inserir quatidade maior que a disponível
