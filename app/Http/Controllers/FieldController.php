@@ -316,7 +316,7 @@ class FieldController extends Controller
                 'type' => 'info',
                 'message' => 'É necessário cadastrar uma assinatura para este usuário.',
                 'footer' => "Erro de Senha."
-            ]);
+            ]); 
         }
         if ($request->has('template')) {
             $check['success'] = true;
@@ -375,7 +375,7 @@ class FieldController extends Controller
         $employee = $formlist_employee->employee()->first();
         $stok = Stoks::where("id", intval($request->stok_id))->first();
         $event = $formlist_employee->saveEventString($stok->invoiceProduct, $request->qtd_delivered);
-        $type = $request->has('template') ? "Por bioemetria" : "Por senha";
+        $type = $request->has('template') ? "Por biometria" : "Por senha";
 
         if ($stok->qtd < $request->qtd_delivered) {
             $signature->delete();

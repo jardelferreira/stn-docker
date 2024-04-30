@@ -15,6 +15,7 @@
 </head>
 
 <body>
+    <div class="container">
     <h1>{{ $user->name }}</h1>
     <div class="accordion" id="accordionExample">
         <div class="accordion-item">
@@ -61,7 +62,7 @@
             @endforeach
         </div>
     </div>
-
+</div>
     <!-- Optional JavaScript; choose one of the two! -->
 
     <!-- Option 1: Bootstrap Bundle with Popper -->

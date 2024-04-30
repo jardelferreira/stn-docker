@@ -34,6 +34,8 @@
         @method('POST')
         <input type="hidden" name="signature_delivered" value="{{ old('signature_delivered') ?? '' }}"
             id="signature_delivered">
+        <input type="hidden" name="template" value="{{ old('template') ?? '' }}"
+            id="template">
         <input type="hidden" name="location" value="{{ old('location') ?? '' }}" id="location">
         <div class="form-row">
             <div class="form-group col-lg-4 col-md-12 col-sm-12">
@@ -279,7 +281,7 @@
                                             },
                                             success: function(responseSignature) {
                                                 if (responseSignature.success) {
-
+                                                    $("#template").val(response.template)
                                                     Swal.fire({
                                                         icon: responseSignature
                                                             .type,
