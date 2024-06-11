@@ -351,8 +351,8 @@ Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard,admin'])->
         Route::prefix('{sector}/estoque')->group(function () {
             Route::get('/', [StoksController::class, 'index'])->name('dashboard.sectors.stoks.index');
             Route::get("/produtos",[StoksController::class,"products"])->name('dashboard.sectors.stoks.products');
-            Route::get("/produtos/{product}/defineStokMin",[StoksController::class,"defineStokMin"])->name('dashboard.sectors.stoks.products.defineStokMin');
-            Route::get("/produtos/{product}/revokeStokMin",[StoksController::class,"revokeStokMin"])->name('dashboard.sectors.stoks.products.revokeStokMin');
+            Route::post("/produtos/defineStokMin",[StoksController::class,"defineStokMin"])->name('dashboard.sectors.stoks.products.defineStokMin');
+            Route::get("/produtos/revokeStokMin",[StoksController::class,"revokeStokMin"])->name('dashboard.sectors.stoks.products.revokeStokMin');
             Route::get('/cadastrar', [StoksController::class, 'create'])->name('dashboard.sectors.stoks.create');
             Route::get('/cadastrar/invoice/{invoice}/products', [StoksController::class, 'getProductsByInvoiceId'])->name('dashboard.sectors.stoks.invoices.products');
             Route::get('cadastrar/providers', [StoksController::class, 'filterProviders'])->name('dashboard.sectors.stoks.providers');

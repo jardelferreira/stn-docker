@@ -14,7 +14,7 @@
             <div class="row">
                 <div class="form-group col-lg-3">
                     <label for="type">Tipo:</label>
-                    <select class="form-control @error('type') is-invalid @enderror" id="type" name="type" required>
+                    <select class="form-control @error('type') is-invalid @enderror" id="type" onclick="getCA(false)" name="type" required>
                         <option value="">Selecione...</option>
                         @foreach ($types as $type => $value)
                             <option value="{{ $type }}">{{ $value['name'] }}</option>
@@ -176,12 +176,13 @@
 
         type = document.getElementById("type");
 
-        $('#type').on('change', function() {
-            var selectedValue = $(this).val();
+        function getCA(update = false){
+
+            var selectedValue = $("#type").val();
 
             if (selectedValue === 'caepi') {
                 document.getElementById("myform").reset()
-                $(this).val(selectedValue)
+                $("#type").val(selectedValue)
                 clearTable()
                 data_complements = []
                 Swal.fire({
@@ -202,7 +203,7 @@
                         // Aqui você fará a chamada AJAX para a API
 
                         return $.ajax({
-                            url: `${local}/consulta/${caCode}`,
+                            url: `${local}/consulta/${caCode}/${update}`,
                             method: 'GET',
                             data: {
                                 caCode: caCode
@@ -213,8 +214,7 @@
                     allowOutsideClick: () => !Swal.isLoading()
                 }).then((result) => {
                     if (result.value && result.value.success) {
-                        Swal.fire(
-                            'CA encontrado com sucesso,', '', 'success');
+                        Swal.fire('CA encontrado com sucesso,', '', 'success');
                         response = "RegistroCA" in result.value ? result.value : result.value.data
                         insertFormValues(response)
                         for (key in response) {
@@ -234,7 +234,7 @@
                     Swal.fire('Erro ao buscar o CA', 'Erro interno na requisição', 'error');
                 });
             }
-        });
+        };
 
         const table = document.getElementById('table-complements')
 
@@ -372,7 +372,7 @@
                         didOpen: () => {
                             Swal.showLoading()
                             $.ajax({
-                                url: `${local}/consulta/${ca}?param=true`,
+                                url: `${local}/consulta/${ca}/${update}`,
                                 method: 'GET',
                                 dataType: 'json'
                             }).then((data) => {

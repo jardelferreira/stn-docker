@@ -30,6 +30,8 @@ class DocumentController extends Controller
         // return $this->getGeolocationGoogle();
 
         return view('dashboard.documents.index', [
+            'types' => Document::enumTypes(),
+            'statuses' => Document::enumStatus(),
             'documents' => $document->orderBy("id", "DESC")->get(),
             'projects' => $project->get()
         ]);
@@ -96,7 +98,7 @@ class DocumentController extends Controller
      */
     public function update(UpdateDocumentRequest $request, Document $document)
     {
-        //
+        
     }
 
     /**

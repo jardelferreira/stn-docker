@@ -50,4 +50,9 @@ class Product extends Model
     {
         return $this->belongsToMany(Product::class,'product_sectors')->selectRaw("product_sectors.stok_min");
     }
+
+    public function stokMinToProduct()
+    {
+        return $this->belongsTo(ProductSector::class,'id','product_id');
+    }
 }

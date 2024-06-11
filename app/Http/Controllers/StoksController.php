@@ -16,6 +16,7 @@ use App\Models\InvoiceProducts;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreStoksRequest;
 use App\Http\Requests\UpdateStoksRequest;
+use App\Models\ProductSector;
 
 class StoksController extends Controller
 {
@@ -228,21 +229,36 @@ class StoksController extends Controller
 
     public function products(Sector $sector)
     {   
-        // dd($sector->products()->get()[0]->stokMin()->toSql());
+        dd($sector->products()->get());
         return view('dashboard.projects.bases.sectors.stoks.products',[
             "products" => $sector->products()->get(),
             "sector" => $sector
         ]);
     }
 
-    public function defineStokMin(Sector $sector,Product $product)
+    public function defineStokMin(Sector $sector, Request $request)
     {
-        $product->stokMin()->create([
-            'product_id' => $product->id,
-            'sector_id' => $sector->id,
-            'project_id' => $sector->project->id,
-            'stok_min' => 50
-        ]);
+        // dd($request->all());
+        $product = Product::where("id",$request->product_id)->first();
+        // dd($product->stokMinToProduct()->get());
+        if ($request->product_sector_id != 0) {
+            $product_sector = ProductSector::where("id",$request->product_sector_id)->first();
+            $product_sector->update([
+                'id' => $request->product_sector_id,
+                'product_id' => $product->id,
+                'sector_id' => $sector->id,
+                'project_id' => $sector->project->id,
+                'stok_min' => $request->stok_min,
+            ]);
+        } else {
+            ProductSector::create([
+                'product_id' => $product->id,
+                'sector_id' => $sector->id,
+                'project_id' => $sector->project->id,
+                'stok_min' => $request->stok_min,
+            ]);
+        }
+        
         return redirect()->back();
     }
 }

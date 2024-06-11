@@ -10,7 +10,7 @@ class ProductSector extends Model
     use HasFactory;
 
     protected $table = "product_sectors";
-    protected $fillable = ['project_id','sector_id','product_id','stok_min','adjustable'];
+    protected $fillable = ['project_id','sector_id','product_id','stok_min','adjustable','id'];
 
     public function product()
     {

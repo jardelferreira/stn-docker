@@ -22,10 +22,12 @@
                     <tr>
                         <td scope="row">{{ $product->name }}</td>
                         <td scope="row">{{ $product->qtd_total }}</td>
-                        <td scope="row">{{ $product->stokMin()->first()->stok_min ?? "Não Definido" }}</td>
+                        <td scope="row">{{ $product->stokMinToProduct()->first()->stok_min ?? "Não Definido" }}</td>
                         <td class="btn-group" role="group">
                             <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#productModal"
-                                data-whatever="{{ $product->id }}" data-product="{{$product->name}}">Estoque mín.</button>
+                                data-whatever="{{ $product->id }}" data-product="{{$product->name}}" 
+                                data-qtd="{{$product->stokMinToProduct()->first()->stok_min ?? 0}}"
+                                data-product_sector="{{$product->stokMinToProduct()->first()->id ?? 0}}">Estoque mín.</button>
                         </td>
                     </tr>
                 @endforeach
@@ -46,22 +48,24 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form>
-                            <input type="hidden" class="form-control" id="product_id">
-                            <input type="hidden" value="{{$sector->id}}" class="form-control" id="sector_id">
+                    <form action="{{route('dashboard.sectors.stoks.products.defineStokMin',$sector)}}" method="POST">
+                        @csrf
+                        @method("POST")
                         <div class="form-group">
+                            <input type="hidden" class="form-control" id="product_id" name="product_id">
+                            <input type="hidden" class="form-control" id="product_sector_id" name="product_sector_id">
+                            {{-- <input type="hidden" value="{{$sector->id}}" class="form-control" id="sector_id" name="sector_id"> --}}
                           <label for="qtd_min">Defina a quantidade mínima:</label>
                           <input type="number"
                             class="form-control" name="stok_min" id="qtd_min" aria-describedby="helpQtd_min" placeholder="150">
                           <small id="helpQtd_min" class="form-text text-muted">Defina a quantidade mínima</small>
                         </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                    <a name="" id="" class="btn btn-primary" href="{{route('dashboard.sectors.stoks.products.defineStokMin',[$sector,1])}}" role="button">Teste</a>
-                    <button type="button" onclick="sendStockMin()" class="btn btn-primary">Definir</button>
-                </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                        <button type="submit"  class="btn btn-primary">Definir</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -93,8 +97,11 @@
             // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
             // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
             var modal = $(this)
+            console.log(product)
             modal.find('.modal-title').html(`<div>Definir estoque mínimo para: </div><p>${product}</p>`)
             modal.find('.modal-body #product_id').val(recipient)
+            modal.find('.modal-body #qtd_min').val(button.data("qtd"))
+            modal.find('.modal-body #product_sector_id').val(button.data("product_sector"))
         })
 
     });

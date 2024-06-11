@@ -92,46 +92,191 @@
             </div>
         </div>
     </div>
+
     <div class="modal fade exampleModal-lg" id="desvincularModal" tabindex="-1" role="dialog"
-    aria-labelledby="desvincularModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="desvincularModalLabel">Desvincular Documento</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form action="{{ route('dashboard.documents.stoksAttached') }}" method="POST">
-                    @csrf
-                    @method('POST')
-                    <input type="hidden" name="document_id" class="form-control" id="document_id">
-                    <div class="form-group">
-                        <label for="sector_id">Selecione o setor do estoque</label>
-                        <select class="custom-select" name="sector_id" id="sector_id">
-                            @foreach ($projects as $project)
-                                @foreach ($project->bases as $base)
-                                    @foreach ($base->sectors as $sector)
-                                        <option value="{{ $sector->id }}">{{ $project->name }} => {{ $base->name }}
-                                            => {{ $sector->name }}</option>
+        aria-labelledby="desvincularModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="desvincularModalLabel">Desvincular Documento</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('dashboard.documents.stoksAttached') }}" method="POST">
+                        @csrf
+                        @method('POST')
+                        <input type="hidden" name="document_id" class="form-control" id="document_id">
+                        <div class="form-group">
+                            <label for="sector_id">Selecione o setor do estoque</label>
+                            <select class="custom-select" name="sector_id" id="sector_id">
+                                @foreach ($projects as $project)
+                                    @foreach ($project->bases as $base)
+                                        @foreach ($base->sectors as $sector)
+                                            <option value="{{ $sector->id }}">{{ $project->name }} => {{ $base->name }}
+                                                => {{ $sector->name }}</option>
+                                        @endforeach
                                     @endforeach
                                 @endforeach
-                            @endforeach
-                        </select>
-                    </div>
+                            </select>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-primary">Ir para estoque</button>
+                </div>
+                </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
-                <button type="submit" class="btn btn-primary">Ir para estoque</button>
-            </div>
-            </form>
         </div>
     </div>
-</div>
+
+    <div class="modal  fade updateModal-lg" id="updateModal" tabindex="-1" role="dialog"
+        aria-labelledby="updateModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updateModalLabel">Atualizar Documento</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{ route('dashboard.documents.store') }}" method="POST" enctype="multipart/form-data"
+                    id="myform" name="myform" class="form border mb-1">
+                    @csrf
+                    @method('post')
+                    <div class="row">
+                        <div class="form-group col-lg-3">
+                            <label for="type">Tipo:</label>
+                            <select class="form-control @error('type') is-invalid @enderror" id="type"
+                                onclick="" name="type" required>
+                                <option value="">Selecione...</option>
+                                @foreach ($types as $type => $value)
+                                    <option value="{{ $type }}">{{ $value['name'] }}</option>
+                                @endforeach
+                            </select>
+                            @error('type')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label for="name">Nome</label>
+                            <input type="text" class="form-control @error('name') is-invalid @enderror" id="name"
+                                placeholder="Nome do documento" name="name" value="{{ old('name') }}" required>
+                            @error('name')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="form-group col-lg-3">
+                            <label for="status">Status:</label>
+                            <select class="form-control @error('status') is-invalid @enderror" id="status"
+                                name="status" required>
+                                <option value="">Selecione...</option>
+                                @foreach ($statuses as $status => $value)
+                                    <option value="{{ $status }}">{{ $value['name'] }}</option>
+                                @endforeach
+                            </select>
+                            @error('status')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Descrição:</label>
+                        <input type="text" class="form-control @error('description') is-invalid @enderror"
+                            id="description" placeholder="descreva detalhes aqui" name="description"
+                            value="{{ old('description') }}" required>
+                        @error('description')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-3">
+                            <label for="expiration">Data de expiração:</label>
+                            <input type="date" class="form-control @error('expiration') is-invalid @enderror"
+                                id="expiration" name="expiration" value="{{ old('expiration') }}" required>
+                            @error('expiration')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group col-lg-3">
+                            <label for="serie">Número de série:</label>
+                            <input type="text" class="form-control @error('serie') is-invalid @enderror"
+                                id="serie" placeholder="42158" name="serie" value="{{ old('serie') }}" required>
+                            @error('serie')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label for="file">Arquivo</label>
+                            <input type="file" class="form-control-file @error('file') is-invalid @enderror"
+                                id="file" name="file" required>
+                            <a href="#" id="link-file" target="_blank"
+                                class="btn btn-primary form-control d-none">Clique aqui
+                                para baixar o documento</a>
+                            @error('file')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <input type="hidden" name="complements" value="{{ old('complements') }}" id="complements">
+                    <div class="row mt-2">
+                        <div class="form-group mb-2 col-lg-3 col-md-3">
+                            <label for="parameter">Parametro</label>
+                            <input type="text" class="form-control" id="parameter" placeholder="Registro Técnico">
+                        </div>
+                        <div class="form-group mx-sm-3 mb-2 col-lg-3 col-md-3">
+                            <label for="value">Atributo</label>
+                            <input type="text" class="form-control" id="value" placeholder="XXX-548316-BR">
+                        </div>
+                        <div class="form-group col-lg-3 col-md-3">
+                            <label for="add"><small>Adicione vários (parametros: Atributos)</small></label>
+                            <button type="button" class="btn btn-success mb-0 form-control" id="add">Adicionar
+                                Complemento</button>
+                        </div>
+                        <div class="form-group col-lg3 col-md-2">
+                            <label for="add"><small>Limpar complementos</small></label>
+
+                            <button type="button" onclick="clearTable()" class="ml-2 btn btn-info ml-1"
+                                id="clear">Limpar
+                                Comlementos</button>
+                        </div>
+                        <hr>
+                    </div>
+                    <button type="submit" class="btn btn-primary ml-1" id="submit">Finalizar cadastro de
+                        documento</button>
+                </form>
+                <hr>
+                <table class="table table-striped table-light mt-2 border border-dark" id="table-complements">
+                    <thead class="">
+                        <tr>
+                            <th>#</th>
+                            <th>Parametros</th>
+                            <th>Atributos</th>
+                            <th>Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-primary">Ir para estoque</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 @section('js')
     <script>
+        var local = "http://localhost:8000"
+        if (window.location.host != "localhost") {
+            local = "https://caepionline.com.br"
+        }
+
         function getDateNow() {
             // Cria um objeto Date representando o momento atual
             let dataAtual = new Date();
@@ -146,9 +291,11 @@
 
         }
 
-        function checkValid(expiration) {
+        function checkValid(expiration, ca) {
+
             return new Date().getTime() < new Date(expiration).getTime() ?
-                `<span class="bg-success  mx-1 p-1">Válido</span>` : `<span class="bg-danger  mx-1 p-1">Inválido</span>`
+                `<span class="bg-success  mx-1 p-1">Válido</span>` :
+                `<span class="bg-danger  mx-1 p-1">Inválido</span> <button id="update" class="btn btn-warning ml-2" onclick="getCA(${ca})" role="button">Atualizar</a>`
         }
     </script>
 
@@ -206,9 +353,12 @@
                         },
                         {
                             className: "text-center",
-                            data: 'expiration',
+                            data: {
+                                expiration: 'expiration',
+                                serie: "serie"
+                            },
                             render: function(data, type) {
-                                return checkValid(data)
+                                return checkValid(data.expiration, data.serie)
                             }
                         },
                         {
@@ -265,6 +415,123 @@
             document.querySelectorAll("input[name='document_id']").forEach((e) => e.value = document_id)
 
         });
+
+        function getCA(ca) {
+            Swal.fire({
+                title: "Atualizar Documento.",
+                text: "Clique em consultar base para realizar a busca dos dados",
+                showLoaderOnConfirm: true,
+                showCancelButton: true,
+                confirmButtonText: 'Consultar base de dados',
+                allowOutsideClick: () => !Swal.isLoading(),
+                preConfirm: () => true
+            }).then(function(result) {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: `${local}/consulta/${ca}/0`,
+                        method: 'GET',
+                        dataType: 'json'
+                    }).then(function(response) {
+                        if (response.success) {
+                            data = response.data.data_validade.split(" ")[0].split("/")
+                            expiration = new Date(`${data[2]}-${data[1]}-${data[0]} 00:00`)
+
+                            if (expiration > new Date()) {
+                                $("#updateModal").modal("show")
+                                timer = 30
+                                Swal.fire({
+                                    title: "Buscando Arquivo.",
+                                    html: `<p>Aguarde alguns segundos enquanto realizo o download do arquivo</p><p> tempo de espera: <span id='count'>${timer} </span></p>`,
+                                    showConfirmButton: false,
+                                    showCancelButton: false,
+                                    didOpen: () => {
+                                        if (response.value && response.value.success) {
+                                            Swal.fire('CA encontrado com sucesso,', '',
+                                                'success');
+                                            response = "RegistroCA" in response.value ? response
+                                                .value : response.value.data
+                                            insertFormValues(response)
+                                            for (key in response) {
+                                                insertComplements({
+                                                    "parameter": key,
+                                                    "value": response[key]
+                                                })
+                                            }
+                                            loadURLToInputFiled(
+                                                `${local}/certificado/${response.value.data.numero_ca}`,
+                                                `${response.value.data.numero_ca}`)
+
+                                        } else {
+                                            Swal.fire('Erro ao buscar o CA', response.value
+                                                .message, 'error');
+                                        }
+                                        Swal.showLoading()
+                                        setInterval(() => {
+                                            document.getElementById("count").innerText =
+                                                timer
+                                            timer--
+                                        }, 1000);
+                                        setTimeout(() => {
+                                            window.location.reload()
+                                        }, (timer + 1) * 1000)
+
+                                    }
+                                })
+                            }
+                        }
+                    });
+                }
+            })
+        }
+
+        // xmlHTTP return blob respond
+        function getImgURL(url, ca, callback) {
+            var xhr = new XMLHttpRequest();
+
+            xhr.onload = function() {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    // Código de status 2xx indica sucesso
+                    callback(xhr.response);
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "Arquivo localizado com sucesso",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                } else {
+                    console.error('Erro na requisição. Código de status:', xhr.status);
+                }
+            };
+
+            xhr.onerror = function() {
+                // Lidar com erros de rede
+                Swal.fire('Erro de rede ao fazer a solicitação.');
+            };
+
+            xhr.open('GET', url);
+            xhr.responseType = 'blob';
+
+            try {
+                xhr.send();
+            } catch (error) {
+                // Lidar com exceções durante o envio da solicitação
+                Swal.fire('Erro ao enviar a solicitação:', error);
+            }
+        }
+
+        function loadURLToInputFiled(url, ca) {
+            getImgURL(url, ca, (imgBlob) => {
+
+                let file = new File([imgBlob], `CA-${ca}.pdf`, {
+                    type: 'application/pdf',
+                    lastModified: new Date().getTime()
+                }, 'utf-8');
+                let container = new DataTransfer();
+                container.items.add(file);
+                document.querySelector('#file').files = container.files;
+            });
+        }
     </script>
     <script>
         $(".alert").ready(function() {
