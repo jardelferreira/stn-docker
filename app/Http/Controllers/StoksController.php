@@ -229,7 +229,7 @@ class StoksController extends Controller
 
     public function products(Sector $sector)
     {   
-        dd($sector->products()->get());
+        // dd($sector->products()->toSql());
         return view('dashboard.projects.bases.sectors.stoks.products',[
             "products" => $sector->products()->get(),
             "sector" => $sector
