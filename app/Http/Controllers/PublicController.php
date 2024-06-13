@@ -142,7 +142,7 @@ class PublicController extends Controller
         // dd($base_formlists =  $user->employee->bases($employee->id)->with(['formlistsByEmlpoyee' => function($q) use($employee){
         //     $q->where('employee_id',$employee->id);
         // }])->get());
-        $base_formlists =  $user->employee->bases($employee->id)->with(['formlistsByEmlpoyee' => function ($q) use ($employee) {
+        $base_formlists =  $user->employee->bases($employee->id)->withoutGlobalScopes()->with(['formlistsByEmlpoyee' => function ($q) use ($employee) {
             $q->where('employee_id', $employee->id);
         }])->get();
 
@@ -153,21 +153,25 @@ class PublicController extends Controller
         ]);
     }
 
-    public function formlistPdf(FormlistBaseEmployee $formlist_employee)
+    public function formlistPdf(FormlistBaseEmployee $formlist_employee, Request $request)
     { 
-        return view('dashboard.projects.bases.employees.formlistsFields', [
-            'employee' => $formlist_employee->employee,
-            'base' => $formlist_employee->base,
-            'formlist' => $formlist_employee->formlist,
-            'formlist_employee' => $formlist_employee,
-            'fields' => $formlist_employee->fields()->get()
-        ]);
+        // dd(boolval($request->documentable));
+        // return view('dashboard.projects.bases.employees.formlistsFields', [
+        //     'employee' => $formlist_employee->employee,
+        //     'base' => $formlist_employee->base,
+        //     'formlist' => $formlist_employee->formlist,
+        //     'formlist_employee' => $formlist_employee,
+        //     'fields' => $formlist_employee->fields()->get()
+        // ]);
         
         $html = view('formlistPdf', [
-            'formlist' => $formlist_employee
+            'formlist' => $formlist_employee,
+            'fields' => $formlist_employee->fields()->get(),
+            'documents' => $formlist_employee->documentsFromFormlist()->get(),
+            'documentable' => boolval($request->documentable)
         ]);
         $pdf = Pdf::loadHTML($html);
-        return $pdf->download("{$formlist_employee->formlist->name}-{$formlist_employee->employee->user->name}.pdf");
+        return $pdf->stream("{$formlist_employee->formlist->name}-{$formlist_employee->employee->user->name}.pdf");
     }
 
     public function getUserByCPF()

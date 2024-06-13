@@ -62,4 +62,9 @@ class FormlistBaseEmployee extends Model
     {
         return $this->belongsTo(FormlistBase::class,"formlist_id");
     }
+
+    public function formlistAndEmployee()
+    {
+        return $this->hasMany(Employee::class,'id')->join('formlists','formlists.id','formlist_base_employee.formlist_id');
+    }
 } 

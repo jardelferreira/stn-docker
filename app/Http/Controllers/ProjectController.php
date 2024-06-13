@@ -215,4 +215,17 @@ class ProjectController extends Controller
         return Project::getProjectByUuid($request->uuid)->first();
     }
 
+    public function listFormlists(Project $project)
+    {
+        $base_ids = $project->bases()->pluck('id')->toArray();
+        // dd($base_ids);
+        $bases = $project->bases()->with(["employees.formlistsFromEmployee" => function($query) use ($base_ids) {
+            $query->with('employee.user','formlist')->whereIn("base_id",$base_ids);
+        }])->get();
+
+        // dd($bases[0]->employees[0]->formlistsFromEmployee[0]->employee->user);
+
+        return view("dashboard.projects.listFormlists",['bases' => $bases,'project' => $project]);
+    }
+
 }

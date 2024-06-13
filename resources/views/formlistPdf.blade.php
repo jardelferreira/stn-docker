@@ -41,7 +41,7 @@
                     <th class="border border-dark text-center text-uppercase" style="font-size: 1.5em" colspan="3">
                         {{ $formlist->formlist->description }}</th>
                     <th class="border border-dark text-center" colspan="2" rowspan="2" style="padding: 0;">
-                        <img id="img-client" src="{{public_path("images/channels4_profile.jpg")}}" alt="">
+                        <img id="img-client" src="{{ public_path('images/channels4_profile.jpg') }}" alt="">
                     </th>
                 </tr>
                 <tr id="l2">
@@ -63,7 +63,7 @@
                         {{ $formlist->employee->user->name }}
                     </td>
                     <td class="border border-dark " colspan="3" style="padding: 0; margin: 0; font-size: 0.7em;">
-                        <span style="margin-left: 2px">Função: </span> {{$formlist->employee->profession->name}}
+                        <span style="margin-left: 2px">Função: </span> {{ $formlist->employee->profession->name }}
                     </td>
                     <td class="border border-dark " colspan="1" style="padding: 0; margin: 0; font-size: 0.7em;">
                         <span style="margin-left: 2px">Admissão:</span>
@@ -72,8 +72,8 @@
                 </tr>
                 <tr>
                     <td style="padding: 0; margin: 0; font-size: 0.7em;" class="border border-dark " colspan="4">
-                        <span style="margin-left: 2px">Responsável Técnico:</span> 
-                        {{implode(", ",$formlist->formlistBase->users()->pluck('name')->toArray())}}
+                        <span style="margin-left: 2px">Responsável Técnico:</span>
+                        {{ implode(', ', $formlist->formlistBase->users()->pluck('name')->toArray()) }}
                     </td>
                     <td class="border border-dark " colspan="2" style="padding: 0; margin: 0; font-size: 0.7em;">
                         <span style="margin-left: 2px">Form Nº
@@ -190,14 +190,16 @@
             </tfoot>
         </table>
     </div>
-    @foreach ($documents as $document)
-        @if ($document->type == 'caepi')
-            @include('layouts.partials.caepi', [
-                'caepi' => $document,
-                'complements' => $document->parseComplementToJson(),
-            ])
-        @endif
-    @endforeach
+    @if ($documentable)
+        @foreach ($documents as $document)
+            @if ($document->type == 'caepi')
+                @include('layouts.partials.caepi', [
+                    'caepi' => $document,
+                    'complements' => $document->parseComplementToJson(),
+                ])
+            @endif
+        @endforeach
+    @endif
     <style>
         td>span {
             font-weight: bold;
@@ -233,7 +235,7 @@
             border: black solid 1px;
         }
 
-        #img-client{
+        #img-client {
             height: 60px;
             position: relative;
             top: -20px;

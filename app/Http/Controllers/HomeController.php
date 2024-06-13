@@ -40,7 +40,6 @@ class HomeController extends Controller
         return redirect()->route('welcome')->withErrors(['permission' => 'Você não possui permissão para acessar a Dashboard, favor contactar o Admin.']);
     }
 
-
     function getModels($path = "start")
     {
         $path = $path != "start" ? $path : $this->path;

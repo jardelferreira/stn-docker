@@ -20,12 +20,12 @@
               <a class="list-group-item btn btn-primary"  href="{{route('dashboard.bases.employees.linked',$base)}}">Listar</a>
               <a class="list-group-item btn btn-primary"  href="#">Terceira opção</a>
 
-            @foreach ($sectors as $item)
+            {{-- @foreach ($sectors as $item)
             <p class="list-group-item-text">
               {{$loop->index +1}} - 
               <a href="#">{{$item->name}}</a>
             </p>
-            @endforeach
+            @endforeach --}}
           </div>
           <div class="list-group-item justify-content-between">
             Pendências <span class="badge badge-danger badge-pill">14</span>
@@ -41,13 +41,13 @@
           <div class="list-group-item collapse" id="collapseFormlists">
             <a class="list-group-item btn btn-success"  href="{{route('dashboard.bases.formlists',$base)}}">Cadastrar</a>
             <a class="list-group-item btn btn-success"  href="{{route('dashboard.bases.formlists.show',$base)}}">Listar</a>
-
+{{-- 
             @foreach ($sectors as $item)
             <p class="list-group-item-text">
               {{$loop->index +1}} - 
               <a href="#">{{$item->name}}</a>
             </p>
-            @endforeach
+            @endforeach --}}
           </div>
           <div class="list-group-item justify-content-between">
             Pendências <span class="badge badge-danger badge-pill">14</span>

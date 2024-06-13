@@ -225,7 +225,7 @@
                                 <div class="media d-flex">
                                     <div class="media-body text-left">
                                         <h3 class="primary">{{$project->amountFormlists()->count_formlists ?? 0}}</h3>
-                                        <span>Total de fichas abertas</span>
+                                        <span><a href="{{route('dashboard.projects.show.formlists',$project)}}">Total de fichas abertas <i class="fa fa-search" aria-hidden="true"></i></a></span>
                                     </div>
                                     <div class="align-self-center">
                                         <i class="icon-support primary font-large-2 float-right"></i>

@@ -291,8 +291,8 @@ class BaseController extends Controller
     
     public function formlistPdf(FormlistBaseEmployee $formlist_employee)
     {
-        
-        $html = view('formlistPdf',[
+         
+        $html = view('formlistPdf',[ 
             'formlist' => $formlist_employee,
             'fields' => $formlist_employee->fields()->get(),
             'documents' => $formlist_employee->documentsFromFormlist()->get()

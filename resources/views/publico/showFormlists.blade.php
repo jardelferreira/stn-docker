@@ -105,7 +105,7 @@
 
             var popupTextElement = "";
             $.ajax({
-                url: url,
+                url: `${url}?documentable=0`,
                 cache: false,
                 xhr: function() {
                     var xhr = new XMLHttpRequest();

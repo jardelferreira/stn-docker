@@ -206,6 +206,7 @@ Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard,admin'])->
         Route::get('/json/project', [ProjectController::class, 'getProjectByUuid'])->name('dashboard.projects.json.project');
         Route::get('/criar', [ProjectController::class, 'create'])->name('dashboard.projects.create');
         Route::get('/{project}/show', [ProjectController::class, 'show'])->name('dashboard.projects.show');
+        Route::get('/{project}/show/formlists', [ProjectController::class, 'listFormlists'])->name('dashboard.projects.show.formlists');
         Route::get('/{project}/editar', [ProjectController::class, 'edit'])->name('dashboard.projects.edit');
         Route::get('/{project}/funcionarios', [ProjectController::class, 'employees'])->name('dashboard.projects.employees');
         Route::get('/{project}/listar_funcionarios', [ProjectController::class, 'listEmployees'])->name('dashboard.projects.listEmployees');
