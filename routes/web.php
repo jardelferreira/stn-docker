@@ -95,7 +95,7 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/unauthorized', [HomeController::class, 'unauthorized'])->name('unauthorized');
 
 Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard,admin'])->group(function () {
-
+ 
     Route::get('gantt', [GanttController::class, 'index'])->name('dashboard.projects.statistics.gantt');
     Route::get('user-sectors',function(){
         return response()->json([
@@ -352,6 +352,7 @@ Route::prefix('dashboard')->middleware(['auth', 'permission:dashboard,admin'])->
         Route::prefix('{sector}/estoque')->group(function () {
             Route::get('/', [StoksController::class, 'index'])->name('dashboard.sectors.stoks.index');
             Route::get("/produtos",[StoksController::class,"products"])->name('dashboard.sectors.stoks.products');
+            Route::get("/produtos/{product}/perfil",[SectorController::class,"productProfile"])->name('dashboard.sectors.products.profile');
             Route::post("/produtos/defineStokMin",[StoksController::class,"defineStokMin"])->name('dashboard.sectors.stoks.products.defineStokMin');
             Route::get("/produtos/revokeStokMin",[StoksController::class,"revokeStokMin"])->name('dashboard.sectors.stoks.products.revokeStokMin');
             Route::get('/cadastrar', [StoksController::class, 'create'])->name('dashboard.sectors.stoks.create');

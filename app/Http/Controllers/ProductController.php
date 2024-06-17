@@ -76,7 +76,7 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
-        $product->update();
+        $product->update($request->all());
 
         return redirect()->route('dashboard.financeiro.products');
     }

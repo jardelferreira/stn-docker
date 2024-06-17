@@ -284,4 +284,11 @@ class UserController extends Controller
             "template" => $user->biometric()->first()->template,
         ]);
     }
+
+    public function getApiToken(User $user)
+    {
+        if ($user->has('api_token')) {
+            # code...
+        }
+    }
 }

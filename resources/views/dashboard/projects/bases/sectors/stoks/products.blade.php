@@ -3,15 +3,27 @@
 @section('title', 'Produtos')
 
 @section('content_header')
-    <h1>Listagem de Produtos - {{ $sector->base->name }} - {{ $sector->name }}</h1>
+    <h1 class="row">Listagem de Produtos - {{ $sector->base->name }} - {{ $sector->name }}</h1>
+    <p>Foram encontrados <span id="count_alert" class="px-2 bg-danger ml-2 mr-2 rounded"></span> produtos com estoque abaixo do mínimo.</p>
 @stop
 
 @section('content')
+<script>
+    var contador = 0
+    function contagem() {
+        contador++
+        document.getElementById("count_alert").innerText = contador
+        console.log("adicionou")
+    }
+</script>
     @if (count($products))
         <table class="table table-striped table-inverse table-responsive" id="products">
             <thead class="thead-inverse">
                 <tr>
                     <th>Produto</th>
+                    <th>Tamanho</th>
+                    <th>Material</th>
+                    <th>Característica</th>
                     <th>Qtd. estoque</th>
                     <th>Estoque mín</th>
                     <th>Ações</th>
@@ -19,15 +31,28 @@
             </thead>
             <tbody>
                 @foreach ($products as $product)
-                    <tr>
-                        <td scope="row">{{ $product->name }}</td>
+                    <tr @if ($product->stokMinToProduct->stok_min > $product->qtd_total)class="bg-danger"@endif>
+                        @if ($product->stokMinToProduct->stok_min > $product->qtd_total)
+                            <script>
+                                contagem()
+                            </script>
+                        @endif
+                        <td scope="row">{{ $product->description }}</td>
+                        <td scope="row">{{ $product->size }}</td>
+                        <td scope="row">{{ $product->material }}</td>
+                        <td scope="row">{{ $product->characteristics }}</td>
                         <td scope="row">{{ $product->qtd_total }}</td>
-                        <td scope="row">{{ $product->stokMinToProduct()->first()->stok_min ?? "Não Definido" }}</td>
+                        <td scope="row">{{ $product->stokMinToProduct()->first()->stok_min ?? 'Não Definido' }}</td>
                         <td class="btn-group" role="group">
-                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#productModal"
-                                data-whatever="{{ $product->id }}" data-product="{{$product->name}}" 
-                                data-qtd="{{$product->stokMinToProduct()->first()->stok_min ?? 0}}"
-                                data-product_sector="{{$product->stokMinToProduct()->first()->id ?? 0}}">Estoque mín.</button>
+                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                data-target="#productModal" data-whatever="{{ $product->id }}"
+                                data-product="{{ $product->name }}"
+                                data-qtd="{{ $product->stokMinToProduct()->first()->stok_min ?? 0 }}"
+                                data-product_sector="{{ $product->stokMinToProduct()->first()->id ?? 0 }}">Estoque
+                                mín.</button>
+                            <a name="profile" id="profile" class="btn btn-warning ml-2"
+                                href="{{ route('dashboard.sectors.products.profile', [$sector, $product]) }}"
+                                role="button">Perfil</a>
                         </td>
                     </tr>
                 @endforeach
@@ -48,23 +73,23 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{route('dashboard.sectors.stoks.products.defineStokMin',$sector)}}" method="POST">
+                    <form action="{{ route('dashboard.sectors.stoks.products.defineStokMin', $sector) }}" method="POST">
                         @csrf
-                        @method("POST")
+                        @method('POST')
                         <div class="form-group">
                             <input type="hidden" class="form-control" id="product_id" name="product_id">
                             <input type="hidden" class="form-control" id="product_sector_id" name="product_sector_id">
                             {{-- <input type="hidden" value="{{$sector->id}}" class="form-control" id="sector_id" name="sector_id"> --}}
-                          <label for="qtd_min">Defina a quantidade mínima:</label>
-                          <input type="number"
-                            class="form-control" name="stok_min" id="qtd_min" aria-describedby="helpQtd_min" placeholder="150">
-                          <small id="helpQtd_min" class="form-text text-muted">Defina a quantidade mínima</small>
+                            <label for="qtd_min">Defina a quantidade mínima:</label>
+                            <input type="number" class="form-control" name="stok_min" id="qtd_min"
+                                aria-describedby="helpQtd_min" placeholder="150">
+                            <small id="helpQtd_min" class="form-text text-muted">Defina a quantidade mínima</small>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                        <button type="submit"  class="btn btn-primary">Definir</button>
-                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-primary">Definir</button>
+                </div>
                 </form>
             </div>
         </div>

@@ -17,6 +17,12 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('description');
+            $table->string('dimensions');
+            $table->string('color');
+            $table->string('weight');
+            $table->string('material');
+            $table->string('size');
+            $table->string('characteristics');
             $table->foreignId('category_id')->references('id')->on('categories');
             $table->timestamps();
         });

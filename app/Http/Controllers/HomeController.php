@@ -31,11 +31,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $user = User::where("id", Auth::user()->id)->first();
-        if ($user->can('dashboard')) {
+        // dd(auth()->user()->getApiToken());
+        // dd(array_key_exists('api_token',auth()->user()->toArray()) && auth()->user()->api_token != null);
+        if (auth()->user()->can('dashboard')) {
             return view('home');
         }
-        Auth::setUser($user);
         Auth::logout();
         return redirect()->route('welcome')->withErrors(['permission' => 'Você não possui permissão para acessar a Dashboard, favor contactar o Admin.']);
     }

@@ -47,6 +47,28 @@ class InvoiceObserver
         // $invoice->slug = Str::upper("{$invoice->invoice_type}-{$invoice->number}-{$this->provider->uuid}");
         $invoice->uuid = Str::uuid();
     }
+    public function inserting(Invoice $invoice)
+    {
+
+        $this->departament = DepartamentCost::where('id', $invoice->departament_cost_id)->first();
+        $this->provider = Provider::where('id', $invoice->provider_id)->first();
+
+        $invoice->cost_sector_id = $this->departament->cost_sector_id;
+        $invoice->cost_center_id = $this->departament->cost_center_id;
+        $invoice->project_id     = $this->departament->project_id;
+
+        // $invoice->name = "{$invoice->invoice_type}-{$invoice->number}-{$this->provider->fantasy_name}";
+
+        $this->cascade_path = "project/{$this->departament->sectorCost->cost->project->slug}/cost/{$this->departament->sectorCost->cost->slug}/sector/{$this->departament->sectorCost->slug}/departament/{$this->departament->slug}/";
+
+        $this->path = $this->request->file('file_invoice')->storeAs('public/files', "{$this->cascade_path}{$invoice->name}.pdf");
+
+        $invoice->file_path = $this->path;
+        $invoice->user_id = Auth::user()->id;
+        $invoice->name = Str::upper($invoice->name);
+        // $invoice->slug = Str::upper("{$invoice->invoice_type}-{$invoice->number}-{$this->provider->uuid}");
+        $invoice->uuid = Str::uuid();
+    }
 
     /**
      * Handle the Invoice "created" event.

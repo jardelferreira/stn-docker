@@ -398,7 +398,7 @@ class FieldController extends Controller
         if ($field) {
             $stok->update(['qtd' => ($stok->qtd - $request->qtd_delivered)]);
             // Salvar histórico, 0 é saída e 1 é ficha
-            StockHistory::saveHistory(1, 1, floatval($request->qtd_delivered), $event, $request->stok_id);
+            StockHistory::saveHistory(1, 1, floatval($request->qtd_delivered), $event, $stok->id);
             $signature->update(['event' => "{$event} {$type}"]);
             // dd($signature);
 

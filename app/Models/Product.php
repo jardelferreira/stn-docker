@@ -10,7 +10,7 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name','description','category_id'];
+    protected $fillable = ['name','description','category_id','dimensions','color','weight','material','size','characteristics'];
 
     public function category()
     {
@@ -54,5 +54,27 @@ class Product extends Model
     public function stokMinToProduct()
     {
         return $this->belongsTo(ProductSector::class,'id','product_id');
+    }
+
+    public function history()
+    {
+        return $this->hasMany(StockHistory::class);
+    }
+
+    public function historyBySector($sector_id)
+    {
+        return $this->hasMany(StockHistory::class)->where("sector_id",$sector_id);
+    }
+
+    public function providers()
+    {
+        return $this->hasManyThrough(Invoice::class,InvoiceProducts::class,"product_id","id","id","invoice_id")
+        ->join('providers','invoices.provider_id','providers.id')->select('fantasy_name','providers.id','cnpj');
+    }
+
+    public function purchased()
+    {
+        return $this->hasMany(InvoiceProducts::class)->selectRaw('SUM(qtd) as qtd_total')
+        ->groupBy('product_id');
     }
 }

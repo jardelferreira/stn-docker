@@ -32,6 +32,7 @@ class CreateStockHistoriesTable extends Migration
             $table->foreignId('sector_id')->references('id')->on('sectors');
             $table->foreignId('base_id')->references('id')->on('bases');
             $table->foreignId('project_id')->references('id')->on('projects');
+            $table->foreignId('product_id')->references('id')->on('products');
             $table->foreignId('invoice_product_id')->references('id')->on('invoice_products');
             $table->foreignId('provider_id')->references('id')->on('providers');
             $table->foreignId('user_id')->references('id')->on('users');

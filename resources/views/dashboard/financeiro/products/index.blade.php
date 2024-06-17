@@ -12,7 +12,9 @@
         <thead class="thead-inverse">
             <tr>
                 <th>Produtos</th>
-                <th>Descrição</th> 
+                <th>Tamanho</th> 
+                <th>Material</th> 
+                <th>Característica</th> 
                 <th>Categoria</th> 
                 <th>Ações</th>
             </tr>
@@ -20,8 +22,10 @@
             <tbody>
                @foreach ($products as $item)
                <tr>
-                   <td scope="row">{{$item->name}}</td>
                    <td scope="row">{{$item->description}}</td>
+                   <td scope="row">{{$item->size}}</td>
+                   <td scope="row">{{$item->material}}</td>
+                   <td scope="row">{{$item->characteristics}}</td>
                    <td scope="row">{{$item->category->name}}</td>
                    <td class="btn-group" role="group">
                        <a class="btn btn-info btn-sm mr-1" href="{{route('dashboard.financeiro.products.edit',$item->id)}}" >Editar</a>

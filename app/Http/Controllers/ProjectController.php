@@ -63,10 +63,13 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-
+        // dd(route('api.projects.invoiceProducts.validateProducts'));
+        $user_token = auth()->user()->getApiToken()->toArray();
+        // dd(auth()->user()->getApiToken()->toArray()['token']);
         if ($project->id) {
             return \view('dashboard/projects.show', [
-                'project' => $project
+                'project' => $project,
+                'token' => $user_token['success'] ? $user_token['token'] : false
             ]);
         }
         return redirect()->route('dashboard.projects', [

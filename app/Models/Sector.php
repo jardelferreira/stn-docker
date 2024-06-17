@@ -47,9 +47,24 @@ class Sector extends Model
     public function products()
     {
         return $this->hasManyThrough(Product::class,Stoks::class,'sector_id','id',"id","product_id")
-        ->selectRaw("SUM(stoks.qtd) as qtd_total,products.name,products.id,sector_id")
+        ->selectRaw("SUM(stoks.qtd) as qtd_total,
+        products.name,products.id,sector_id,products.description,products.size,products.material,products.characteristics")
         ->groupBy(['products.id','sector_id']);
         // ->groupBy('sector_id');
     }
     
+    public function stockHistory()
+    {
+        return $this->hasMany(StockHistory::class);
+    }
+
+    public function historyByProduct($product_id)
+    {
+        return $this->hasMany(StockHistory::class)->where("product_id",$product_id);
+    }
+
+    public function stockBelowMinimum()
+    {
+        return"";
+    }
 }

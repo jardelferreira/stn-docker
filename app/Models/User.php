@@ -15,6 +15,7 @@ use Yajra\Acl\Traits\HasRoleAndPermission;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Collection;
 
 class User extends Authenticatable
 {
@@ -279,4 +280,28 @@ class User extends Authenticatable
         $user_projects = count($array_users) > 1 ? array_unique(array_merge_recursive(...$array_users)): $array_users[0];
         return Biometric::select('user_id as id','template as digital')->whereIn('user_id',$user_projects);
     }   
+
+    public function getApiToken()
+    {
+        if (array_key_exists('api_token',$this->toArray()) && $this->api_token != null) {
+            return collect([
+                'success' => true,
+                'user' => $this,
+                'token' => $this->api_token,
+                'message' => "Token recuperado com sucesso"
+            ]);
+        }
+        
+        $token = $this->createToken('sglt')->plainTextToken;
+
+        $user = User::where('id',$this->id);
+        $user->update(['api_token' => $token]);
+
+        return collect([
+            'success' => true,
+            'user' => $this,
+            'token' => $token,
+            'message' => "Token criado com sucesso"
+        ]);
+    }
 }

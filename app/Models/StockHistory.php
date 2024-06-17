@@ -14,7 +14,7 @@ class StockHistory extends Model
 
     protected $fillable = ['type','reason','qtd','event','stock_name','sector_name','base_name',
     'project_name','project_initials','product_name','invoice_product_name','provider_name','user_name',
-    'stock_id','sector_id','base_id','project_id','invoice_product_id','provider_id','user_id'];
+    'stock_id','sector_id','base_id','project_id','invoice_product_id','provider_id','user_id','product_id'];
 
     public static function enumTypes()
     {
@@ -29,6 +29,7 @@ class StockHistory extends Model
     {
         $stock = Stoks::where('id',$stock_id)->with(['sector','base','project','invoiceProduct.provider','product'])->first();
         $enum = StockHistory::enumTypes();
+        
         $history = StockHistory::create([
             'type' => $enum[$type]['name'],
             'reason' => $enum[$type]['reasons'][$reason],
@@ -40,6 +41,7 @@ class StockHistory extends Model
             'project_name' => $stock->project->name,
             'project_initials' => $stock->project->initials,
             'product_name' => $stock->product->name,
+            'product_id' => $stock->product->id,
             'invoice_product_name' => $stock->invoiceProduct->name,
             'provider_name' => $stock->invoiceProduct->provider->fantasy_name,
             'user_name' => auth()->user()->name,

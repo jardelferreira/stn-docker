@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreSectorRequest;
 use App\Http\Requests\UpdateSectorRequest;
 use App\Models\Base;
+use App\Models\Product;
 use App\Models\Sector;
 use Illuminate\Http\Request;
 
@@ -103,5 +104,16 @@ class SectorController extends Controller
 
         return redirect()->route('dashboard.sectors.index');
         
+    }
+
+    public function productProfile(Sector $sector, Product $product)
+    {
+        // dd($product->purchased()->first()->qtd_total);
+        return view('dashboard.projects.bases.sectors.productHistory',[
+            'product' => $product,
+            'sector' => $sector,
+            'histories' => $product->historyBySector($sector->id)->get(),
+            'providers' => $product->providers()->get()
+        ]);
     }
 }

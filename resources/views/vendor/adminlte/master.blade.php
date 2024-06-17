@@ -8,6 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=0.5">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="api_token" content="{{ auth()->user()->api_token }}">
     <script src="https://kit.fontawesome.com/486fc227d4.js"></script>
     {{-- Custom Meta Tags --}}
     @yield('meta_tags')
@@ -110,6 +111,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.8/jquery.mask.min.js"
         integrity="sha512-hAJgR+pK6+s492clbGlnrRnt2J1CJK6kZ82FZy08tm6XG2Xl/ex9oVZLE6Krz+W+Iv4Gsr8U2mGMdh0ckRH61Q=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+        <script src="{{ asset('vendor/inputmask/dist/jquery.inputmask.min.js') }}"></script>
+
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
         Date.prototype.addHours = function(h) {
             this.setHours(this.getHours() + h);

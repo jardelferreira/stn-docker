@@ -27,6 +27,8 @@ class StoksController extends Controller
      */
     public function index(Sector $sector)
     {   
+        // dd($sector->stockHistory()->get()->toArray());
+
         // dd($sector->products()->get()->toArray());
         // dd($sector->stoks()->with('invoiceProduct')->where('slug','like','%lixadeira%')->get());
         // dd($sector->stoks()->with('invoiceProduct.invoice')->get());
@@ -229,10 +231,12 @@ class StoksController extends Controller
 
     public function products(Sector $sector)
     {   
-        // dd($sector->products()->toSql());
+        // dd($sector->products()->get());
         return view('dashboard.projects.bases.sectors.stoks.products',[
-            "products" => $sector->products()->get(),
-            "sector" => $sector
+            "products" => $sector->products()->with('stokMinToProduct')->get(),
+            "sector" => $sector,
+            'alerts' => 'countAlerts',
+            'countAlerts' => 0
         ]);
     }
 
