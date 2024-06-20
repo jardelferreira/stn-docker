@@ -327,7 +327,8 @@
                         },
                         error: (error) => {
                             Swal.close()
-                            console.log(error)
+                            console.debug(error)
+                            console.table(error)
                         }
                     })
                 }
