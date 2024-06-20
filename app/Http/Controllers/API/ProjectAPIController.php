@@ -19,14 +19,18 @@ class ProjectAPIController extends Controller
             'invoice' => ""
         ]);
     }
-    public function getRouteByname($name, $params)
+    public function getRouteByname($name, $params = null)
     {
-        $params = json_decode($params);
-        $array =[];
-        foreach ($params as $key => $value) {
-            $array[$key] = $value;
+        if ($params) {
+            
+            $params = json_decode($params);
+            $array =[];
+            foreach ($params as $key => $value) {
+                $array[$key] = $value;
+            }
+         
+            return response()->json(route($name,$array));
         }
-        // return response()->json(['params' => $array,'name' => $name]);
-        return response()->json(route($name,$array));
+        return response()->json(route($name));
     }
 }

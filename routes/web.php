@@ -63,6 +63,8 @@ Route::prefix('hkm')->group(function () {
 });
 
 Route::prefix('stn')->group(function () {
+
+    Route::get('zip', [FormlistController::class, 'generateAndDownloadZip'])->name('generateAndDownloadZip');
     Route::get('fichas/funcionario/{user}', [PublicController::class, 'showFormlists'])->name('showFormlists');
     Route::get('fichas/{formlist_employee}', [PublicController::class, 'formlistPdf'])->name('stn.formlistPdf');
     Route::get('fichas', [PublicController::class, 'getUserByCpf'])->name('stn.getUserByCpf');

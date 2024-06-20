@@ -88,6 +88,7 @@
     </div>
     <div class="grey-bg container-fluid">
         <section id="minimal-statistics">
+            @can('financeiro')
             <div class="row">
                 <div class=" col-xl-3 col-sm-6 col-12">
                     <div class="card border border-info rounded">
@@ -112,11 +113,12 @@
                                             <a class="dropdown-item" href="#" onclick="openModal('createInvoices')">
                                                 <i class="fa fa-plus-circle text-success" aria-hidden="true"></i> Cadastrar
                                                 nota</a>
-                                            <a class="dropdown-item" role="button" data-toggle="modal" data-target=".list-invoice-modal-xl"
-                                            onclick="openModal('listInvoicesModal')"><i class="fa fa-list-ol"
+                                            <a class="dropdown-item" role="button" data-toggle="modal"
+                                                data-target=".list-invoice-modal-xl"
+                                                onclick="openModal('listInvoicesModal')"><i class="fa fa-list-ol"
                                                     aria-hidden="true"></i> Listar notas</a>
-                                            <a class="dropdown-item" href="#"><i class="fa fa-list-alt"
-                                                    aria-hidden="true"></i> Adicionar produtos a nota</a>
+                                            {{-- <a class="dropdown-item" href="#"><i class="fa fa-list-alt"
+                                                    aria-hidden="true"></i> Adicionar produtos a nota</a> --}}
                                             <a class="dropdown-item" href="#"><i class="fa fa-bar-chart"
                                                     aria-hidden="true"></i> Estatísticas de notas</a>
                                         </div>
@@ -228,6 +230,8 @@
                     </div>
                 </div>
             </div>
+            @endcan
+
             <div class="row">
                 <div class=" col-xl-3 col-sm-6 col-12">
                     <div class="card border border-primary rounded">
@@ -518,6 +522,9 @@
                                 <p style="position: absolute; top: -10px; margin-left: 25%;" class="badge badge-success">
                                     Gestão de Funcionários</p>
                                 <div class="media d-flex dropleft">
+                                    <div class="align-self-center">
+                                        <img src="{{ asset('images/formlists.svg') }}" style="height: 60px"  alt="">
+                                    </div>
                                     <div class="media-body text-right mr-1">
                                         <h3 class="danger">{{ $project->employees()->count() }}</h3>
                                         <span>Funcionários</span>
@@ -548,6 +555,9 @@
                                 <p style="position: absolute; top: -10px; margin-left: 25%;" class="badge badge-success">
                                     Gestão de Funcionários</p>
                                 <div class="media d-flex dropleft">
+                                    <div class="align-self-center">
+                                        <img src="{{ asset('images/formlists.svg') }}" style="height: 60px"  alt="">
+                                    </div>
                                     <div class="media-body text-right mr-1">
                                         <h3 class="success">
                                             {{ $project->employees()->distinct('profession_id')->count() }}</h3>
@@ -578,9 +588,12 @@
                                 <p style="position: absolute; top: -10px; margin-left: 25%;" class="badge badge-success">
                                     Gestão de Formulários - Fichas</p>
                                 <div class="media d-flex dropleft">
+                                    <div class="align-self-center">
+                                        <img src="{{ asset('images/formlists.svg') }}" style="height: 60px"  alt="">
+                                    </div>
                                     <div class="media-body text-right mr-1">
                                         <h3 class="primary">{{ $project->amountFormlists()->count_formlists ?? 0 }}</h3>
-                                        <span><a href="{{ route('dashboard.projects.show.formlists', $project) }}">
+                                        <span><a href="{{ route('dashboard.projects.show.formlists', $project) }}" target="_blank">
                                                 Consultar fichas abertas <i class="fa fa-search"
                                                     aria-hidden="true"></i></a></span>
                                     </div>
@@ -805,7 +818,8 @@
                     </div>
                     <div class="modal-body">
 
-                        <form action="{{ route('dashboard.costs.store') }}" method="post" autocomplete="off">
+                        <form action="{{ route('dashboard.costs.store') }}" method="post" autocomplete="off"
+                            id="createCostModal">
                             @csrf
                             @method('POST')
                             <input type="hidden" name="project_id" value="{{ $project->id }}">
@@ -1151,11 +1165,13 @@
             </div>
         </div>
     </div>
-    <div class="modal fade bd-example-modal-xl" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="createInvoiceProducts">
+    <div class="modal fade bd-example-modal-xl" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"
+        id="createInvoiceProductsModal">
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Cadastro de produtos em nota.</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle">Cadastro de produtos em nota. <span
+                            id="invoice-header" class="text-primary ml-2"></span></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -1164,9 +1180,13 @@
                     <div class="container">
                         <div class="row ml-2 mb-1">
                             <button id="add" class="btn btn-success">Adicionar Item</button>
-                            <button type="button" id="btn-submit" onclick="createInvoiceProducts()" class="btn btn-primary ml-2">Finalizar e Cadastrar</button>
-                            <button type="button" class="btn btn-secondary ml-2" onclick="closeModal('createInvoices')">Cancelar</button>
-                            <p class="mr-2 ml-2 my-2">Total de <span id="total" style="font-size: 1.5em;" class="badge badge-danger m-0 pt-1 pb-1"> {{ old() ? old('cont') : 0 }} </span> itens para serem cadastrados</p>
+                            <button type="button" id="btn-submit" onclick="createInvoiceProducts()"
+                                class="btn btn-primary ml-2">Finalizar e Cadastrar</button>
+                            <button type="button" class="btn btn-secondary ml-2"
+                                onclick="closeModal('createInvoices')">Cancelar</button>
+                            <p class="mr-2 ml-2 my-2">Total de <span id="total" style="font-size: 1.5em;"
+                                    class="badge badge-danger m-0 pt-1 pb-1"> {{ old() ? old('cont') : 0 }} </span> itens
+                                para serem cadastrados</p>
                         </div>
                         <form id="invoiceProductsForm">
                             <input type="hidden" value="" id="invoice_route">
@@ -1175,17 +1195,19 @@
                             <input type="hidden" name="cont" id="cont" value="1">
                             <div class="itens border border-dark p-0 rounded">
                                 <div class="form-row container">
-                                    <div class="form-group m-0">
+                                    <div class="form-group m-0 col-12">
                                         <label for="product_id">Identifique o Produto</label>
                                         <select class="form-control" name="product_id" id="product_id">
                                             <option>Selecione...</option>
                                         </select>
+                                        <small id="product_idHelp" class="form-text text-muted">produto</small>
                                     </div>
                                 </div>
                                 <div class="row p-0">
                                     <div class="form-group col-lg-1 col-md-2 col-sm-6">
                                         <label for="qtd">Qtd.</label>
-                                        <input type="number" class="form-control" name="qtd" id="qtd" aria-describedby="qtdHelp" placeholder="10.0">
+                                        <input type="text" class="form-control" name="qtd" id="qtd"
+                                            aria-describedby="qtdHelp" placeholder="10.0">
                                         <small id="qtdHelp" class="form-text text-muted">Quantidade</small>
                                     </div>
                                     <div class="form-group">
@@ -1203,27 +1225,36 @@
                                             <option value="METRO²">METRO²</option>
                                             <option value="METRO³">METRO³</option>
                                         </select>
+                                        <small id="undHelp" class="form-text text-muted">Und.</small>
                                     </div>
                                     <div class="form-group col-lg-5 col-md-8 col-sm-12">
                                         <label for="name">Item</label>
-                                        <input type="text" class="form-control" name="name" id="name" aria-describedby="nameHelp" placeholder="nome do meu produto aqui">
-                                        <small id="nameHelp" class="form-text text-muted">Informe o nome do produto</small>
+                                        <input type="text" class="form-control" name="name" id="name"
+                                            aria-describedby="nameHelp" placeholder="nome do meu produto aqui">
+                                        <small id="nameHelp" class="form-text text-muted">Informe o nome do
+                                            produto</small>
                                     </div>
                                     <div class="form-group col-lg-2 col-md-6 col-sm-6">
                                         <label for="value_unid">Valor Unitário</label>
-                                        <input type="text" class="form-control" name="value_unid" id="value_unid" aria-describedby="value_unidHelp" placeholder="10.0" >
+                                        <input type="text" class="form-control" name="value_unid" id="value_unid"
+                                            aria-describedby="value_unidHelp" placeholder="10.0">
                                         <small id="value_unidHelp" class="form-text text-muted">Valor unitário</small>
                                     </div>
                                     <div class="form-group col-lg-2 col-md-6 col-sm-6">
                                         <label for="ca_number">Certificado</label>
-                                        <input type="text" class="form-control" name="ca_number" id="ca_number" aria-describedby="ca_numberHelp" placeholder="10321">
-                                        <small id="ca_numberHelp" class="form-text text-muted">Identificação do certificado</small>
+                                        <input type="text" class="form-control" name="ca_number" id="ca_number"
+                                            aria-describedby="ca_numberHelp" placeholder="10321">
+                                        <small id="ca_numberHelp" class="form-text text-muted">Identificação do
+                                            certificado</small>
                                     </div>
-                                    <input type="hidden" class="form-control value_total" name="value_total" id="value_total" aria-describedby="value_totalHelp" placeholder="10.0">
+                                    {{-- <input type="hidden" class="form-control value_total" name="value_total" id="value_total" aria-describedby="value_totalHelp" placeholder="10.0"> --}}
                                     <div class="form-group col-12">
                                         <label for="description">Descrição do Item</label>
-                                        <input type="text" class="form-control" name="description" id="description" aria-describedby="descriptionHelp" placeholder="Detalhe o produto aqui">
-                                        <small id="descriptionHelp" class="form-text text-muted">Descreva o produto</small>
+                                        <input type="text" class="form-control" name="description"
+                                            id="description" aria-describedby="descriptionHelp"
+                                            placeholder="Detalhe o produto aqui">
+                                        <small id="descriptionHelp" class="form-text text-muted">Descreva o
+                                            produto</small>
                                     </div>
                                 </div>
                             </div>
@@ -1249,7 +1280,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
         aria-hidden="true" id="">
         <div class="modal-dialog modal-xl">
@@ -1293,6 +1324,19 @@
 @endsection
 @section('css')
     <style>
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            /* display: none; <- Crashes Chrome on hover */
+            -webkit-appearance: none;
+            margin: 0;
+            /* <-- Apparently some margin are still there even though it's hidden */
+        }
+
+        input[type=number] {
+            -moz-appearance: textfield;
+            /* Firefox */
+        }
+
         .modal #total {
             z-index: 0;
             color: red;
@@ -1302,7 +1346,7 @@
             font-weight: bold;
         }
 
-         .fa-trash:hover {
+        .fa-trash:hover {
             cursor: pointer;
         }
     </style>

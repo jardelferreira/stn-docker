@@ -164,13 +164,13 @@ class PublicController extends Controller
         //     'fields' => $formlist_employee->fields()->get()
         // ]);
         
-        $html = view('formlistPdf', [
+        $pdf = Pdf::loadView('formlistPdf', [
             'formlist' => $formlist_employee,
             'fields' => $formlist_employee->fields()->get(),
             'documents' => $formlist_employee->documentsFromFormlist()->get(),
             'documentable' => boolval($request->documentable)
         ]);
-        $pdf = Pdf::loadHTML($html);
+        // $pdf = Pdf::loadHTML($html);
         return $pdf->stream("{$formlist_employee->formlist->name}-{$formlist_employee->employee->user->name}.pdf");
     }
 

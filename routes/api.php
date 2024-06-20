@@ -11,6 +11,7 @@ use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\API\InvoiceAPIController;
 use App\Http\Controllers\API\ProjectAPIController;
 use App\Http\Controllers\API\InvoiceProductsAPIController;
+use App\Http\Controllers\FormlistController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,7 +36,9 @@ Route::get('products',[ProductController::class,'get'])->name('api.products.get'
 Route::get('providers',[ProviderController::class,'get'])->name('api.providers.get');
 
 Route::prefix("dashboard")->group(function(){
-    Route::get('routes/{name}/{params}',[ProjectAPIController::class,'getRouteByName'])->name('api.dashboard.getRouteByName');
+    Route::post('download-formlists',[FormlistController::class,'generateAndDownloadZip'])->name('api.dashboard.downloadManyFormlistsPdf');
+
+    Route::get('routes/{name}/{params?}',[ProjectAPIController::class,'getRouteByName'])->name('api.dashboard.getRouteByName');
     Route::prefix('projects')->group(function(){
         Route::post('createInvoices',[InvoiceAPIController::class,'createInvoice'])->name('api.projects.createInvoices');
         Route::post('invoice/popular/{invoice}', [InvoiceProductsAPIController::class, 'store'])->name('api.projects.invoiceProducts.store');

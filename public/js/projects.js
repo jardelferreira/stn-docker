@@ -47,8 +47,7 @@ function createInvoice(url, api_token, next_url) {
                     }).then((result) => {
                         if (result.isConfirmed) {
                             closeModal('createInvoices');
-                            openModal('createInvoiceProducts')
-                            console.log(response)
+                            openModal('createInvoiceProductsModal')
                             getProducts(next_url, $("meta[name='api_token']").attr("content"))
                             $("#invoice_route").val(response.invoice_route)
                         }
@@ -60,7 +59,6 @@ function createInvoice(url, api_token, next_url) {
             if (!jqXHR.responseJSON.success) {
                 for (error in jqXHR.responseJSON.errors) {
                     element = document.getElementById(`${error}`)
-                    console.log(error)
                     element.classList.add("is-invalid")
                     element.parentElement.lastElementChild.classList.remove("text-muted")
                     element.parentElement.lastElementChild.classList.add("text-danger")
@@ -84,7 +82,6 @@ function createInvoiceProducts(url = null) {
         produtos = {}
         for (key in data_form[i]) {
             produtos[key] = data_form[i][key]
-            console.log(i)
         }
         array.push(produtos)
     })
@@ -101,7 +98,6 @@ function createInvoiceProducts(url = null) {
                 data: JSON.stringify({ data: array }),
                 headers: { "Authorization": `Bearer ${$("meta[name='api_token']").attr("content")}` },
                 success: (response) => {
-                    console.log(response)
                     if (response.success) {
                         Swal.fire({
                             icon: response.type,
@@ -136,7 +132,7 @@ function getProducts(url, api_token) {
             headers: { "Authorization": `Bearer ${$("meta[name='api_token']").attr("content")}` },
             dataType: 'json',
             delay: 250,
-            dropdownParent: $("#createInvoiceProducts"),
+            dropdownParent: $("#createInvoiceProductsModal"),
             data: function (params) {
                 return {
                     q: params.term, // search term
@@ -166,50 +162,65 @@ function getProducts(url, api_token) {
 }
 $("#add").on("click", () => {
     array_product = []
+
     // new_product = $('#invoiceProductsForm').serializeArray();
     removeCurrencyMask('value_unid');
     new_product = new FormData(document.getElementById("invoiceProductsForm"))
+    new_product.delete('_token')
+    new_product.delete('_method')
+    new_product.delete('cont')
     for (const [key, value] of new_product.entries()) {
-        array_product[key] = value
-    }
-    console.log(array_product)
-    validateProduct(new_product);
-    data_form.push(array_product);
-    setCurrencyValue(array_product['value_unid'])
-    row = table_products.insertRow()
-    cell = row.insertCell()
-    cell.innerText = data_form.length
-    cell = row.insertCell()
-    icon = document.createElement('i')
-    icon.classList.add("fa")
-    icon.classList.add("fa-trash")
-    icon.classList.add("text-danger")
-    icon.setAttribute('aria-hidden', true)
-    icon.setAttribute('product', data_form.length - 1)
-    icon.style.cursor = "pointer"
-    icon.addEventListener("click", (e) => {
-        clearTable()
-        data_form.splice(e.target.getAttribute("product"), 1)
-        loadTable()
-    })
-    cell.append(icon)
-    console.log(array_product)
-    row.insertCell().innerText = array_product['qtd']
-    row.insertCell().innerText = array_product['und']
-    row.insertCell().innerText = array_product['name']
-    row.insertCell().innerText = array_product['value_unid']
-    row.insertCell().innerText = array_product['ca_number']
-    // for (let index = 4; index < 9; index++) {
-    //     cell = row.insertCell()
-    //     cell.innerText = array_product[index]['value'];
 
-    // }
-    document.querySelector('span[id="total"]').innerText = data_form.length;
+        element = document.querySelector(`#invoiceProductsForm #${key}`)
+
+        element.classList.remove("is-invalid")
+        element.parentElement.lastElementChild.classList.add("text-muted")
+        element.parentElement.lastElementChild.classList.remove("text-danger")
+        element.parentElement.lastElementChild.textContent = element.parentElement.lastElementChild.getAttribute("message")
+    }
+    validateProduct(new_product, 'invoiceProductsForm').then((validate) => {
+        for (const [key, value] of new_product.entries()) {
+            array_product[key] = value
+        }
+        if (validate.success) {
+            data_form.push(array_product);
+            setCurrencyValue(array_product['value_unid'])
+            row = table_products.insertRow()
+            cell = row.insertCell()
+            cell.innerText = data_form.length
+            cell = row.insertCell()
+            icon = document.createElement('i')
+            icon.classList.add("fa")
+            icon.classList.add("fa-trash")
+            icon.classList.add("text-danger")
+            icon.setAttribute('aria-hidden', true)
+            icon.setAttribute('product', data_form.length - 1)
+            icon.style.cursor = "pointer"
+            icon.addEventListener("click", (e) => {
+                clearTable()
+                data_form.splice(e.target.getAttribute("product"), 1)
+                loadTable()
+            })
+            cell.append(icon)
+            row.insertCell().innerText = array_product['qtd']
+            row.insertCell().innerText = array_product['und']
+            row.insertCell().innerText = array_product['name']
+            row.insertCell().innerText = array_product['value_unid']
+            row.insertCell().innerText = array_product['ca_number']
+
+            document.querySelector('span[id="total"]').innerText = data_form.length;
+            
+        } else {
+            Swal.fire({
+                title: "Validação de dados.",
+                text: "Erro na validação dos dados",
+                icon: 'info'
+            })
+        }
+    });
 })
 
 function removeItem(index_p) {
-    console.log(data_form[index_p])
-    console.log(data_form[index_p].name)
     clearTable()
     data_form.splice(index_p, 1)
     loadTable()
@@ -248,9 +259,8 @@ function loadTable() {
     });
     document.querySelector('span[id="total"]').innerText = data_form.length;
 }
-function validateProduct(data_product) {
-    console.log(`data no validator: ${data_product}`)
-    $.ajax({
+function validateProduct(data_product, form_id = "") {
+    return $.ajax({
         url: `${window.location.origin}/api/dashboard/projects/invoiceProducts/validate`,
         type: 'POST',
         headers: { "Authorization": `Bearer ${$("meta[name='api_token']").attr("content")}` },
@@ -258,26 +268,26 @@ function validateProduct(data_product) {
         processData: false,
         contentType: false,
         success: function (response) {
-            console.log(response)
+            return { success: true }
         },
         error: function (jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR.responseJSON)
+            for (error in jqXHR.responseJSON.errors) {
+                console.log(error)
+                form_selector = form_id ? `#${form_id}` : ""
+                element = document.querySelector(`${form_selector} #${error}`)
+
+                element.classList.add("is-invalid")
+                element.parentElement.lastElementChild.classList.remove("text-muted")
+                element.parentElement.lastElementChild.classList.add("text-danger")
+                element.parentElement.lastElementChild.textContent = jqXHR.responseJSON.errors[error]
+            }
             return {
                 success: false,
                 errors: jqXHR.responseJSON.errors
             }
         }
     })
-    // $("#value_unid").inputmask('currency', {
-    //     "autoUnmask": true,
-    //     radixPoint: ",",
-    //     groupSeparator: ".",
-    //     allowMinus: false,
-    //     prefix: 'R$ ',
-    //     digits: 2,
-    //     digitsOptional: false,
-    //     rightAlign: true,
-    //     unmaskAsNumber: true
-    // });
 }
 $(document).on('select2:open', () => {
     document.querySelector('.select2-search__field').focus();
@@ -343,18 +353,18 @@ $('#listInvoicesModal').on('show.bs.modal', function (e) {
                         }
                     },
                     {
-                        data: 'id',
-                        render: (id) => {
+                        data: {id:'id'},
+                        render: (data) => {
                             return `<div class="dropdown show drop-show dropdown-bg-primary">
                                 <a class="btn btn-sm btn-secondary dropdown-toggle link-drop" href="#" role="button"
-                                    id="dropdownMenuLink-${id}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    id="dropdownMenuLink-${data.id}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Opções
                                 </a>
 
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink-${id}">
-                                    <a class="dropdown-item" type="button" onclick="loadInvoiceProducts(${id})">Ver produtos</a>
-                                    <a class="dropdown-item"
-                                        href="{{ route('dashboard.employees.formlists', $item) }}">Adicionar protudos</a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink-${data.id}">
+                                    <a class="dropdown-item" type="button" onclick="loadInvoiceProducts(${data.id})">Ver produtos</a>
+                                    <a class="dropdown-item" role="button" type="button" onclick="addProductsToList(${data.id},'${data.name}')"
+                                        href="#">Adicionar protudos</a>
                                     <a class="dropdown-item" href="{{ route('dashboard.employees.projects', $item)}}">Editar</a>
                                     <a class="dropdown-item bg-danger" href="{{ route('dashboard.employees.projects', $item)}}">Deletar</a>
 
@@ -400,11 +410,14 @@ $('#listInvoicesModal').on('show.bs.modal', function (e) {
     }, 1000)
 })
 
-async function loadInvoiceProducts(invoice_id){
+async function loadInvoiceProducts(invoice_id) {
     // closeModal('listInvoiceModal')
-    // openModal('listInvoiceProductsModal')
+    table_invoiceProducts = document.getElementById("listInvoiceProducts")
+    while (table_invoiceProducts.rows.length > 1) {
+        table_invoiceProducts.deleteRow(1)
+    }
     $.ajax({
-        url: await getRouteByName('api.projects.invoice.products',{invoice: invoice_id}),
+        url: await getRouteByName('api.projects.invoice.products', { invoice: invoice_id }),
         type: "GET",
         success: (products) => {
             if (products.products.length == 0) {
@@ -413,15 +426,64 @@ async function loadInvoiceProducts(invoice_id){
                     text: `A nota: ${products.invoice.name}, Não possui produtos`,
                     icon: 'info'
                 })
-            }else{
-                Swal.fire({
-                    title: "Produtos em notas.",
-                    text: "exibindo produtos",
-                    icon: 'success'
+            } else {
+                openModal('listInvoiceProductsModal')
+                document.getElementById("invoice-products-header").innerText = products.invoice.name
+                getRouteByName('api.projects.invoiceProducts.store', { invoice: invoice_id }).then((route) => {
+                    $("#invoice_route").val(route)
+                })
+                $("#invoice").text(products.invoice.name)
+                products.products.forEach((produto) => {
+                    row = table_invoiceProducts.insertRow()
+                    cell = row.insertCell()
+                    cell.innerText = produto.id
+                    cell = row.insertCell()
+                    cell.innerText = products.invoice.name
+                    cell = row.insertCell()
+                    cell.innerText = produto.name
+                    cell = row.insertCell()
+                    cell.innerText = produto.qtd
+                    cell = row.insertCell()
+                    cell.innerText = produto.qtd_available
+                    cell = row.insertCell()
+                    cell.innerText = formatCurrency(produto.value_und)
+                    button = document.createElement('button')
+                    button.classList.add('btn','btn-danger','btn-sm')
+                    button.innerText = 'Deletar'
+                    cell = row.insertCell()
+                    cell.append(button)
                 })
             }
         }
     })
+}
+
+function addProductsToList(invoice_id = null, invoice_name = null) {
+    
+    closeModal('listInvoicesModal')
+    closeModal('listInvoiceProductsModal')
+    openModal('createInvoiceProductsModal')
+    getRouteByName('api.products.products.get').then((route) => {
+        getProducts(route)
+    })
+
+    if (invoice_id != null) {   
+        getRouteByName('api.projects.invoiceProducts.store', { invoice: invoice_id }).then((route) => {
+            $("#invoice_route").val(route)
+        })
+        document.getElementById("invoice-header").innerText = invoice_name ?? ""
+    }
+
+    let elements = new FormData(document.getElementById("invoiceProductsForm"))
+    elements.delete("_token")
+    elements.delete("_method")
+    elements.delete('cont')
+
+    for (let [key, value] of elements.entries()) {
+        let el = document.querySelector(`#invoiceProductsForm #${key}`)
+        let small = el.parentElement.lastElementChild
+        small.setAttribute("message", small.textContent)
+    }
 }
 
 function extractNumber(url) {
@@ -430,8 +492,8 @@ function extractNumber(url) {
     return match ? match[1] : null;
 }
 
- async function getRouteByName(name, params) {
-    params = JSON.stringify(params);
-    route = await $.get(`${window.location.origin}/api/dashboard/routes/${name}/${params}`).then((rt) => rt);
+async function getRouteByName(name, params = null) {
+    parameters = params ? `${name}/${JSON.stringify(params)}` : name;
+    route = await $.get(`${window.location.origin}/api/dashboard/routes/${parameters}`).then((rt) => rt);
     return route;
 }

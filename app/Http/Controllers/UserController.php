@@ -138,7 +138,7 @@ class UserController extends Controller
         if ($request->hasFile('file')) {
             $name = $request->file('file')->getClientOriginalName();
             $extension = $request->file('file')->extension();
-            $path = $request->file('file')->storeAs('public/users/profile', "{$user->uuid}.{$extension}");
+            $path = $request->file('file')->storeAs('public/users', "{$user->uuid}.{$extension}");
             $path = \str_replace('public', 'storage', $path);
             $user->update(['image_path' => "{$path}"]);
             return true;

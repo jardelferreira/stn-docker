@@ -28,7 +28,7 @@ class StoreInvoiceProductsAPIRequest extends FormRequest
 
         return [
             'name' => "required",
-            'description' => "nullable",
+            'description' => "required",
             'qtd' => "required|numeric",
             'und' => "required|max:10",
             'value_unid' => "required|numeric",
@@ -56,7 +56,7 @@ class StoreInvoiceProductsAPIRequest extends FormRequest
     public function prepareForValidation()
     {
        return $this->merge([
-        'value_unid' => str_replace(',','.',$this->value_unid)
+        'value_unid' => str_replace(',','.',$this->value_unid),
        ]);
     }
 

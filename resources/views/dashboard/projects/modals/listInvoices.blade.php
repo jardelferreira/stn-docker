@@ -5,7 +5,7 @@
             <div class="modal-header text-center">
                 <h5 class="modal-title mx-auto" id="exampleModalLongTitle">Listagem de notas do projeto.</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                    <span aria-hidden="true" class="btn btn-danger">&times;</span>
                 </button>
             </div>
             <div class="modal-body" style="max-height: 85vh; overflow-y: auto;">
