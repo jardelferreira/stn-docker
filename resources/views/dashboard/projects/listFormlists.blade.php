@@ -274,66 +274,72 @@
         };
 
         function downloadZipFormlists(url) {
-            Swal.fire({
-                title: "Download de fichas.",
-                text: "Aguarde, estamos processando seu pedido, em breve o download será iniciado.",
-                didOpen: () => {
-                    Swal.showLoading()
-                    formlists_ids = []
-                    check_box_list = document.querySelectorAll("input[name='formlists[]']:checked")
-                    check_box_list.forEach((ckb) => {
-                        formlists_ids.push(ckb.value)
-                    })
-                    documentable = document.getElementById("checkbox").checked ? 1 : 0
-                    $.ajax({
-                        url: url,
-                        type: "POST",
-                        xhrFields: {
-                            responseType: 'blob' // Receber a resposta como um blob
-                        },
-                        data: {
-                            documentable: documentable,
-                            formlists: formlists_ids
-                        },
-                        success: (response) => {
-                            console.log(response)
-                            Swal.close()
-                            let dataAtual = new Date();
+            setTimeout(() => {
+                $('#permissions').dataTable().fnFilter('');
+                Swal.fire({
+                    title: "Download de fichas.",
+                    text: "Aguarde, estamos processando seu pedido, em breve o download será iniciado.",
+                    didOpen: () => {
+                        Swal.showLoading()
+                        formlists_ids = []
+                        check_box_list = document.querySelectorAll("input[name='formlists[]']:checked")
+                        check_box_list.forEach((ckb) => {
+                            formlists_ids.push(ckb.value)
+                        })
+                        documentable = document.getElementById("checkbox").checked ? 1 : 0
+                        $.ajax({
+                            url: url,
+                            type: "POST",
+                            xhrFields: {
+                                responseType: 'blob' // Receber a resposta como um blob
+                            },
+                            data: {
+                                documentable: documentable,
+                                formlists: formlists_ids
+                            },
+                            success: (response) => {
+                                console.log(response)
+                                Swal.close()
+                                let dataAtual = new Date();
 
-                            // Extrai o dia, mês e ano da data atual
-                            let dia = dataAtual.getDate().toString().padStart(2,'0');
-                            let mes = (dataAtual.getMonth() + 1).toString().padStart(2,'0');
-                            let ano = dataAtual.getFullYear();
+                                // Extrai o dia, mês e ano da data atual
+                                let dia = dataAtual.getDate().toString().padStart(2, '0');
+                                let mes = (dataAtual.getMonth() + 1).toString().padStart(2,
+                                    '0');
+                                let ano = dataAtual.getFullYear();
 
-                            // Formata a data no formato desejado: dd-mm-yyyy
-                            let dataFormatada = `${dia}-${mes}-${ano}`;
+                                // Formata a data no formato desejado: dd-mm-yyyy
+                                let dataFormatada = `${dia}-${mes}-${ano}`;
 
-                            const blobUrl = URL.createObjectURL(response);
+                                const blobUrl = URL.createObjectURL(response);
 
-                            // Criar um link <a> temporário
-                            const link = document.createElement('a');
-                            link.href = blobUrl;
+                                // Criar um link <a> temporário
+                                const link = document.createElement('a');
+                                link.href = blobUrl;
 
-                            link.download = `fichas-${dataFormatada}.zip`; // Nome do arquivo ZIP
-                            document.body.appendChild(link);
+                                link.download =
+                                `fichas-${dataFormatada}.zip`; // Nome do arquivo ZIP
+                                document.body.appendChild(link);
 
-                            // Simular o clique no link para iniciar o download
-                            link.click();
+                                // Simular o clique no link para iniciar o download
+                                link.click();
 
-                            // Limpar após o download
-                            URL.revokeObjectURL(blobUrl);
-                            document.body.removeChild(link)
-                            // console.log(data.formlists)
-                        },
-                        error: (error) => {
-                            Swal.close()
-                            console.debug(error)
-                            console.table(error)
-                        }
-                    })
-                }
-            })
+                                // Limpar após o download
+                                URL.revokeObjectURL(blobUrl);
+                                document.body.removeChild(link)
+                                // console.log(data.formlists)
+                            },
+                            error: (error) => {
+                                Swal.close()
+                                console.debug(error)
+                                console.table(error)
+                            }
+                        })
+                    }
+                })
+            }, 500);
         }
+
         async function getRouteByName(name, params = null) {
             parameters = params ? `${name}/${JSON.stringify(params)}` : name;
             route = await $.get(`${window.location.origin}/api/dashboard/routes/${parameters}`).then((rt) => rt);
