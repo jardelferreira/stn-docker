@@ -37,7 +37,7 @@ Route::get('providers',[ProviderController::class,'get'])->name('api.providers.g
 
 Route::prefix("dashboard")->group(function(){
     Route::post('download-formlists',[FormlistController::class,'generateAndDownloadZip'])
-    ->middleware('auth')->name('api.dashboard.downloadManyFormlistsPdf');
+    ->middleware('auth:sanctum')->name('api.dashboard.downloadManyFormlistsPdf');
 
     Route::get('routes/{name}/{params?}',[ProjectAPIController::class,'getRouteByName'])->name('api.dashboard.getRouteByName');
     Route::prefix('projects')->group(function(){
