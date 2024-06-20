@@ -275,7 +275,7 @@
 
         function downloadZipFormlists(url) {
             setTimeout(() => {
-                $('#permissions').dataTable().fnFilter('');
+                $('#formlists').dataTable().fnFilter('');
                 Swal.fire({
                     title: "Download de fichas.",
                     text: "Aguarde, estamos processando seu pedido, em breve o download será iniciado.",
