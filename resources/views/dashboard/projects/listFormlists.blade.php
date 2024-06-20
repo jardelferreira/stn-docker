@@ -274,8 +274,12 @@
         };
 
         function downloadZipFormlists(url) {
+            table = $("#formlists").dataTable()
+            table.fnFilter('');
+            table._fnLengthChange(-1);
+            table._fnReDraw()
+            
             setTimeout(() => {
-                $('#formlists').dataTable().fnFilter('');
                 Swal.fire({
                     title: "Download de fichas.",
                     text: "Aguarde, estamos processando seu pedido, em breve o download será iniciado.",
@@ -337,7 +341,7 @@
                         })
                     }
                 })
-            }, 500);
+            }, 200);
         }
 
         async function getRouteByName(name, params = null) {
